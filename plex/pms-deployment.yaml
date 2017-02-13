@@ -43,15 +43,3 @@ spec:
           value: 'http://192.168.239.7:32400,http://192.168.239.8:32400'
         ports:
         - containerPort: 32400
-        - containerPort: 3005
-        - containerPort: 8324
-        - containerPort: 1900
-          protocol: UDP
-        - containerPort: 32410
-          protocol: UDP
-        - containerPort: 32412
-          protocol: UDP
-        - containerPort: 32413
-          protocol: UDP
-        - containerPort: 32414
-          protocol: UDP
