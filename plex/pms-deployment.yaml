@@ -34,11 +34,13 @@ spec:
           readOnly: true
         env:
         - name: PUID
-          value: "1001"
+          value: '1001'
         - name: PGID
-          value: "1001"
+          value: '1001'
         - name: TZ
-          value: America/New_York
+          value: 'America/New_York'
+        - name: ADVERTISE_IP
+          value: 'http://192.168.239.7:32400,http://192.168.239.8:32400'
         ports:
         - containerPort: 32400
         - containerPort: 3005

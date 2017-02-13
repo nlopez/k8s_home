@@ -9,4 +9,3 @@ spec:
   ports:
     - port: 32400
       nodePort: 32400
-
