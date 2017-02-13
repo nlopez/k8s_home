@@ -22,8 +22,8 @@ spec:
           hostPath:
             path: /mnt/media
       containers:
-      - image: plexinc/pms-docker
-        name: pms
+      - name: pms
+        image: plexinc/pms-docker
         volumeMounts:
         - mountPath: /config
           name: pms-config
@@ -31,6 +31,14 @@ spec:
           name: pms-transcode
         - mountPath: /media
           name: pms-media
+          readOnly: true
+        env:
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        - name: TZ
+          value: America/New_York
         ports:
         - containerPort: 32400
         - containerPort: 3005
