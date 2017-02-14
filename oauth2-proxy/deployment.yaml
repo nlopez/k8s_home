@@ -24,7 +24,7 @@ spec:
         - containerPort: 4180
         command: ['oauth2_proxy']
         args:
-          - '-config=/etc/oauth2-proxy/config'
-          - '-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails'
-          - '-http-address=0.0.0.0:4180'
-          - '-upstream=file:///dev/null'
+        - -config=/etc/oauth2-proxy/config
+        - -authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails
+        - -http-address=0.0.0.0:4180
+        - -upstream=file:///dev/null

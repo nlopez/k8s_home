@@ -14,13 +14,10 @@ spec:
       volumes:
         - name: nzbget-config
           hostPath:
-            path: /dockerfs/pms/config
+            path: /dockerfs/nzbget/config
         - name: downloads
           hostPath:
             path: /mnt/downloads
-        - name: pms-media
-          hostPath:
-            path: /mnt/media
       containers:
       - name: nzbget
         image: linuxserver/nzbget

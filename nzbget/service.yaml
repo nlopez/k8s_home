@@ -5,7 +5,5 @@ metadata:
 spec:
   selector:
     app: nzbget
-  type: NodePort
   ports:
-    - port: 6789
-      nodePort: 6789
+  - port: 6789
