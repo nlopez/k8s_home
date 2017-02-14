@@ -39,9 +39,5 @@ spec:
           value: '1001'
         - name: TZ
           value: 'America/New_York'
-        - name: ADVERTISE_IP
-          value: 'http://192.168.239.7:32400,http://192.168.239.8:32400'
-        - name: ALLOWED_NETWORKS
-          value: '10.244.0.0/16,192.168.239.0/24,127.0.0.0/8'
         ports:
         - containerPort: 32400

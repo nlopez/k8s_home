@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nzbget-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nzbget
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs
+      volumes:
+        - name: nzbget-config
+          hostPath:
+            path: /dockerfs/pms/config
+        - name: downloads
+          hostPath:
+            path: /mnt/downloads
+        - name: pms-media
+          hostPath:
+            path: /mnt/media
+      containers:
+      - name: nzbget
+        image: linuxserver/nzbget
+        volumeMounts:
+        - mountPath: /config
+          name: nzbget-config
+        - mountPath: /downloads
+          name: downloads
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - containerPort: 6789

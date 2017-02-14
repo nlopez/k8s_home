@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pms-ingress
+spec:
+  rules:
+  - host: plex.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: pms-service
+          servicePort: 32400
