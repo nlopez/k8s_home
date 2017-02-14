@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nzbget-service
+  name: nzbget
 spec:
   selector:
     app: nzbget
   ports:
-  - port: 6789
+  - name: nzbget
+    port: 6789

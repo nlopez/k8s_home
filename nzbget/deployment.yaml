@@ -34,4 +34,5 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - containerPort: 6789
+        - name: nzbget
+          containerPort: 6789

@@ -23,7 +23,12 @@ spec:
             path: /mnt/media
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.3.4.3285-b46e0ea
+        image: plexinc/pms-docker
+        livenessProbe:
+          httpGet:
+            path: /web/index.html
+            port: pms-port
+            scheme: HTTP
         volumeMounts:
         - mountPath: /config
           name: pms-config
@@ -40,4 +45,5 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - containerPort: 32400
+        - name: pms-port
+          containerPort: 32400
