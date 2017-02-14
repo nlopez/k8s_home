@@ -23,7 +23,7 @@ spec:
             path: /mnt/media
       containers:
       - name: pms
-        image: plexinc/pms-docker
+        image: plexinc/pms-docker:1.3.4.3285-b46e0ea
         volumeMounts:
         - mountPath: /config
           name: pms-config
@@ -41,5 +41,7 @@ spec:
           value: 'America/New_York'
         - name: ADVERTISE_IP
           value: 'http://192.168.239.7:32400,http://192.168.239.8:32400'
+        - name: ALLOWED_NETWORKS
+          value: '10.244.0.0/16,192.168.239.0/24,127.0.0.0/8'
         ports:
         - containerPort: 32400
