@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: pms-ingress
+  name: pms
   annotations:
   #   kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"

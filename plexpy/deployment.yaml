@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: plexpy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: plexpy
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge
+      volumes:
+        - name: plexpy-config
+          hostPath:
+            path: /dockerfs/plexpy/config
+        - name: pms-logs
+          hostPath:
+            path: /dockerfs/pms/config/Library/Application Support/Plex Media Server/Logs
+      containers:
+      - name: plexpy
+        image: linuxserver/plexpy:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: plexpy-port
+            scheme: HTTP
+        volumeMounts:
+        - mountPath: /config
+          name: plexpy-config
+        - mountPath: /logs
+          name: pms-logs
+          readOnly: true
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: plexpy-port
+          containerPort: 8181

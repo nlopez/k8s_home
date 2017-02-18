@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: plexpy
+spec:
+  selector:
+    app: plexpy
+  ports:
+    - name: plexpy
+      port: 8181
