@@ -1,31 +1,42 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: nzbget
+  name: sonarr
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: nzbget
+        app: sonarr
     spec:
       nodeSelector:
         kubernetes.io/hostname: biggs
       volumes:
-        - name: nzbget-config
+        - name: sonarr-config
           hostPath:
-            path: /dockerfs/nzbget/config
+            path: /dockerfs/sonarr/config
         - name: downloads
           hostPath:
             path: /mnt/downloads
+        - name: media
+          hostPath:
+            path: /mnt/media
+        - name: rtc
+          hostPath:
+            path: /dev/rtc
       containers:
-      - name: nzbget
-        image: linuxserver/nzbget
+      - name: sonarr
+        image: linuxserver/sonarr
         volumeMounts:
         - mountPath: /config
-          name: nzbget-config
+          name: sonarr-config
         - mountPath: /downloads
           name: downloads
+        - mountPath: /media
+          name: media
+        - mountPath: /dev/rtc
+          name: rtc
+          readOnly: true
         env:
         - name: PUID
           value: '1001'
@@ -34,5 +45,5 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - name: nzbget
-          containerPort: 6789
+        - name: sonarr
+          containerPort: 8989

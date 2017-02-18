@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: pms-deployment
+  name: pms
 spec:
   replicas: 1
   template:
@@ -23,7 +23,8 @@ spec:
             path: /mnt/media
       containers:
       - name: pms
-        image: plexinc/pms-docker
+        image: plexinc/pms-docker:latest
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /web/index.html
@@ -38,12 +39,14 @@ spec:
           name: pms-media
           readOnly: true
         env:
-        - name: PUID
+        - name: PLEX_UID
           value: '1001'
-        - name: PGID
+        - name: PLEX_GID
           value: '1001'
         - name: TZ
           value: 'America/New_York'
+        - name: ADVERTISE_IP
+          value: http://192.168.239.7:32400,http://192.168.239.8:32400
         ports:
         - name: pms-port
           containerPort: 32400

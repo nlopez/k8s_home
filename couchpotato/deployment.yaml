@@ -1,31 +1,36 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: nzbget
+  name: couchpotato
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: nzbget
+        app: couchpotato
     spec:
       nodeSelector:
         kubernetes.io/hostname: biggs
       volumes:
-        - name: nzbget-config
+        - name: couchpotato-config
           hostPath:
-            path: /dockerfs/nzbget/config
+            path: /dockerfs/couchpotato/config
         - name: downloads
           hostPath:
             path: /mnt/downloads
+        - name: movies
+          hostPath:
+            path: /mnt/media/movies
       containers:
-      - name: nzbget
-        image: linuxserver/nzbget
+      - name: couchpotato
+        image: linuxserver/couchpotato
         volumeMounts:
         - mountPath: /config
-          name: nzbget-config
+          name: couchpotato-config
         - mountPath: /downloads
           name: downloads
+        - mountPath: /movies
+          name: movies
         env:
         - name: PUID
           value: '1001'
@@ -34,5 +39,5 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - name: nzbget
-          containerPort: 6789
+        - name: couchpotato
+          containerPort: 5050

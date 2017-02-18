@@ -1,15 +1,15 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nzbget
+  name: sonarr
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: nzbget.test
+  - host: sonarr.test
     http:
       paths:
       - path: /
         backend:
-          serviceName: nzbget
-          servicePort: 6789
+          serviceName: sonarr
+          servicePort: 8989

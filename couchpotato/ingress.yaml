@@ -1,15 +1,15 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nzbget
+  name: couchpotato
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: nzbget.test
+  - host: couchpotato.test
     http:
       paths:
       - path: /
         backend:
-          serviceName: nzbget
-          servicePort: 6789
+          serviceName: couchpotato
+          servicePort: 5050
