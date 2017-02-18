@@ -23,8 +23,7 @@ spec:
             path: /mnt/media
       containers:
       - name: pms
-        image: plexinc/pms-docker:latest
-        imagePullPolicy: Always
+        image: plexinc/pms-docker:plexpass
         livenessProbe:
           httpGet:
             path: /web/index.html
