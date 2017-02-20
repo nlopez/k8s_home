@@ -4,6 +4,7 @@ metadata:
   name: nzbget
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/proxy-body-size: "2m"
 spec:
   rules:
   - host: nzbget.test
