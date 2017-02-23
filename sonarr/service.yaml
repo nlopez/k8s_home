@@ -7,4 +7,5 @@ spec:
     app: sonarr
   ports:
   - name: sonarr
-    port: 8989
+    port: 80
+    targetPort: 4180

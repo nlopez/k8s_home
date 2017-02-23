@@ -12,7 +12,7 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: biggs
       volumes:
-        - name: sonarr-config
+        - name: config
           hostPath:
             path: /dockerfs/sonarr/config
         - name: downloads
@@ -24,12 +24,15 @@ spec:
         - name: rtc
           hostPath:
             path: /dev/rtc
+        - name: oauth2-proxy
+          secret:
+            secretName: oauth2-proxy
       containers:
       - name: sonarr
         image: linuxserver/sonarr
         volumeMounts:
         - mountPath: /config
-          name: sonarr-config
+          name: config
         - mountPath: /downloads
           name: downloads
         - mountPath: /media
@@ -47,3 +50,22 @@ spec:
         ports:
         - name: sonarr
           containerPort: 8989
+      - name: oauth2-proxy
+        image: a5huynh/oauth2_proxy
+        ports:
+        - containerPort: 4180
+        volumeMounts:
+        - mountPath: /etc/oauth2-proxy
+          name: oauth2-proxy
+          readOnly: true
+        args:
+        - "-upstream=http://localhost:8989/"
+        - "-cookie-domain=sonarr.desertbluffs.com"
+        - "-redirect-url=https://sonarr.desertbluffs.com/oauth2/callback"
+        - "-http-address=0.0.0.0:4180"
+        - "-config=/etc/oauth2-proxy/config"
+        - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
+        - "-cookie-secure=true"
+        - "-cookie-expire=168h0m"
+        - "-cookie-refresh=60m"
+        - "-skip-provider-button=true"

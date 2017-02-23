@@ -42,8 +42,7 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - name: couchpotato
-          containerPort: 5050
+        - containerPort: 5050
       - name: oauth2-proxy
         image: a5huynh/oauth2_proxy
         ports:
@@ -63,4 +62,3 @@ spec:
         - "-cookie-expire=168h0m"
         - "-cookie-refresh=60m"
         - "-skip-provider-button=true"
-
