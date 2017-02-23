@@ -7,4 +7,5 @@ spec:
     app: couchpotato
   ports:
   - name: couchpotato
-    port: 5050
+    port: 80
+    targetPort: 4180
