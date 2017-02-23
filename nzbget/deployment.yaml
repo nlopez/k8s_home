@@ -12,20 +12,23 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: biggs
       volumes:
-        - name: nzbget-config
+        - name: config
           hostPath:
             path: /dockerfs/nzbget/config
         - name: downloads
           hostPath:
             path: /mnt/downloads
+        - name: oauth2-proxy
+          secret:
+            secretName: oauth2-proxy
       containers:
       - name: nzbget
         image: linuxserver/nzbget
         volumeMounts:
-        - mountPath: /config
-          name: nzbget-config
-        - mountPath: /downloads
-          name: downloads
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
         env:
         - name: PUID
           value: '1001'
@@ -36,3 +39,22 @@ spec:
         ports:
         - name: nzbget
           containerPort: 6789
+      - name: oauth2-proxy
+        image: a5huynh/oauth2_proxy
+        ports:
+        - containerPort: 4180
+        volumeMounts:
+        - mountPath: /etc/oauth2-proxy
+          name: oauth2-proxy
+          readOnly: true
+        args:
+        - "-upstream=http://localhost:6789/"
+        - "-cookie-domain=nzbget.desertbluffs.com"
+        - "-redirect-url=https://nzbget.desertbluffs.com/oauth2/callback"
+        - "-http-address=0.0.0.0:4180"
+        - "-config=/etc/oauth2-proxy/config"
+        - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
+        - "-cookie-secure=true"
+        - "-cookie-expire=168h0m"
+        - "-cookie-refresh=60m"
+        - "-skip-provider-button=true"

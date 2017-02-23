@@ -7,4 +7,5 @@ spec:
     app: nzbget
   ports:
   - name: nzbget
-    port: 6789
+    port: 80
+    targetPort: 4180

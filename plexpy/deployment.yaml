@@ -18,9 +18,9 @@ spec:
         - name: pms-logs
           hostPath:
             path: /dockerfs/pms/config/Library/Application Support/Plex Media Server/Logs
-        - name: plexpy-oauth2-proxy
+        - name: oauth2-proxy
           secret:
-            secretName: plexpy-oauth2-proxy
+            secretName: oauth2-proxy
       containers:
       - name: plexpy
         image: linuxserver/plexpy:latest
@@ -46,7 +46,7 @@ spec:
         - containerPort: 4180
         volumeMounts:
         - mountPath: /etc/oauth2-proxy
-          name: plexpy-oauth2-proxy
+          name: oauth2-proxy
           readOnly: true
         args:
         - "-upstream=http://localhost:8181/"
