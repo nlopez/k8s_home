@@ -6,6 +6,8 @@ data:
   hsts-include-subdomains: "false"
   body-size: "64m"
   server-name-hash-bucket-size: "256"
+  server-tokens: "false"
+  ssl-redirect: "true"
 kind: ConfigMap
 metadata:
   namespace: nginx-ingress
