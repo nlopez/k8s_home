@@ -7,6 +7,10 @@ spec:
     app: pms
   type: NodePort
   ports:
-  - port: 80
+  - name: pms
+    port: 80
     targetPort: 32400
     nodePort: 32400
+  - name: pms-backend
+    port: 32400
+    targetPort: 32400

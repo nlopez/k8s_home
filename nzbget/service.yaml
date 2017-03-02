@@ -9,3 +9,6 @@ spec:
   - name: nzbget
     port: 80
     targetPort: 4180
+  - name: nzbget-backend
+    port: 6789
+    targetPort: 6789

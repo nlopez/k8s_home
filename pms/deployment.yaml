@@ -24,11 +24,6 @@ spec:
       containers:
       - name: pms
         image: plexinc/pms-docker:public
-        livenessProbe:
-          httpGet:
-            path: /web/index.html
-            port: pms-port
-            scheme: HTTP
         volumeMounts:
         - mountPath: /config
           name: pms-config

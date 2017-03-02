@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: couchpotato
+  name: freenas
 spec:
   selector:
-    app: couchpotato
+    app: freenas
   ports:
-  - name: couchpotato
+  - name: freenas
     port: 80
     targetPort: 4180
-
