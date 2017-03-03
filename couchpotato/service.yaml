@@ -9,4 +9,3 @@ spec:
   - name: couchpotato
     port: 80
     targetPort: 4180
-

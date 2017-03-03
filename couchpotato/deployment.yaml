@@ -16,11 +16,11 @@ spec:
           hostPath:
             path: /dockerfs/couchpotato/config
         - name: downloads
-          hostPath:
-            path: /mnt/downloads
+          persistentVolumeClaim:
+            claimName: downloads
         - name: movies
-          hostPath:
-            path: /mnt/media/movies
+          persistentVolumeClaim:
+            claimName: movies
         - name: oauth2-proxy
           secret:
             secretName: oauth2-proxy

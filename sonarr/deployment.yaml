@@ -12,21 +12,24 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: biggs
       volumes:
-        - name: config
-          hostPath:
-            path: /dockerfs/sonarr/config
-        - name: downloads
-          hostPath:
-            path: /mnt/downloads
-        - name: media
-          hostPath:
-            path: /mnt/media
-        - name: rtc
-          hostPath:
-            path: /dev/rtc
-        - name: oauth2-proxy
-          secret:
-            secretName: oauth2-proxy
+      - name: anime
+        persistentVolumeClaim:
+          claimName: anime
+      - name: config
+        hostPath:
+          path: /dockerfs/sonarr/config
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: downloads
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
+      - name: rtc
+        hostPath:
+          path: /dev/rtc
+      - name: tv
+        persistentVolumeClaim:
+          claimName: tv
       containers:
       - name: sonarr
         image: linuxserver/sonarr
@@ -35,8 +38,10 @@ spec:
           name: config
         - mountPath: /downloads
           name: downloads
-        - mountPath: /media
-          name: media
+        - mountPath: /media/anime
+          name: anime
+        - mountPath: /media/tv
+          name: tv
         - mountPath: /dev/rtc
           name: rtc
           readOnly: true
