@@ -12,18 +12,19 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: wedge
       volumes:
-        - name: pms-config
-          hostPath:
-            path: /dockerfs/pms/config
-        - name: pms-transcode
-          hostPath:
-            path: /dockerfs/pms/transcode
-        - name: pms-media
-          hostPath:
-            path: /mnt/media
+      - name: pms-config
+        hostPath:
+          path: /dockerfs/pms/config
+      - name: pms-transcode
+        hostPath:
+          path: /dockerfs/pms/transcode
+      - name: pms-media
+        hostPath:
+          path: /mnt/media
       containers:
       - name: pms
         image: plexinc/pms-docker:public
+        imagePullPolicy: Always
         volumeMounts:
         - mountPath: /config
           name: pms-config
