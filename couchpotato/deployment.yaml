@@ -25,6 +25,7 @@ spec:
       containers:
       - name: couchpotato
         image: linuxserver/couchpotato
+        imagePullPolicy: Always
         volumeMounts:
         - mountPath: /config
           name: couchpotato

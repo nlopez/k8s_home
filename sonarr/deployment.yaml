@@ -9,15 +9,13 @@ spec:
       labels:
         app: sonarr
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs
       volumes:
       - name: anime
         persistentVolumeClaim:
           claimName: anime
-      - name: config
-        hostPath:
-          path: /dockerfs/sonarr/config
+      - name: sonarr
+        persistentVolumeClaim:
+          claimName: sonarr
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
@@ -33,9 +31,11 @@ spec:
       containers:
       - name: sonarr
         image: linuxserver/sonarr
+        imagePullPolicy: Always
         volumeMounts:
         - mountPath: /config
-          name: config
+          name: sonarr
+          subPath: config
         - mountPath: /downloads
           name: downloads
         - mountPath: /media/anime
