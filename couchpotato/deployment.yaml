@@ -9,12 +9,10 @@ spec:
       labels:
         app: couchpotato
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs
       volumes:
-        - name: config
-          hostPath:
-            path: /dockerfs/couchpotato/config
+        - name: couchpotato
+          persistentVolumeClaim:
+            claimName: couchpotato
         - name: downloads
           persistentVolumeClaim:
             claimName: downloads
@@ -29,7 +27,8 @@ spec:
         image: linuxserver/couchpotato
         volumeMounts:
         - mountPath: /config
-          name: config
+          name: couchpotato
+          subPath: config
         - mountPath: /downloads
           name: downloads
         - mountPath: /movies
