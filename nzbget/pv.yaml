@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nzbget
+  labels:
+    pv: nzbget
+spec:
+  capacity:
+    storage: 100Ti
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: freenas.radoncanyon.com
+    path: "/mnt/etank/dockerfs/nzbget"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nzbget
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Ti
+  selector:
+    matchLabels:
+      pv: nzbget

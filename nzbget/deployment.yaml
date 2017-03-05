@@ -9,24 +9,24 @@ spec:
       labels:
         app: nzbget
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs
       volumes:
-        - name: config
-          hostPath:
-            path: /dockerfs/nzbget/config
+        - name: nzbget
+          persistentVolumeClaim:
+            claimName: nzbget
         - name: downloads
-          hostPath:
-            path: /mnt/downloads
+          persistentVolumeClaim:
+            claimName: downloads
         - name: oauth2-proxy
           secret:
             secretName: oauth2-proxy
       containers:
       - name: nzbget
         image: linuxserver/nzbget
+        imagePullPolicy: Always
         volumeMounts:
-        - name: config
-          mountPath: /config
+        - mountPath: /config
+          name: nzbget
+          subPath: config
         - name: downloads
           mountPath: /downloads
         env:
