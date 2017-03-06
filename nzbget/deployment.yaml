@@ -10,15 +10,18 @@ spec:
         app: nzbget
     spec:
       volumes:
-        - name: nzbget
-          persistentVolumeClaim:
-            claimName: nzbget
-        - name: downloads
-          persistentVolumeClaim:
-            claimName: downloads
-        - name: oauth2-proxy
-          secret:
-            secretName: oauth2-proxy
+      - name: nzbget
+        persistentVolumeClaim:
+          claimName: nzbget
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: downloads
+      - name: nzbget-intermediate
+        hostPath:
+          path: /dockerfs/nzbget-intermediate
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
       containers:
       - name: nzbget
         image: linuxserver/nzbget
@@ -29,6 +32,8 @@ spec:
           subPath: config
         - name: downloads
           mountPath: /downloads
+        - name: nzbget-intermediate
+          mountPath: /intermediate
         env:
         - name: PUID
           value: '1001'
