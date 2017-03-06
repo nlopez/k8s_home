@@ -45,6 +45,8 @@ spec:
           name: anime
           readOnly: true
         env:
+        - name: CHANGE_CONFIG_DIR_OWNERSHIP
+          value: 'false'
         - name: PLEX_UID
           value: '1001'
         - name: PLEX_GID
