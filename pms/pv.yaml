@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pms
+  labels:
+    pv: pms
+spec:
+  capacity:
+    storage: 100Ti
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: freenas.radoncanyon.com
+    path: "/mnt/etank/dockerfs/pms"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pms
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Ti
+  selector:
+    matchLabels:
+      pv: pms

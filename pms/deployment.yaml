@@ -9,29 +9,40 @@ spec:
       labels:
         app: pms
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: wedge
       volumes:
-      - name: pms-config
-        hostPath:
-          path: /dockerfs/pms/config
+      - name: movies
+        persistentVolumeClaim:
+          claimName: movies
+      - name: tv
+        persistentVolumeClaim:
+          claimName: tv
+      - name: anime
+        persistentVolumeClaim:
+          claimName: anime
+      - name: pms
+        persistentVolumeClaim:
+          claimName: pms
       - name: pms-transcode
         hostPath:
           path: /dockerfs/pms/transcode
-      - name: pms-media
-        hostPath:
-          path: /mnt/media
       containers:
       - name: pms
         image: plexinc/pms-docker:public
         imagePullPolicy: Always
         volumeMounts:
         - mountPath: /config
-          name: pms-config
+          name: pms
+          subPath: config
         - mountPath: /transcode
           name: pms-transcode
-        - mountPath: /media
-          name: pms-media
+        - mountPath: /media/movies
+          name: movies
+          readOnly: true
+        - mountPath: /media/tv
+          name: tv
+          readOnly: true
+        - mountPath: /media/anime
+          name: anime
           readOnly: true
         env:
         - name: PLEX_UID
