@@ -9,27 +9,27 @@ spec:
       labels:
         app: plexpy
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: wedge
       volumes:
-        - name: plexpy-config
-          hostPath:
-            path: /dockerfs/plexpy/config
-        - name: pms-logs
-          hostPath:
-            path: /dockerfs/pms/config/Library/Application Support/Plex Media Server/Logs
-        - name: oauth2-proxy
-          secret:
-            secretName: oauth2-proxy
+      - name: plexpy
+        persistentVolumeClaim:
+          claimName: plexpy
+      - name: pms
+        persistentVolumeClaim:
+          claimName: pms
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
       containers:
       - name: plexpy
         image: linuxserver/plexpy:latest
         imagePullPolicy: Always
         volumeMounts:
         - mountPath: /config
-          name: plexpy-config
+          name: plexpy
+          subPath: config
         - mountPath: /logs
-          name: pms-logs
+          name: pms
+          subPath: config/Library/Application Support/Plex Media Server/Logs
           readOnly: true
         env:
         - name: PUID
