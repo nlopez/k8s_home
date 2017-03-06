@@ -27,17 +27,3 @@ spec:
   selector:
     matchLabels:
       pv: plexpy
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pms
-spec:
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: 100Ti
-  selector:
-    matchLabels:
-      pv: pms
