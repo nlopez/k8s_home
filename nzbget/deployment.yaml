@@ -18,7 +18,7 @@ spec:
           claimName: downloads
       - name: nzbget-intermediate
         hostPath:
-          path: /dockerfs/nzbget-intermediate
+          path: /dockerfs/nzbget/intermediate
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
