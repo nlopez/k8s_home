@@ -14,8 +14,8 @@ spec:
         persistentVolumeClaim:
           claimName: anime
       - name: sonarr
-        persistentVolumeClaim:
-          claimName: sonarr
+        hostPath:
+          path: /glusterfs/sonarr
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
@@ -33,17 +33,17 @@ spec:
         image: linuxserver/sonarr
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /config
-          name: sonarr
+        - name: sonarr
           subPath: config
-        - mountPath: /downloads
-          name: downloads
-        - mountPath: /media/anime
-          name: anime
-        - mountPath: /media/tv
-          name: tv
-        - mountPath: /dev/rtc
-          name: rtc
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+        - name: anime
+          mountPath: /media/anime
+        - name: tv
+          mountPath: /media/tv
+        - name: rtc
+          mountPath: /dev/rtc
           readOnly: true
         env:
         - name: PUID

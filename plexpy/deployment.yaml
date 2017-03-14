@@ -11,11 +11,11 @@ spec:
     spec:
       volumes:
       - name: plexpy
-        persistentVolumeClaim:
-          claimName: plexpy
+        hostPath:
+          path: /glusterfs/plexpy
       - name: pms
-        persistentVolumeClaim:
-          claimName: pms
+        hostPath:
+          path: /glusterfs/pms
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
@@ -24,12 +24,12 @@ spec:
         image: linuxserver/plexpy:latest
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /config
-          name: plexpy
+        - name: plexpy
           subPath: config
-        - mountPath: /logs
-          name: pms
+          mountPath: /config
+        - name: pms
           subPath: config/Library/Application Support/Plex Media Server/Logs
+          mountPath: /logs
           readOnly: true
         env:
         - name: PUID

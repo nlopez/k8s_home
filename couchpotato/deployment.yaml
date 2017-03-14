@@ -10,30 +10,30 @@ spec:
         app: couchpotato
     spec:
       volumes:
-        - name: couchpotato
-          persistentVolumeClaim:
-            claimName: couchpotato
-        - name: downloads
-          persistentVolumeClaim:
-            claimName: downloads
-        - name: movies
-          persistentVolumeClaim:
-            claimName: movies
-        - name: oauth2-proxy
-          secret:
-            secretName: oauth2-proxy
+      - name: couchpotato
+        hostPath:
+          path: /glusterfs/couchpotato
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: downloads
+      - name: movies
+        persistentVolumeClaim:
+          claimName: movies
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
       containers:
       - name: couchpotato
         image: linuxserver/couchpotato
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /config
-          name: couchpotato
+        - name: couchpotato
           subPath: config
-        - mountPath: /downloads
-          name: downloads
-        - mountPath: /movies
-          name: movies
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+        - name: movies
+          mountPath: /movies
         env:
         - name: PUID
           value: '1001'

@@ -11,14 +11,11 @@ spec:
     spec:
       volumes:
       - name: nzbget
-        persistentVolumeClaim:
-          claimName: nzbget
+        hostPath:
+          path: /glusterfs/nzbget
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
-      - name: nzbget-intermediate
-        hostPath:
-          path: /dockerfs/nzbget/intermediate
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
@@ -27,13 +24,14 @@ spec:
         image: linuxserver/nzbget
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /config
-          name: nzbget
+        - name: nzbget
           subPath: config
+          mountPath: /config
+        - name: nzbget
+          subPath: intermediate
+          mountPath: /intermediate
         - name: downloads
           mountPath: /downloads
-        - name: nzbget-intermediate
-          mountPath: /intermediate
         env:
         - name: PUID
           value: '1001'
