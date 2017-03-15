@@ -15,7 +15,7 @@ spec:
           claimName: anime
       - name: sonarr
         hostPath:
-          path: /glusterfs/sonarr
+          path: /akasha/sonarr
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
@@ -55,6 +55,12 @@ spec:
         ports:
         - name: sonarr
           containerPort: 8989
+        livenessProbe:
+          httpGet:
+            path: /
+            port: sonarr
+          initialDelaySeconds: 60
+          periodSeconds: 5
       - name: oauth2-proxy
         image: a5huynh/oauth2_proxy
         ports:

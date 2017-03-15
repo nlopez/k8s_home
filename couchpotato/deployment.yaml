@@ -12,7 +12,7 @@ spec:
       volumes:
       - name: couchpotato
         hostPath:
-          path: /glusterfs/couchpotato
+          path: /akasha/couchpotato
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
@@ -42,7 +42,14 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - containerPort: 5050
+        - name: couchpotato
+          containerPort: 5050
+        livenessProbe:
+          httpGet:
+            path: /#settings/about
+            port: couchpotato
+          initialDelaySeconds: 60
+          periodSeconds: 5
       - name: oauth2-proxy
         image: a5huynh/oauth2_proxy
         ports:

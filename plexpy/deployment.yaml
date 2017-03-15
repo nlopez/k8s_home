@@ -12,10 +12,10 @@ spec:
       volumes:
       - name: plexpy
         hostPath:
-          path: /glusterfs/plexpy
+          path: /akasha/plexpy
       - name: pms
         hostPath:
-          path: /glusterfs/pms
+          path: /akasha/pms
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
@@ -39,7 +39,14 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - containerPort: 8181
+        - name: plexpy
+          containerPort: 8181
+        livenessProbe:
+          httpGet:
+            path: /home
+            port: plexpy
+          initialDelaySeconds: 60
+          periodSeconds: 5
       - name: oauth2-proxy
         image: a5huynh/oauth2_proxy
         ports:

@@ -20,29 +20,27 @@ spec:
         persistentVolumeClaim:
           claimName: anime
       - name: pms
-        persistentVolumeClaim:
-          claimName: pms
-      - name: pms-transcode
         hostPath:
-          path: /dockerfs/pms/transcode
+          path: /akasha/pms
       containers:
       - name: pms
         image: plexinc/pms-docker:public
         imagePullPolicy: Always
         volumeMounts:
-        - mountPath: /config
-          name: pms
+        - name: pms
           subPath: config
-        - mountPath: /transcode
-          name: pms-transcode
-        - mountPath: /media/movies
-          name: movies
+          mountPath: /config
+        - name: pms
+          subPath: transcode
+          mountPath: /transcode
+        - name: movies
+          mountPath: /media/movies
           readOnly: true
-        - mountPath: /media/tv
-          name: tv
+        - name: tv
+          mountPath: /media/tv
           readOnly: true
-        - mountPath: /media/anime
-          name: anime
+        - name: anime
+          mountPath: /media/anime
           readOnly: true
         env:
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
@@ -56,5 +54,11 @@ spec:
         - name: ADVERTISE_IP
           value: http://192.168.239.7:32400,http://192.168.239.8:32400
         ports:
-        - name: pms-port
+        - name: pms
           containerPort: 32400
+        livenessProbe:
+          httpGet:
+            path: /web/index.html
+            port: pms
+          initialDelaySeconds: 60
+          periodSeconds: 5
