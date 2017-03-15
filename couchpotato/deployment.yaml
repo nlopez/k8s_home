@@ -53,7 +53,14 @@ spec:
       - name: oauth2-proxy
         image: a5huynh/oauth2_proxy
         ports:
-        - containerPort: 4180
+        - name: oauth2-proxy
+          containerPort: 4180
+        livenessProbe:
+          httpGet:
+            path: /
+            port: oauth2-proxy
+          initialDelaySeconds: 3
+          periodSeconds: 3
         volumeMounts:
         - mountPath: /etc/oauth2-proxy
           name: oauth2-proxy
