@@ -58,6 +58,10 @@ spec:
             port: oauth2-proxy
           initialDelaySeconds: 3
           periodSeconds: 3
+        volumeMounts:
+        - mountPath: /etc/oauth2-proxy
+          name: oauth2-proxy
+          readOnly: true
         args:
         - "-upstream=http://localhost:8181/"
         - "-cookie-domain=plexpy.desertbluffs.com"
