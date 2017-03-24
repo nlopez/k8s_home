@@ -12,15 +12,9 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: wedge
       volumes:
-      - name: movies
-        persistentVolumeClaim:
-          claimName: movies
-      - name: tv
-        persistentVolumeClaim:
-          claimName: tv
-      - name: anime
-        persistentVolumeClaim:
-          claimName: anime
+      - name: media
+        hostPath:
+          path: /mnt/media
       - name: pms
         hostPath:
           path: /dockerfs/pms
@@ -35,13 +29,16 @@ spec:
         - name: pms
           subPath: transcode
           mountPath: /transcode
-        - name: movies
+        - name: media
+          subPath: movies
           mountPath: /media/movies
           readOnly: true
-        - name: tv
+        - name: media
+          subPath: tv
           mountPath: /media/tv
           readOnly: true
-        - name: anime
+        - name: media
+          subPath: anime
           mountPath: /media/anime
           readOnly: true
         env:

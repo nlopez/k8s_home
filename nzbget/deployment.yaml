@@ -15,9 +15,9 @@ spec:
       - name: nzbget
         hostPath:
           path: /dockerfs/nzbget
-      - name: downloads
-        persistentVolumeClaim:
-          claimName: downloads
+      - name: media
+        hostPath:
+          path: /mnt/media
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
@@ -32,7 +32,8 @@ spec:
         - name: nzbget
           subPath: intermediate
           mountPath: /intermediate
-        - name: downloads
+        - name: media
+          subPath: downloads
           mountPath: /downloads
         env:
         - name: PUID

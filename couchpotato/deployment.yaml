@@ -15,12 +15,9 @@ spec:
       - name: couchpotato
         hostPath:
           path: /dockerfs/couchpotato
-      - name: downloads
-        persistentVolumeClaim:
-          claimName: downloads
-      - name: movies
-        persistentVolumeClaim:
-          claimName: movies
+      - name: media
+        hostPath:
+          path: /mnt/media
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
@@ -32,9 +29,11 @@ spec:
         - name: couchpotato
           subPath: config
           mountPath: /config
-        - name: downloads
+        - name: media
+          subPath: downloads
           mountPath: /downloads
-        - name: movies
+        - name: media
+          subPath: movies
           mountPath: /movies
         env:
         - name: PUID
