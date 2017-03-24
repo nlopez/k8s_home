@@ -9,10 +9,12 @@ spec:
       labels:
         app: couchpotato
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs
       volumes:
       - name: couchpotato
         hostPath:
-          path: /akasha/couchpotato
+          path: /dockerfs/couchpotato
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads

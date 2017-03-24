@@ -9,6 +9,8 @@ spec:
       labels:
         app: pms
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge
       volumes:
       - name: movies
         persistentVolumeClaim:
@@ -21,7 +23,7 @@ spec:
           claimName: anime
       - name: pms
         hostPath:
-          path: /akasha/pms
+          path: /dockerfs/pms
       containers:
       - name: pms
         image: plexinc/pms-docker:public

@@ -9,13 +9,15 @@ spec:
       labels:
         app: plexpy
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge
       volumes:
       - name: plexpy
         hostPath:
-          path: /akasha/plexpy
+          path: /dockerfs/plexpy
       - name: pms
         hostPath:
-          path: /akasha/pms
+          path: /dockerfs/pms
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy

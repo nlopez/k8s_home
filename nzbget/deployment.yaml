@@ -9,10 +9,12 @@ spec:
       labels:
         app: nzbget
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs
       volumes:
       - name: nzbget
         hostPath:
-          path: /akasha/nzbget
+          path: /dockerfs/nzbget
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
