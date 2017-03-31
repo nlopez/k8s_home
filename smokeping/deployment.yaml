@@ -1,0 +1,73 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: smokeping
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: smokeping
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs
+      volumes:
+      - name: smokeping
+        hostPath:
+          path: /dockerfs/smokeping
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
+      containers:
+      - name: smokeping
+        image: linuxserver/smokeping
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: smokeping
+          subPath: config
+          mountPath: /config
+        - name: smokeping
+          subPath: data
+          mountPath: /data
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: smokeping
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /smokeping/smokeping.cgi
+            port: smokeping
+          initialDelaySeconds: 60
+          periodSeconds: 5
+      - name: oauth2-proxy
+        image: a5huynh/oauth2_proxy
+        ports:
+        - name: oauth2-proxy
+          containerPort: 4180
+        livenessProbe:
+          httpGet:
+            path: /
+            port: oauth2-proxy
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        volumeMounts:
+        - mountPath: /etc/oauth2-proxy
+          name: oauth2-proxy
+          readOnly: true
+        args:
+        - "-upstream=http://localhost:80/"
+        - "-cookie-domain=smokeping.desertbluffs.com"
+        - "-redirect-url=https://smokeping.desertbluffs.com/oauth2/callback"
+        - "-http-address=0.0.0.0:4180"
+        - "-config=/etc/oauth2-proxy/config"
+        - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
+        - "-cookie-secure=true"
+        - "-cookie-expire=168h0m"
+        - "-cookie-refresh=60m"
+        - "-skip-provider-button=true"
