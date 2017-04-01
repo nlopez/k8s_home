@@ -1,0 +1,79 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: radarr
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs
+      volumes:
+      - name: media
+        hostPath:
+          path: /mnt/media
+      - name: radarr
+        hostPath:
+          path: /dockerfs/radarr
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
+      containers:
+      - name: radarr
+        image: linuxserver/radarr
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: radarr
+          subPath: config
+          mountPath: /config
+        - name: media
+          subPath: downloads
+          mountPath: /downloads
+        - name: media
+          subPath: movies
+          mountPath: /media/movies
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: radarr
+          containerPort: 8989
+        livenessProbe:
+          httpGet:
+            path: /
+            port: radarr
+          initialDelaySeconds: 60
+          periodSeconds: 5
+      - name: oauth2-proxy
+        image: a5huynh/oauth2_proxy
+        ports:
+        - name: oauth2-proxy
+          containerPort: 4180
+        livenessProbe:
+          httpGet:
+            path: /
+            port: oauth2-proxy
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        volumeMounts:
+        - mountPath: /etc/oauth2-proxy
+          name: oauth2-proxy
+          readOnly: true
+        args:
+        - "-upstream=http://localhost:8989/"
+        - "-cookie-domain=radarr.desertbluffs.com"
+        - "-redirect-url=https://radarr.desertbluffs.com/oauth2/callback"
+        - "-http-address=0.0.0.0:4180"
+        - "-config=/etc/oauth2-proxy/config"
+        - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
+        - "-cookie-secure=true"
+        - "-cookie-expire=168h0m"
+        - "-cookie-refresh=60m"
+        - "-skip-provider-button=true"
