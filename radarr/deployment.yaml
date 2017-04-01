@@ -44,7 +44,7 @@ spec:
           value: 'America/New_York'
         ports:
         - name: radarr
-          containerPort: 8989
+          containerPort: 7878
         livenessProbe:
           httpGet:
             path: /
@@ -67,7 +67,7 @@ spec:
           name: oauth2-proxy
           readOnly: true
         args:
-        - "-upstream=http://localhost:8989/"
+        - "-upstream=http://localhost:7878/"
         - "-cookie-domain=radarr.desertbluffs.com"
         - "-redirect-url=https://radarr.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
