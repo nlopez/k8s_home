@@ -34,7 +34,7 @@ spec:
           mountPath: /downloads
         - name: media
           subPath: movies
-          mountPath: /media/movies
+          mountPath: /movies
         env:
         - name: PUID
           value: '1001'
