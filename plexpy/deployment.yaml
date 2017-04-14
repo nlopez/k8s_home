@@ -10,7 +10,7 @@ spec:
         app: plexpy
     spec:
       nodeSelector:
-        kubernetes.io/hostname: wedge
+        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: plexpy
         hostPath:

@@ -10,7 +10,7 @@ spec:
         app: unifi
     spec:
       nodeSelector:
-        kubernetes.io/hostname: biggs
+        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: unifi
         hostPath:

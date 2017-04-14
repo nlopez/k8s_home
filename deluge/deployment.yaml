@@ -1,20 +1,20 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: couchpotato
+  name: deluge
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: couchpotato
+        app: deluge
     spec:
       nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
+        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
-      - name: couchpotato
+      - name: deluge
         hostPath:
-          path: /dockerfs/couchpotato
+          path: /dockerfs/deluge
       - name: media
         hostPath:
           path: /mnt/media
@@ -22,19 +22,16 @@ spec:
         secret:
           secretName: oauth2-proxy
       containers:
-      - name: couchpotato
-        image: linuxserver/couchpotato
+      - name: deluge
+        image: linuxserver/deluge:latest
         imagePullPolicy: Always
         volumeMounts:
-        - name: couchpotato
+        - name: deluge
           subPath: config
           mountPath: /config
         - name: media
           subPath: downloads
           mountPath: /downloads
-        - name: media
-          subPath: movies
-          mountPath: /movies
         env:
         - name: PUID
           value: '1001'
@@ -43,12 +40,12 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - name: couchpotato
-          containerPort: 5050
+        - name: deluge
+          containerPort: 8112
         livenessProbe:
           httpGet:
-            path: /#settings/about
-            port: couchpotato
+            path: /home
+            port: deluge
           initialDelaySeconds: 60
           periodSeconds: 5
       - name: oauth2-proxy
@@ -67,9 +64,9 @@ spec:
           name: oauth2-proxy
           readOnly: true
         args:
-        - "-upstream=http://localhost:5050/"
-        - "-cookie-domain=couchpotato.desertbluffs.com"
-        - "-redirect-url=https://couchpotato.desertbluffs.com/oauth2/callback"
+        - "-upstream=http://localhost:8112/"
+        - "-cookie-domain=deluge.desertbluffs.com"
+        - "-redirect-url=https://deluge.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
