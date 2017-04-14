@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: unifi
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: unifi
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs
+      volumes:
+      - name: unifi
+        hostPath:
+          path: /dockerfs/unifi
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
+      containers:
+      - name: unifi
+        image: linuxserver/unifi
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: unifi
+          subPath: config
+          mountPath: /config
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        ports:
+        - name: unifi
+          containerPort: 8443
+        livenessProbe:
+          httpGet:
+            path: /
+            port: unifi
+          initialDelaySeconds: 60
+          periodSeconds: 5
+      - name: oauth2-proxy
+        image: a5huynh/oauth2_proxy
+        ports:
+        - name: oauth2-proxy
+          containerPort: 4180
+        livenessProbe:
+          httpGet:
+            path: /
+            port: oauth2-proxy
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        volumeMounts:
+        - mountPath: /etc/oauth2-proxy
+          name: oauth2-proxy
+          readOnly: true
+        args:
+        - "-upstream=https://localhost:8443/"
+        - "-cookie-domain=unifi.desertbluffs.com"
+        - "-redirect-url=https://unifi.desertbluffs.com/oauth2/callback"
+        - "-http-address=0.0.0.0:4180"
+        - "-config=/etc/oauth2-proxy/config"
+        - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
+        - "-cookie-secure=true"
+        - "-cookie-expire=168h0m"
+        - "-cookie-refresh=60m"
+        - "-skip-provider-button=true"

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi
+spec:
+  selector:
+    app: unifi
+  ports:
+  - name: unifi
+    port: 80
+    targetPort: 4180
+  - name: unifi-8080
+    port: 8080
+    targetPort: 8080
+  - name: unifi-8443
+    port: 8443
+    targetPort: 8443
