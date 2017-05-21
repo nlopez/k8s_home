@@ -15,7 +15,7 @@ spec:
             secretName: oauth2-proxy
       containers:
       - name: oauth2-proxy
-        image: a5huynh/oauth2_proxy
+        image: thalweg/oauth2_proxy
         ports:
         - containerPort: 4180
         volumeMounts:

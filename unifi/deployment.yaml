@@ -41,7 +41,7 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 5
       - name: oauth2-proxy
-        image: a5huynh/oauth2_proxy
+        image: thalweg/oauth2_proxy
         ports:
         - name: oauth2-proxy
           containerPort: 4180
@@ -66,3 +66,4 @@ spec:
         - "-cookie-expire=168h0m"
         - "-cookie-refresh=60m"
         - "-skip-provider-button=true"
+        - "-ssl-insecure-skip-verify
