@@ -15,7 +15,7 @@ spec:
             secretName: oauth2-proxy
       containers:
       - name: oauth2-proxy
-        image: thalweg/oauth2_proxy
+        image: nlopez/oauth2_proxy
         ports:
         - containerPort: 4180
         volumeMounts:
@@ -33,3 +33,4 @@ spec:
         - "-cookie-expire=168h0m"
         - "-cookie-refresh=60m"
         - "-skip-provider-button=true"
+        - "-ssl-insecure-skip-verify"

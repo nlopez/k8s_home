@@ -138,7 +138,7 @@ spec:
       hostNetwork: true
       serviceAccountName: ingress
       containers:
-      - image: nginxdemos/nginx-ingress:0.8.0
+      - image: nginxdemos/nginx-ingress:0.8.1-alpine
         name: nginx-ingress
         ports:
         - containerPort: 80
