@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: erlite
+spec:
+  selector:
+    app: erlite
+  ports:
+  - name: erlite
+    port: 80
+    targetPort: 4180

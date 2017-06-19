@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: freenas
+  name: erlite
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: freenas
+        app: erlite
     spec:
       volumes:
       - name: oauth2-proxy
@@ -30,9 +30,9 @@ spec:
           subPath: ca-certificates.crt
           readOnly: true
         args:
-        - "-upstream=https://192.168.239.16:443/"
-        - "-cookie-domain=freenas.desertbluffs.com"
-        - "-redirect-url=https://freenas.desertbluffs.com/oauth2/callback"
+        - "-upstream=https://192.168.239.1"
+        - "-cookie-domain=erlite.desertbluffs.com"
+        - "-redirect-url=https://erlite.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
