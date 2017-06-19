@@ -10,9 +10,12 @@ spec:
         app: freenas
     spec:
       volumes:
-        - name: oauth2-proxy
-          secret:
-            secretName: oauth2-proxy
+      - name: oauth2-proxy
+        secret:
+          secretName: oauth2-proxy
+      - name: cacerts
+        configMap:
+          name: cacerts
       containers:
       - name: oauth2-proxy
         image: nlopez/oauth2_proxy
@@ -22,8 +25,11 @@ spec:
         - mountPath: /etc/oauth2-proxy
           name: oauth2-proxy
           readOnly: true
+        - mountPath: /etc/ssl/certs/ca-certificates.crt
+          name: cacerts
+          subPath: ca-certificates.crt
         args:
-        - "-upstream=https://192.168.239.16/"
+        - "-upstream=https://192.168.239.16:443/"
         - "-cookie-domain=freenas.desertbluffs.com"
         - "-redirect-url=https://freenas.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
@@ -33,4 +39,3 @@ spec:
         - "-cookie-expire=168h0m"
         - "-cookie-refresh=60m"
         - "-skip-provider-button=true"
-        - "-ssl-insecure-skip-verify"
