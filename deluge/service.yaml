@@ -5,6 +5,20 @@ metadata:
 spec:
   selector:
     app: deluge
+  type: NodePort
   ports:
-  - port: 80
+  - name: deluge-webui
+    port: 80
     targetPort: 4180
+  - name: deluge-daemon
+    port: 58846
+    targetPort: 58846
+    nodePort: 30000
+  - name: deluge-bittorrent
+    port: 54199
+    nodePort: 30001
+    protocol: TCP
+  - name: deluge-bittorrent
+    port: 54199
+    nodePort: 30001
+    protocol: UDP

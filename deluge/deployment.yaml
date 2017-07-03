@@ -21,6 +21,9 @@ spec:
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
+      - name: deluge-secrets
+        secret:
+          secretName: deluge
       containers:
       - name: deluge
         image: linuxserver/deluge:latest
@@ -32,6 +35,10 @@ spec:
         - name: media
           subPath: downloads
           mountPath: /downloads
+        - mountPath: /config/auth
+          name: deluge-secrets
+          subPath: auth
+          readOnly: true
         env:
         - name: PUID
           value: '1001'
@@ -40,12 +47,14 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - name: deluge
+        - name: deluge-webui
           containerPort: 8112
+        - name: deluge-daemon
+          containerPort: 54199
         livenessProbe:
           httpGet:
             path: /home
-            port: deluge
+            port: deluge-webui
           initialDelaySeconds: 60
           periodSeconds: 5
       - name: oauth2-proxy
