@@ -41,6 +41,10 @@ spec:
           subPath: anime
           mountPath: /media/anime
           readOnly: true
+        - name: media
+          subPath: music
+          mountPath: /media/music
+          readOnly: true
         env:
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: 'false'
