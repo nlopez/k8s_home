@@ -53,7 +53,7 @@ spec:
           containerPort: 54199
         livenessProbe:
           httpGet:
-            path: /home
+            path: /
             port: deluge-webui
           initialDelaySeconds: 60
           periodSeconds: 5
