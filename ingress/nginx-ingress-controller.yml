@@ -21,6 +21,7 @@ spec:
              - /nginx-ingress-controller
              - --default-backend-service=default/default-http-backend
              - --default-ssl-certificate=$(POD_NAMESPACE)/tls-certificate
+             - --configmap=$(POD_NAMESPACE)/nginx-custom-configuration
           env:
              - name: POD_NAME
                valueFrom:
