@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: default
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - hosts:
+    - desertbluffs.com
+    secretName: default-tls
+  rules:
+  - host: desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: default-http-backend
+          servicePort: 80
