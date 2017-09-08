@@ -33,7 +33,7 @@ spec:
           value: '1001'
         ports:
         - name: unifi
-          containerPort: 8443
+          containerPort: 8080
         livenessProbe:
           httpGet:
             path: /

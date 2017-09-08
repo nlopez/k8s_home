@@ -5,8 +5,11 @@ metadata:
 spec:
   selector:
     app: unifi
+  type: NodePort
   ports:
   - name: unifi
-    port: 80
-    targetPort: 4180
+    port: 8443
+  - name: unifi-backend
+    port: 8080
+    nodePort: 31311
 
