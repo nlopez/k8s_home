@@ -67,10 +67,10 @@ spec:
           containerPort: 4180
         livenessProbe:
           httpGet:
-            path: /
+            path: /ping
             port: oauth2-proxy
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          initialDelaySeconds: 5
+          periodSeconds: 5
         volumeMounts:
         - mountPath: /etc/oauth2-proxy
           name: oauth2-proxy

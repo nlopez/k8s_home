@@ -21,6 +21,12 @@ spec:
         image: nlopez/oauth2_proxy
         ports:
         - containerPort: 4180
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: oauth2-proxy
+          initialDelaySeconds: 5
+          periodSeconds: 5
         volumeMounts:
         - mountPath: /etc/oauth2-proxy
           name: oauth2-proxy
