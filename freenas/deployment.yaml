@@ -37,8 +37,8 @@ spec:
           readOnly: true
         args:
         - "-upstream=https://192.168.239.16:443/"
-        - "-cookie-domain=freenas.desertbluffs.com"
-        - "-redirect-url=https://freenas.desertbluffs.com/oauth2/callback"
+        - "-cookie-domain=b.desertbluffs.com"
+        - "-redirect-url=https://b.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"

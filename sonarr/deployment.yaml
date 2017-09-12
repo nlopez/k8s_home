@@ -77,8 +77,8 @@ spec:
           readOnly: true
         args:
         - "-upstream=http://localhost:8989/"
-        - "-cookie-domain=sonarr.desertbluffs.com"
-        - "-redirect-url=https://sonarr.desertbluffs.com/oauth2/callback"
+        - "-cookie-domain=h.desertbluffs.com"
+        - "-redirect-url=https://h.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"

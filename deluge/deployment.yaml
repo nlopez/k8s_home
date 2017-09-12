@@ -74,8 +74,8 @@ spec:
           readOnly: true
         args:
         - "-upstream=http://localhost:8112/"
-        - "-cookie-domain=deluge.desertbluffs.com"
-        - "-redirect-url=https://deluge.desertbluffs.com/oauth2/callback"
+        - "-cookie-domain=a.desertbluffs.com"
+        - "-redirect-url=https://a.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"

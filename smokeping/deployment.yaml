@@ -62,8 +62,8 @@ spec:
           readOnly: true
         args:
         - "-upstream=http://localhost:80/"
-        - "-cookie-domain=smokeping.desertbluffs.com"
-        - "-redirect-url=https://smokeping.desertbluffs.com/oauth2/callback"
+        - "-cookie-domain=g.desertbluffs.com"
+        - "-redirect-url=https://g.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"

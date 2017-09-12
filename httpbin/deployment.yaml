@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: httpbin
+  labels:
+    k8s-app: httpbin
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        k8s-app: httpbin
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: httpbin
+        image: kennethreitz/httpbin
+        livenessProbe:
+          httpGet:
+            path: /status/200
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 8080

@@ -68,8 +68,8 @@ spec:
           readOnly: true
         args:
         - "-upstream=http://localhost:7878/"
-        - "-cookie-domain=radarr.desertbluffs.com"
-        - "-redirect-url=https://radarr.desertbluffs.com/oauth2/callback"
+        - "-cookie-domain=f.desertbluffs.com"
+        - "-redirect-url=https://f.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"

@@ -68,8 +68,8 @@ spec:
           readOnly: true
         args:
         - "-upstream=http://localhost:6789/"
-        - "-cookie-domain=nzbget.desertbluffs.com"
-        - "-redirect-url=https://nzbget.desertbluffs.com/oauth2/callback"
+        - "-cookie-domain=c.desertbluffs.com"
+        - "-redirect-url=https://c.desertbluffs.com/oauth2/callback"
         - "-http-address=0.0.0.0:4180"
         - "-config=/etc/oauth2-proxy/config"
         - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"

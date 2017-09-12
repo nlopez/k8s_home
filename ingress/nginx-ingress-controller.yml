@@ -4,7 +4,7 @@ metadata:
   name: nginx-ingress-controller
   namespace: nginx-ingress
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
         k8s-app: nginx-ingress-lb
@@ -19,7 +19,7 @@ spec:
           image: gcr.io/google_containers/nginx-ingress-controller:0.9.0-beta.12
           args:
              - /nginx-ingress-controller
-             - --default-backend-service=default/default-http-backend
+             - --default-backend-service=default/httpbin
              - --default-ssl-certificate=$(POD_NAMESPACE)/tls-certificate
              - --configmap=$(POD_NAMESPACE)/nginx-custom-configuration
           env:
