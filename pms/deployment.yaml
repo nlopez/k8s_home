@@ -24,7 +24,6 @@ spec:
       containers:
       - name: pms
         image: plexinc/pms-docker:public
-        imagePullPolicy: Always
         volumeMounts:
         - name: pms
           subPath: config

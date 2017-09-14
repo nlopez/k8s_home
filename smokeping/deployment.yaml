@@ -21,7 +21,6 @@ spec:
       containers:
       - name: smokeping
         image: linuxserver/smokeping
-        imagePullPolicy: Always
         volumeMounts:
         - name: smokeping
           subPath: config

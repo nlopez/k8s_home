@@ -27,7 +27,6 @@ spec:
       containers:
       - name: deluge
         image: linuxserver/deluge:latest
-        imagePullPolicy: Always
         volumeMounts:
         - name: deluge
           subPath: config

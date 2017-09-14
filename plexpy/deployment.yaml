@@ -24,7 +24,6 @@ spec:
       containers:
       - name: plexpy
         image: linuxserver/plexpy:latest
-        imagePullPolicy: Always
         volumeMounts:
         - name: plexpy
           subPath: config

@@ -27,7 +27,6 @@ spec:
       containers:
       - name: sonarr
         image: linuxserver/sonarr
-        imagePullPolicy: Always
         volumeMounts:
         - name: sonarr
           subPath: config

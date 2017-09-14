@@ -24,7 +24,6 @@ spec:
       containers:
       - name: nzbget
         image: linuxserver/nzbget
-        imagePullPolicy: Always
         volumeMounts:
         - name: nzbget
           subPath: config

@@ -24,7 +24,6 @@ spec:
       containers:
       - name: radarr
         image: linuxserver/radarr
-        imagePullPolicy: Always
         volumeMounts:
         - name: radarr
           subPath: config
