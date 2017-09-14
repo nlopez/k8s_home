@@ -8,4 +8,4 @@ spec:
   ports:
   - name: sonarr
     port: 80
-    targetPort: 4180
+    targetPort: 8989

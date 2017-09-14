@@ -7,4 +7,4 @@ spec:
     app: plexpy
   ports:
   - port: 80
-    targetPort: 4180
+    targetPort: 8181

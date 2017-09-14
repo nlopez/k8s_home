@@ -18,9 +18,6 @@ spec:
       - name: media
         hostPath:
           path: /mnt/media
-      - name: oauth2-proxy
-        secret:
-          secretName: oauth2-proxy
       containers:
       - name: nzbget
         image: linuxserver/nzbget
@@ -50,29 +47,4 @@ spec:
             port: nzbget
           initialDelaySeconds: 60
           periodSeconds: 5
-      - name: oauth2-proxy
-        image: nlopez/oauth2_proxy
-        ports:
-        - name: oauth2-proxy
-          containerPort: 4180
-        livenessProbe:
-          httpGet:
-            path: /ping
-            port: oauth2-proxy
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        volumeMounts:
-        - mountPath: /etc/oauth2-proxy
-          name: oauth2-proxy
-          readOnly: true
-        args:
-        - "-upstream=http://localhost:6789/"
-        - "-cookie-domain=c.desertbluffs.com"
-        - "-redirect-url=https://c.desertbluffs.com/oauth2/callback"
-        - "-http-address=0.0.0.0:4180"
-        - "-config=/etc/oauth2-proxy/config"
-        - "-authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails"
-        - "-cookie-secure=true"
-        - "-cookie-expire=168h0m"
-        - "-cookie-refresh=60m"
-        - "-skip-provider-button=true"
+

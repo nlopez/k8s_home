@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: desertbluffs
+  name: ingress-noauth
   annotations:
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"
@@ -40,58 +40,51 @@ spec:
   - host: a.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: deluge
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: b.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: freenas
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: c.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: nzbget
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: d.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: plexpy
-          servicePort: 80
-  - host: e.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: pms
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: f.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: radarr
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: g.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: smokeping
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: h.desertbluffs.com
     http:
       paths:
-      - path: /
+      - path: /oauth2
         backend:
-          serviceName: sonarr
+          serviceName: oauth2-proxy
           servicePort: 80
   - host: desertbluffs.com
     http:
@@ -100,3 +93,12 @@ spec:
         backend:
           serviceName: httpbin
           servicePort: 80
+  - host: e.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: pms
+          servicePort: 80
+
+

@@ -7,16 +7,15 @@ spec:
     app: deluge
   type: NodePort
   ports:
-  - name: deluge-webui
-    port: 80
-    targetPort: 4180
-    protocol: TCP
-  - name: deluge-daemon
+  - port: 80
+    name: deluge-ui
+    targetPort: deluge-ui
+  - nodePort: 30000
+    name: deluge-daemon
+    targetPort: deluge-daemon
     port: 58846
-    targetPort: 58846
-    nodePort: 30000
-    protocol: TCP
-  - name: deluge-bittorrent
+  - nodePort: 30001
+    name: deluge-bt
+    targetPort: deluge-bt
     port: 54199
-    nodePort: 30001
-    protocol: TCP
+
