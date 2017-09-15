@@ -42,49 +42,42 @@ spec:
   - host: a.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: deluge
           servicePort: 80
   - host: b.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: freenas
           servicePort: 80
   - host: c.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: nzbget
           servicePort: 80
   - host: d.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: plexpy
           servicePort: 80
   - host: f.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: radarr
           servicePort: 80
   - host: g.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: smokeping
           servicePort: 80
   - host: h.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: sonarr
           servicePort: 80

@@ -89,16 +89,12 @@ spec:
   - host: desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: httpbin
           servicePort: 80
   - host: e.desertbluffs.com
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: pms
           servicePort: 80
-
-
