@@ -18,6 +18,9 @@ spec:
       - name: pms
         hostPath:
           path: /dockerfs/pms
+      - name: transcode
+        emptyDir:
+          medium: Memory
       containers:
       - name: pms
         image: plexinc/pms-docker:public
@@ -25,9 +28,6 @@ spec:
         - name: pms
           subPath: config
           mountPath: /config
-        - name: pms
-          subPath: transcode
-          mountPath: /transcode
         - name: media
           subPath: movies
           mountPath: /media/movies
@@ -44,6 +44,8 @@ spec:
           subPath: music
           mountPath: /media/music
           readOnly: true
+        - name: transcode
+          mountPath: /transcode
         env:
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: 'false'
