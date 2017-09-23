@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nzbhydra
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nzbhydra
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge.radoncanyon.com
+      volumes:
+      - name: nzbhydra-config
+        hostPath:
+          path: /dockerfs/nzbhydra/config
+      containers:
+      - name: nzbhydra
+        image: linuxserver/hydra:latest
+        volumeMounts:
+        - name: nzbhydra-config
+          mountPath: /config
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - containerPort: 5075
+          name: nzbhydra
+        livenessProbe:
+          httpGet:
+            path: /
+            port: nzbhydra
+          initialDelaySeconds: 60
+          periodSeconds: 5

@@ -6,5 +6,6 @@ spec:
   selector:
     app: plexpy
   ports:
-  - port: 80
+  - name: plexpy
+    port: 80
     targetPort: 8181

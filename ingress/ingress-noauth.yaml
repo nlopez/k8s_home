@@ -105,3 +105,10 @@ spec:
         backend:
           serviceName: oauth2-proxy
           servicePort: 80
+  - host: j.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: 80
