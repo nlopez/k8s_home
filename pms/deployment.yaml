@@ -64,5 +64,5 @@ spec:
           httpGet:
             path: /web/index.html
             port: pms
-          initialDelaySeconds: 300
+          initialDelaySeconds: 60
           periodSeconds: 5
