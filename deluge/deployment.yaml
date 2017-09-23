@@ -29,11 +29,11 @@ spec:
           subPath: config
           mountPath: /config
         - name: media
-          subPath: downloads
+          subPath: downloads/deluge
           mountPath: /downloads
-        - mountPath: /config/auth
-          name: deluge-secrets
+        - name: deluge-secrets
           subPath: auth
+          mountPath: /config/auth
           readOnly: true
         env:
         - name: PUID
