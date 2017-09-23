@@ -10,7 +10,7 @@ spec:
         app: deluge
     spec:
       nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
+        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: deluge
         hostPath:
@@ -44,7 +44,7 @@ spec:
           value: 'America/New_York'
         ports:
         - containerPort: 8112
-          name: deluge-ui
+          name: deluge
         - containerPort: 58846
           name: deluge-daemon
         - containerPort: 54199

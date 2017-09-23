@@ -8,8 +8,8 @@ spec:
   type: NodePort
   ports:
   - port: 80
-    name: deluge-ui
-    targetPort: deluge-ui
+    name: deluge
+    targetPort: deluge
   - nodePort: 30000
     name: deluge-daemon
     targetPort: deluge-daemon
