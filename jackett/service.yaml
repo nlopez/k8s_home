@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jackett
+spec:
+  selector:
+    app: jackett
+  ports:
+  - port: 80
+    name: jackett
+    targetPort: jackett

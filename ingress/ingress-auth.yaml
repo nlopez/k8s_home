@@ -81,3 +81,9 @@ spec:
       - backend:
           serviceName: sonarr
           servicePort: 80
+  - host: i.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: jackett
+          servicePort: 80

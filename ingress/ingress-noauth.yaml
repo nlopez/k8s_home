@@ -98,3 +98,10 @@ spec:
       - backend:
           serviceName: pms
           servicePort: 80
+  - host: i.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: 80
