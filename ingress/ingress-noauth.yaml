@@ -35,7 +35,7 @@ spec:
     - x.desertbluffs.com
     - y.desertbluffs.com
     - z.desertbluffs.com
-    secretName: desertbluffs-tls
+    secretName: desertbluffs-tls-noauth
   rules:
   - host: a.desertbluffs.com
     http:
