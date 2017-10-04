@@ -23,7 +23,7 @@ spec:
           medium: Memory
       containers:
       - name: pms
-        image: plexinc/pms-docker:public
+        image: plexinc/pms-docker:plexpass
         volumeMounts:
         - name: pms
           subPath: config

@@ -6,11 +6,9 @@ spec:
   selector:
     app: pms
   type: NodePort
+  externalTrafficPolicy: Local
   ports:
   - name: pms
     port: 80
     targetPort: 32400
     nodePort: 32400
-  - name: pms-backend
-    port: 32400
-    targetPort: 32400
