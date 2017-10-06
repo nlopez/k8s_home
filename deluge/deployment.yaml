@@ -29,7 +29,7 @@ spec:
           subPath: config
           mountPath: /config
         - name: media
-          subPath: downloads/deluge
+          subPath: downloads
           mountPath: /downloads
         - name: deluge-secrets
           subPath: auth

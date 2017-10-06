@@ -29,7 +29,7 @@ spec:
           subPath: intermediate
           mountPath: /intermediate
         - name: media
-          subPath: downloads/nzbget
+          subPath: downloads
           mountPath: /downloads
         env:
         - name: PUID
