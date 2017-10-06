@@ -8,6 +8,6 @@ spec:
   type: NodePort
   ports:
   - name: pms
-    port: 80
+    port: 32400
     targetPort: 32400
     nodePort: 32400
