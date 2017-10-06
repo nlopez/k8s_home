@@ -6,7 +6,6 @@ spec:
   selector:
     app: pms
   type: NodePort
-  externalTrafficPolicy: Local
   ports:
   - name: pms
     port: 80
