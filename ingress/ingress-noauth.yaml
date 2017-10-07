@@ -97,7 +97,7 @@ spec:
       paths:
       - backend:
           serviceName: pms
-          servicePort: 80
+          servicePort: pms
   - host: i.desertbluffs.com
     http:
       paths:
