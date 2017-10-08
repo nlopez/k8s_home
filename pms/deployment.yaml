@@ -21,17 +21,9 @@ spec:
       - name: transcode
         emptyDir:
           medium: Memory
-      - name: gpu1
+      - name: gpu
         hostPath:
           path: /dev/dri/card0
-          type: CharDevice
-      - name: gpu2
-        hostPath:
-          path: /dev/dri/controlD64
-          type: CharDevice
-      - name: gpu3
-        hostPath:
-          path: /dev/dri/renderD128
           type: CharDevice
       containers:
       - name: pms
@@ -60,12 +52,8 @@ spec:
           readOnly: true
         - name: transcode
           mountPath: /transcode
-        - name: gpu1
+        - name: gpu
           mountPath: /dev/dri/card0
-        - name: gpu2
-          mountPath: /dev/dri/controlD64
-        - name: gpu3
-          mountPath: /dev/dri/renderD128
         env:
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: 'false'
