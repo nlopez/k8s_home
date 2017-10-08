@@ -24,7 +24,7 @@ spec:
           type: CharDevice
       containers:
       - name: pms
-        image: plexinc/pms-docker:plexpass
+        image: plexinc/pms-docker:public
         securityContext:
           privileged: true
         volumeMounts:
