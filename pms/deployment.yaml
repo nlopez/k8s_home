@@ -18,9 +18,6 @@ spec:
       - name: pms
         hostPath:
           path: /dockerfs/pms
-      - name: transcode
-        emptyDir:
-          medium: Memory
       - name: gpu
         hostPath:
           path: /dev/dri/card0
@@ -34,6 +31,11 @@ spec:
         - name: pms
           subPath: config
           mountPath: /config
+        - name: pms
+          subPath: transcode
+          mountPath: /transcode
+        - name: gpu
+          mountPath: /dev/dri/card0
         - name: media
           subPath: movies
           mountPath: /media/movies
@@ -50,10 +52,6 @@ spec:
           subPath: music
           mountPath: /media/music
           readOnly: true
-        - name: transcode
-          mountPath: /transcode
-        - name: gpu
-          mountPath: /dev/dri/card0
         env:
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: 'false'
