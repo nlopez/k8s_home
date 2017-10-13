@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: emby
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: emby
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs.radoncanyon.com
+      volumes:
+      - name: media
+        hostPath:
+          path: /mnt/media
+      - name: emby
+        hostPath:
+          path: /dockerfs/emby
+      - name: gpu
+        hostPath:
+          path: /dev/dri/card0
+          type: CharDevice
+      containers:
+      - name: emby
+        image: emby/embyserver
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: emby
+          subPath: config
+          mountPath: /config
+        - name: gpu
+          mountPath: /dev/dri/card0
+        - name: media
+          subPath: movies
+          mountPath: /media/movies
+          readOnly: true
+        - name: media
+          subPath: tv
+          mountPath: /media/tv
+          readOnly: true
+        - name: media
+          subPath: anime
+          mountPath: /media/anime
+          readOnly: true
+        - name: media
+          subPath: music
+          mountPath: /media/music
+          readOnly: true
+        env:
+        - name: APP_UID
+          value: '1001'
+        - name: APP_GID
+          value: '1001'
+        ports:
+        - name: emby
+          containerPort: 8096
+        livenessProbe:
+          httpGet:
+            path: /web/index.html
+            port: emby
+          initialDelaySeconds: 60
+          periodSeconds: 5
