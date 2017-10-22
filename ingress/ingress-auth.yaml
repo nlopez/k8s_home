@@ -85,11 +85,5 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: jackett
-          servicePort: jackett
-  - host: j.desertbluffs.com
-    http:
-      paths:
-      - backend:
           serviceName: nzbhydra
           servicePort: nzbhydra
