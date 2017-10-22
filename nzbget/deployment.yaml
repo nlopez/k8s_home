@@ -43,7 +43,7 @@ spec:
           containerPort: 6789
         livenessProbe:
           httpGet:
-            path: /jsonrpc/status
+            path: /jsonrpc/version
             port: nzbget
           initialDelaySeconds: 60
           periodSeconds: 5
