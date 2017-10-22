@@ -10,7 +10,7 @@ spec:
         app: nzbhydra
     spec:
       nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
+        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: nzbhydra-config
         hostPath:
