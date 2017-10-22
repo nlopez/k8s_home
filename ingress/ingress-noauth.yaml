@@ -112,3 +112,9 @@ spec:
         backend:
           serviceName: oauth2-proxy
           servicePort: 80
+  - host: k.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: emby
+          servicePort: emby
