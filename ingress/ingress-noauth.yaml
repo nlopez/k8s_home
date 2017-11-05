@@ -37,6 +37,13 @@ spec:
     - z.desertbluffs.com
     secretName: desertbluffs-tls-noauth
   rules:
+  - host: desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: httpbin
+          servicePort: 80
+
   - host: a.desertbluffs.com
     http:
       paths:
@@ -65,6 +72,12 @@ spec:
         backend:
           serviceName: oauth2-proxy
           servicePort: 80
+  - host: e.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: pms
+          servicePort: pms
   - host: f.desertbluffs.com
     http:
       paths:
@@ -86,18 +99,6 @@ spec:
         backend:
           serviceName: oauth2-proxy
           servicePort: 80
-  - host: desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: httpbin
-          servicePort: 80
-  - host: e.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: pms
-          servicePort: pms
   - host: i.desertbluffs.com
     http:
       paths:
@@ -118,3 +119,9 @@ spec:
       - backend:
           serviceName: emby
           servicePort: emby
+  - host: l.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: ombi
+          servicePort: ombi
