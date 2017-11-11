@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: pms
 spec:
+  externalTrafficPolicy: Local
   selector:
     app: pms
   type: NodePort

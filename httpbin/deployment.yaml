@@ -5,12 +5,14 @@ metadata:
   labels:
     k8s-app: httpbin
 spec:
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
         k8s-app: httpbin
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: cecil.radoncanyon.com
       terminationGracePeriodSeconds: 60
       containers:
       - name: httpbin

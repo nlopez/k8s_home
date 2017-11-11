@@ -94,6 +94,8 @@ spec:
         # Required for the auto-create kube-lego-nginx service to work.
         app: kube-lego
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: cecil.radoncanyon.com
       serviceAccountName: lego
       containers:
       - name: kube-lego

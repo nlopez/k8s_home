@@ -61,14 +61,6 @@ spec:
           value: '1001'
         - name: TZ
           value: 'America/New_York'
-        - name: ADVERTISE_IP
-          value: https://192.168.222.143:32400
         ports:
         - name: pms
           containerPort: 32400
-        livenessProbe:
-          httpGet:
-            path: /web/index.html
-            port: pms
-          initialDelaySeconds: 60
-          periodSeconds: 5

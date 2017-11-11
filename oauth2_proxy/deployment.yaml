@@ -9,6 +9,8 @@ spec:
       labels:
         app: oauth2-proxy
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: oauth2-proxy
         secret:

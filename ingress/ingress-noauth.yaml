@@ -35,6 +35,7 @@ spec:
     - x.desertbluffs.com
     - y.desertbluffs.com
     - z.desertbluffs.com
+    - speedtest.desertbluffs.com
     secretName: desertbluffs-tls-noauth
   rules:
   - host: desertbluffs.com
@@ -125,3 +126,9 @@ spec:
       - backend:
           serviceName: ombi
           servicePort: ombi
+  - host: speedtest.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: speedtest
+          servicePort: speedtest
