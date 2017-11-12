@@ -5,17 +5,13 @@ metadata:
 spec:
   selector:
     app: deluge
-  type: NodePort
+  type: ClusterIP
+  clusterIP: 10.100.105.79
   ports:
-  - port: 80
-    name: deluge
-    targetPort: deluge
-  - nodePort: 30000
-    name: deluge-daemon
-    targetPort: deluge-daemon
+  - name: deluge
+    port: 80
+  - name: deluge-daemon
     port: 58846
-  - nodePort: 30001
-    name: deluge-bt
-    targetPort: deluge-bt
+  - name: deluge-bt
     port: 54199
 

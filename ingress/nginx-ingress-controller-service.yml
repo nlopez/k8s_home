@@ -4,15 +4,13 @@ metadata:
   name: nginx-ingress
   namespace: nginx-ingress
 spec:
-  externalTrafficPolicy: Local
-  type: NodePort
+  type: ClusterIP
+  clusterIP: 10.107.201.242
   ports:
   - name: http
-    nodePort: 30080
     port: 80
     protocol: TCP
   - name: https
-    nodePort: 30443
     port: 443
     protocol: TCP
   selector:

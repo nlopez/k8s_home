@@ -43,7 +43,7 @@ spec:
       paths:
       - backend:
           serviceName: httpbin
-          servicePort: 80
+          servicePort: httpbin
 
   - host: a.desertbluffs.com
     http:
@@ -51,28 +51,28 @@ spec:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: b.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: c.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: d.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: e.desertbluffs.com
     http:
       paths:
@@ -85,35 +85,35 @@ spec:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: g.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: h.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: i.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: j.desertbluffs.com
     http:
       paths:
       - path: /oauth2
         backend:
           serviceName: oauth2-proxy
-          servicePort: 80
+          servicePort: oauth2-proxy
   - host: k.desertbluffs.com
     http:
       paths:

@@ -3,12 +3,10 @@ kind: Service
 metadata:
   name: pms
 spec:
-  externalTrafficPolicy: Local
   selector:
     app: pms
-  type: NodePort
+  type: ClusterIP
+  clusterIP: 10.101.12.213
   ports:
   - name: pms
     port: 32400
-    targetPort: 32400
-    nodePort: 32400
