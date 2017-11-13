@@ -1,10 +1,9 @@
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: nginx-ingress-controller
   namespace: nginx-ingress
 spec:
-  replicas: 1
   selector:
     matchLabels:
         k8s-app: nginx-ingress-lb
@@ -13,8 +12,6 @@ spec:
       labels:
         k8s-app: nginx-ingress-lb
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: cecil.radoncanyon.com
       serviceAccountName: nginx-ingress-serviceaccount
       containers:
         - name: nginx-ingress-controller
