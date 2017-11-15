@@ -10,3 +10,8 @@ spec:
   ports:
   - name: pms
     port: 32400
+    targetPort: 32400
+    nodePort: 32400
+  - name: webtools
+    port: 33400
+    targetPort: 33400
