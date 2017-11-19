@@ -87,3 +87,9 @@ spec:
       - backend:
           serviceName: nzbhydra
           servicePort: nzbhydra
+  - host: m.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: grafana
+          servicePort: grafana

@@ -126,6 +126,13 @@ spec:
       - backend:
           serviceName: ombi
           servicePort: ombi
+  - host: m.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy
   - host: speedtest.desertbluffs.com
     http:
       paths:
