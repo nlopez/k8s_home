@@ -1,14 +1,14 @@
 apiVersion: extensions/v1beta1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: httpbin
   labels:
-    k8s-app: httpbin
+    app: httpbin
 spec:
   template:
     metadata:
       labels:
-        k8s-app: httpbin
+        app: httpbin
     spec:
       nodeSelector:
         kubernetes.io/hostname: cecil.radoncanyon.com

@@ -3,10 +3,14 @@ kind: Service
 metadata:
   name: httpbin
   labels:
-    k8s-app: httpbin
+    app: httpbin
+  annotations:
+    kube-router.io/service.dsr: "tunnel"
 spec:
   ports:
-  - port: 80
-    targetPort: httpbin
+  - port: 8080
+    targetPort: 8080
+  externalIPs:
+  - 10.24.85.5
   selector:
-    k8s-app: httpbin
+    app: httpbin
