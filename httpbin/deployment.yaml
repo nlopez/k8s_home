@@ -1,5 +1,5 @@
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: httpbin
   labels:
@@ -10,8 +10,6 @@ spec:
       labels:
         app: httpbin
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: cecil.radoncanyon.com
       terminationGracePeriodSeconds: 60
       containers:
       - name: httpbin

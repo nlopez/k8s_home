@@ -3,9 +3,14 @@ kind: Service
 metadata:
   name: nginx-ingress
   namespace: nginx-ingress
+  annotations:
+    kube-router.io/service.dsr: "tunnel"
 spec:
+  selector:
+    k8s-app: nginx-ingress-lb
   type: ClusterIP
-  clusterIP: 10.107.201.242
+  externalIPs:
+  - 10.69.96.1
   ports:
   - name: http
     port: 80
@@ -13,5 +18,4 @@ spec:
   - name: https
     port: 443
     protocol: TCP
-  selector:
-    k8s-app: nginx-ingress-lb
+
