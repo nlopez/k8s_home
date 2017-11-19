@@ -31,9 +31,6 @@ spec:
         - name: pms
           subPath: config
           mountPath: /config
-        - name: pms
-          subPath: transcode
-          mountPath: /transcode
         - name: gpu
           mountPath: /dev/dri/card0
         - name: media
