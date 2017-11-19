@@ -9,8 +9,9 @@ spec:
   selector:
     k8s-app: nginx-ingress-lb
   type: ClusterIP
+  clusterIP: 10.103.90.122
   externalIPs:
-  - 10.69.96.1
+  - 10.10.10.100
   ports:
   - name: http
     port: 80

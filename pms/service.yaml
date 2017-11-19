@@ -8,12 +8,11 @@ spec:
   selector:
     app: pms
   type: ClusterIP
+  clusterIP: 10.99.244.168
   externalIPs:
-  - 10.69.96.2
+  - 10.69.96.4
   ports:
   - name: pms
     port: 32400
-    targetPort: 32400
   - name: webtools
     port: 33400
-    targetPort: 33400
