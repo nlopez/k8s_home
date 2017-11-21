@@ -8,8 +8,6 @@ metadata:
 spec:
   selector:
     k8s-app: nginx-ingress-lb
-  type: ClusterIP
-  clusterIP: 10.103.90.122
   externalIPs:
   - 10.10.10.100
   ports:
