@@ -2,17 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: pms
-  annotations:
-    kube-router.io/service.dsr: "tunnel"
 spec:
-  selector:
-    app: pms
-  type: ClusterIP
-  clusterIP: 10.99.244.168
-  externalIPs:
-  - 10.69.96.4
   ports:
-  - name: pms
+  - protocol: TCP
     port: 32400
-  - name: webtools
-    port: 33400
+    targetPort: 32400
+  type: ExternalName
+  externalName: 192.168.222.110
