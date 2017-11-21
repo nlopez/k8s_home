@@ -3,8 +3,40 @@ kind: Ingress
 metadata:
   name: ingress-noauth
   annotations:
+    kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"
 spec:
+  tls:
+  - hosts:
+    - desertbluffs.com
+    - a.desertbluffs.com
+    - b.desertbluffs.com
+    - c.desertbluffs.com
+    - d.desertbluffs.com
+    - e.desertbluffs.com
+    - f.desertbluffs.com
+    - g.desertbluffs.com
+    - h.desertbluffs.com
+    - i.desertbluffs.com
+    - j.desertbluffs.com
+    - k.desertbluffs.com
+    - l.desertbluffs.com
+    - m.desertbluffs.com
+    - n.desertbluffs.com
+    - o.desertbluffs.com
+    - p.desertbluffs.com
+    - q.desertbluffs.com
+    - r.desertbluffs.com
+    - s.desertbluffs.com
+    - t.desertbluffs.com
+    - u.desertbluffs.com
+    - v.desertbluffs.com
+    - w.desertbluffs.com
+    - x.desertbluffs.com
+    - y.desertbluffs.com
+    - z.desertbluffs.com
+    - speedtest.desertbluffs.com
+    secretName: desertbluffs-tls-noauth
   rules:
   - host: desertbluffs.com
     http:
