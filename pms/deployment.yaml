@@ -33,9 +33,6 @@ spec:
           mountPath: /config
         - name: gpu
           mountPath: /dev/dri/card0
-        - name: media
-          subPath: movies
-          mountPath: /media/movies
           readOnly: true
         - name: media
           mountPath: /media
