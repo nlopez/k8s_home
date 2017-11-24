@@ -1,0 +1,62 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pms
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pms
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge.radoncanyon.com
+      volumes:
+      - name: media
+        hostPath:
+          path: /mnt/media
+      - name: pms
+        hostPath:
+          path: /dockerfs/pms
+      - name: gpu
+        hostPath:
+          path: /dev/dri/card0
+          type: CharDevice
+      containers:
+      - name: pms
+        image: plexinc/pms-docker:public
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: pms
+          subPath: config
+          mountPath: /config
+        - name: gpu
+          mountPath: /dev/dri/card0
+        - name: media
+          subPath: movies
+          mountPath: /media/movies
+          readOnly: true
+        - name: media
+          mountPath: /media
+          readOnly: true
+        env:
+        - name: CHANGE_CONFIG_DIR_OWNERSHIP
+          value: 'false'
+        - name: PLEX_UID
+          value: '1001'
+        - name: PLEX_GID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: pms
+          containerPort: 32400
+        - name: webtools
+          containerPort: 33400
+        livenessProbe:
+          httpGet:
+            path: /web/index.html
+            port: pms
+          initialDelaySeconds: 60
+          periodSeconds: 5

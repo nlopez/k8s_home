@@ -3,9 +3,14 @@ kind: Service
 metadata:
   name: pms
 spec:
+  selector:
+    app: pms
+  type: ClusterIP
+  clusterIP: 10.105.240.82
   ports:
-  - protocol: TCP
+  - name: pms
     port: 32400
     targetPort: 32400
-  type: ExternalName
-  externalName: 192.168.222.110
+  - name: webtools
+    port: 33400
+    targetPort: 33400
