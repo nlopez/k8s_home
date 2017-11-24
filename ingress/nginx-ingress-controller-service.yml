@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: nginx-ingress
   namespace: nginx-ingress
-  annotations:
-    kube-router.io/service.dsr: "tunnel"
+  # annotations:
+  #   kube-router.io/service.dsr: "tunnel"
 spec:
   selector:
     k8s-app: nginx-ingress-lb
+  clusterIP: 10.97.197.239
   externalIPs:
   - 10.10.10.100
   ports:

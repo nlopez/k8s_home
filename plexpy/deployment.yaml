@@ -10,7 +10,7 @@ spec:
         app: plexpy
     spec:
       nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
+        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: plexpy
         hostPath:
@@ -25,10 +25,10 @@ spec:
         - name: plexpy
           subPath: config
           mountPath: /config
-        - name: pms
-          subPath: config/Library/Application Support/Plex Media Server/Logs
-          mountPath: /logs
-          readOnly: true
+        # - name: pms
+        #   subPath: config/Library/Application Support/Plex Media Server/Logs
+        #   mountPath: /logs
+        #   readOnly: true
         env:
         - name: PUID
           value: '1001'
@@ -45,4 +45,3 @@ spec:
             port: plexpy
           initialDelaySeconds: 60
           periodSeconds: 5
-

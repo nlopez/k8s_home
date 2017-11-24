@@ -5,13 +5,14 @@ metadata:
 spec:
   selector:
     app: deluge
-  type: ClusterIP
-  clusterIP: 10.100.105.79
+  clusterIP: 10.100.2.94
   ports:
   - name: deluge
-    port: 80
+    port: 8112
+    targetPort: 8112
   - name: deluge-daemon
-    port: 58846
+    port: 19058
+    targetPort: 19058
   - name: deluge-bt
-    port: 54199
-
+    port: 22722
+    targetPort: 22722

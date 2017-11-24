@@ -45,9 +45,9 @@ spec:
         ports:
         - containerPort: 8112
           name: deluge
-        - containerPort: 58846
+        - containerPort: 19058
           name: deluge-daemon
-        - containerPort: 54199
+        - containerPort: 22722
           name: deluge-bt
         livenessProbe:
           httpGet:
