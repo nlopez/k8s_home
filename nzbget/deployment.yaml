@@ -18,6 +18,9 @@ spec:
       - name: media
         hostPath:
           path: /mnt/media
+      - name: downloads
+        hostPath:
+          path: /mnt/media/downloads/nas1
       containers:
       - name: nzbget
         image: linuxserver/nzbget
@@ -28,8 +31,7 @@ spec:
         - name: nzbget
           subPath: intermediate
           mountPath: /intermediate
-        - name: media
-          subPath: downloads
+        - name: downloads
           mountPath: /downloads
         env:
         - name: PUID

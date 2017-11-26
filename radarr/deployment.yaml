@@ -18,6 +18,9 @@ spec:
       - name: radarr
         hostPath:
           path: /dockerfs/radarr
+      - name: downloads
+        hostPath:
+          path: /mnt/media/downloads/nas1
       containers:
       - name: radarr
         image: linuxserver/radarr
@@ -26,11 +29,10 @@ spec:
           subPath: config
           mountPath: /config
         - name: media
-          subPath: downloads
-          mountPath: /downloads
-        - name: media
           subPath: movies
           mountPath: /movies
+        - name: downloads
+          mountPath: /downloads
         env:
         - name: PUID
           value: '1001'

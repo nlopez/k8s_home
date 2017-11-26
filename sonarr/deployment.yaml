@@ -21,6 +21,9 @@ spec:
       - name: rtc
         hostPath:
           path: /dev/rtc
+      - name: downloads
+        hostPath:
+          path: /mnt/media/downloads/nas1
       containers:
       - name: sonarr
         image: linuxserver/sonarr
@@ -28,9 +31,6 @@ spec:
         - name: sonarr
           subPath: config
           mountPath: /config
-        - name: media
-          subPath: downloads
-          mountPath: /downloads
         - name: media
           subPath: anime
           mountPath: /media/anime
@@ -40,6 +40,8 @@ spec:
         - name: rtc
           mountPath: /dev/rtc
           readOnly: true
+        - name: downloads
+          mountPath: /downloads
         env:
         - name: PUID
           value: '1001'
@@ -50,10 +52,4 @@ spec:
         ports:
         - name: sonarr
           containerPort: 8989
-        livenessProbe:
-          httpGet:
-            path: /
-            port: sonarr
-          initialDelaySeconds: 60
-          periodSeconds: 5
 
