@@ -10,7 +10,7 @@ spec:
         app: emby
     spec:
       nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
+        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: media
         hostPath:
@@ -34,20 +34,7 @@ spec:
         - name: gpu
           mountPath: /dev/dri/card0
         - name: media
-          subPath: movies
-          mountPath: /media/movies
-          readOnly: true
-        - name: media
-          subPath: tv
-          mountPath: /media/tv
-          readOnly: true
-        - name: media
-          subPath: anime
-          mountPath: /media/anime
-          readOnly: true
-        - name: media
-          subPath: music
-          mountPath: /media/music
+          mountPath: /media
           readOnly: true
         env:
         - name: APP_UID
@@ -57,9 +44,3 @@ spec:
         ports:
         - name: emby
           containerPort: 8096
-        livenessProbe:
-          httpGet:
-            path: /web/index.html
-            port: emby
-          initialDelaySeconds: 60
-          periodSeconds: 5
