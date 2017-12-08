@@ -1,0 +1,98 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tv-nas1
+spec:
+  selector:
+    matchLabels:
+      name: tv-nas1
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tv-nas2
+spec:
+  selector:
+    matchLabels:
+      name: tv-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: movies-nas1
+spec:
+  selector:
+    matchLabels:
+      name: movies-nas1
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: movies-nas2
+spec:
+  selector:
+    matchLabels:
+      name: movies-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: anime-nas1
+spec:
+  selector:
+    matchLabels:
+      name: anime-nas1
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: anime-nas2
+spec:
+  selector:
+    matchLabels:
+      name: anime-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: downloads
+spec:
+  selector:
+    matchLabels:
+      name: downloads
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Ti
+---

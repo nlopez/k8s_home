@@ -12,9 +12,6 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
-      - name: media
-        hostPath:
-          path: /mnt/media
       - name: sonarr
         hostPath:
           path: /dockerfs/sonarr
@@ -22,8 +19,20 @@ spec:
         hostPath:
           path: /dev/rtc
       - name: downloads
-        hostPath:
-          path: /mnt/media/downloads/nas1
+        persistentVolumeClaim:
+          claimName: downloads
+      - name: tv-nas1
+        persistentVolumeClaim:
+          claimName: tv-nas1
+      - name: tv-nas2
+        persistentVolumeClaim:
+          claimName: tv-nas2
+      - name: anime-nas1
+        persistentVolumeClaim:
+          claimName: anime-nas1
+      - name: anime-nas2
+        persistentVolumeClaim:
+          claimName: anime-nas2
       containers:
       - name: sonarr
         image: linuxserver/sonarr
@@ -31,12 +40,14 @@ spec:
         - name: sonarr
           subPath: config
           mountPath: /config
-        - name: media
-          subPath: anime
-          mountPath: /media/anime
-        - name: media
-          subPath: tv
-          mountPath: /media/tv
+        - name: anime-nas1
+          mountPath: /media/anime/nas1
+        - name: anime-nas2
+          mountPath: /media/anime/nas2
+        - name: tv-nas1
+          mountPath: /media/tv/nas1
+        - name: tv-nas2
+          mountPath: /media/tv/nas2
         - name: rtc
           mountPath: /dev/rtc
           readOnly: true
