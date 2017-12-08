@@ -10,7 +10,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -24,7 +24,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -38,7 +38,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -52,7 +52,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -66,7 +66,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -80,7 +80,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -94,5 +94,18 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Ti
+      storage: 1Pi
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: music
+spec:
+  selector:
+    matchLabels:
+      name: music
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi

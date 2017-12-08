@@ -102,3 +102,19 @@ spec:
   nfs:
     server: 192.168.222.149
     path: "/mnt/etank/media/downloads"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: music
+  labels:
+    name: music
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.222.149
+    path: "/mnt/etank/media/music"
+

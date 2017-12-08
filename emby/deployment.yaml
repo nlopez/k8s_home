@@ -12,9 +12,6 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
-      - name: media
-        hostPath:
-          path: /mnt/media
       - name: emby
         hostPath:
           path: /dockerfs/emby
@@ -22,6 +19,24 @@ spec:
         hostPath:
           path: /dev/dri/card0
           type: CharDevice
+      - name: anime-nas1
+        persistentVolumeClaim:
+          claimName: anime-nas1
+      - name: anime-nas2
+        persistentVolumeClaim:
+          claimName: anime-nas2
+      - name: tv-nas1
+        persistentVolumeClaim:
+          claimName: tv-nas1
+      - name: tv-nas2
+        persistentVolumeClaim:
+          claimName: tv-nas2
+      - name: movies-nas1
+        persistentVolumeClaim:
+          claimName: movies-nas1
+      - name: movies-nas2
+        persistentVolumeClaim:
+          claimName: movies-nas2
       containers:
       - name: emby
         image: emby/embyserver
@@ -33,8 +48,23 @@ spec:
           mountPath: /config
         - name: gpu
           mountPath: /dev/dri/card0
-        - name: media
-          mountPath: /media
+        - name: anime-nas1
+          mountPath: /media/anime/nas1
+          readOnly: true
+        - name: anime-nas2
+          mountPath: /media/anime/nas2
+          readOnly: true
+        - name: tv-nas1
+          mountPath: /media/tv/nas1
+          readOnly: true
+        - name: tv-nas2
+          mountPath: /media/tv/nas2
+          readOnly: true
+        - name: movies-nas1
+          mountPath: /media/movies/nas1
+          readOnly: true
+        - name: movies-nas2
+          mountPath: /media/movies/nas2
           readOnly: true
         env:
         - name: APP_UID

@@ -15,12 +15,9 @@ spec:
       - name: nzbget
         hostPath:
           path: /dockerfs/nzbget
-      - name: media
-        hostPath:
-          path: /mnt/media
       - name: downloads
-        hostPath:
-          path: /mnt/media/downloads/nas1
+        persistentVolumeClaim:
+          claimName: downloads
       containers:
       - name: nzbget
         image: linuxserver/nzbget

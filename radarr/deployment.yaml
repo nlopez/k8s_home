@@ -12,15 +12,18 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
-      - name: media
-        hostPath:
-          path: /mnt/media
       - name: radarr
         hostPath:
           path: /dockerfs/radarr
       - name: downloads
-        hostPath:
-          path: /mnt/media/downloads/nas1
+        persistentVolumeClaim:
+          claimName: downloads
+      - name: movies-nas1
+        persistentVolumeClaim:
+          claimName: movies-nas1
+      - name: movies-nas2
+        persistentVolumeClaim:
+          claimName: movies-nas2
       containers:
       - name: radarr
         image: linuxserver/radarr
@@ -28,9 +31,10 @@ spec:
         - name: radarr
           subPath: config
           mountPath: /config
-        - name: media
-          subPath: movies
-          mountPath: /movies
+        - name: movies-nas1
+          mountPath: /movies/nas1
+        - name: movies-nas2
+          mountPath: /movies/nas2
         - name: downloads
           mountPath: /downloads
         env:
