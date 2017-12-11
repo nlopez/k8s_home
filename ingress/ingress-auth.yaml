@@ -49,8 +49,8 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: freenas
-          servicePort: freenas
+          serviceName: pms
+          servicePort: webtools
   - host: c.desertbluffs.com
     http:
       paths:

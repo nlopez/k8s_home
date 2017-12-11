@@ -19,6 +19,9 @@ spec:
         hostPath:
           path: /dev/dri/card0
           type: CharDevice
+      - name: transcode
+        emptyDir:
+          medium: Memory
       - name: anime-nas1
         persistentVolumeClaim:
           claimName: anime-nas1
@@ -49,8 +52,7 @@ spec:
         - name: pms
           subPath: config
           mountPath: /config
-        - name: pms
-          subPath: transcode
+        - name: transcode
           mountPath: /transcode
         - name: gpu
           mountPath: /dev/dri/card0

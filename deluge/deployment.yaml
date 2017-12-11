@@ -43,7 +43,7 @@ spec:
           value: 'America/New_York'
         ports:
         - containerPort: 8112
-          name: deluge
+          name: deluge-webui
         - containerPort: 19058
           name: deluge-daemon
         - containerPort: 22722
