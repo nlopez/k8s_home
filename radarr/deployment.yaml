@@ -32,9 +32,9 @@ spec:
           subPath: config
           mountPath: /config
         - name: movies-nas1
-          mountPath: /movies/nas1
+          mountPath: /media/movies/nas1
         - name: movies-nas2
-          mountPath: /movies/nas2
+          mountPath: /media/movies/nas2
         - name: downloads
           mountPath: /downloads
         env:
