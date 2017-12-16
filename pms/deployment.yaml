@@ -92,4 +92,9 @@ spec:
           containerPort: 32400
         - name: webtools
           containerPort: 33400
-
+        livenessProbe:
+          httpGet:
+            path: /web/index.html
+            port: pms
+          initialDelaySeconds: 60
+          periodSeconds: 5
