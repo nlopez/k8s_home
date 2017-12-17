@@ -91,9 +91,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: downloads
+  name: downloads-nas1
   labels:
-    name: downloads
+    name: downloads-nas1
 spec:
   capacity:
     storage: 1Pi
@@ -101,6 +101,21 @@ spec:
     - ReadWriteMany
   nfs:
     server: 192.168.222.149
+    path: "/mnt/etank/media/downloads"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: downloads-nas2
+  labels:
+    name: downloads-nas2
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.222.114
     path: "/mnt/etank/media/downloads"
 ---
 apiVersion: v1

@@ -85,11 +85,25 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: downloads
+  name: downloads-nas1
 spec:
   selector:
     matchLabels:
-      name: downloads
+      name: downloads-nas1
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: downloads-nas2
+spec:
+  selector:
+    matchLabels:
+      name: downloads-nas2
   accessModes:
     - ReadWriteMany
   resources:
