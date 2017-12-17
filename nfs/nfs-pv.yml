@@ -101,7 +101,7 @@ spec:
     - ReadWriteMany
   nfs:
     server: 192.168.222.149
-    path: "/mnt/etank/media/downloads"
+    path: "/mnt/etank/scratch/downloads"
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -116,7 +116,7 @@ spec:
     - ReadWriteMany
   nfs:
     server: 192.168.222.114
-    path: "/mnt/etank/media/downloads"
+    path: "/mnt/etank/scratch/downloads"
 ---
 apiVersion: v1
 kind: PersistentVolume
