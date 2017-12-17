@@ -18,9 +18,9 @@ spec:
       - name: rtc
         hostPath:
           path: /dev/rtc
-      - name: downloads
+      - name: downloads-nas2
         persistentVolumeClaim:
-          claimName: downloads
+          claimName: downloads-nas2
       - name: tv-nas1
         persistentVolumeClaim:
           claimName: tv-nas1
@@ -51,8 +51,8 @@ spec:
         - name: rtc
           mountPath: /dev/rtc
           readOnly: true
-        - name: downloads
-          mountPath: /downloads
+        - name: downloads-nas2
+          mountPath: /downloads/nas2
         env:
         - name: PUID
           value: '1001'

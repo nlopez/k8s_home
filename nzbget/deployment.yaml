@@ -15,9 +15,12 @@ spec:
       - name: nzbget
         hostPath:
           path: /dockerfs/nzbget
-      - name: downloads
+      - name: downloads-nas1
         persistentVolumeClaim:
-          claimName: downloads
+          claimName: downloads-nas1
+      - name: downloads-nas2
+        persistentVolumeClaim:
+          claimName: downloads-nas2
       containers:
       - name: nzbget
         image: linuxserver/nzbget
@@ -28,8 +31,10 @@ spec:
         - name: nzbget
           subPath: intermediate
           mountPath: /intermediate
-        - name: downloads
-          mountPath: /downloads
+        - name: downloads-nas1
+          mountPath: /downloads/nas1
+        - name: downloads-nas2
+          mountPath: /downloads/nas2
         env:
         - name: PUID
           value: '1001'
