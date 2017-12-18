@@ -15,37 +15,33 @@ spec:
       - name: pms
         hostPath:
           path: /dockerfs/pms
-      - name: gpu
-        hostPath:
-          path: /dev/dri/card0
-          type: CharDevice
       - name: transcode
         emptyDir:
           medium: Memory
       - name: anime-nas1
-        persistentVolumeClaim:
-          claimName: anime-nas1
+        hostPath:
+          path: /mnt/media/anime/nas1
       - name: anime-nas2
-        persistentVolumeClaim:
-          claimName: anime-nas2
+        hostPath:
+          path: /mnt/media/anime/nas2
       - name: tv-nas1
-        persistentVolumeClaim:
-          claimName: tv-nas1
+        hostPath:
+          path: /mnt/media/tv/nas2
       - name: tv-nas2
-        persistentVolumeClaim:
-          claimName: tv-nas2
+        hostPath:
+          path: /mnt/media/tv/nas2
       - name: movies-nas1
-        persistentVolumeClaim:
-          claimName: movies-nas1
+        hostPath:
+          path: /mnt/media/movies/nas1
       - name: movies-nas2
-        persistentVolumeClaim:
-          claimName: movies-nas2
+        hostPath:
+          path: /mnt/media/movies/nas1
       - name: music
-        persistentVolumeClaim:
-          claimName: music
+        hostPath:
+          path: /mnt/media/music/nas1
       containers:
       - name: pms
-        image: plexinc/pms-docker:beta
+        image: plexinc/pms-docker
         securityContext:
           privileged: true
         volumeMounts:
@@ -54,8 +50,6 @@ spec:
           mountPath: /config
         - name: transcode
           mountPath: /transcode
-        - name: gpu
-          mountPath: /dev/dri/card0
           readOnly: true
         - name: anime-nas1
           mountPath: /media/anime/nas1
