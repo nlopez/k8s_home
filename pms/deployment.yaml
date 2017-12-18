@@ -50,7 +50,6 @@ spec:
           mountPath: /config
         - name: transcode
           mountPath: /transcode
-          readOnly: true
         - name: anime-nas1
           mountPath: /media/anime/nas1
           readOnly: true
