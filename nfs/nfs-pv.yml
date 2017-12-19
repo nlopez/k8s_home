@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.149
+    server: nas1.radoncanyon.com
     path: "/mnt/etank/media/tv"
 ---
 apiVersion: v1
@@ -25,7 +25,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.114
+    server: nas2.radoncanyon.com
     path: "/mnt/etank/media/tv"
 ---
 apiVersion: v1
@@ -40,7 +40,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.149
+    server: nas1.radoncanyon.com
     path: "/mnt/etank/media/movies"
 ---
 apiVersion: v1
@@ -55,7 +55,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.114
+    server: nas2.radoncanyon.com
     path: "/mnt/etank/media/movies"
 ---
 apiVersion: v1
@@ -70,7 +70,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.149
+    server: nas1.radoncanyon.com
     path: "/mnt/etank/media/anime"
 ---
 apiVersion: v1
@@ -85,7 +85,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.114
+    server: nas2.radoncanyon.com
     path: "/mnt/etank/media/anime"
 ---
 apiVersion: v1
@@ -100,7 +100,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.149
+    server: nas1.radoncanyon.com
     path: "/mnt/etank/scratch/downloads"
 ---
 apiVersion: v1
@@ -115,21 +115,36 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.114
+    server: nas2.radoncanyon.com
     path: "/mnt/etank/scratch/downloads"
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: music
+  name: music-nas1
   labels:
-    name: music
+    name: music-nas1
 spec:
   capacity:
     storage: 1Pi
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 192.168.222.149
+    server: nas1.radoncanyon.com
+    path: "/mnt/etank/media/music"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: music-nas2
+  labels:
+    name: music-nas2
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nas2.radoncanyon.com
     path: "/mnt/etank/media/music"
 

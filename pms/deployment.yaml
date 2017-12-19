@@ -19,26 +19,29 @@ spec:
         emptyDir:
           medium: Memory
       - name: anime-nas1
-        hostPath:
-          path: /mnt/media/anime/nas1
+        persistentVolumeClaim:
+          claimName: anime-nas1
       - name: anime-nas2
-        hostPath:
-          path: /mnt/media/anime/nas2
+        persistentVolumeClaim:
+          claimName: anime-nas2
       - name: tv-nas1
-        hostPath:
-          path: /mnt/media/tv/nas2
+        persistentVolumeClaim:
+          claimName: tv-nas1
       - name: tv-nas2
-        hostPath:
-          path: /mnt/media/tv/nas2
+        persistentVolumeClaim:
+          claimName: tv-nas2
       - name: movies-nas1
-        hostPath:
-          path: /mnt/media/movies/nas1
+        persistentVolumeClaim:
+          claimName: movies-nas1
       - name: movies-nas2
-        hostPath:
-          path: /mnt/media/movies/nas1
-      - name: music
-        hostPath:
-          path: /mnt/media/music/nas1
+        persistentVolumeClaim:
+          claimName: movies-nas2
+      - name: music-nas1
+        persistentVolumeClaim:
+          claimName: music-nas1
+      - name: music-nas2
+        persistentVolumeClaim:
+          claimName: music-nas2
       containers:
       - name: pms
         image: plexinc/pms-docker
@@ -68,8 +71,11 @@ spec:
         - name: movies-nas2
           mountPath: /media/movies/nas2
           readOnly: true
-        - name: music
-          mountPath: /media/music
+        - name: music-nas1
+          mountPath: /media/music/nas1
+          readOnly: true
+        - name: music-nas2
+          mountPath: /media/music/nas2
           readOnly: true
         env:
         - name: CHANGE_CONFIG_DIR_OWNERSHIP

@@ -113,11 +113,25 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: music
+  name: music-nas1
 spec:
   selector:
     matchLabels:
-      name: music
+      name: music-nas1
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: music-nas2
+spec:
+  selector:
+    matchLabels:
+      name: music-nas2
   accessModes:
     - ReadWriteMany
   resources:

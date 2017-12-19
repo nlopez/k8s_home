@@ -18,21 +18,24 @@ spec:
       - name: rtc
         hostPath:
           path: /dev/rtc
+      - name: downloads-nas1
+        persistentVolumeClaim:
+          claimName: downloads-nas1
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
-      - name: tv-nas1
-        persistentVolumeClaim:
-          claimName: tv-nas1
-      - name: tv-nas2
-        persistentVolumeClaim:
-          claimName: tv-nas2
       - name: anime-nas1
         persistentVolumeClaim:
           claimName: anime-nas1
       - name: anime-nas2
         persistentVolumeClaim:
           claimName: anime-nas2
+      - name: tv-nas1
+        persistentVolumeClaim:
+          claimName: tv-nas1
+      - name: tv-nas2
+        persistentVolumeClaim:
+          claimName: tv-nas2
       containers:
       - name: sonarr
         image: linuxserver/sonarr
@@ -51,6 +54,8 @@ spec:
         - name: rtc
           mountPath: /dev/rtc
           readOnly: true
+        - name: downloads-nas1
+          mountPath: /downloads/nas1
         - name: downloads-nas2
           mountPath: /downloads/nas2
         env:
