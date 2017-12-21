@@ -20,7 +20,7 @@ spec:
           path: /dockerfs/pms
       containers:
       - name: plexpy
-        image: linuxserver/plexpy:latest
+        image: shiggins8/tautulli
         volumeMounts:
         - name: plexpy
           subPath: config
