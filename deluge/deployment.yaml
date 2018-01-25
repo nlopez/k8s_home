@@ -17,7 +17,7 @@ spec:
           path: /dockerfs/deluge
       - name: downloads
         persistentVolumeClaim:
-          claimName: downloads
+          claimName: downloads-nas1
       - name: deluge-secrets
         secret:
           secretName: deluge
