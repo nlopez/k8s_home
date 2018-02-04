@@ -15,9 +15,6 @@ spec:
       - name: pms
         hostPath:
           path: /dockerfs/pms
-      - name: transcode
-        emptyDir:
-          medium: Memory
       - name: anime-nas1
         persistentVolumeClaim:
           claimName: anime-nas1
@@ -51,7 +48,8 @@ spec:
         - name: pms
           subPath: config
           mountPath: /config
-        - name: transcode
+        - name: pms
+          subPath: transcode
           mountPath: /transcode
         - name: anime-nas1
           mountPath: /media/anime/nas1
