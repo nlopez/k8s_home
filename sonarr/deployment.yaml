@@ -10,7 +10,7 @@ spec:
         app: sonarr
     spec:
       nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
+        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: sonarr
         hostPath:

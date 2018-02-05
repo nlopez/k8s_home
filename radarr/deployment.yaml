@@ -10,7 +10,7 @@ spec:
         app: radarr
     spec:
       nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
+        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: radarr
         hostPath:
