@@ -19,23 +19,23 @@ spec:
         hostPath:
           path: /dev/rtc
       - name: downloads-nas1
-        persistentVolumeClaim:
-          claimName: downloads-nas1
+        hostPath:
+          path: /mnt/downloads/nas1
       - name: downloads-nas2
-        persistentVolumeClaim:
-          claimName: downloads-nas2
+        hostPath:
+          path: /mnt/downloads/nas2
       - name: anime-nas1
-        persistentVolumeClaim:
-          claimName: anime-nas1
+        hostPath:
+          path: /mnt/media/anime/nas1
       - name: anime-nas2
-        persistentVolumeClaim:
-          claimName: anime-nas2
+        hostPath:
+          path: /mnt/media/anime/nas2
       - name: tv-nas1
-        persistentVolumeClaim:
-          claimName: tv-nas1
+        hostPath:
+          path: /mnt/media/tv/nas1
       - name: tv-nas2
-        persistentVolumeClaim:
-          claimName: tv-nas2
+        hostPath:
+          path: /mnt/media/tv/nas2
       containers:
       - name: sonarr
         image: linuxserver/sonarr
