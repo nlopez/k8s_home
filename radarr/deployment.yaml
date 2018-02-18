@@ -19,11 +19,11 @@ spec:
         hostPath:
           path: /dockerfs/nzbget/DestDir
       - name: movies-nas1
-        hostPath:
-          path: /mnt/media/movies/nas1
+        persistentVolumeClaim:
+          claimName: movies-nas1
       - name: movies-nas2
-        hostPath:
-          path: /mnt/media/movies/nas2
+        persistentVolumeClaim:
+          claimName: movies-nas2
       containers:
       - name: radarr
         image: linuxserver/radarr

@@ -16,11 +16,11 @@ spec:
         hostPath:
           path: /dockerfs/nzbget
       - name: downloads-nas1
-        hostPath:
-          path: /mnt/downloads/nas1
+        persistentVolumeClaim:
+          claimName: downloads-nas1
       - name: downloads-nas2
-        hostPath:
-          path: /mnt/downloads/nas2
+        persistentVolumeClaim:
+          claimName: downloads-nas2
       containers:
       - name: nzbget
         image: linuxserver/nzbget
