@@ -15,9 +15,6 @@ spec:
       - name: sonarr
         hostPath:
           path: /dockerfs/sonarr
-      - name: rtc
-        hostPath:
-          path: /dev/rtc
       - name: destdir
         hostPath:
           path: /dockerfs/nzbget/DestDir
@@ -48,9 +45,6 @@ spec:
           mountPath: /media/tv/nas1
         - name: tv-nas2
           mountPath: /media/tv/nas2
-        - name: rtc
-          mountPath: /dev/rtc
-          readOnly: true
         - name: destdir
           mountPath: /DestDir
         env:
