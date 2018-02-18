@@ -29,12 +29,8 @@ spec:
           subPath: config
           mountPath: /config
         - name: nzbget
-          subPath: intermediate
-          mountPath: /intermediate
-        - name: downloads-nas1
-          mountPath: /downloads/nas1
-        - name: downloads-nas2
-          mountPath: /downloads/nas2
+          subPath: DestDir
+          mountPath: /DestDir
         env:
         - name: PUID
           value: '1001'

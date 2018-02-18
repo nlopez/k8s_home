@@ -18,12 +18,9 @@ spec:
       - name: rtc
         hostPath:
           path: /dev/rtc
-      - name: downloads-nas1
+      - name: destdir
         hostPath:
-          path: /mnt/downloads/nas1
-      - name: downloads-nas2
-        hostPath:
-          path: /mnt/downloads/nas2
+          path: /dockerfs/nzbget/DestDir
       - name: anime-nas1
         hostPath:
           path: /mnt/media/anime/nas1
@@ -54,10 +51,8 @@ spec:
         - name: rtc
           mountPath: /dev/rtc
           readOnly: true
-        - name: downloads-nas1
-          mountPath: /downloads/nas1
-        - name: downloads-nas2
-          mountPath: /downloads/nas2
+        - name: destdir
+          mountPath: /DestDir
         env:
         - name: PUID
           value: '1001'
