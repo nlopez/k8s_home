@@ -89,4 +89,3 @@ spec:
           containerPort: 32400
         - name: webtools
           containerPort: 33400
-
