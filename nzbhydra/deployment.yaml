@@ -32,8 +32,7 @@ spec:
         - containerPort: 5075
           name: nzbhydra
         livenessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: nzbhydra
           initialDelaySeconds: 60
           periodSeconds: 5

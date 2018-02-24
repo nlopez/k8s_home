@@ -36,8 +36,7 @@ spec:
         - name: nzbget
           containerPort: 6789
         livenessProbe:
-          httpGet:
-            path: /jsonrpc/version
+          tcpSocket:
             port: nzbget
           initialDelaySeconds: 60
           periodSeconds: 5

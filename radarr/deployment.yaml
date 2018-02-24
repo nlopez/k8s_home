@@ -48,8 +48,7 @@ spec:
         - name: radarr
           containerPort: 7878
         livenessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: radarr
           initialDelaySeconds: 60
           periodSeconds: 5
