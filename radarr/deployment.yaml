@@ -15,9 +15,12 @@ spec:
       - name: radarr
         hostPath:
           path: /dockerfs/radarr
-      - name: destdir
+      - name: downloads-nas1
         hostPath:
-          path: /dockerfs/nzbget/DestDir
+          path: /downloads/nas1
+      - name: downloads-nas2
+        hostPath:
+          path: /downloads/nas2
       - name: movies-nas1
         persistentVolumeClaim:
           claimName: movies-nas1
@@ -35,8 +38,8 @@ spec:
           mountPath: /media/movies/nas1
         - name: movies-nas2
           mountPath: /media/movies/nas2
-        - name: destdir
-          mountPath: /DestDir
+        - name: downloads-nas2
+          mountPath: /downloads/nas2
         env:
         - name: PUID
           value: '1001'

@@ -15,9 +15,12 @@ spec:
       - name: sonarr
         hostPath:
           path: /dockerfs/sonarr
-      - name: destdir
-        hostPath:
-          path: /dockerfs/nzbget/DestDir
+      - name: downloads-nas1
+        persistentVolumeClaim:
+          claimName: downloads-nas1
+      - name: downloads-nas2
+        persistentVolumeClaim:
+          claimName: downloads-nas1
       - name: anime-nas1
         persistentVolumeClaim:
           claimName: anime-nas1
@@ -45,8 +48,10 @@ spec:
           mountPath: /media/tv/nas1
         - name: tv-nas2
           mountPath: /media/tv/nas2
-        - name: destdir
-          mountPath: /DestDir
+        - name: downloads-nas1
+          mountPath: /downloads/nas1
+        - name: downloads-nas2
+          mountPath: /downloads/nas2
         env:
         - name: PUID
           value: '1001'
