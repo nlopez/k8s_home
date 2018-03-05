@@ -20,7 +20,7 @@ spec:
           claimName: downloads-nas1
       - name: downloads-nas2
         persistentVolumeClaim:
-          claimName: downloads-nas1
+          claimName: downloads-nas2
       containers:
       - name: nzbget
         image: linuxserver/nzbget

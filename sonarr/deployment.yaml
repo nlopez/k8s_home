@@ -20,7 +20,7 @@ spec:
           claimName: downloads-nas1
       - name: downloads-nas2
         persistentVolumeClaim:
-          claimName: downloads-nas1
+          claimName: downloads-nas2
       - name: anime-nas1
         persistentVolumeClaim:
           claimName: anime-nas1
