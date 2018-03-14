@@ -1,1 +1,2 @@
 .secret/** filter=git-crypt diff=git-crypt
+cert-manager/letsencrypt-private-key.yaml filter=git-crypt diff=git-crypt
