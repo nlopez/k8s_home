@@ -12,5 +12,19 @@ spec:
     # Name of a secret used to store the ACME account private key from step 3
     privateKeySecretRef:
       name: letsencrypt-private-key
-    # Enable the HTTP-01 challenge provider
-    http01: {}
+    # ACME DNS-01 provider configurations
+    dns01:
+      # Here we define a list of DNS-01 providers that can solve DNS challenges
+      providers:
+      - name: clouddns
+        clouddns:
+          serviceAccountSecretRef:
+            name: clouddns-service-account
+            key: service-account.json
+          project: freenas-nginx
+      - name: route53
+        route53:
+          accessKeyID: AKIAI5QPNCKXR5D3BAEA
+          secretAccessKeySecretRef:
+            name: route53-config
+            key: secret-access-key
