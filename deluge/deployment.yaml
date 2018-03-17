@@ -10,7 +10,7 @@ spec:
         app: deluge
     spec:
       nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
+        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: deluge
         hostPath:
@@ -23,7 +23,7 @@ spec:
           secretName: deluge
       containers:
       - name: deluge
-        image: linuxserver/deluge:latest
+        image: linuxserver/deluge:112
         volumeMounts:
         - name: deluge
           subPath: config
@@ -48,9 +48,14 @@ spec:
           name: deluge-daemon
         - containerPort: 22722
           name: deluge-bt
+        readinessProbe:
+          tcpSocket:
+            port: deluge-bt
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
-          httpGet:
-            path: /
-            port: deluge-webui
-          initialDelaySeconds: 60
-          periodSeconds: 5
+          tcpSocket:
+            port: deluge-bt
+          initialDelaySeconds: 15
+          periodSeconds: 20
+
