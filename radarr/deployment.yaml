@@ -29,7 +29,7 @@ spec:
           claimName: movies-nas2
       containers:
       - name: radarr
-        image: linuxserver/radarr
+        image: linuxserver/radarr:98
         volumeMounts:
         - name: radarr
           subPath: config
@@ -52,9 +52,14 @@ spec:
         ports:
         - name: radarr
           containerPort: 7878
+        readinessProbe:
+          tcpSocket:
+            port: radarr
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
           tcpSocket:
             port: radarr
-          initialDelaySeconds: 60
-          periodSeconds: 5
+          initialDelaySeconds: 15
+          periodSeconds: 20
 

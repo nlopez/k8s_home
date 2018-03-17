@@ -35,7 +35,7 @@ spec:
           claimName: tv-nas2
       containers:
       - name: sonarr
-        image: linuxserver/sonarr
+        image: linuxserver/sonarr:122
         volumeMounts:
         - name: sonarr
           subPath: config
@@ -62,8 +62,13 @@ spec:
         ports:
         - name: sonarr
           containerPort: 8989
+        readinessProbe:
+          tcpSocket:
+            port: sonarr
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
           tcpSocket:
-            port: radarr
-          initialDelaySeconds: 60
-          periodSeconds: 5
+            port: sonarr
+          initialDelaySeconds: 15
+          periodSeconds: 20

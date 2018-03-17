@@ -23,7 +23,7 @@ spec:
           claimName: downloads-nas2
       containers:
       - name: nzbget
-        image: linuxserver/nzbget
+        image: linuxserver/nzbget:112
         volumeMounts:
         - name: nzbget
           subPath: config
@@ -45,9 +45,14 @@ spec:
         ports:
         - name: nzbget
           containerPort: 6789
+        readinessProbe:
+          tcpSocket:
+            port: nzbget
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
           tcpSocket:
             port: nzbget
-          initialDelaySeconds: 60
-          periodSeconds: 5
+          initialDelaySeconds: 15
+          periodSeconds: 20
 
