@@ -55,4 +55,3 @@ spec:
             port: nzbget
           initialDelaySeconds: 15
           periodSeconds: 20
-
