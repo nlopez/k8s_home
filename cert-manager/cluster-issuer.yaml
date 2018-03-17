@@ -16,10 +16,15 @@ spec:
     dns01:
       # Here we define a list of DNS-01 providers that can solve DNS challenges
       providers:
-      - name: cf-dns
-        cloudflare:
-          email: nlopez@gmail.com
-          # A secretKeyRef to a cloudflare api key
-          apiKeySecretRef:
-            name: cloudflare-api-key
-            key: api-key.txt
+      - name: clouddns
+        clouddns:
+          serviceAccountSecretRef:
+            name: clouddns-service-account
+            key: service-account.json
+          project: freenas-nginx
+      - name: route53
+        route53:
+          accessKeyID: AKIAI5QPNCKXR5D3BAEA
+          secretAccessKeySecretRef:
+            name: route53-config
+            key: secret-access-key
