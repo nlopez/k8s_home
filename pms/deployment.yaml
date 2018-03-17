@@ -41,7 +41,7 @@ spec:
           claimName: music-nas2
       containers:
       - name: pms
-        image: plexinc/pms-docker:beta
+        image: plexinc/pms-docker:1.12.0.4829-6de959918
         securityContext:
           privileged: true
         volumeMounts:
@@ -89,3 +89,13 @@ spec:
           containerPort: 32400
         - name: webtools
           containerPort: 33400
+        readinessProbe:
+          tcpSocket:
+            port: pms
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: pms
+          initialDelaySeconds: 15
+          periodSeconds: 20
