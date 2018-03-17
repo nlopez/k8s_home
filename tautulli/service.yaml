@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: plexpy
+  name: tautulli
 spec:
   selector:
-    app: plexpy
+    app: tautulli
   ports:
-  - name: plexpy
+  - name: tautulli
     port: 8181
-    targetPort: plexpy
+    targetPort: tautulli

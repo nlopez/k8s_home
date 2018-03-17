@@ -1,34 +1,34 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: plexpy
+  name: tautulli
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: plexpy
+        app: tautulli
     spec:
       nodeSelector:
         kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
-      - name: plexpy
+      - name: tautulli
         hostPath:
           path: /dockerfs/plexpy
       - name: pms
         hostPath:
           path: /dockerfs/pms
       containers:
-      - name: plexpy
-        image: shiggins8/tautulli
+      - name: tautulli
+        image: linuxserver/tautulli:117
         volumeMounts:
-        - name: plexpy
+        - name: tautulli
           subPath: config
           mountPath: /config
-        # - name: pms
-        #   subPath: config/Library/Application Support/Plex Media Server/Logs
-        #   mountPath: /logs
-        #   readOnly: true
+        - name: pms
+          subPath: config/Library/Application Support/Plex Media Server/Logs
+          mountPath: /logs
+          readOnly: true
         env:
         - name: PUID
           value: '1001'
@@ -37,11 +37,15 @@ spec:
         - name: TZ
           value: 'America/New_York'
         ports:
-        - name: plexpy
+        - name: tautulli
           containerPort: 8181
+        readinessProbe:
+          tcpSocket:
+            port: tautulli
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
-          httpGet:
-            path: /home
-            port: plexpy
-          initialDelaySeconds: 60
-          periodSeconds: 5
+          tcpSocket:
+            port: tautulli
+          initialDelaySeconds: 15
+          periodSeconds: 20
