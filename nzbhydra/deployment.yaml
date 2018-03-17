@@ -17,7 +17,7 @@ spec:
           path: /dockerfs/nzbhydra/config
       containers:
       - name: nzbhydra
-        image: linuxserver/hydra:latest
+        image: linuxserver/hydra:107
         volumeMounts:
         - name: nzbhydra-config
           mountPath: /config
@@ -31,8 +31,13 @@ spec:
         ports:
         - containerPort: 5075
           name: nzbhydra
+        readinessProbe:
+          tcpSocket:
+            port: nzbhydra
+          initialDelaySeconds: 5
+          periodSeconds: 10
         livenessProbe:
           tcpSocket:
             port: nzbhydra
-          initialDelaySeconds: 60
-          periodSeconds: 5
+          initialDelaySeconds: 15
+          periodSeconds: 20
