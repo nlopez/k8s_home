@@ -61,8 +61,8 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: plexpy
-          servicePort: plexpy
+          serviceName: tautulli
+          servicePort: tautulli
   - host: f.desertbluffs.com
     http:
       paths:
