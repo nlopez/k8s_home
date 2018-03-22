@@ -41,7 +41,7 @@ spec:
           claimName: music-nas2
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.12.0.4829-6de959918
+        image: plexinc/pms-docker:1.12.1.4885-1046ba85f
         securityContext:
           privileged: true
         volumeMounts:
