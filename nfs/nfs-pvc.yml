@@ -1,20 +1,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: tv-nas1
-spec:
-  selector:
-    matchLabels:
-      name: tv-nas1
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: tv-nas2
 spec:
   selector:
@@ -29,39 +15,11 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: movies-nas1
-spec:
-  selector:
-    matchLabels:
-      name: movies-nas1
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: movies-nas2
 spec:
   selector:
     matchLabels:
       name: movies-nas2
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: anime-nas1
-spec:
-  selector:
-    matchLabels:
-      name: anime-nas1
   accessModes:
     - ReadWriteMany
   resources:
@@ -104,20 +62,6 @@ spec:
   selector:
     matchLabels:
       name: downloads-nas2
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: music-nas1
-spec:
-  selector:
-    matchLabels:
-      name: music-nas1
   accessModes:
     - ReadWriteMany
   resources:
