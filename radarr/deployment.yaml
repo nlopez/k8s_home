@@ -15,15 +15,9 @@ spec:
       - name: radarr
         hostPath:
           path: /dockerfs/radarr
-      - name: downloads-nas1
-        persistentVolumeClaim:
-          claimName: downloads-nas1
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
-      - name: movies-nas1
-        persistentVolumeClaim:
-          claimName: movies-nas1
       - name: movies-nas2
         persistentVolumeClaim:
           claimName: movies-nas2
@@ -34,12 +28,8 @@ spec:
         - name: radarr
           subPath: config
           mountPath: /config
-        - name: movies-nas1
-          mountPath: /movies/nas1
         - name: movies-nas2
           mountPath: /movies/nas2
-        - name: downloads-nas1
-          mountPath: /downloads/nas1
         - name: downloads-nas2
           mountPath: /downloads/nas2
         env:

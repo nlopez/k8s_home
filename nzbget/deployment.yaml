@@ -15,9 +15,6 @@ spec:
       - name: nzbget
         hostPath:
           path: /dockerfs/nzbget
-      - name: downloads-nas1
-        persistentVolumeClaim:
-          claimName: downloads-nas1
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
@@ -31,8 +28,6 @@ spec:
         - name: nzbget
           subPath: intermediate
           mountPath: /intermediate
-        - name: downloads-nas1
-          mountPath: /downloads/nas1
         - name: downloads-nas2
           mountPath: /downloads/nas2
         env:

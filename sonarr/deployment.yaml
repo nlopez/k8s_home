@@ -15,21 +15,12 @@ spec:
       - name: sonarr
         hostPath:
           path: /dockerfs/sonarr
-      - name: downloads-nas1
-        persistentVolumeClaim:
-          claimName: downloads-nas1
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
-      - name: anime-nas1
-        persistentVolumeClaim:
-          claimName: anime-nas1
       - name: anime-nas2
         persistentVolumeClaim:
           claimName: anime-nas2
-      - name: tv-nas1
-        persistentVolumeClaim:
-          claimName: tv-nas1
       - name: tv-nas2
         persistentVolumeClaim:
           claimName: tv-nas2
@@ -40,16 +31,10 @@ spec:
         - name: sonarr
           subPath: config
           mountPath: /config
-        - name: anime-nas1
-          mountPath: /media/anime/nas1
         - name: anime-nas2
           mountPath: /media/anime/nas2
-        - name: tv-nas1
-          mountPath: /media/tv/nas1
         - name: tv-nas2
           mountPath: /media/tv/nas2
-        - name: downloads-nas1
-          mountPath: /downloads/nas1
         - name: downloads-nas2
           mountPath: /downloads/nas2
         env:
