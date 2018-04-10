@@ -76,18 +76,6 @@ spec:
         backend:
           serviceName: oauth2-proxy
           servicePort: oauth2-proxy
-  - host: k.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: emby
-          servicePort: emby
-  - host: l.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: ombi
-          servicePort: ombi
   - host: m.desertbluffs.com
     http:
       paths:
@@ -95,9 +83,4 @@ spec:
         backend:
           serviceName: oauth2-proxy
           servicePort: oauth2-proxy
-  - host: speedtest.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: speedtest
-          servicePort: speedtest
+
