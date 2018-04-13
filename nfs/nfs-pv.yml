@@ -35,6 +35,23 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  name: movies4k-nas2
+  labels:
+    name: movies4k-nas2
+  annotations:
+    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nas2.radoncanyon.com
+    path: "/mnt/etank/media/movies4k"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
   name: anime-nas2
   labels:
     name: anime-nas2

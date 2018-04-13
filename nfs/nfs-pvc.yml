@@ -29,6 +29,20 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
+  name: movies4k-nas2
+spec:
+  selector:
+    matchLabels:
+      name: movies4k-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
   name: anime-nas2
 spec:
   selector:

@@ -18,9 +18,9 @@ spec:
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
-      - name: movies-nas2
+      - name: movies4k-nas2
         persistentVolumeClaim:
-          claimName: movies-nas2
+          claimName: movies4k-nas2
       containers:
       - name: radarr4k
         image: linuxserver/radarr:98
@@ -28,8 +28,8 @@ spec:
         - name: radarr4k
           subPath: config
           mountPath: /config
-        - name: movies-nas2
-          mountPath: /movies/nas2
+        - name: movies4k-nas2
+          mountPath: /movies4k/nas2
         - name: downloads-nas2
           mountPath: /downloads/nas2
         env:
