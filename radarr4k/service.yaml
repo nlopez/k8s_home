@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr4k
+spec:
+  selector:
+    app: radarr4k
+  ports:
+  - name: radarr4k
+    port: 80
+    targetPort: 7878
