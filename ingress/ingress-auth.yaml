@@ -89,6 +89,12 @@ spec:
       - backend:
           serviceName: nzbhydra
           servicePort: nzbhydra
+  - host: j.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: radarr4k
+          servicePort: radarr4k
   - host: m.desertbluffs.com
     http:
       paths:
