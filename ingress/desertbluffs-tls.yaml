@@ -1,0 +1,73 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: desertbluffs-com
+  namespace: default
+spec:
+  secretName: desertbluffs-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: desertbluffs.com
+  dnsNames:
+  - desertbluffs.com
+  - a.desertbluffs.com
+  - b.desertbluffs.com
+  - c.desertbluffs.com
+  - d.desertbluffs.com
+  - e.desertbluffs.com
+  - f.desertbluffs.com
+  - g.desertbluffs.com
+  - h.desertbluffs.com
+  - i.desertbluffs.com
+  - j.desertbluffs.com
+  - k.desertbluffs.com
+  - l.desertbluffs.com
+  - m.desertbluffs.com
+  - n.desertbluffs.com
+  - o.desertbluffs.com
+  - p.desertbluffs.com
+  - q.desertbluffs.com
+  - r.desertbluffs.com
+  - s.desertbluffs.com
+  - t.desertbluffs.com
+  - u.desertbluffs.com
+  - v.desertbluffs.com
+  - w.desertbluffs.com
+  - x.desertbluffs.com
+  - y.desertbluffs.com
+  - z.desertbluffs.com
+  acme:
+    config:
+    # - dns01:
+    #     provider: route53
+    - http01:
+        ingressClass: nginx
+      domains:
+      - desertbluffs.com
+      - a.desertbluffs.com
+      - b.desertbluffs.com
+      - c.desertbluffs.com
+      - d.desertbluffs.com
+      - e.desertbluffs.com
+      - f.desertbluffs.com
+      - g.desertbluffs.com
+      - h.desertbluffs.com
+      - i.desertbluffs.com
+      - j.desertbluffs.com
+      - k.desertbluffs.com
+      - l.desertbluffs.com
+      - m.desertbluffs.com
+      - n.desertbluffs.com
+      - o.desertbluffs.com
+      - p.desertbluffs.com
+      - q.desertbluffs.com
+      - r.desertbluffs.com
+      - s.desertbluffs.com
+      - t.desertbluffs.com
+      - u.desertbluffs.com
+      - v.desertbluffs.com
+      - w.desertbluffs.com
+      - x.desertbluffs.com
+      - y.desertbluffs.com
+      - z.desertbluffs.com
