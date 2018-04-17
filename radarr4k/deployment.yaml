@@ -23,7 +23,7 @@ spec:
           claimName: movies4k-nas2
       containers:
       - name: radarr4k
-        image: linuxserver/radarr:98
+        image: linuxserver/radarr:105
         volumeMounts:
         - name: radarr4k
           subPath: config
