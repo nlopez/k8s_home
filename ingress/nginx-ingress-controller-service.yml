@@ -3,8 +3,6 @@ kind: Service
 metadata:
   name: nginx-ingress
   namespace: nginx-ingress
-  # annotations:
-  #   kube-router.io/service.dsr: "tunnel"
 spec:
   selector:
     k8s-app: nginx-ingress-lb
