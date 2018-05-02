@@ -20,7 +20,7 @@ spec:
           path: /dockerfs/pms
       containers:
       - name: tautulli
-        image: linuxserver/tautulli:117
+        image: linuxserver/tautulli:123
         volumeMounts:
         - name: tautulli
           subPath: config
