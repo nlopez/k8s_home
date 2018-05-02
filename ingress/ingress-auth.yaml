@@ -21,7 +21,7 @@ spec:
       paths:
       - backend:
           serviceName: deluge
-          servicePort: 8112
+          servicePort: deluge
   - host: b.desertbluffs.com
     http:
       paths:
