@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
     nginx.ingress.kubernetes.io/proxy-body-size: 10m
-    nginx.ingress.kubernetes.io/lua-resty-waf: "active"
+    # nginx.ingress.kubernetes.io/lua-resty-waf: "active"
 spec:
   tls:
   - hosts:
