@@ -79,3 +79,7 @@ spec:
             port: pms
           initialDelaySeconds: 15
           periodSeconds: 20
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/rm", "-f", "/usr/lib/plexmediaserver/Plex Relay"]

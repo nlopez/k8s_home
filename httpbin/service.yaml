@@ -4,8 +4,8 @@ metadata:
   name: httpbin
   labels:
     app: httpbin
-  annotations:
-    kube-router.io/service.dsr: "tunnel"
+  # annotations:
+    # kube-router.io/service.dsr: "tunnel"
 spec:
   ports:
   - name: httpbin
