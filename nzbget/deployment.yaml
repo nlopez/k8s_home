@@ -20,7 +20,7 @@ spec:
           claimName: downloads-nas2
       containers:
       - name: nzbget
-        image: linuxserver/nzbget:112
+        image: linuxserver/nzbget:123
         volumeMounts:
         - name: nzbget
           subPath: config

@@ -26,7 +26,7 @@ spec:
           claimName: tv-nas2
       containers:
       - name: sonarr
-        image: linuxserver/sonarr:129
+        image: linuxserver/sonarr:137
         volumeMounts:
         - name: sonarr
           subPath: config
