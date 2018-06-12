@@ -32,7 +32,7 @@ spec:
           claimName: music-nas2
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.13.0.5023-31d3c0c65
+        image: plexinc/pms-docker:1.13.2.5154-fd05be322
         volumeMounts:
         - name: pms
           subPath: config
