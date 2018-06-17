@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nextcloud
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: wedge.radoncanyon.com
+      volumes:
+      - name: config
+        hostPath:
+          path: /dockerfs/nextcloud
+      - name: mariadb
+        hostPath:
+          path: /dockerfs/nextcloud-mariadb
+      - name: data
+        persistentVolumeClaim:
+          claimName: nextcloud-data
+      containers:
+      - name: nextcloud
+        image: linuxserver/nextcloud:131
+        volumeMounts:
+        - name: config
+          subPath: config
+          mountPath: /config
+        - name: data
+          mountPath: /data
+      - name: mariadb
+        image: linuxserver/mariadb:123
+        volumeMounts:
+        - name: mariadb
+          subPath: config
+          mountPath: /config
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud
+              key: MYSQL_ROOT_PASSWORD
+        ports:
+        - name: nextcloud
+          containerPort: 443

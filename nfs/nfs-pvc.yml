@@ -95,3 +95,17 @@ spec:
   resources:
     requests:
       storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nextcloud-data
+spec:
+  selector:
+    matchLabels:
+      name: nextcloud-data
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
