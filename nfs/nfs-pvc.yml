@@ -109,3 +109,17 @@ spec:
   resources:
     requests:
       storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: deluge
+spec:
+  selector:
+    matchLabels:
+      name: deluge
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi

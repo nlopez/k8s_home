@@ -150,3 +150,20 @@ spec:
   nfs:
     server: nas2.radoncanyon.com
     path: "/mnt/etank/nextcloud"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: deluge
+  labels:
+    name: deluge
+  annotations:
+    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nas1.radoncanyon.com
+    path: "/mnt/etank/scratch/downloads/deluge"
