@@ -18,6 +18,12 @@ spec:
       - name: mariadb
         hostPath:
           path: /dockerfs/nextcloud-mariadb
+      - name: mariadb-databases
+        hostPath:
+          path: /dockerfs/nextcloud-mariadb/config/databases
+      - name: mariadb-log
+        hostPath:
+          path: /dockerfs/nextcloud-mariadb/config/log
       - name: data
         persistentVolumeClaim:
           claimName: nextcloud-data
@@ -36,6 +42,10 @@ spec:
         - name: mariadb
           subPath: config
           mountPath: /config
+        - name: mariadb-databases
+          mountPath: /config/databases
+        - name: mariadb-log
+          mountPath: /config/log
         env:
         - name: PUID
           value: '1001'
