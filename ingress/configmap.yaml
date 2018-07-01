@@ -6,4 +6,4 @@ data:
 kind: ConfigMap
 metadata:
   name: nginx-custom-configuration
-  namespace: nginx-ingress
+  namespace: ingress-nginx
