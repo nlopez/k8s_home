@@ -5,7 +5,8 @@ metadata:
 spec:
   selector:
     app: deluge
-  clusterIP: 10.100.2.94
+  externalIPs:
+  - 10.10.10.102
   ports:
   - name: deluge
     port: 8112
