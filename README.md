@@ -1,4 +1,8 @@
-# TODO
-- [ ] Use [ConfigMaps](https://kubernetes.io/docs/user-guide/configmap/) for common settings (`PUID`, `GUID`, `TZ`)
-- [ ] Use [PersistentVolumes](https://kubernetes.io/docs/user-guide/persistent-volumes/) to mount NFS via Kubernetes
-- [ ] See if you can reuse [named ports](pms/deployment.yaml#L51) more
+# k8s
+A collection of Kubernetes objects for my home setup
+
+## Notes
+### Helm
+`cert-manager` is installed via its Helm chart
+
+Upgrade with `helm upgrade cert-manager -f https://raw.githubusercontent.com/kubernetes/charts/master/stable/cert-manager/Chart.yaml stable/cert-manager`
