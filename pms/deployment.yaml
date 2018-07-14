@@ -15,6 +15,14 @@ spec:
       - name: pms
         hostPath:
           path: /dockerfs/pms
+      - name: gpu-render
+        hostPath:
+          path: /dev/dri/renderD128
+          type: CharDevice
+      - name: gpu-card
+        hostPath:
+          path: /dev/dri/card0
+          type: CharDevice
       - name: anime-nas2
         persistentVolumeClaim:
           claimName: anime-nas2
@@ -33,6 +41,8 @@ spec:
       containers:
       - name: pms
         image: plexinc/pms-docker:1.13.2.5154-fd05be322
+        securityContext:
+          privileged: true
         volumeMounts:
         - name: pms
           subPath: config
@@ -40,6 +50,10 @@ spec:
         - name: pms
           subPath: transcode
           mountPath: /transcode
+        - name: gpu-render
+          mountPath: /dev/dri/renderD128
+        - name: gpu-card
+          mountPath: /dev/dri/card0
         - name: anime-nas2
           mountPath: /media/anime/nas2
           readOnly: true
