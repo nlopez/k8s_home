@@ -3,6 +3,12 @@ A collection of Kubernetes objects for my home setup
 
 ## Notes
 ### Helm
-`cert-manager` is installed via its Helm chart
+[RBAC Helm install](https://github.com/kubernetes/helm/blob/master/docs/rbac.md)
 
-Upgrade with `helm upgrade cert-manager -f https://raw.githubusercontent.com/kubernetes/charts/master/stable/cert-manager/Chart.yaml stable/cert-manager`
+```bash
+kubectl apply -f tiller
+helm init --service-account tiller
+```
+
+### cert-manager
+`cert-manager` is installed via its [Helm chart](https://github.com/kubernetes/charts/tree/master/stable/cert-manager)
