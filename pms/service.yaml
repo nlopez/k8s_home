@@ -8,7 +8,6 @@ spec:
   selector:
     app: pms
   type: ClusterIP
-  clusterIP: 10.105.240.82
   externalIPs:
   - 10.10.10.101
   ports:
