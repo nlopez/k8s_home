@@ -38,5 +38,4 @@ spec:
     http: *oauth2_proxy
   - host: m.desertbluffs.com
     http: *oauth2_proxy
-  - host: p.desertbluffs.com
-    http: *oauth2_proxy
+

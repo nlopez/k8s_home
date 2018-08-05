@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: thelounge
+spec:
+  selector:
+    app: thelounge
+  type: ClusterIP
+  externalIPs:
+   - 10.10.10.103
+  ports:
+  - name: thelounge
+    port: 9000
+    targetPort: 9000
+  - name: identd
+    port: 113
+    targetPort: 113
+

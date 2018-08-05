@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: thelounge
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - nextcloud.desertbluffs.com
+    secretName: desertbluffs-tls
+  rules:
+  - host: p.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: thelounge
+          servicePort: 9000

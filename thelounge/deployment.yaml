@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: thelounge
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: thelounge
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: biggs.radoncanyon.com
+      volumes:
+      - name: thelounge
+        hostPath:
+          path: /dockerfs/thelounge
+      containers:
+      - name: thelounge
+        image: thelounge/thelounge:3.0.0-pre.7-alpine
+        volumeMounts:
+        - name: thelounge
+          subPath: data
+          mountPath: /var/opt/thelounge
+        ports:
+        - containerPort: 9000
+          name: thelounge
+
