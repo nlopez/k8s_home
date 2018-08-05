@@ -75,9 +75,3 @@ spec:
       - backend:
           serviceName: grafana
           servicePort: grafana
-  - host: p.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: freenas-syncthing
-          servicePort: 8384
