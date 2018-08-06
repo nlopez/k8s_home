@@ -29,7 +29,7 @@ spec:
           claimName: nextcloud-data
       containers:
       - name: nextcloud
-        image: linuxserver/nextcloud:131
+        image: linuxserver/nextcloud:138
         volumeMounts:
         - name: config
           subPath: config
@@ -37,7 +37,7 @@ spec:
         - name: data
           mountPath: /data
       - name: mariadb
-        image: linuxserver/mariadb:123
+        image: linuxserver/mariadb:130
         volumeMounts:
         - name: mariadb
           subPath: config
