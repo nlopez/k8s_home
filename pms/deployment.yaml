@@ -9,12 +9,12 @@ spec:
       labels:
         app: pms
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: pms
-        hostPath:
-          path: /dockerfs/pms
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
       - name: gpu-render
         hostPath:
           path: /dev/dri/renderD128
