@@ -9,12 +9,12 @@ spec:
       labels:
         app: nzbget
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: nzbget
-        hostPath:
-          path: /dockerfs/nzbget
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nzbget
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
