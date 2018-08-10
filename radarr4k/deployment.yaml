@@ -9,12 +9,12 @@ spec:
       labels:
         app: radarr4k
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: radarr4k
-        hostPath:
-          path: /dockerfs/radarr4k
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:radarr4k
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
