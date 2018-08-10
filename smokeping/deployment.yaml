@@ -9,12 +9,12 @@ spec:
       labels:
         app: smokeping
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: smokeping
-        hostPath:
-          path: /dockerfs/smokeping
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:smokeping
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
       - name: oauth2-proxy
         secret:
           secretName: oauth2-proxy
