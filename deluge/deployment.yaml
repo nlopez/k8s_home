@@ -9,12 +9,12 @@ spec:
       labels:
         app: deluge
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: deluge
-        hostPath:
-          path: /dockerfs/deluge
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:deluge
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
       - name: downloads
         persistentVolumeClaim:
           claimName: deluge
@@ -58,4 +58,3 @@ spec:
             port: deluge-bt
           initialDelaySeconds: 15
           periodSeconds: 20
-
