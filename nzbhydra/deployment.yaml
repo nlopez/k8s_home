@@ -9,17 +9,18 @@ spec:
       labels:
         app: nzbhydra
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: nzbhydra-config
-        hostPath:
-          path: /dockerfs/nzbhydra/config
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nzbhydra
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
       containers:
       - name: nzbhydra
         image: linuxserver/hydra:107
         volumeMounts:
         - name: nzbhydra-config
+          subPath: config
           mountPath: /config
         env:
         - name: PUID
