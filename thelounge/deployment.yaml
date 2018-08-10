@@ -13,8 +13,14 @@ spec:
         kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: thelounge
-        hostPath:
-          path: /dockerfs/thelounge
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:thelounge
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
+      - name: config
+        configMap:
+          name:
+            thelounge
       containers:
       - name: thelounge
         image: thelounge/thelounge:3.0.0-pre.7-alpine
@@ -22,6 +28,9 @@ spec:
         - name: thelounge
           subPath: data
           mountPath: /var/opt/thelounge
+        - name: config
+          mountPath: /var/opt/thelounge/config.js
+          subPath: config.js
         ports:
         - containerPort: 9000
           name: thelounge
