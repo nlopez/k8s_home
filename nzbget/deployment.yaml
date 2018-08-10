@@ -9,6 +9,18 @@ spec:
       labels:
         app: nzbget
     spec:
+      affinity:
+        # Don't co-locate nzbget with pms since nzbget can use a lot of
+        # storage througput when downloading
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pms
+            topologyKey: "kubernetes.io/hostname"
       volumes:
       - name: nzbget
         iscsi:
