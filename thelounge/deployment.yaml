@@ -9,8 +9,6 @@ spec:
       labels:
         app: thelounge
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: biggs.radoncanyon.com
       volumes:
       - name: thelounge
         iscsi:
