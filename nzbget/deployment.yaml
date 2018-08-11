@@ -30,6 +30,8 @@ spec:
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
+      - name: intermediate
+        emptyDir: {}
       containers:
       - name: nzbget
         image: linuxserver/nzbget:124
@@ -37,8 +39,7 @@ spec:
         - name: nzbget
           subPath: config
           mountPath: /config
-        - name: nzbget
-          subPath: intermediate
+        - name: intermediate
           mountPath: /intermediate
         - name: downloads-nas2
           mountPath: /downloads/nas2
