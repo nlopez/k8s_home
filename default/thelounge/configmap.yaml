@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: thelounge
+  namespace: default
 data:
   config.js: |
     "use strict";
