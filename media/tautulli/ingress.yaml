@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tautulli
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+spec:
+  tls:
+  - hosts:
+    - d.desertbluffs.com
+  rules:
+  - host: d.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: tautulli
+          servicePort: tautulli
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tautulli-oauth2
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - d.desertbluffs.com
+  rules:
+  - host: d.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy

@@ -1,0 +1,66 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nzbget
+  namespace: media
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nzbget
+    spec:
+      affinity:
+        # Don't co-locate nzbget with pms since nzbget can use a lot of
+        # storage througput when downloading
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pms
+            topologyKey: "kubernetes.io/hostname"
+      volumes:
+      - name: nzbget
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nzbget
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
+      - name: downloads-nas2
+        persistentVolumeClaim:
+          claimName: downloads-nas2
+      - name: intermediate
+        emptyDir: {}
+      containers:
+      - name: nzbget
+        image: linuxserver/nzbget:124
+        volumeMounts:
+        - name: nzbget
+          subPath: config
+          mountPath: /config
+        - name: intermediate
+          mountPath: /intermediate
+        - name: downloads-nas2
+          mountPath: /downloads/nas2
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: nzbget
+          containerPort: 6789
+        readinessProbe:
+          tcpSocket:
+            port: nzbget
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: nzbget
+          initialDelaySeconds: 15
+          periodSeconds: 20

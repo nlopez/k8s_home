@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pms
+  namespace: media
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+spec:
+  tls:
+  - hosts:
+    - e.desertbluffs.com
+  rules:
+  - host: e.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: pms
+          servicePort: 32400

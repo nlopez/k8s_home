@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      volumes:
+      - name: radarr
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:radarr
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
+      - name: downloads-nas2
+        persistentVolumeClaim:
+          claimName: downloads-nas2
+      - name: movies-nas2
+        persistentVolumeClaim:
+          claimName: movies-nas2
+      containers:
+      - name: radarr
+        image: linuxserver/radarr:118
+        volumeMounts:
+        - name: radarr
+          subPath: config
+          mountPath: /config
+        - name: movies-nas2
+          mountPath: /movies/nas2
+        - name: downloads-nas2
+          mountPath: /downloads/nas2
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: radarr
+          containerPort: 7878
+        readinessProbe:
+          tcpSocket:
+            port: radarr
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: radarr
+          initialDelaySeconds: 15
+          periodSeconds: 20

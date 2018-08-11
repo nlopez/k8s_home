@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sonarr
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+spec:
+  tls:
+  - hosts:
+    - h.desertbluffs.com
+  rules:
+  - host: h.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonarr
+          servicePort: sonarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sonarr-oauth2
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - h.desertbluffs.com
+  rules:
+  - host: h.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy

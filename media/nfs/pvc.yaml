@@ -1,0 +1,117 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tv-nas2
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: tv-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: movies-nas2
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: movies-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: movies4k-nas2
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: movies4k-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: anime-nas2
+spec:
+  selector:
+    matchLabels:
+      name: anime-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: downloads-nas1
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: downloads-nas1
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: downloads-nas2
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: downloads-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: music-nas2
+spec:
+  selector:
+    matchLabels:
+      name: music-nas2
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: deluge
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: deluge
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi

@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nzbhydra
+  namespace: media
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nzbhydra
+    spec:
+      volumes:
+      - name: nzbhydra-config
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nzbhydra
+          targetPortal: nas1.radoncanyon.com
+          lun: 0
+      containers:
+      - name: nzbhydra
+        image: linuxserver/hydra:107
+        volumeMounts:
+        - name: nzbhydra-config
+          subPath: config
+          mountPath: /config
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - containerPort: 5075
+          name: nzbhydra
+        readinessProbe:
+          tcpSocket:
+            port: nzbhydra
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: nzbhydra
+          initialDelaySeconds: 15
+          periodSeconds: 20

@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deluge
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+spec:
+  tls:
+  - hosts:
+    - a.desertbluffs.com
+  rules:
+  - host: a.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: deluge
+          servicePort: deluge
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deluge-oauth2
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - a.desertbluffs.com
+  rules:
+  - host: a.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy
