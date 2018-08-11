@@ -1,0 +1,16 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: tautulli
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: tautulli
+  ingress:
+  - ports:
+    - port: 8181
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx

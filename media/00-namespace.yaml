@@ -4,3 +4,13 @@ metadata:
   name: media
   labels:
     name: media
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: media
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress

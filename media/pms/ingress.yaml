@@ -17,3 +17,40 @@ spec:
       - backend:
           serviceName: pms
           servicePort: 32400
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pms-webtools
+  namespace: media
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - b.desertbluffs.com
+  rules:
+  - host: b.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: pms
+          servicePort: webtools
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pms-webtools-oauth2
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - b.desertbluffs.com
+  rules:
+  - host: b.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy

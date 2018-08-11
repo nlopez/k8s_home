@@ -1,0 +1,25 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: nzbhydra
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: nzbhydra
+  ingress:
+  - ports:
+    - port: 5075
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: sonarr
+    - podSelector:
+        matchLabels:
+          app: radarr
+    - podSelector:
+        matchLabels:
+          app: radarr4k

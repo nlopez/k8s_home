@@ -1,29 +1,32 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: pms
+  name: deluge-ui
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: pms
+      app: deluge
   ingress:
   - ports:
-    - port: 32400
-    from: []
+    - port: 8112
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
 ---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: pms-webtools
+  name: deluge-bt
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: pms
+      app: deluge
   ingress:
   - ports:
-    - port: 33400
+    - port: 22722
     from:
     - namespaceSelector:
         matchLabels:
