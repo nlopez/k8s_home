@@ -47,6 +47,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: anime-nas2
+  namespace: media
 spec:
   selector:
     matchLabels:
@@ -91,6 +92,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: music-nas2
+  namespace: media
 spec:
   selector:
     matchLabels:
