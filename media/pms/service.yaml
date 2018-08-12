@@ -4,7 +4,7 @@ metadata:
   name: pms
   namespace: media
   annotations:
-    kube-router.io/service.dsr: "tunnel"
+    # kube-router.io/service.dsr: "tunnel"
 spec:
   selector:
     app: pms
