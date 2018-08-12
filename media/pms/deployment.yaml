@@ -39,6 +39,8 @@ spec:
       - name: music-nas2
         persistentVolumeClaim:
           claimName: music-nas2
+      - name: transcode
+        emptyDir: {}
       containers:
       - name: pms
         image: plexinc/pms-docker:1.13.5.5291-6fa5e50a8
@@ -48,8 +50,7 @@ spec:
         - name: pms
           subPath: config
           mountPath: /config
-        - name: pms
-          subPath: transcode
+        - name: transcode
           mountPath: /transcode
         - name: gpu-render
           mountPath: /dev/dri/renderD128
