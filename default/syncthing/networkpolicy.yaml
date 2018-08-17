@@ -1,0 +1,45 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: syncthing-ui
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: syncthing
+  ingress:
+  - ports:
+    - port: 8384
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: syncthing-bt
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: syncthing-bt
+  ingress:
+  - ports:
+    - port: 22000
+    from: []
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: syncthing-disco
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: syncthing
+  ingress:
+  - ports:
+    - port: 21027
+      protocol: UDP
+    from: []

@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: oauth2-proxy
-  namespace: media
+  namespace: default
 spec:
   replicas: 1
   template:
