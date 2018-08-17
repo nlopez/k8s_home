@@ -14,7 +14,7 @@ spec:
       - name: smokeping
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:smokeping
-          targetPortal: nas1.radoncanyon.com
+          targetPortal: nas1-storage.radoncanyon.com
           lun: 0
       - name: oauth2-proxy
         secret:

@@ -13,5 +13,5 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/nextcloud"

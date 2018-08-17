@@ -14,7 +14,7 @@ spec:
       - name: thelounge
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:thelounge
-          targetPortal: nas1.radoncanyon.com
+          targetPortal: nas1-storage.radoncanyon.com
           lun: 0
       - name: config
         configMap:

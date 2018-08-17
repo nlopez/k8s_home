@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/media/tv"
 ---
 apiVersion: v1
@@ -31,7 +31,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/media/movies"
 ---
 apiVersion: v1
@@ -49,7 +49,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/media/movies4k"
 ---
 apiVersion: v1
@@ -67,7 +67,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/media/anime"
 ---
 apiVersion: v1
@@ -85,7 +85,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas1.radoncanyon.com
+    server: nas1-storage.radoncanyon.com
     path: "/mnt/etank/scratch/downloads"
 ---
 apiVersion: v1
@@ -103,7 +103,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/scratch/downloads"
 ---
 apiVersion: v1
@@ -121,7 +121,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas1.radoncanyon.com
+    server: nas1-storage.radoncanyon.com
     path: "/mnt/etank/media/music"
 ---
 apiVersion: v1
@@ -139,7 +139,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2.radoncanyon.com
+    server: nas2-storage.radoncanyon.com
     path: "/mnt/etank/media/music"
 ---
 apiVersion: v1
@@ -157,5 +157,5 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas1.radoncanyon.com
+    server: nas1-storage.radoncanyon.com
     path: "/mnt/etank/scratch/downloads/deluge"
