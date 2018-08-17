@@ -23,7 +23,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: syncthing-bt
+      app: syncthing
   ingress:
   - ports:
     - port: 22000
