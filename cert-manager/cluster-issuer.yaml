@@ -14,6 +14,7 @@ spec:
         route53:
           region: us-east-1
           accessKeyID: AKIAITMMOBOC4DLKJAUQ
+          hostedZoneID: Z3KB4M5M0P7MCT
           secretAccessKeySecretRef:
             name: route53-config
             key: secret-access-key
