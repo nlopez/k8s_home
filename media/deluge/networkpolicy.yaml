@@ -14,6 +14,9 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: ingress-nginx
+      podSelector:
+        matchLabels:
+          app: ingress-nginx
 ---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -27,7 +30,4 @@ spec:
   ingress:
   - ports:
     - port: 22722
-    from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
+    from: []
