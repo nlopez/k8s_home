@@ -43,7 +43,7 @@ spec:
         emptyDir: {}
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.13.5.5291-6fa5e50a8
+        image: plexinc/pms-docker:1.13.5.5332-21ab172de
         securityContext:
           privileged: true
         volumeMounts:
