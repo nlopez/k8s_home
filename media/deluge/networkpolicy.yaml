@@ -31,3 +31,20 @@ spec:
   - ports:
     - port: 22722
     from: []
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deluge-daemon
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: deluge
+  ingress:
+  - ports:
+    - port: 19058
+    from:
+    - ipBlock:
+        cidr: 192.168.0.0/16
+
