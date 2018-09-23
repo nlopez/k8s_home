@@ -100,3 +100,16 @@ spec:
           postStart:
             exec:
               command: ["/bin/rm", "-f", "/usr/lib/plexmediaserver/Plex Relay"]
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - nzbget
+                  - deluge
+              topologyKey: kubernetes.io/hostname

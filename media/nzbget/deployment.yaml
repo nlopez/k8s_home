@@ -64,3 +64,15 @@ spec:
             port: nzbget
           initialDelaySeconds: 15
           periodSeconds: 20
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - pms
+              topologyKey: kubernetes.io/hostname
