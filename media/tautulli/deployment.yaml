@@ -10,15 +10,18 @@ spec:
       labels:
         app: tautulli
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
       volumes:
       - name: tautulli
-        hostPath:
-          path: /dockerfs/plexpy
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:tautulli
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
       - name: pms
-        hostPath:
-          path: /dockerfs/pms
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
+          readOnly: true
       containers:
       - name: tautulli
         image: linuxserver/tautulli:136
