@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: netdata-freenas
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "/netdata"
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+spec:
+  tls:
+  - hosts:
+    - l.desertbluffs.com
+  rules:
+  - host: l.desertbluffs.com
+    http:
+      paths:
+      - path: /nas1
+        backend:
+          serviceName: nas1
+          servicePort: 443
+      - path: /nas2
+        backend:
+          serviceName: nas2
+          servicePort: 443
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: netdata-other
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+spec:
+  tls:
+  - hosts:
+    - l.desertbluffs.com
+  rules:
+  - host: l.desertbluffs.com
+    http:
+      paths:
+      - path: /biggs
+        backend:
+          serviceName: biggs
+          servicePort: 19999
+      - path: /wedge
+        backend:
+          serviceName: wedge
+          servicePort: 19999
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: netdata-oauth2
+  namespace: default
+spec:
+  tls:
+  - hosts:
+    - l.desertbluffs.com
+  rules:
+  - host: l.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy

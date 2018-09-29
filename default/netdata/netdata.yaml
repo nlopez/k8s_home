@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nas1
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: nas1.radoncanyon.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nas2
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: nas2.radoncanyon.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: biggs
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: biggs.radoncanyon.com
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wedge
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: wedge.radoncanyon.com
