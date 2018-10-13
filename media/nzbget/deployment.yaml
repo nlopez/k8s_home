@@ -35,7 +35,7 @@ spec:
         emptyDir: {}
       containers:
       - name: nzbget
-        image: linuxserver/nzbget:124
+        image: linuxserver/nzbget:144
         volumeMounts:
         - name: nzbget
           subPath: config

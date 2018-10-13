@@ -24,7 +24,7 @@ spec:
           claimName: movies-nas2
       containers:
       - name: radarr
-        image: linuxserver/radarr:118
+        image: linuxserver/radarr:134
         volumeMounts:
         - name: radarr
           subPath: config
