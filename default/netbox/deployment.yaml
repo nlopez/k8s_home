@@ -1,0 +1,162 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: netbox
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: netbox
+    spec:
+      volumes:
+      - name: netbox-secrets
+        secret:
+          secretName: netbox
+      - name: netbox-static-files
+        emptyDir: {}
+      - name: netbox-nginx-config
+        configMap:
+          name: netbox-nginx-config
+      - name: netbox-media-files
+        emptyDir: {}
+      - name: netbox-report-files
+        emptyDir: {}
+      - name: netbox-postgres-data
+        emptyDir: {}
+      - name: netbox-redis-data
+        emptyDir: {}
+      # - name: config
+      #   configMap:
+      #     name:
+      #       netbox
+      containers:
+      - name: netbox
+        image: ninech/netbox:v2.4.6
+        volumeMounts:
+        - name: netbox-secrets
+          mountPath: /run/secrets/superuser_password
+          subPath: superuser_password
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/superuser_api_token
+          subPath: superuser_api_token
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/db_password
+          subPath: db_password
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/secret_key
+          subPath: secret_key
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/redis_password
+          subPath: redis_password
+          readOnly: true
+        - name: netbox-static-files
+          mountPath: /opt/netbox/netbox/static
+        - name: netbox-media-files
+          mountPath: /opt/netbox/netbox/media
+        - name: netbox-report-files
+          mountPath: /etc/netbox/reports
+          readOnly: true
+        env:
+        - name: DB_NAME
+          value: netbox
+        - name: DB_USER
+          value: netbox
+        - name: DB_HOST
+          value: localhost
+        - name: MEDIA_ROOT
+          value: /opt/netbox/netbox/media
+        - name: REDIS_HOST
+          value: localhost
+        - name: SUPERUSER_NAME
+          value: admin
+        - name: SUPERUSER_EMAIL
+          value: admin@example.com
+        - name: WEBHOOKS_ENABLED
+          value: "true"
+      - name: netbox-worker
+        image: ninech/netbox:v2.4.6
+        command: ["/usr/local/bin/python3", "/opt/netbox/netbox/manage.py"]
+        args: ["rqworker"]
+        volumeMounts:
+        - name: netbox-secrets
+          mountPath: /run/secrets/superuser_password
+          subPath: superuser_password
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/superuser_api_token
+          subPath: superuser_api_token
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/db_password
+          subPath: db_password
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/secret_key
+          subPath: secret_key
+          readOnly: true
+        - name: netbox-secrets
+          mountPath: /run/secrets/redis_password
+          subPath: redis_password
+          readOnly: true
+        - name: netbox-static-files
+          mountPath: /opt/netbox/netbox/static
+        - name: netbox-media-files
+          mountPath: /opt/netbox/netbox/media
+        - name: netbox-report-files
+          mountPath: /etc/netbox/reports
+          readOnly: true
+        env:
+        - name: DB_NAME
+          value: netbox
+        - name: DB_USER
+          value: netbox
+        - name: DB_HOST
+          value: localhost
+        - name: MEDIA_ROOT
+          value: /opt/netbox/netbox/media
+        - name: REDIS_HOST
+          value: localhost
+        - name: SUPERUSER_NAME
+          value: admin
+        - name: SUPERUSER_EMAIL
+          value: admin@example.com
+        - name: WEBHOOKS_ENABLED
+          value: "true"
+      - name: nginx
+        image: nginx:1.15-alpine
+        command: ["/usr/sbin/nginx"]
+        args: ["-c", "/etc/netbox-nginx/nginx.conf"]
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: netbox-static-files
+          mountPath: /opt/netbox/netbox/static
+          readOnly: true
+        - name: netbox-nginx-config
+          mountPath: /etc/netbox-nginx
+          readOnly: true
+      - name: postgres
+        image: postgres:10.4-alpine
+        volumeMounts:
+        - name: netbox-postgres-data
+          mountPath: /var/lib/postgresql/data
+        env:
+        - name: POSTGRES_USER
+          value: netbox
+        - name: POSTGRES_PASSWORD
+          value: J5brHrAXFLQSif0K
+        - name: POSTGRES_DB
+          value: netbox
+      - name: redis
+        image: redis:4-alpine
+        command: ["/usr/local/bin/redis-server"]
+        args: ["--appendonly", "yes", "--requirepass", "H733Kdjndks81"]
+        volumeMounts:
+        - name: netbox-redis-data
+          mountPath: /data

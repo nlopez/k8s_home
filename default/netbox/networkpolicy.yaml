@@ -1,0 +1,13 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: netbox
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: netbox
+  ingress:
+  - ports:
+    - port: 8080
+    from: []
