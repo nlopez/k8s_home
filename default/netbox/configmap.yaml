@@ -1,6 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: netbox-env
+  namespace: default
+data:
+  DB_NAME: netbox
+  DB_USER: netbox
+  DB_HOST: localhost
+  MEDIA_ROOT: /opt/netbox/netbox/media
+  REDIS_HOST: localhost
+  SUPERUSER_NAME: admin
+  SUPERUSER_EMAIL: admin@example.com
+  WEBHOOKS_ENABLED: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: netbox-nginx-config
   namespace: default
 data:

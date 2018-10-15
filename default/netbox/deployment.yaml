@@ -62,23 +62,9 @@ spec:
         - name: netbox-report-files
           mountPath: /etc/netbox/reports
           readOnly: true
-        env:
-        - name: DB_NAME
-          value: netbox
-        - name: DB_USER
-          value: netbox
-        - name: DB_HOST
-          value: localhost
-        - name: MEDIA_ROOT
-          value: /opt/netbox/netbox/media
-        - name: REDIS_HOST
-          value: localhost
-        - name: SUPERUSER_NAME
-          value: admin
-        - name: SUPERUSER_EMAIL
-          value: admin@example.com
-        - name: WEBHOOKS_ENABLED
-          value: "true"
+        envFrom:
+        - configMapRef:
+            name: netbox-env
       - name: netbox-worker
         image: ninech/netbox:v2.4.6
         command: ["/usr/local/bin/python3", "/opt/netbox/netbox/manage.py"]
@@ -111,23 +97,9 @@ spec:
         - name: netbox-report-files
           mountPath: /etc/netbox/reports
           readOnly: true
-        env:
-        - name: DB_NAME
-          value: netbox
-        - name: DB_USER
-          value: netbox
-        - name: DB_HOST
-          value: localhost
-        - name: MEDIA_ROOT
-          value: /opt/netbox/netbox/media
-        - name: REDIS_HOST
-          value: localhost
-        - name: SUPERUSER_NAME
-          value: admin
-        - name: SUPERUSER_EMAIL
-          value: admin@example.com
-        - name: WEBHOOKS_ENABLED
-          value: "true"
+        envFrom:
+        - configMapRef:
+            name: netbox-env
       - name: nginx
         image: nginx:1.15-alpine
         command: ["/usr/sbin/nginx"]
