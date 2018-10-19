@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: tv-nas2
+  name: media
   namespace: media
   labels:
-    name: tv-nas2
+    name: media
   annotations:
     volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
 spec:
@@ -14,61 +14,7 @@ spec:
     - ReadWriteMany
   nfs:
     server: nas2-storage.radoncanyon.com
-    path: "/mnt/etank/media/tv"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: movies-nas2
-  namespace: media
-  labels:
-    name: movies-nas2
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nas2-storage.radoncanyon.com
-    path: "/mnt/etank/media/movies"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: movies4k-nas2
-  namespace: media
-  labels:
-    name: movies4k-nas2
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nas2-storage.radoncanyon.com
-    path: "/mnt/etank/media/movies4k"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: anime-nas2
-  namespace: media
-  labels:
-    name: anime-nas2
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nas2-storage.radoncanyon.com
-    path: "/mnt/etank/media/anime"
+    path: "/mnt/etank/media"
 ---
 apiVersion: v1
 kind: PersistentVolume
