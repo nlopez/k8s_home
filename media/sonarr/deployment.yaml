@@ -37,10 +37,8 @@ spec:
           - name: sonarr
             subPath: config
             mountPath: /config
-          - name: anime-nas2
-            mountPath: /media/anime/nas2
-          - name: tv-nas2
-            mountPath: /media/tv/nas2
+          - name: media
+            mountPath: /media
           - name: downloads-nas2
             mountPath: /downloads/nas2
       volumes:
@@ -52,9 +50,6 @@ spec:
       - name: downloads-nas2
         persistentVolumeClaim:
           claimName: downloads-nas2
-      - name: anime-nas2
+      - name: media
         persistentVolumeClaim:
-          claimName: anime-nas2
-      - name: tv-nas2
-        persistentVolumeClaim:
-          claimName: tv-nas2
+          claimName: media
