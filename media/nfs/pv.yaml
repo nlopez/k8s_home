@@ -55,42 +55,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: music-nas1
-  namespace: media
-  labels:
-    name: music-nas1
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nas1-storage.radoncanyon.com
-    path: "/mnt/etank/media/music"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: music-nas2
-  namespace: media
-  labels:
-    name: music-nas2
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nas2-storage.radoncanyon.com
-    path: "/mnt/etank/media/music"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
   name: deluge
   namespace: media
   labels:

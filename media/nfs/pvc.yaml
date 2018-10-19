@@ -46,21 +46,6 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: music-nas2
-  namespace: media
-spec:
-  selector:
-    matchLabels:
-      name: music-nas2
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: deluge
   namespace: media
 spec:
