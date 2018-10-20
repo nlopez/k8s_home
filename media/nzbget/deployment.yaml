@@ -30,6 +30,9 @@ spec:
           lun: 0
       - name: intermediate
         emptyDir: {}
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
       containers:
       - name: nzbget
         image: linuxserver/nzbget:144
@@ -39,6 +42,8 @@ spec:
           mountPath: /config
         - name: intermediate
           mountPath: /intermediate
+        - name: media
+          mountPath: /media
         env:
         - name: PUID
           value: '1001'
