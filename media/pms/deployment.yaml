@@ -28,7 +28,8 @@ spec:
         persistentVolumeClaim:
           claimName: media
       - name: transcode
-        emptyDir: {}
+        emptyDir:
+          medium: Memory
       containers:
       - name: pms
         image: plexinc/pms-docker:1.13.8.5395-10d48da0d
