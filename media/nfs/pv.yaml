@@ -37,24 +37,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: downloads-nas2
-  namespace: media
-  labels:
-    name: downloads-nas2
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: nas2-storage.radoncanyon.com
-    path: "/mnt/etank/scratch/downloads"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
   name: deluge
   namespace: media
   labels:

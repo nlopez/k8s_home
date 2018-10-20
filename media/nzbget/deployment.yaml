@@ -28,9 +28,6 @@ spec:
           iqn: iqn.2014-09.com.radoncanyon:nas1:nzbget
           targetPortal: nas1-storage.radoncanyon.com
           lun: 0
-      - name: downloads-nas2
-        persistentVolumeClaim:
-          claimName: downloads-nas2
       - name: intermediate
         emptyDir: {}
       containers:
@@ -42,8 +39,6 @@ spec:
           mountPath: /config
         - name: intermediate
           mountPath: /intermediate
-        - name: downloads-nas2
-          mountPath: /downloads/nas2
         env:
         - name: PUID
           value: '1001'
