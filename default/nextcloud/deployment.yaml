@@ -30,7 +30,7 @@ spec:
           claimName: nextcloud-data
       containers:
       - name: nextcloud
-        image: linuxserver/nextcloud:150
+        image: linuxserver/nextcloud:151
         volumeMounts:
         - name: config
           subPath: config
