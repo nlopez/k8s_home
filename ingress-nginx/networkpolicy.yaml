@@ -12,3 +12,20 @@ spec:
     - port: 80
     - port: 443
     from: []
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: default-http-backend
+  namespace: ingress-nginx
+spec:
+  podSelector:
+    matchLabels:
+      app: default-http-backend
+  ingress:
+  - ports:
+    - port: 8080
+    from:
+      - podSelector:
+          matchLabels:
+            app: ingress-nginx
