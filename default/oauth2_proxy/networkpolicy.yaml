@@ -13,4 +13,7 @@ spec:
     from:
     - namespaceSelector:
         matchLabels:
-          name: kube-system
+          name: ingress-nginx
+      podSelector:
+        matchLabels:
+          app: ingress-nginx
