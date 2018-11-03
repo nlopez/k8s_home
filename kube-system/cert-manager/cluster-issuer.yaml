@@ -11,11 +11,9 @@ spec:
       name: letsencrypt-private-key
     dns01:
       providers:
-      - name: route53
-        route53:
-          region: us-east-1
-          accessKeyID: AKIAITMMOBOC4DLKJAUQ
-          hostedZoneID: Z3KB4M5M0P7MCT
-          secretAccessKeySecretRef:
-            name: route53-config
-            key: secret-access-key
+      - name: cloudflare
+        cloudflare:
+          email: y26fpcpdk9@liamekaens.com
+          apiKeySecretRef:
+            name: cloudflare-api-key-secret
+            key: api-key
