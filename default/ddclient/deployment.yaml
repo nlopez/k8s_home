@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ddclient
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ddclient
+    spec:
+      volumes:
+      - name: config
+        configMap:
+          name:
+            ddclient
+      containers:
+      - name: ddclient
+        image: linuxserver/ddclient:134
+        volumeMounts:
+        - name: config
+          mountPath: /config

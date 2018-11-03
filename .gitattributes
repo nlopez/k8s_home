@@ -1,3 +1,4 @@
 .secret/** filter=git-crypt diff=git-crypt
 cert-manager/letsencrypt-private-key.yaml filter=git-crypt diff=git-crypt
 **/secret.yaml filter=git-crypt diff=git-crypt
+default/ddclient/configmap.yaml filter=git-crypt diff=git-crypt
