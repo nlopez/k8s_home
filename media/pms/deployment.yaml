@@ -28,8 +28,8 @@ spec:
         persistentVolumeClaim:
           claimName: media
       - name: transcode
-        emptyDir:
-          medium: Memory
+        emptyDir: {}
+          # medium: Memory
       containers:
       - name: pms
         image: plexinc/pms-docker:1.13.9.5456-ecd600442
@@ -72,10 +72,10 @@ spec:
             port: pms
           initialDelaySeconds: 15
           periodSeconds: 20
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/rm", "-f", "/usr/lib/plexmediaserver/Plex Relay"]
+        # lifecycle:
+        #   postStart:
+        #     exec:
+        #       command: ["/bin/rm", "-f", "/usr/lib/plexmediaserver/Plex Relay"]
       # affinity:
       #   podAntiAffinity:
       #     preferredDuringSchedulingIgnoredDuringExecution:
