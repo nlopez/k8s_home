@@ -28,7 +28,7 @@ spec:
         persistentVolumeClaim:
           claimName: media
       - name: transcode
-        emptyDir: {}
+        emptyDir:
           medium: Memory
       containers:
       - name: pms
