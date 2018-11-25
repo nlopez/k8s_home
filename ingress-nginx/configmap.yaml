@@ -1,9 +1,33 @@
+---
+kind: ConfigMap
 apiVersion: v1
+metadata:
+  name: nginx-configuration
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
 data:
   ssl-redirect: "true"
   server-tokens: "false"
+  ssl-protocols: "TLSv1.3 TLSv1.2"
   server-snippet: "proxy_ssl_verify off;"
+---
 kind: ConfigMap
+apiVersion: v1
 metadata:
-  name: nginx-custom-configuration
+  name: tcp-services
   namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: udp-services
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
