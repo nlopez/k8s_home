@@ -32,7 +32,7 @@ spec:
           medium: Memory
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.13.4.5271-200287a06
+        image: plexinc/pms-docker:1.14.0.5470-9d51fdfaa
         securityContext:
           privileged: true
         volumeMounts:
