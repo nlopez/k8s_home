@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: emby
+  namespace: media
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: emby
+    spec:
+      volumes:
+      - name: emby
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:emby
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
+      - name: gpu-render
+        hostPath:
+          path: /dev/dri/renderD128
+          type: CharDevice
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: transcode
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: emby
+        image: emby/embyserver:3.6.0.73
+        volumeMounts:
+        - name: emby
+          subPath: config
+          mountPath: /config
+        - name: transcode
+          mountPath: /transcode
+        - name: gpu-render
+          mountPath: /dev/dri/renderD128
+        - name: media
+          mountPath: /media
+          readOnly: true
+        env:
+        - name: UID
+          value: '1001'
+        - name: GID
+          value: '1001'
+        - name: GIDLIST
+          value: '44'
+        ports:
+        - name: emby-https
+          containerPort: 8920
+        - name: emby-http
+          containerPort: 8096
