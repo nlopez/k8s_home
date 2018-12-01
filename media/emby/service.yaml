@@ -3,8 +3,6 @@ kind: Service
 metadata:
   name: emby
   namespace: media
-  annotations:
-    # kube-router.io/service.dsr: "tunnel"
 spec:
   selector:
     app: emby
@@ -15,4 +13,6 @@ spec:
   - name: emby-https
     port: 8920
     targetPort: 8920
-
+  - name: emby-http
+    port: 8096
+    targetPort: 8096
