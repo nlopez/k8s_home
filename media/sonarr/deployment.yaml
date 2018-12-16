@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -12,7 +13,7 @@ spec:
     spec:
       containers:
       - name: sonarr
-        image: linuxserver/sonarr:166
+        image: linuxserver/sonarr:168
         env:
         - name: PUID
           value: '1001'
@@ -34,11 +35,11 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 20
         volumeMounts:
-          - name: sonarr
-            subPath: config
-            mountPath: /config
-          - name: media
-            mountPath: /media
+        - name: sonarr
+          subPath: config
+          mountPath: /config
+        - name: media
+          mountPath: /media
       volumes:
       - name: sonarr
         iscsi:

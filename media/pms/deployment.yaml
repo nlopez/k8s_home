@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -32,7 +33,7 @@ spec:
           medium: Memory
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.14.0.5470-9d51fdfaa
+        image: plexinc/pms-docker:public
         securityContext:
           privileged: true
         volumeMounts:

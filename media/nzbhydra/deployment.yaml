@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -18,7 +19,7 @@ spec:
           lun: 0
       containers:
       - name: nzbhydra
-        image: linuxserver/hydra:138
+        image: linuxserver/hydra:147
         volumeMounts:
         - name: nzbhydra-config
           subPath: config

@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -23,7 +24,7 @@ spec:
           claimName: media
       containers:
       - name: nzbget
-        image: linuxserver/nzbget:144
+        image: linuxserver/nzbget:153
         volumeMounts:
         - name: nzbget
           subPath: config

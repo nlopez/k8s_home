@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -24,7 +25,7 @@ spec:
           readOnly: true
       containers:
       - name: tautulli
-        image: linuxserver/tautulli:148
+        image: linuxserver/tautulli:158
         volumeMounts:
         - name: tautulli
           subPath: config

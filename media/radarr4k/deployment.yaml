@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -21,7 +22,7 @@ spec:
           claimName: media
       containers:
       - name: radarr4k
-        image: linuxserver/radarr:142
+        image: linuxserver/radarr:nightly
         volumeMounts:
         - name: radarr4k
           subPath: config
