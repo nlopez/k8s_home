@@ -3,7 +3,7 @@
   "apiVersion": "bitnami.com/v1alpha1",
   "metadata": {
     "name": "letsencrypt-private-key",
-    "namespace": "default",
+    "namespace": "kube-system",
     "creationTimestamp": null
   },
   "spec": {
