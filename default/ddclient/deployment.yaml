@@ -12,12 +12,12 @@ spec:
     spec:
       volumes:
       - name: config
-        configMap:
-          name:
-            ddclient
+        secret:
+          secretName: ddclient
       containers:
       - name: ddclient
         image: linuxserver/ddclient:134
         volumeMounts:
         - name: config
           mountPath: /config
+          readOnly: true
