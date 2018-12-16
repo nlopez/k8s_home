@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: flux-memcache
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      name: memcached
+  ingress:
+  - ports:
+    - port: 4180
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: default
+      podSelector:
+        matchLabels:
+          name: flux
