@@ -9,7 +9,7 @@ spec:
       name: memcached
   ingress:
   - ports:
-    - port: 4180
+    - port: 11211
     from:
     - namespaceSelector:
         matchLabels:
