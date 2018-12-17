@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flux
+  annotations:
+    flux.weave.works/tag.flux: regexp:^([0-9]\.?)*[^\.]$
 spec:
   replicas: 1
   selector:
@@ -111,3 +113,7 @@ spec:
         # serve /metrics endpoint at different port.
         # make sure to set prometheus' annotation to scrape the port value.
         - --listen-metrics=:3031
+
+        # the author of git commits will reflect the user who initiated the
+        # commit and will differ from the git committer
+        - --git-set-author
