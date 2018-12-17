@@ -67,7 +67,7 @@ spec:
       - name: redis
         image: redis:5.0.3
         command: ["redis-server"]
-        args: ["/usr/local/etc/redis.conf"]
+        args: ["/usr/local/etc/redis/redis.conf"]
         volumeMounts:
         - name: redis-config
           mountPath: /usr/local/etc/redis
