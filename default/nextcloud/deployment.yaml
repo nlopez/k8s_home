@@ -29,6 +29,10 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: nextcloud-data
+      - name: redis-config
+        configMap:
+          name:
+            nextcloud-redis
       containers:
       - name: nextcloud
         image: linuxserver/nextcloud:161
@@ -60,6 +64,13 @@ spec:
             secretKeyRef:
               name: nextcloud
               key: MYSQL_ROOT_PASSWORD
+      - name: redis
+        image: redis:5.0.3
+        command: ["redis-server"]
+        args: ["/usr/local/etc/redis.conf"]
+        volumeMounts:
+        - name: redis-config
+          mountPath: /usr/local/etc/redis
         ports:
         - name: nextcloud
           containerPort: 443
