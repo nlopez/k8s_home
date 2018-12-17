@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -30,7 +31,7 @@ spec:
           claimName: nextcloud-data
       containers:
       - name: nextcloud
-        image: linuxserver/nextcloud:155
+        image: linuxserver/nextcloud:161
         volumeMounts:
         - name: config
           subPath: config
@@ -38,7 +39,7 @@ spec:
         - name: data
           mountPath: /data
       - name: mariadb
-        image: linuxserver/mariadb:130
+        image: linuxserver/mariadb:150
         volumeMounts:
         - name: mariadb
           subPath: config
