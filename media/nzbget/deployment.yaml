@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: nzbget
   namespace: media
+  annotations:
+    flux.weave.works/tag.nzbget: regexp:[0-9]*
 spec:
   replicas: 1
   template:
