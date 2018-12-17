@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: pms
   namespace: media
+  annotations:
+    flux.weave.works/tag.pms: regexp:^([0-9]*\.?)*-[0-9a-z]*$
 spec:
   replicas: 1
   template:
