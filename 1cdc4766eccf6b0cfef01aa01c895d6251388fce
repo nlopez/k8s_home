@@ -1,0 +1,1 @@
+{"jobID":"59d5cd23-6f7f-5fdd-a08b-f46b49eff3fe","spec":{"type":"policy","cause":{"Message":"","User":"Nick Lopez \u003cnlopez@gmail.com\u003e"},"spec":{"media:deployment/pms":{"add":{"tag_all":"regexp:^([0-9]*\\.?)*-[0-9a-z]*$"},"remove":{}}}},"result":null}
