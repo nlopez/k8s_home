@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: deluge
   namespace: media
+  annotations:
+    flux.weave.works/tag.deluge: glob:amd64-*
 spec:
   replicas: 1
   template:
