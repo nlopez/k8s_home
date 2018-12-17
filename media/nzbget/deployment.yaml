@@ -6,6 +6,7 @@ metadata:
   namespace: media
   annotations:
     flux.weave.works/tag.nzbget: regexp:[0-9]*
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   template:
