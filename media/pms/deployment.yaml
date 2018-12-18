@@ -6,6 +6,7 @@ metadata:
   namespace: media
   annotations:
     flux.weave.works/tag.pms: regexp:^([0-9]*\.?)*-[0-9a-z]*$
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   template:
