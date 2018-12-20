@@ -12,7 +12,7 @@ spec:
         app: nextcloud
     spec:
       nodeSelector:
-        kubernetes.io/hostname: wedge.radoncanyon.com
+        kubernetes.io/hostname: wedge
       volumes:
       - name: config
         hostPath:
