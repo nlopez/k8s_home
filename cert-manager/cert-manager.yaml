@@ -273,7 +273,7 @@ spec:
           args:
           - --cluster-resource-namespace=$(POD_NAMESPACE)
           - --leader-election-namespace=$(POD_NAMESPACE)
-          - --dns01-self-check-nameservers 8.8.8.8:53,1.1.1.1:53
+          - --dns01-self-check-nameservers=8.8.8.8:53,1.1.1.1:53
           env:
           - name: POD_NAMESPACE
             valueFrom:
