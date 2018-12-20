@@ -216,7 +216,7 @@ spec:
       serviceAccountName: cert-manager-webhook
       containers:
         - name: webhook
-          image: "quay.io/jetstack/cert-manager-webhook:canary"
+          image: "quay.io/jetstack/cert-manager-webhook:v0.5.2"
           imagePullPolicy: Always
           args:
           - --v=12
@@ -268,11 +268,12 @@ spec:
       serviceAccountName: cert-manager
       containers:
         - name: cert-manager
-          image: "quay.io/jetstack/cert-manager-controller:canary"
+          image: "quay.io/jetstack/cert-manager-controller:v0.5.2"
           imagePullPolicy: Always
           args:
           - --cluster-resource-namespace=$(POD_NAMESPACE)
           - --leader-election-namespace=$(POD_NAMESPACE)
+          - --dns01-self-check-nameservers 8.8.8.8:53,1.1.1.1:53
           env:
           - name: POD_NAMESPACE
             valueFrom:
