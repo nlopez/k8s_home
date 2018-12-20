@@ -31,11 +31,10 @@ spec:
           claimName: nextcloud-data
       - name: redis-config
         configMap:
-          name:
-            nextcloud-redis
+          name: nextcloud-redis
       containers:
       - name: nextcloud
-        image: linuxserver/nextcloud:161
+        image: linuxserver/nextcloud:162
         volumeMounts:
         - name: config
           subPath: config
