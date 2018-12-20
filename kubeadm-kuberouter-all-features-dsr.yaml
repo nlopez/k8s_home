@@ -76,6 +76,7 @@ spec:
           mountPath: /etc/cni/net.d
         - name: kubeconfig
           mountPath: /var/lib/kube-router
+          readOnly: true
         - name: run
           mountPath: /var/run/docker.sock
           readOnly: true
@@ -105,6 +106,9 @@ spec:
         operator: Exists
       - effect: NoSchedule
         key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoSchedule
+        key: node.kubernetes.io/not-ready
         operator: Exists
       volumes:
       - name: lib-modules
