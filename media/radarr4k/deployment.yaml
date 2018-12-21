@@ -25,7 +25,7 @@ spec:
           claimName: media
       containers:
       - name: radarr4k
-        image: linuxserver/radarr:nightly
+        image: linuxserver/radarr:145
         volumeMounts:
         - name: radarr4k
           subPath: config
