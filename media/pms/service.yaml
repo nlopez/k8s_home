@@ -8,9 +8,9 @@ metadata:
 spec:
   selector:
     app: pms
-  type: ClusterIP
+  type: LoadBalancer
   externalIPs:
-  - 10.10.10.101
+  - 192.168.222.201
   ports:
   - name: pms
     port: 32400

@@ -6,9 +6,9 @@ metadata:
 spec:
   selector:
     app: syncthing
-  type: ClusterIP
+  type: LoadBalancer
   externalIPs:
-   - 10.10.10.104
+   - 192.168.222.244
   ports:
   - name: syncthing-ui
     port: 8384
