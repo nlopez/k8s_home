@@ -10,7 +10,7 @@ spec:
     app: pms
   type: LoadBalancer
   externalIPs:
-  - 192.168.222.201
+  - 192.168.222.241
   ports:
   - name: pms
     port: 32400
