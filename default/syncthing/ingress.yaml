@@ -17,7 +17,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: syncthing
+          serviceName: syncthing-tcp
           servicePort: syncthing-ui
 ---
 apiVersion: extensions/v1beta1
