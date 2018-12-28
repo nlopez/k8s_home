@@ -4,7 +4,7 @@ metadata:
   name: dui
   namespace: jobs
 spec:
-  schedule: '@hourly'
+  schedule: '12 */1 * * *'
   jobTemplate:
     spec:
       template:
@@ -18,7 +18,10 @@ spec:
           - name: dui-config
             secret:
               secretName: dui-config
-          containers:
+          - name: dui-rclone-config
+            secret:
+              secretName: dui-rclone-config
+          initContainers:
           - name: dui
             image: nlopez/dui:2
             env:
@@ -29,6 +32,24 @@ spec:
               mountPath: /dui
             - name: dui-config
               mountPath: /dui/config
+              readOnly: true
+          containers:
+          - name: dui-rclone
+            image: nlopez/rclone:1.45
+            command: ["/usr/bin/rclone"]
+            args:
+            - --config
+            - /config/rclone.conf
+            - copy
+            - --progress
+            - /dui/data
+            - Nextcloud:/dui
+            volumeMounts:
+            - name: dui
+              mountPath: /dui
+              readOnly: true
+            - name: dui-rclone-config
+              mountPath: /config
               readOnly: true
           restartPolicy: Never
 ---
@@ -41,3 +62,14 @@ metadata:
 spec:
   encryptedData:
     dui.ini: AgCntWLtVhABuseyZkjd4uwmo6P0Uc4E5M7jyTArawhMVQIUW55+mnybM4PChYJrEe6EX0lQvJJZdoVT8HNbUp5X8jkyYmzNnntoj1PU4Apzp8cK+vvKoup++EUQe9s/PpSopTKQz3PJddwsk9xFslDMlDCI69AN5Uud88VDHArBbcnA/OSoC0LKKJmV2zAsDYA7Rm2Gw2oVDt35scMpNV8XYKDsBsATc8CzmpEFZTyY366OYZ3Pk40aKA6lvJZa1EpVbmSXDgWH7NJpqK17hwMCpaBYluqWgD+D2OaCj7JRtlH17/DhhELblu7WGMBhCv/Ju3jORMW7wch9x2TxWvNJbmecbbzQXX/qZ839laffOMTYQtQXvNX9wUCyw2QErFxXxGqJrclpWtAY9rUGEER6YvgL4Y5ywz/xbNkBX3n/soOpF4o9A9oredtgdCpTYdvuUCnr/7P/yvxesBpM2xeB/WJsgoPlMMzDNtVmOtJF+F8OM/HKgsVMjhU6rBrVBFmc4+400AIIiGCn+3VyRoAP5VtWh3uax7sSD1kSaY7wfAxtqmEAjcsHJRcKgwmhiYk/0H8sOFi7Wq0pK+xZC+JniJkvCKBodAHTjR9XXhlpblfXBJhDP3BWnbJjr4DfaP2jdkPgwjEtkqvcaBdIWY9mcoj14pfF/8o76CbUTKtXJIxD1m7vf+gruisLv3xI2IDVYpXImCfGz/gCwmwau59TCyweDY2CUq0/21XT3qfgGjWC8A4+z4Fu20AJtNpzihhOVt4ZkVSenFuBs2xJtEsk+Uz2KHGHeBV6RRw2Dx+Khm46GEUbvGgxDzr04H42zDBQpuiT8lLuf6Qf9Ygsdkx4yMMJ8JPcaIDCJharMZ7jSiUiCmRF0G+tBwWWmw4DIgkrkiNSLqeNQ+A2d8T/XKlslR5sxXwIXY1Gs+7mVhEcimMhCNR5tSmA7t00Q6B+w7M/hkk40DTbKgPZG/oFNszgJXfLLg37MREFwlS1Nub8vgY/yCuD1s9A6lTH4A2yJCQp8K5CZAGiBrt4PeUE4ReXZ36pCdp8dfdTrbAnrfLMC9eU+YG/cQV5WMWVGuvP2+3GbR89VMXaZ07+BHBwWBlEoJSwRZeKVZHg8M5CfCFxDa1Zh0yFmrS3dHuxKgUJIcqfZ0B5qwYE+PTfp+8OjGBvSyrFAh9+prn0db7oEOXjRKvDZFBS+VyxHPO/seJKJCslrfqAebYhKH34C6izZlPEHTRF8q6BmQ==
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: dui-rclone-config
+  namespace: jobs
+spec:
+  encryptedData:
+    rclone.conf: AgCQuPjCM1HdKTr1oT5fGpANRcLQ97JAohBarEG3PNMPhdH9nA6/ylhLLid1GB+Xi4u0/+qc9i1Ay1a+nKZubkGmmHaB0CcQMxwjJ8amTOlqCD/B4rR2m6X1htmrF99qjX/9lZrN/B5MbiIAZywuUXo3gXWXsDGef5QLURDaG2lH6TlejEaABSIo28DePh8p4+0caTEY9QoD8mL22dgH4fsY3SZLGQcbhOSQVaXiY5oy7tCb3KGPn8OpJuwK37dCeu88eEWqwmo2LW/y59nXUQRDwwvNkv6LK18hkMXJDfkeosFz9s0fLefjKqEEuKaUoprpYsO/uXmC2+frCQp8KafsVlU+7TTK7UuG/W1389vJLU5Br/GJpFUGeX7q7Yacj4ACttpV2TbjoVhHv9CymWf250IrQp9H8Ibap+40Ueb1MHzVJquaysImCdCq3TzgK8CLN2wRjYdieXVi0S+E2nEBujFdGjiHq1xx0KlkA0ZaJfOZSgjmxiMuR4XQR7GYF81JovtmieM+cPopfsdeMnY+mRzjZW7r6iUmZGMm/pVaulycYpDk5b6FWirBHTcEC5vU35JY7xY/k+/cCBHjhcuYcTwMiycxeyojSGBxqvSTu08hiRF20nFnfF6jpn7tkLMF1JMcO7xhRAsQ+WSgezRbc2FMNHAvYU+b3qGIzFNX41ICWyoCl5FSVdhjLTwxx7NF1UsTM5JOrp7OFJIvP+MnZZ6ObKddQWUQnypg2X+zni1xfUtM13BIiz/0iIe9li7l5+R5PfTA211SpIMEGLPC65S4+k9wvN2NfAbdaAjzYixrS4IzC3SB4JIfCVeqH52ST2czShrp8XfTFJWXZYVaiGozhxckpUNKpgp/XOSCjG+DQNIB+o95K8dsJPqDILuvbvAsuiqtotNAMr+/5hV67UG+KmktpOx8QxO1/Q6FwFsUVAEVhBd93kWxTVUNNDh/jajcHs0Y3VQFng6KLLl692Qt
+
