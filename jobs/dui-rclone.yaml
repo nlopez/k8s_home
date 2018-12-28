@@ -1,0 +1,49 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dui-rclone
+  namespace: jobs
+spec:
+  schedule: '@hourly'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: dui
+            iscsi:
+              iqn: iqn.2014-09.com.radoncanyon:nas1:dui
+              targetPortal: nas1-storage.radoncanyon.com
+              lun: 0
+          - name: dui-rclone-config
+            secret:
+              secretName: dui-rclone-config
+          containers:
+          - name: dui-rclone
+            image: nlopez/rclone:1.45
+            command: ["/usr/bin/rclone"]
+            args:
+            - --config
+            - /config/rclone.conf
+            - copy
+            - --progress
+            - /dui/data
+            - Nextcloud:/dui
+            volumeMounts:
+            - name: dui
+              mountPath: /dui
+              readOnly: true
+            - name: dui-rclone-config
+              mountPath: /config
+              readOnly: true
+          restartPolicy: Never
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: dui-rclone-config
+  namespace: jobs
+spec:
+  encryptedData:
+    rclone.conf: AgCQuPjCM1HdKTr1oT5fGpANRcLQ97JAohBarEG3PNMPhdH9nA6/ylhLLid1GB+Xi4u0/+qc9i1Ay1a+nKZubkGmmHaB0CcQMxwjJ8amTOlqCD/B4rR2m6X1htmrF99qjX/9lZrN/B5MbiIAZywuUXo3gXWXsDGef5QLURDaG2lH6TlejEaABSIo28DePh8p4+0caTEY9QoD8mL22dgH4fsY3SZLGQcbhOSQVaXiY5oy7tCb3KGPn8OpJuwK37dCeu88eEWqwmo2LW/y59nXUQRDwwvNkv6LK18hkMXJDfkeosFz9s0fLefjKqEEuKaUoprpYsO/uXmC2+frCQp8KafsVlU+7TTK7UuG/W1389vJLU5Br/GJpFUGeX7q7Yacj4ACttpV2TbjoVhHv9CymWf250IrQp9H8Ibap+40Ueb1MHzVJquaysImCdCq3TzgK8CLN2wRjYdieXVi0S+E2nEBujFdGjiHq1xx0KlkA0ZaJfOZSgjmxiMuR4XQR7GYF81JovtmieM+cPopfsdeMnY+mRzjZW7r6iUmZGMm/pVaulycYpDk5b6FWirBHTcEC5vU35JY7xY/k+/cCBHjhcuYcTwMiycxeyojSGBxqvSTu08hiRF20nFnfF6jpn7tkLMF1JMcO7xhRAsQ+WSgezRbc2FMNHAvYU+b3qGIzFNX41ICWyoCl5FSVdhjLTwxx7NF1UsTM5JOrp7OFJIvP+MnZZ6ObKddQWUQnypg2X+zni1xfUtM13BIiz/0iIe9li7l5+R5PfTA211SpIMEGLPC65S4+k9wvN2NfAbdaAjzYixrS4IzC3SB4JIfCVeqH52ST2czShrp8XfTFJWXZYVaiGozhxckpUNKpgp/XOSCjG+DQNIB+o95K8dsJPqDILuvbvAsuiqtotNAMr+/5hV67UG+KmktpOx8QxO1/Q6FwFsUVAEVhBd93kWxTVUNNDh/jajcHs0Y3VQFng6KLLl692Qt
