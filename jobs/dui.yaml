@@ -1,0 +1,43 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dui
+  namespace: jobs
+spec:
+  schedule: '@hourly'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: dui
+            iscsi:
+              iqn: iqn.2014-09.com.radoncanyon:nas1:dui
+              targetPortal: nas1-storage.radoncanyon.com
+              lun: 0
+          - name: dui-config
+            secret:
+              secretName: dui-config
+          containers:
+          - name: dui
+            image: nlopez/dui:2
+            env:
+              - name: DUI_INI
+                value: /dui/config/dui.ini
+            volumeMounts:
+            - name: dui
+              mountPath: /dui
+            - name: dui-config
+              mountPath: /dui/config
+              readOnly: true
+          restartPolicy: Never
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: dui-config
+  namespace: jobs
+spec:
+  encryptedData:
+    dui.ini: AgCntWLtVhABuseyZkjd4uwmo6P0Uc4E5M7jyTArawhMVQIUW55+mnybM4PChYJrEe6EX0lQvJJZdoVT8HNbUp5X8jkyYmzNnntoj1PU4Apzp8cK+vvKoup++EUQe9s/PpSopTKQz3PJddwsk9xFslDMlDCI69AN5Uud88VDHArBbcnA/OSoC0LKKJmV2zAsDYA7Rm2Gw2oVDt35scMpNV8XYKDsBsATc8CzmpEFZTyY366OYZ3Pk40aKA6lvJZa1EpVbmSXDgWH7NJpqK17hwMCpaBYluqWgD+D2OaCj7JRtlH17/DhhELblu7WGMBhCv/Ju3jORMW7wch9x2TxWvNJbmecbbzQXX/qZ839laffOMTYQtQXvNX9wUCyw2QErFxXxGqJrclpWtAY9rUGEER6YvgL4Y5ywz/xbNkBX3n/soOpF4o9A9oredtgdCpTYdvuUCnr/7P/yvxesBpM2xeB/WJsgoPlMMzDNtVmOtJF+F8OM/HKgsVMjhU6rBrVBFmc4+400AIIiGCn+3VyRoAP5VtWh3uax7sSD1kSaY7wfAxtqmEAjcsHJRcKgwmhiYk/0H8sOFi7Wq0pK+xZC+JniJkvCKBodAHTjR9XXhlpblfXBJhDP3BWnbJjr4DfaP2jdkPgwjEtkqvcaBdIWY9mcoj14pfF/8o76CbUTKtXJIxD1m7vf+gruisLv3xI2IDVYpXImCfGz/gCwmwau59TCyweDY2CUq0/21XT3qfgGjWC8A4+z4Fu20AJtNpzihhOVt4ZkVSenFuBs2xJtEsk+Uz2KHGHeBV6RRw2Dx+Khm46GEUbvGgxDzr04H42zDBQpuiT8lLuf6Qf9Ygsdkx4yMMJ8JPcaIDCJharMZ7jSiUiCmRF0G+tBwWWmw4DIgkrkiNSLqeNQ+A2d8T/XKlslR5sxXwIXY1Gs+7mVhEcimMhCNR5tSmA7t00Q6B+w7M/hkk40DTbKgPZG/oFNszgJXfLLg37MREFwlS1Nub8vgY/yCuD1s9A6lTH4A2yJCQp8K5CZAGiBrt4PeUE4ReXZ36pCdp8dfdTrbAnrfLMC9eU+YG/cQV5WMWVGuvP2+3GbR89VMXaZ07+BHBwWBlEoJSwRZeKVZHg8M5CfCFxDa1Zh0yFmrS3dHuxKgUJIcqfZ0B5qwYE+PTfp+8OjGBvSyrFAh9+prn0db7oEOXjRKvDZFBS+VyxHPO/seJKJCslrfqAebYhKH34C6izZlPEHTRF8q6BmQ==
