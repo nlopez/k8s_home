@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: filebrowser
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+spec:
+  tls:
+  - hosts:
+    - m.desertbluffs.com
+  rules:
+  - host: m.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: filebrowser
+          servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: filebrowser-oauth2
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - m.desertbluffs.com
+  rules:
+  - host: m.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy

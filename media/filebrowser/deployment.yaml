@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: filebrowser
+  namespace: media
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: filebrowser
+    spec:
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: deluge
+      - name: filebrowser
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:filebrowser
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
+      - name: config
+        configMap:
+          name:
+            filebrowser
+      containers:
+      - name: filebrowser
+        image: filebrowser/filebrowser:v1.10.0
+        command: ["/filebrowser"]
+        args:
+        - --config
+        - /etc/filebrowser.json
+        volumeMounts:
+        - name: config
+          mountPath: /etc/filebrowser.json
+          subPath: filebrowser.json
+          readOnly: true
+        - name: filebrowser
+          subPath: data
+          mountPath: /data
+        - name: media
+          mountPath: /srv/media
+        - name: downloads
+          mountPath: /srv/downloads_deluge
+        ports:
+        - containerPort: 8080
+          name: filebrowser

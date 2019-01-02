@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebrowser
+  namespace: media
+data:
+  filebrowser.json: |
+    {
+      "port": 8080,
+      "address": "0.0.0.0",
+      "database": "/data/filebrowser.db",
+      "scope": "/srv",
+      "noAuth": true,
+      "log": "stdout",
+      "allowCommands": false,
+      "allowEdit": true,
+      "allowNew": true,
+      "commands": []
+    }
+
