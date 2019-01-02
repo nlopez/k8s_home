@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -19,7 +20,7 @@ spec:
           secretName: ddclient
       containers:
       - name: ddclient
-        image: linuxserver/ddclient:134
+        image: linuxserver/ddclient:143
         volumeMounts:
         - name: config
           mountPath: /config

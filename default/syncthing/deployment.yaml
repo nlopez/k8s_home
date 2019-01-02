@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -21,7 +22,7 @@ spec:
           lun: 0
       containers:
       - name: syncthing
-        image: linuxserver/syncthing:138
+        image: linuxserver/syncthing:149
         volumeMounts:
         - name: syncthing
           subPath: config
