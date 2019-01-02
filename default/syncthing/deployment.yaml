@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: syncthing
   namespace: default
+  annotations:
+    flux.weave.works/tag.syncthing: regexp:^[0-9]+$
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   template:

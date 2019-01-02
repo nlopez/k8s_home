@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: ddclient
   namespace: default
+  annotations:
+    flux.weave.works/tag.ddclient: regexp:^[0-9]+$
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   template:

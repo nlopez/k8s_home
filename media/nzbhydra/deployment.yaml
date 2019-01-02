@@ -5,7 +5,7 @@ metadata:
   name: nzbhydra
   namespace: media
   annotations:
-    flux.weave.works/tag.nzbhydra: regexp:[0-9]*
+    flux.weave.works/tag.nzbhydra: regexp:^[0-9]+$
     flux.weave.works/automated: 'true'
 spec:
   replicas: 1
