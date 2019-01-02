@@ -33,7 +33,6 @@ spec:
             - name: dui-config
               mountPath: /dui/config
               readOnly: true
-          containers:
           - name: dui-rclone
             image: nlopez/rclone:1.45
             command: ["/usr/bin/rclone"]
@@ -51,6 +50,14 @@ spec:
             - name: dui-rclone-config
               mountPath: /config
               readOnly: true
+          containers:
+          - name: dui-healthchecks-io
+            image: buildpack-deps:bionic-curl
+            command: ["/usr/bin/curl"]
+            args:
+            - --retry
+            - '3'
+            - https://hc-ping.com/4bb27667-5f75-46ed-ac59-a1a04dd54008
           restartPolicy: Never
 ---
 apiVersion: bitnami.com/v1alpha1
