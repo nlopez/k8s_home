@@ -10,7 +10,7 @@ spec:
   ingress:
   - ports:
     - port: 8080
-    from: []
-    # - namespaceSelector:
-    #     matchLabels:
-    #       name: ingress-nginx
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
