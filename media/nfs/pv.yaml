@@ -37,6 +37,24 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  name: roms
+  namespace: media
+  labels:
+    name: roms
+  annotations:
+    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: nas1-storage.radoncanyon.com
+    path: "/mnt/etank/scratch/roms"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
   name: deluge
   namespace: media
   labels:
