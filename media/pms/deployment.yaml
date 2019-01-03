@@ -20,14 +20,6 @@ spec:
           iqn: iqn.2014-09.com.radoncanyon:nas1:pms
           targetPortal: nas1-storage.radoncanyon.com
           lun: 0
-      - name: gpu-render
-        hostPath:
-          path: /dev/dri/renderD128
-          type: CharDevice
-      - name: gpu-card
-        hostPath:
-          path: /dev/dri/card0
-          type: CharDevice
       - name: media
         persistentVolumeClaim:
           claimName: media
@@ -37,18 +29,15 @@ spec:
       containers:
       - name: pms
         image: plexinc/pms-docker:1.14.1.5488-cc260c476
-        securityContext:
-          privileged: true
+        resources:
+          limits:
+            gpu.intel.com/i915: 1
         volumeMounts:
         - name: pms
           subPath: config
           mountPath: /config
         - name: transcode
           mountPath: /transcode
-        - name: gpu-render
-          mountPath: /dev/dri/renderD128
-        - name: gpu-card
-          mountPath: /dev/dri/card0
         - name: media
           mountPath: /media
           readOnly: true
