@@ -19,10 +19,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: downloads-nas1
+  name: scratch
   namespace: media
   labels:
-    name: downloads-nas1
+    name: scratch
   annotations:
     volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
 spec:
@@ -32,7 +32,7 @@ spec:
     - ReadWriteMany
   nfs:
     server: nas1-storage.radoncanyon.com
-    path: "/mnt/etank/scratch/downloads"
+    path: "/mnt/etank/scratch"
 ---
 apiVersion: v1
 kind: PersistentVolume

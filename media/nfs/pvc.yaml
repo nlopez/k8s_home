@@ -16,12 +16,12 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: downloads-nas1
+  name: scratch
   namespace: media
 spec:
   selector:
     matchLabels:
-      name: downloads-nas1
+      name: scratch
   accessModes:
     - ReadWriteMany
   resources:

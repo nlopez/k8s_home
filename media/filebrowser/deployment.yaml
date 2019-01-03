@@ -14,9 +14,9 @@ spec:
       - name: media
         persistentVolumeClaim:
           claimName: media
-      - name: downloads
+      - name: scratch
         persistentVolumeClaim:
-          claimName: deluge
+          claimName: scratch
       - name: filebrowser
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:filebrowser
@@ -43,8 +43,8 @@ spec:
           mountPath: /data
         - name: media
           mountPath: /srv/media
-        - name: downloads
-          mountPath: /srv/downloads_deluge
+        - name: scratch
+          mountPath: /srv/scratch
         ports:
         - containerPort: 8080
           name: filebrowser
