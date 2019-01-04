@@ -32,6 +32,9 @@ spec:
       - name: redis-config
         configMap:
           name: nextcloud-redis
+      - name: php-fpm-config
+        configMap:
+          name: nextcloud-php-fpm
       containers:
       - name: nextcloud
         image: linuxserver/nextcloud:162
@@ -41,6 +44,8 @@ spec:
           mountPath: /config
         - name: data
           mountPath: /data
+        - name: php-fpm-config
+          mountPath: /etc/php7/php-fpm.d/
       - name: mariadb
         image: linuxserver/mariadb:150
         volumeMounts:
