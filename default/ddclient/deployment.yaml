@@ -20,7 +20,7 @@ spec:
           secretName: ddclient
       containers:
       - name: ddclient
-        image: linuxserver/ddclient:143
+        image: linuxserver/ddclient:144
         volumeMounts:
         - name: config
           mountPath: /config
