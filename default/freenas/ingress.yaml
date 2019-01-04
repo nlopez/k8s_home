@@ -11,9 +11,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - p.desertbluffs.com
+    - q.desertbluffs.com
   rules:
-  - host: p.desertbluffs.com
+  - host: q.desertbluffs.com
     http:
       paths:
       - path: /nas1
@@ -33,9 +33,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - p.desertbluffs.com
+    - q.desertbluffs.com
   rules:
-  - host: p.desertbluffs.com
+  - host: q.desertbluffs.com
     http:
       paths:
       - path: /oauth2
