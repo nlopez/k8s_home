@@ -46,7 +46,7 @@ spec:
           name: nextcloud-php-fpm
       containers:
       - name: nextcloud
-        image: linuxserver/nextcloud:162
+        image: linuxserver/nextcloud:165
         volumeMounts:
         - name: config
           mountPath: /config
