@@ -55,7 +55,7 @@ spec:
         - name: php-fpm-config
           mountPath: /etc/php7/php-fpm.d/
       - name: mariadb
-        image: linuxserver/mariadb:150
+        image: linuxserver/mariadb:153
         volumeMounts:
         - name: mariadb-config
           mountPath: /config
