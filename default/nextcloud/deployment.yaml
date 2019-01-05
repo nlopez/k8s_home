@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: nextcloud
   namespace: default
+  annotations:
+    flux.weave.works/ignore: 'true'
 spec:
   replicas: 1
   template:

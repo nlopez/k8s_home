@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: nextcloud-redis
   namespace: default
+  annotations:
+    flux.weave.works/ignore: 'true'
 data:
   redis.conf: |
     port 6379

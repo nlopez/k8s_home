@@ -3,6 +3,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: nextcloud
   namespace: default
+  annotations:
+    flux.weave.works/ignore: 'true'
 spec:
   podSelector:
     matchLabels:

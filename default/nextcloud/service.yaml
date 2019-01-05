@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: nextcloud
   namespace: default
+  annotations:
+    flux.weave.works/ignore: 'true'
 spec:
   selector:
     app: nextcloud
