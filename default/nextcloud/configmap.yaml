@@ -4,7 +4,7 @@ metadata:
   name: nextcloud-redis
   namespace: default
   annotations:
-    flux.weave.works/ignore: 'true'
+    flux.weave.works/ignore: 'false'
 data:
   redis.conf: |
     port 6379
@@ -18,7 +18,7 @@ metadata:
   name: nextcloud-php-fpm
   namespace: default
   annotations:
-    flux.weave.works/ignore: 'true'
+    flux.weave.works/ignore: 'false'
 data:
   www.conf: |
     [www]
@@ -37,9 +37,9 @@ metadata:
   name: nextcloud-mariadb
   namespace: default
   annotations:
-    flux.weave.works/ignore: 'true'
+    flux.weave.works/ignore: 'false'
 data:
-  custom.conf: |
+  custom.cnf: |
     ## custom configuration file, please be aware that changing options here may break things
 
     [mysqld_safe]

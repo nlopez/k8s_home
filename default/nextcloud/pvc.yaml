@@ -4,7 +4,7 @@ metadata:
   name: nextcloud-data
   namespace: default
   annotations:
-    flux.weave.works/ignore: 'true'
+    flux.weave.works/ignore: 'false'
 spec:
   selector:
     matchLabels:

@@ -5,7 +5,7 @@ metadata:
   name: nextcloud
   namespace: default
   annotations:
-    flux.weave.works/ignore: 'true'
+    flux.weave.works/ignore: 'false'
 spec:
   replicas: 1
   template:
@@ -13,21 +13,28 @@ spec:
       labels:
         app: nextcloud
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: wedge
       volumes:
       - name: config
-        hostPath:
-          path: /dockerfs/nextcloud
-      - name: mariadb
-        hostPath:
-          path: /dockerfs/nextcloud-mariadb
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-config
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
+      - name: mariadb-config
+        configMap:
+          name: nextcloud-mariadb
+          items:
+          - key: custom.cnf
+            path: custom.cnf
       - name: mariadb-databases
-        hostPath:
-          path: /dockerfs/nextcloud-mariadb/config/databases
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-databases
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
       - name: mariadb-log
-        hostPath:
-          path: /dockerfs/nextcloud-mariadb/config/log
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-log
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
       - name: data
         persistentVolumeClaim:
           claimName: nextcloud-data
@@ -42,7 +49,6 @@ spec:
         image: linuxserver/nextcloud:162
         volumeMounts:
         - name: config
-          subPath: config
           mountPath: /config
         - name: data
           mountPath: /data
@@ -51,8 +57,7 @@ spec:
       - name: mariadb
         image: linuxserver/mariadb:150
         volumeMounts:
-        - name: mariadb
-          subPath: config
+        - name: mariadb-config
           mountPath: /config
         - name: mariadb-databases
           mountPath: /config/databases
