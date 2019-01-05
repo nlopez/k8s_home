@@ -16,23 +16,11 @@ kubectl delete daemonset kube-proxy -n kube-system
 On each node:
 
 ```bash
-docker run --privileged --net=host gcr.io/google_containers/kube-proxy-amd64:v1.11.2 kube-proxy --cleanup
+docker run --privileged --net=host gcr.io/google_containers/kube-proxy-amd64:v1.13.1 kube-proxy --cleanup
 ```
 
-### Helm
-[RBAC Helm install](https://github.com/kubernetes/helm/blob/master/docs/rbac.md)
+## TODO
+- [ ] Translate notes section into a bootstrap shell script
 
-```bash
-kubectl apply -f kube-system/tiller
-helm init --service-account tiller
-```
-
-### cert-manager
-`cert-manager` is installed via its [Helm chart](https://github.com/kubernetes/charts/tree/master/stable/cert-manager)
-
-```
-helm install \
-    --name cert-manager \
-    --namespace kube-system \
-    stable/cert-manager
-```
+## Thanks
+*  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state). Particularly: iscsi, [flux](https://github.com/weaveworks/flux), and [sealed secrets](https://github.com/bitnami-labs/sealed-secrets).
