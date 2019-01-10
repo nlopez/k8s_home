@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: shaarli
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: shaarli
+    spec:
+      volumes:
+      - name: shaarli
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:shaarli
+          targetPortal: nas1-storage.radoncanyon.com
+          lun: 0
+      containers:
+      - name: shaarli
+        image: shaarli/shaarli:v0.10.2
+        volumeMounts:
+        - mountPath: /var/www/shaarli/data
+          name: shaarli
+          subPath: data
+        - mountPath: /var/www/shaarli/cache
+          name: shaarli
+          subPath: cache
+        ports:
+        - containerPort: 80
+          name: shaarli
+
