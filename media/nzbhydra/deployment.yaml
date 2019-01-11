@@ -22,7 +22,7 @@ spec:
           lun: 0
       containers:
       - name: nzbhydra
-        image: linuxserver/hydra:150
+        image: linuxserver/hydra:151
         volumeMounts:
         - name: nzbhydra-config
           subPath: config
