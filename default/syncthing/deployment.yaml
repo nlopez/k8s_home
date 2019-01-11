@@ -22,7 +22,7 @@ spec:
           lun: 0
       containers:
       - name: syncthing
-        image: linuxserver/syncthing:150
+        image: linuxserver/syncthing:151
         volumeMounts:
         - name: syncthing
           subPath: config
