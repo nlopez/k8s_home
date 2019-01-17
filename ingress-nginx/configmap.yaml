@@ -12,7 +12,8 @@ data:
   server-tokens: "false"
   ssl-protocols: "TLSv1.3 TLSv1.2"
   server-snippet: "proxy_ssl_verify off;"
-  proxy-buffering: "on"
+  proxy-buffering: "off"
+  proxy-request-buffering: "off"
 ---
 kind: ConfigMap
 apiVersion: v1
