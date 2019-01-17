@@ -15,7 +15,7 @@ spec:
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:shaarli
           targetPortal: 192.168.220.149
-          lun: 0
+          lun: 1
       containers:
       - name: shaarli
         image: shaarli/shaarli:v0.10.2
