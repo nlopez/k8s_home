@@ -183,3 +183,15 @@ data:
 
     [isamchk]
     key_buffer_size   = 16M
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nextcloud-crontabs
+  namespace: default
+  annotations:
+    flux.weave.works/ignore: 'false'
+data:
+  root: |
+    */15 * * * * s6-setuidgid abc php7 -f /config/www/nextcloud/cron.php
+    @hourly s6-setuidgid abc php7 -f /config/www/nextcloud/occ -- preview:pre-generate
