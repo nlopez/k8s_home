@@ -16,6 +16,7 @@ spec:
           iqn: iqn.2014-09.com.radoncanyon:nas1:shaarli
           targetPortal: 192.168.220.149
           lun: 1
+          fsType: ext4
       containers:
       - name: shaarli
         image: shaarli/shaarli:v0.10.2
