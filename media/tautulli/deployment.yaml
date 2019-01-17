@@ -18,12 +18,12 @@ spec:
       - name: tautulli
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:tautulli
-          targetPortal: nas1-storage.radoncanyon.com
+          targetPortal: 192.168.220.149
           lun: 1
       - name: pms
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:pms
-          targetPortal: nas1-storage.radoncanyon.com
+          targetPortal: 192.168.220.149
           lun: 1
           readOnly: true
       containers:

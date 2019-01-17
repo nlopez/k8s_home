@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas2-storage.radoncanyon.com
+    server: 192.168.220.114
     path: "/mnt/etank/media"
 ---
 apiVersion: v1
@@ -31,7 +31,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas1-storage.radoncanyon.com
+    server: 192.168.220.149
     path: "/mnt/etank/scratch"
 ---
 apiVersion: v1
@@ -49,7 +49,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas1-storage.radoncanyon.com
+    server: 192.168.220.149
     path: "/mnt/etank/scratch/roms"
 ---
 apiVersion: v1
@@ -67,5 +67,5 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: nas1-storage.radoncanyon.com
+    server: 192.168.220.149
     path: "/mnt/etank/scratch/downloads/deluge"

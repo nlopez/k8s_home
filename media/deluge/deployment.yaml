@@ -18,7 +18,7 @@ spec:
       - name: deluge
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:deluge
-          targetPortal: nas1-storage.radoncanyon.com
+          targetPortal: 192.168.220.149
           lun: 1
       - name: downloads
         persistentVolumeClaim:

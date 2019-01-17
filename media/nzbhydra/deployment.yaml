@@ -18,7 +18,7 @@ spec:
       - name: nzbhydra-config
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:nzbhydra
-          targetPortal: nas1-storage.radoncanyon.com
+          targetPortal: 192.168.220.149
           lun: 1
       containers:
       - name: nzbhydra

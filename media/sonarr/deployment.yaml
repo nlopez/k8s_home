@@ -47,7 +47,7 @@ spec:
       - name: sonarr
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:sonarr
-          targetPortal: nas1-storage.radoncanyon.com
+          targetPortal: 192.168.220.149
           lun: 1
       - name: media
         persistentVolumeClaim:

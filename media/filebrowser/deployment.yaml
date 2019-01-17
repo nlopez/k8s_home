@@ -20,7 +20,7 @@ spec:
       - name: filebrowser
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:filebrowser
-          targetPortal: nas1-storage.radoncanyon.com
+          targetPortal: 192.168.220.149
           lun: 1
       - name: config
         configMap:

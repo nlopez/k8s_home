@@ -17,27 +17,32 @@ spec:
       - name: config
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-config
-          targetPortal: nas1-storage.radoncanyon.com
-          lun: 0
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      - name: mariadb-databases
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-databases
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      - name: mariadb-log
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-log
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+
+      - name: data
+        persistentVolumeClaim:
+          claimName: nextcloud-data
+
       - name: mariadb-config
         configMap:
           name: nextcloud-mariadb
           items:
           - key: custom.cnf
             path: custom.cnf
-      - name: mariadb-databases
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-databases
-          targetPortal: nas1-storage.radoncanyon.com
-          lun: 0
-      - name: mariadb-log
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-log
-          targetPortal: nas1-storage.radoncanyon.com
-          lun: 0
-      - name: data
-        persistentVolumeClaim:
-          claimName: nextcloud-data
       - name: redis-config
         configMap:
           name: nextcloud-redis
@@ -47,7 +52,9 @@ spec:
       - name: nextcloud-crontabs
         configMap:
           name: nextcloud-crontabs
+
       containers:
+
       - name: nextcloud
         image: linuxserver/nextcloud:165
         volumeMounts:
@@ -59,6 +66,7 @@ spec:
           mountPath: /etc/php7/php-fpm.d/
         - name: nextcloud-crontabs
           mountPath: /etc/crontabs/
+
       - name: mariadb
         image: linuxserver/mariadb:153
         volumeMounts:
@@ -80,6 +88,7 @@ spec:
             secretKeyRef:
               name: nextcloud
               key: MYSQL_ROOT_PASSWORD
+
       - name: redis
         image: redis:5.0.3
         command: ["redis-server"]
