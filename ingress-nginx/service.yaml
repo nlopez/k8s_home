@@ -4,9 +4,8 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
-  type: LoadBalancer
-  externalIPs:
-  - 192.168.222.240
+  type: ClusterIP
+  clusterIP: 10.97.107.39
   ports:
   - name: http
     port: 80
