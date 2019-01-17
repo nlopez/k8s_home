@@ -19,6 +19,12 @@ On each node:
 docker run --privileged --net=host gcr.io/google_containers/kube-proxy-amd64:v1.13.1 kube-proxy --cleanup
 ```
 
+### sealed-secrets
+kubectl apply/replace master key from backup
+
+### flux
+`fluxctl identity` -- add key to GitHub with write access
+
 ## TODO
 - [ ] Translate notes section into a bootstrap shell script
 
