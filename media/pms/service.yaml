@@ -3,14 +3,11 @@ kind: Service
 metadata:
   name: pms
   namespace: media
-  annotations:
-    # kube-router.io/service.dsr: "tunnel"
 spec:
   selector:
     app: pms
-  type: LoadBalancer
-  externalIPs:
-  - 192.168.222.241
+  type: ClusterIP
+  clusterIP: 10.102.213.52
   ports:
   - name: pms
     port: 32400

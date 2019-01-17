@@ -4,11 +4,10 @@ metadata:
   name: deluge
   namespace: media
 spec:
-  type: LoadBalancer
+  type: ClusterIP
+  clusterIP: 10.102.115.35
   selector:
     app: deluge
-  externalIPs:
-  - 192.168.222.102
   ports:
   - name: deluge
     port: 8112

@@ -6,9 +6,8 @@ metadata:
 spec:
   selector:
     app: thelounge
-  type: LoadBalancer
-  externalIPs:
-   - 192.168.222.243
+  type: ClusterIP
+  clusterIP: 10.102.89.130
   ports:
   - name: thelounge
     port: 9000
