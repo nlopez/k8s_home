@@ -14,7 +14,8 @@ spec:
             iscsi:
               iqn: iqn.2014-09.com.radoncanyon:nas1:dui
               targetPortal: 192.168.220.149
-              lun: 0
+              lun: 1
+              fsType: ext4
           - name: dui-config
             secret:
               secretName: dui-config
