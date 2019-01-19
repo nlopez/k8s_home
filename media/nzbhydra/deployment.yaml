@@ -23,7 +23,7 @@ spec:
           fsType: ext4
       containers:
       - name: nzbhydra
-        image: linuxserver/hydra:151
+        image: linuxserver/hydra:152
         volumeMounts:
         - name: nzbhydra-config
           subPath: config
