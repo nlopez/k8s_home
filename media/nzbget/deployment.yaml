@@ -28,7 +28,7 @@ spec:
           claimName: media
       containers:
       - name: nzbget
-        image: linuxserver/nzbget:157
+        image: linuxserver/nzbget:158
         volumeMounts:
         - name: nzbget
           subPath: config
