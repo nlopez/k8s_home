@@ -14,6 +14,8 @@ data:
   server-snippet: "proxy_ssl_verify off;"
   proxy-buffering: "off"
   proxy-request-buffering: "off"
+  proxy-read-timeout: "3600"
+  proxy-send-timeout: "3600"
 ---
 kind: ConfigMap
 apiVersion: v1
