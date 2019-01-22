@@ -5,4 +5,4 @@ metadata:
   namespace: media
 spec:
   type: ExternalName
-  externalName: 192.168.222.3
+  externalName: 192.168.222.3.xip.io
