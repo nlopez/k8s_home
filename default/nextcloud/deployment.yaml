@@ -32,6 +32,8 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext4
+      - name: appdata
+        emptyDir: {}
 
       - name: data
         persistentVolumeClaim:
@@ -66,6 +68,9 @@ spec:
           mountPath: /etc/php7/php-fpm.d/
         - name: nextcloud-crontabs
           mountPath: /etc/crontabs/
+        - name: appdata
+          mountPath: /data/appdata_oc0e6m51ai06
+
 
       - name: mariadb
         image: linuxserver/mariadb:153
