@@ -27,6 +27,8 @@ metadata:
   name: kube-router
   namespace: kube-system
 spec:
+  tolerations:
+  - operator: Exists
   template:
     metadata:
       labels:
