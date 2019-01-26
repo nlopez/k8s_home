@@ -27,8 +27,6 @@ metadata:
   name: kube-router
   namespace: kube-system
 spec:
-  tolerations:
-  - operator: Exists
   template:
     metadata:
       labels:
@@ -37,6 +35,8 @@ spec:
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
+      tolerations:
+      - operator: Exists
       serviceAccountName: kube-router
       serviceAccount: kube-router
       containers:
