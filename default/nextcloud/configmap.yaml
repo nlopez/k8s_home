@@ -25,7 +25,7 @@ data:
     user = abc
     group = abc
     listen = 127.0.0.1:9000
-    pm = dynamic
+    pm = static
     pm.max_children = 120
     pm.start_servers = 12
     pm.min_spare_servers = 6
