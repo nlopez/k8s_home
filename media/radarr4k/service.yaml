@@ -8,5 +8,5 @@ spec:
     app: radarr4k
   ports:
   - name: radarr4k
-    port: 80
+    port: 7878
     targetPort: 7878

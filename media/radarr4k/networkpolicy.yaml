@@ -14,3 +14,6 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: heimdall

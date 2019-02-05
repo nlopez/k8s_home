@@ -8,5 +8,5 @@ spec:
     app: radarr
   ports:
   - name: radarr
-    port: 80
+    port: 7878
     targetPort: 7878
