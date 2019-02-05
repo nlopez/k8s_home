@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -22,7 +23,7 @@ spec:
           fsType: ext4
       containers:
       - name: heimdall
-        image: linuxserver/heimdall:2.1.13-ls27
+        image: linuxserver/heimdall:amd64-63e0d07d-ls8
         volumeMounts:
         - name: config
           mountPath: /config
