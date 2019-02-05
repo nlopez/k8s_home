@@ -5,7 +5,7 @@ metadata:
   name: sonarr
   namespace: media
   annotations:
-    flux.weave.works/tag.sonarr: regexp:^[0-9]+$
+    flux.weave.works/tag.sonarr: glob:amd64-*-ls*
     flux.weave.works/automated: 'true'
 spec:
   replicas: 1

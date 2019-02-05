@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: heimdall
   namespace: media
+  annotations:
+    flux.weave.works/tag.heimdall: glob:amd64-*-ls*
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   template:
