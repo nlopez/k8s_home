@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: heimdall
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+  - hosts:
+    - xn--st9h.desertbluffs.com
+  rules:
+  - host: xn--st9h.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: heimdall
+          servicePort: heimdall-https
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: heimdall-oauth2
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - xn--st9h.desertbluffs.com
+  rules:
+  - host: xn--st9h.desertbluffs.com
+    http:
+      paths:
+      - path: /oauth2
+        backend:
+          serviceName: oauth2-proxy
+          servicePort: oauth2-proxy

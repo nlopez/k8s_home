@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: heimdall
+  namespace: media
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      volumes:
+      - name: config
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:heimdall
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      containers:
+      - name: heimdall
+        image: linuxserver/heimdall:2.1.13-ls27
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - containerPort: 80
+          name: heimdall-http
+        - containerPort: 443
+          name: heimdall-https

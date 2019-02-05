@@ -1,19 +1,17 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: tautulli
+  name: heimdall
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: tautulli
+      app: heimdall
   ingress:
   - ports:
-    - port: 8181
+    - port: 80
+    - port: 443
     from:
     - namespaceSelector:
         matchLabels:
           name: ingress-nginx
-    - podSelector:
-        matchLabels:
-          app: heimdall

@@ -44,8 +44,10 @@ spec:
       app: deluge
   ingress:
   - ports:
-    - port: 19058
+    - port: 8112
     from:
-    - ipBlock:
-        cidr: 192.168.0.0/16
+    - podSelector:
+        matchLabels:
+          app: heimdall
+
 
