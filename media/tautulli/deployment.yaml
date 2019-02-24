@@ -30,7 +30,7 @@ spec:
           readOnly: true
       containers:
       - name: tautulli
-        image: linuxserver/tautulli:amd64-v2.1.26-ls6
+        image: linuxserver/tautulli:amd64-6397b1e5-ls7
         volumeMounts:
         - name: tautulli
           subPath: config
