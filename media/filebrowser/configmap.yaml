@@ -12,7 +12,9 @@ data:
       "log": "stdout",
       "database": "/data/filebrowser2.db",
       "root": "/srv",
-      "auth.method": "none"
+      "auth": {
+        "method": "none"
+      }
     }
 
 
