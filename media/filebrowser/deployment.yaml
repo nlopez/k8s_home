@@ -5,7 +5,7 @@ metadata:
   name: filebrowser
   namespace: media
   annotations:
-    flux.weave.works/tag.ddclient: regexp:^v2.*$
+    flux.weave.works/tag.filebrowser: regexp:^v2.*$
     flux.weave.works/automated: 'true'
 spec:
   replicas: 1
@@ -32,14 +32,10 @@ spec:
           name: filebrowser
       containers:
       - name: filebrowser
-        image: filebrowser/filebrowser:issue-681
-        command: ["/filebrowser"]
-        args:
-        - --config
-        - /etc/filebrowser.json
+        image: filebrowser/filebrowser:v2.0.3
         volumeMounts:
         - name: config
-          mountPath: /etc/filebrowser.json
+          mountPath: /.filebrowser.json
           subPath: filebrowser.json
           readOnly: true
         - name: filebrowser
