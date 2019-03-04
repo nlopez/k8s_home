@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -28,11 +29,10 @@ spec:
           fsType: ext4
       - name: config
         configMap:
-          name:
-            filebrowser
+          name: filebrowser
       containers:
       - name: filebrowser
-        image: filebrowser/filebrowser:v2.0.3
+        image: filebrowser/filebrowser:issue-681
         command: ["/filebrowser"]
         args:
         - --config
