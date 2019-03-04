@@ -33,9 +33,13 @@ spec:
       containers:
       - name: filebrowser
         image: filebrowser/filebrowser:v2.0.3
+        command: ["/filebrowser"]
+        args:
+        - --config
+        - /etc/filebrowser.json
         volumeMounts:
         - name: config
-          mountPath: /.filebrowser.json
+          mountPath: /etc/filebrowser.json
           subPath: filebrowser.json
           readOnly: true
         - name: filebrowser
