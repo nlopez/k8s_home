@@ -37,7 +37,6 @@ spec:
         args:
         - --config
         - /etc/filebrowser.json
-        - --noauth
         volumeMounts:
         - name: config
           mountPath: /etc/filebrowser.json

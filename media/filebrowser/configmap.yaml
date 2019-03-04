@@ -10,7 +10,7 @@ data:
       "baseURL": "",
       "address": "",
       "log": "stdout",
-      "database": "/data/filebrowser2.db",
+      "database": "/data/filebrowser.db",
       "root": "/srv",
       "auth.method": "noauth"
     }
