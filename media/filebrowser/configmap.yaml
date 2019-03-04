@@ -7,12 +7,10 @@ data:
   filebrowser.json: |
     {
       "port": 8080,
-      "baseURL": "",
-      "address": "",
       "log": "stdout",
       "database": "/data/filebrowser.db",
       "root": "/srv",
-      "auth.method": "noauth"
+      "noauth": true
     }
 
 
