@@ -10,7 +10,10 @@ data:
       "log": "stdout",
       "database": "/data/filebrowser.db",
       "root": "/srv",
-      "noauth": true
+      "noauth": true,
+      "baseURL": "",
+      "address": "",
+      "commands": []
     }
 
 
