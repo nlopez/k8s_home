@@ -9,4 +9,3 @@ spec:
   ports:
   - name: filebrowser
     port: 8080
-    targetPort: 8080

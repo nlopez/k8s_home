@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: filebrowser
   namespace: media
+  annotations:
+    flux.weave.works/tag.ddclient: regexp:^v2.*$
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   template:
@@ -29,7 +32,7 @@ spec:
             filebrowser
       containers:
       - name: filebrowser
-        image: filebrowser/filebrowser:v1.10.0
+        image: filebrowser/filebrowser:v2.0.3
         command: ["/filebrowser"]
         args:
         - --config
