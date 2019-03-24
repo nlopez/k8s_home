@@ -29,7 +29,7 @@ spec:
           secretName: deluge
       containers:
       - name: deluge
-        image: linuxserver/deluge:amd64-113360ff-ls14
+        image: linuxserver/deluge:amd64-94af3345-ls15
         volumeMounts:
         - name: deluge
           subPath: config
