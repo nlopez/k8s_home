@@ -3,8 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flux
-  annotations:
-    flux.weave.works/tag.flux: regexp:^([0-9]\.?)*[^\.]$
 spec:
   replicas: 1
   selector:
@@ -19,7 +17,7 @@ spec:
       labels:
         name: flux
     spec:
-      serviceAccount: flux
+      serviceAccountName: flux
       volumes:
       - name: git-key
         secret:
@@ -56,7 +54,7 @@ spec:
         # There are no ":latest" images for flux. Find the most recent
         # release or image version at https://quay.io/weaveworks/flux
         # and replace the tag here.
-        image: quay.io/weaveworks/flux:1.8.1
+        image: quay.io/weaveworks/flux:1.11.0
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -95,7 +93,10 @@ spec:
         # or with a different service name, you can supply these
         # following two arguments to tell fluxd how to connect to it.
         # - --memcached-hostname=memcached.default.svc.cluster.local
-        # - --memcached-service=memcached
+
+        # use the memcached ClusterIP service name by setting the
+        # memcached-service to string empty
+        - --memcached-service=
 
         # this must be supplied, and be in the tmpfs (emptyDir)
         # mounted above, for K8s >= 1.10
@@ -113,7 +114,3 @@ spec:
         # serve /metrics endpoint at different port.
         # make sure to set prometheus' annotation to scrape the port value.
         - --listen-metrics=:3031
-
-        # the author of git commits will reflect the user who initiated the
-        # commit and will differ from the git committer
-        - --git-set-author
