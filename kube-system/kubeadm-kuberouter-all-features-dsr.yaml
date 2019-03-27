@@ -39,7 +39,7 @@ spec:
       serviceAccount: kube-router
       containers:
       - name: kube-router
-        image: cloudnativelabs/kube-router
+        image: docker.io/cloudnativelabs/kube-router
         imagePullPolicy: Always
         args:
         - --run-router=true
@@ -110,7 +110,6 @@ spec:
       - effect: NoSchedule
         key: node.kubernetes.io/not-ready
         operator: Exists
-      - operator: Exists
       volumes:
       - name: lib-modules
         hostPath:
