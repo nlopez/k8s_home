@@ -1388,7 +1388,7 @@ spec:
                 fieldPath: metadata.namespace
           resources:
             {}
-            
+
 
 ---
 # Source: cert-manager/charts/webhook/templates/deployment.yaml
@@ -1432,7 +1432,7 @@ spec:
                 fieldPath: metadata.namespace
           resources:
             {}
-            
+
           volumeMounts:
           - name: certs
             mountPath: /certs
@@ -1488,7 +1488,7 @@ spec:
             requests:
               cpu: 10m
               memory: 32Mi
-            
+
 
 ---
 # Source: cert-manager/charts/webhook/templates/apiservice.yaml
@@ -1686,4 +1686,3 @@ webhooks:
         name: kubernetes
         namespace: default
         path: /apis/admission.certmanager.k8s.io/v1beta1/clusterissuers
-
