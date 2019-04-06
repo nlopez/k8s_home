@@ -36,7 +36,7 @@ spec:
         - name: TZ
           value: America/New_York
         - name: ServerIP
-          value: 10.106.216.215
+          value: 192.168.10.5
         - name: DNSMASQ_USER
           value: pihole
         - name: VIRTUAL_HOST
