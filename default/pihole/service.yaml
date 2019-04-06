@@ -4,7 +4,7 @@ metadata:
   name: pihole-dns-tcp
   namespace: default
   annotations:
-    metallb.universe.tf/allow-shared-ip: true
+    metallb.universe.tf/allow-shared-ip: 'pihole'
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.10.4
@@ -21,7 +21,7 @@ metadata:
   name: pihole-dns-udp
   namespace: default
   annotations:
-    metallb.universe.tf/allow-shared-ip: true
+    metallb.universe.tf/allow-shared-ip: 'pihole'
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.10.4
