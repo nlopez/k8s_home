@@ -15,7 +15,8 @@ spec:
   - host: pihole.desertbluffs.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: pihole-admin
           servicePort: 80
 ---
