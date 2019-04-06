@@ -15,8 +15,6 @@ spec:
   - name: dns-udp
     port: 53
     protocol: UDP
-  - name: http
-    port: 80
 ---
 apiVersion: v1
 kind: Service
