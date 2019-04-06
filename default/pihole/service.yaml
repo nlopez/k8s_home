@@ -38,8 +38,6 @@ kind: Service
 metadata:
   name: pihole-admin
   namespace: default
-  annotations:
-    metallb.universe.tf/allow-shared-ip: true
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.10.5
