@@ -39,3 +39,5 @@ spec:
           value: 10.106.216.215
         - name: DNSMASQ_USER
           value: pihole
+        - name: VIRTUAL_HOST
+          value: pihole.desertbluffs.com
