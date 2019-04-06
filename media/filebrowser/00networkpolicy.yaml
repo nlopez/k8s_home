@@ -14,3 +14,4 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: ingress-nginx
+

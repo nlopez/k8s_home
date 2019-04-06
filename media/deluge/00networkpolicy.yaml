@@ -14,6 +14,12 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: ingress-nginx
+    - namespaceSelector:
+        matchLabels:
+          name: media
+      podSelector:
+        matchLabels:
+          app: heimdall
 ---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -28,22 +34,3 @@ spec:
   - ports:
     - port: 22722
     from: []
----
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: deluge-daemon
-  namespace: media
-spec:
-  podSelector:
-    matchLabels:
-      app: deluge
-  ingress:
-  - ports:
-    - port: 8112
-    from:
-    - podSelector:
-        matchLabels:
-          app: heimdall
-
-
