@@ -8,7 +8,6 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: "/netdata"
-    nginx.ingress.kubernetes.io/add-base-url: "true"
 spec:
   tls:
   - hosts:
