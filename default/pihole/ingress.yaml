@@ -16,13 +16,13 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: pihole
+          serviceName: pihole-admin
           servicePort: 80
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: pihole-oauth2
+  name: pihole-admin-oauth2
   namespace: default
 spec:
   tls:
