@@ -4,23 +4,34 @@ A collection of Kubernetes objects for my home setup
 ## Notes
 ### kubeadm
 ```bash
-kubeadm init --pod-network-cidr 10.11.0.0/16
+kubeadm init --config kubeadm-init.yaml
 ```
 
-### kuberouter
+### Weave
 ```bash
-kubectl apply -f kube-system/kubeadm-kuberouter-all-features-dsr.yaml 
-kubectl delete daemonset kube-proxy -n kube-system 
+kubectl apply -f kubectl apply -f kube-system/weave-net*.yaml 
 ```
 
-On each node:
-
+### Untaint master
 ```bash
-docker run --privileged --net=host gcr.io/google_containers/kube-proxy-amd64:v1.13.1 kube-proxy --cleanup
+kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
-### sealed-secrets
-kubectl apply/replace master key from backup
+### Wait for coredns/control plane running
+```bash
+kubectl get pod --all-namespaces -owide --watch
+```
+
+# metallb
+```bash
+kubectl apply -f metallb-system
+```
+
+### Sealed secrets
+```bash
+kubectl apply -f kube-system/kubeseal
+kubectl apply -f /path/to/kubeseal-secret-key
+```
 
 ### flux
 ```bash
