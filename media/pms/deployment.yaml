@@ -15,17 +15,17 @@ spec:
         app: pms
     spec:
       # kubectl label nodes $NODENAMES dedicated=pms
-      nodeSelector:
-        dedicated: pms
-      tolerations:
-      - key: dedicated
-        operator: Equal
-        value: pms
-        effect: NoSchedule
-      - key: dedicated
-        operator: Equal
-        value: pms
-        effect: NoExecute
+      # nodeSelector:
+      #   dedicated: pms
+      # tolerations:
+      # - key: dedicated
+      #   operator: Equal
+      #   value: pms
+      #   effect: NoSchedule
+      # - key: dedicated
+      #   operator: Equal
+      #   value: pms
+      #   effect: NoExecute
       volumes:
       - name: pms
         iscsi:
