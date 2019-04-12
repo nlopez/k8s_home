@@ -18,7 +18,7 @@ spec:
         app: nextcloud
     spec:
       nodeSelector:
-         kubernetes.io/hostname: knode2
+        kubernetes.io/hostname: knode2
       volumes:
       - name: config
         iscsi:
@@ -61,7 +61,7 @@ spec:
       containers:
 
       - name: nextcloud
-        image: linuxserver/nextcloud:165
+        image: linuxserver/nextcloud:amd64-15.0.7-ls14
         volumeMounts:
         - name: config
           mountPath: /config
@@ -78,7 +78,7 @@ spec:
           value: '1001'
 
       - name: mariadb
-        image: linuxserver/mariadb:153
+        image: linuxserver/mariadb:amd64-110.3.14mariabionic-ls12
         volumeMounts:
         - name: mariadb-config
           mountPath: /config
@@ -100,7 +100,7 @@ spec:
               key: MYSQL_ROOT_PASSWORD
 
       - name: redis
-        image: redis:5.0.3
+        image: redis:5-alpine
         command: ["redis-server"]
         args: ["/usr/local/etc/redis/redis.conf"]
         volumeMounts:
