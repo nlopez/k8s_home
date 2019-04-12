@@ -18,11 +18,9 @@ spec:
         kubernetes.io/hostname: knode1
       volumes:
       - name: pms
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:pms
-          targetPortal: 192.168.220.149
-          lun: 1
-          fsType: ext4
+        hostPath:
+          path: /mnt/BLOCK/pms
+          type: Directory
       - name: media
         persistentVolumeClaim:
           claimName: media
