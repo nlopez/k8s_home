@@ -26,7 +26,7 @@ spec:
           claimName: media
       containers:
       - name: radarr
-        image: linuxserver/radarr:amd64-0.2.0.1331-ls10
+        image: linuxserver/radarr:amd64-v0.2.0.1293-ls10
         volumeMounts:
         - name: radarr
           subPath: config
