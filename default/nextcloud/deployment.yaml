@@ -78,7 +78,7 @@ spec:
           value: '1001'
 
       - name: mariadb
-        image: linuxserver/mariadb:amd64-110.3.14mariabionic-ls12
+        image: linuxserver/mariadb:amd64-110.3.14mariabionic-ls13
         volumeMounts:
         - name: mariadb-config
           mountPath: /config
