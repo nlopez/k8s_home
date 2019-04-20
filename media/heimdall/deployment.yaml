@@ -23,7 +23,7 @@ spec:
           fsType: ext4
       containers:
       - name: heimdall
-        image: linuxserver/heimdall:amd64-4980bfab-ls15
+        image: linuxserver/heimdall:amd64-2.1.13-ls40
         volumeMounts:
         - name: config
           mountPath: /config
