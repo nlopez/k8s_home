@@ -10,16 +10,4 @@ spec:
   ingress:
   - ports:
     - port: 5075
-    from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    - podSelector:
-        matchLabels:
-          app: sonarr
-    - podSelector:
-        matchLabels:
-          app: radarr
-    - podSelector:
-        matchLabels:
-          app: radarr4k
+    from: []
