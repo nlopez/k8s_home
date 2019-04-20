@@ -9,6 +9,9 @@ metadata:
     flux.weave.works/automated: 'true'
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
   template:
     metadata:
       labels:

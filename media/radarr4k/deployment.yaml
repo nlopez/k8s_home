@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: radarr4k
@@ -9,6 +9,9 @@ metadata:
     flux.weave.works/automated: 'true'
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: radarr4k
   template:
     metadata:
       labels:
