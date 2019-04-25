@@ -10,10 +10,4 @@ spec:
   ingress:
   - ports:
     - port: 7878
-    from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    - podSelector:
-        matchLabels:
-          app: heimdall
+    from: []
