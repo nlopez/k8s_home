@@ -16,8 +16,8 @@ spec:
     metadata:
       labels:
         app: sonarr
-    annotations:
-      linkerd.io/inject: enabled
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       containers:
       - name: sonarr

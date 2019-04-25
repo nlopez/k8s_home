@@ -16,8 +16,8 @@ spec:
     metadata:
       labels:
         app: tautulli
-    annotations:
-      linkerd.io/inject: enabled
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       volumes:
       - name: tautulli
