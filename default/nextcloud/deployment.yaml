@@ -67,7 +67,7 @@ spec:
       containers:
 
       - name: nextcloud
-        image: linuxserver/nextcloud:amd64-15.0.7-ls17
+        image: linuxserver/nextcloud:amd64-16.0.0-ls17
         volumeMounts:
         - name: config
           mountPath: /config
