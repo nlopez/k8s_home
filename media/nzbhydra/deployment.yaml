@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: nzbhydra
+    annotations:
+      linkerd.io/inject: enabled
     spec:
       volumes:
       - name: nzbhydra-config

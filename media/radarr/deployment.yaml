@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: radarr
+    annotations:
+      linkerd.io/inject: enabled
     spec:
       volumes:
       - name: radarr

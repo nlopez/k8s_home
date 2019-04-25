@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: heimdall
+    annotations:
+      linkerd.io/inject: enabled
     spec:
       volumes:
       - name: config
