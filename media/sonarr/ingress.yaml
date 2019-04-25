@@ -6,6 +6,10 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header l5d-dst-override sonarr.media.svc.cluster.local:8989;
+      proxy_hide_header l5d-remote-ip;
+      proxy_hide_header l5d-server-id;
 spec:
   tls:
   - hosts:
