@@ -7,10 +7,6 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override tautulli.media.svc.cluster.local:8181;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
 spec:
   tls:
   - hosts:
