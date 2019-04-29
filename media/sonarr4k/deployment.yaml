@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr4k
+  namespace: media
+  annotations:
+    flux.weave.works/tag.sonarr4k: glob:amd64-3*-ls*
+    flux.weave.works/automated: 'false'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr4k
+  template:
+    metadata:
+      labels:
+        app: sonarr4k
+    spec:
+      containers:
+      - name: sonarr4k
+        image: linuxserver/sonarr:amd64-3.0.1.456-ls57
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        ports:
+        - name: sonarr
+          containerPort: 8989
+        readinessProbe:
+          tcpSocket:
+            port: sonarr
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: sonarr
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        volumeMounts:
+        - name: sonarr4k
+          subPath: config
+          mountPath: /config
+        - name: media
+          mountPath: /media
+      volumes:
+      - name: sonarr4k
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:sonarr4k
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      - name: media
+        persistentVolumeClaim:
+          claimName: media

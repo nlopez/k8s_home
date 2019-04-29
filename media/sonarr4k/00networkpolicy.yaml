@@ -1,0 +1,13 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: sonarr4k
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: sonarr4k
+  ingress:
+  - ports:
+    - port: 8989
+    from: []
