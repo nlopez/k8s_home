@@ -6,7 +6,7 @@ metadata:
   namespace: media
   annotations:
     flux.weave.works/tag.sonarr: glob:amd64-3*-ls*
-    flux.weave.works/automated: 'false'
+    flux.weave.works/automated: 'true'
 spec:
   replicas: 1
   selector:
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: sonarr
-        image: linuxserver/sonarr:amd64-3.0.1.464-ls60
+        image: linuxserver/sonarr:amd64-3.0.1.465-ls61
         env:
         - name: PUID
           value: '1001'
