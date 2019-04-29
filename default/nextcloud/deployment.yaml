@@ -9,7 +9,7 @@ metadata:
     flux.weave.works/tag.nextcloud: glob:amd64-*-ls*
     flux.weave.works/tag.mariadb: glob:amd64-*-ls*
     flux.weave.works/tag.redis: glob:5*-alpine
-    flux.weave.works/automated: 'true'
+    flux.weave.works/automated: 'false'
 spec:
   replicas: 1
   selector:

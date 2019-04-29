@@ -6,7 +6,7 @@ metadata:
   namespace: media
   annotations:
     flux.weave.works/tag.tautulli: glob:amd64-*-ls*
-    flux.weave.works/automated: 'true'
+    flux.weave.works/automated: 'false'
 spec:
   replicas: 1
   selector:
