@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: mon
+  annotations:
+    flux.weave.works/ignore: 'false'
+    flux.weave.works/automated: 'false'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: kibana:7.0.1
+        volumeMounts:
+        - name: esdata
+          mountPath: /usr/share/kibana/data

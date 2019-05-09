@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: mon
+spec:
+  selector:
+    app: kibana
+  ports:
+  - name: '5601'
+    port: 5601
