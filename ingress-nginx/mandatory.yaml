@@ -167,6 +167,9 @@ spec:
       annotations:
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
+        co.elastic.logs/module: nginx
+        co.elastic.logs/fileset.stdout: access
+        co.elastic.logs/fileset.stderr: error
     spec:
       serviceAccountName: nginx-ingress-serviceaccount
       containers:
