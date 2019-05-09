@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  namespace: mon
+spec:
+  selector:
+    app: elasticsearch
+  ports:
+  - name: '9200'
+    port: 9200
+  - name: '9300'
+    port: 9300

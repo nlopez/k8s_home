@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: mon
+  annotations:
+    flux.weave.works/ignore: 'false'
+    flux.weave.works/automated: 'false'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      volumes:
+      - name: esdata
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:esdata
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      containers:
+      - name: elasticsearch
+        image: elasticsearch:7.0.1
+        volumeMounts:
+        - name: esdata
+          mountPath: /usr/share/elasticsearch/data
+        env:
+        - name: ES_JAVA_OPTS
+          value: '-Xms1g -Xmx1g'
+        - name: discovery.type
+          value: 'single-node'
+        - name: bootstrap.memory_lock
+          value: 'true'
