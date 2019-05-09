@@ -20,9 +20,9 @@ spec:
       containers:
       - name: kibana
         image: kibana:7.0.1
-      env:
-      - name: SERVER_NAME
-        value: 's.desertbluffs.com'
-      - name: ELASTICSEARCH_HOSTS
-        value: 'http://elasticsearch:9200'
+        env:
+        - name: SERVER_NAME
+          value: 's.desertbluffs.com'
+        - name: ELASTICSEARCH_HOSTS
+          value: 'http://elasticsearch:9200'
 
