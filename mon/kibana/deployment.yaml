@@ -20,6 +20,3 @@ spec:
       containers:
       - name: kibana
         image: kibana:7.0.1
-        volumeMounts:
-        - name: esdata
-          mountPath: /usr/share/kibana/data
