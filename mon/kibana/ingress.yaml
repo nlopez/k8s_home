@@ -18,7 +18,7 @@ spec:
       - path: /
         backend:
           serviceName: kibana
-          servicePort: 5201
+          servicePort: 5601
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress

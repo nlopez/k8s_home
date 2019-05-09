@@ -9,7 +9,7 @@ spec:
       app: kibana
   ingress:
   - ports:
-    - port: 8601
+    - port: 5601
     from:
     - namespaceSelector:
         matchLabels:
