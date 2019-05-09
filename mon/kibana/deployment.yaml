@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: kibana
-        image: kibana:7.0.1
+        image: docker.elastic.co/kibana:7.0.1
         env:
         - name: SERVER_NAME
           value: 's.desertbluffs.com'

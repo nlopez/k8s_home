@@ -26,7 +26,7 @@ spec:
           fsType: ext4
       containers:
       - name: elasticsearch
-        image: elasticsearch:7.0.1
+        image: docker.elastic.co/elasticsearch:7.0.1
         volumeMounts:
         - name: esdata
           mountPath: /usr/share/elasticsearch/data
