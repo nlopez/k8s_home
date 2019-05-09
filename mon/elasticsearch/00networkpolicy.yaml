@@ -1,0 +1,13 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: elasticsearch
+  namespace: mon
+spec:
+  podSelector:
+    matchLabels:
+      app: elasticsearch
+  ingress:
+  - ports:
+    - port: 9200
+    from: []

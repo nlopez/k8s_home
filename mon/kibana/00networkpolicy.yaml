@@ -1,0 +1,16 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: kibana
+  namespace: mon
+spec:
+  podSelector:
+    matchLabels:
+      app: kibana
+  ingress:
+  - ports:
+    - port: 8601
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
