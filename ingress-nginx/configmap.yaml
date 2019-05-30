@@ -12,8 +12,8 @@ data:
   server-tokens: "false"
   ssl-protocols: "TLSv1.3 TLSv1.2"
   server-snippet: "proxy_ssl_verify off;"
-  proxy-buffering: "on"
-  proxy-request-buffering: "on"
+  proxy-buffering: "off"
+  proxy-request-buffering: "off"
   proxy-read-timeout: "3600"
   proxy-send-timeout: "3600"
 ---
