@@ -26,10 +26,8 @@ data:
     group = abc
     listen = 127.0.0.1:9000
     pm = static
-    pm.max_children = 120
-    pm.start_servers = 12
-    pm.min_spare_servers = 6
-    pm.max_spare_servers = 18
+    pm.max_children = 200
+    pm.max_requests = 1000
 ---
 apiVersion: v1
 kind: ConfigMap
