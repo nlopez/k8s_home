@@ -63,6 +63,12 @@ spec:
       - name: nextcloud-crontabs
         configMap:
           name: nextcloud-crontabs
+      - name: php-opcache-config
+        configMap:
+          name: nextcloud-php-opcache-config
+          items:
+          - key: 10-opcache.ini
+            path: 10-opcache.ini
 
       containers:
 
@@ -79,6 +85,9 @@ spec:
           mountPath: /etc/php7/php-fpm.d/
         - name: nextcloud-crontabs
           mountPath: /etc/crontabs/
+        - name: php-opcache-config
+          mountPath: /etc/php7/conf.d/10-opcache.ini
+          subPath: 10-opcache.ini
         env:
         - name: PUID
           value: '1001'

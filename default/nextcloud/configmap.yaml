@@ -15,6 +15,22 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: nextcloud-php-opcache-config
+  namespace: default
+  annotations:
+    flux.weave.works/ignore: 'false'
+data:
+  10-opcache.ini: |
+    opcache.enable=1
+    opcache.interned_strings_buffer=8
+    opcache.max_accelerated_files=10000
+    opcache.memory_consumption=128
+    opcache.save_comments=1
+    opcache.revalidate_freq=1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: nextcloud-php-fpm
   namespace: default
   annotations:
