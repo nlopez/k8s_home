@@ -24,6 +24,12 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext4
+      - name: tautulli2
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:tautulli2
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
       - name: pms
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:pms-tautulli
@@ -38,6 +44,9 @@ spec:
         - name: tautulli
           subPath: config
           mountPath: /config
+        - name: tautulli2
+          subPath: config
+          mountPath: /config2
         - name: pms
           subPath: config/Library/Application Support/Plex Media Server/Logs
           mountPath: /logs
