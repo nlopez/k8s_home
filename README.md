@@ -9,7 +9,7 @@ kubeadm init --config kubeadm-init.yaml
 
 ### Weave
 ```bash
-kubectl apply -f kubectl apply -f kube-system/weave-net*.yaml 
+kubectl apply -f kube-system/weave-net*.yaml 
 ```
 
 ### Untaint master
