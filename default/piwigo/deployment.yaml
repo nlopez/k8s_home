@@ -22,6 +22,7 @@ spec:
         image: linuxserver/piwigo:2.9.5-ls21
         volumeMounts:
         - name: piwigo
+          subPath: config
           mountPath: /config
         ports:
         - containerPort: 80
