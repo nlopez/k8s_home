@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piwigo
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: piwigo
+    spec:
+      volumes:
+      - name: piwigo
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:piwigo
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      containers:
+      - name: piwigo
+        image: linuxserver/piwigo:2.9.5-ls21
+        volumeMounts:
+        - name: piwigo
+          mountPath: /config
+        ports:
+        - containerPort: 80
+          name: piwigo
+        env:
+        - name: PUID
+          value: '1001'
+        - name: PGID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+

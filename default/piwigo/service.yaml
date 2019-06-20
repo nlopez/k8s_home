@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: piwigo
+  namespace: default
+spec:
+  selector:
+    app: piwigo
+  ports:
+  - name: piwigo
+    port: 80
+    targetPort: 80
