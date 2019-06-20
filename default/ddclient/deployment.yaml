@@ -9,6 +9,9 @@ metadata:
     flux.weave.works/automated: 'false'
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: ddclient
   template:
     metadata:
       labels:
