@@ -32,7 +32,7 @@ spec:
           secretName: deluge
       containers:
       - name: deluge
-        image: linuxserver/deluge:amd64-0584edf4-ls18
+        image: linuxserver/deluge:2.0.3-2201906121747ubuntu18.04.1-ls28
         volumeMounts:
         - name: deluge
           subPath: config
