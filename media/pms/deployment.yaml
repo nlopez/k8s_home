@@ -14,8 +14,8 @@ spec:
       labels:
         app: pms
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: knode1
+      # nodeSelector:
+      #   kubernetes.io/hostname: knode1
       volumes:
       - name: pms-iscsi
         iscsi:
