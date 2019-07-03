@@ -20,8 +20,18 @@ spec:
       labels:
         app: nextcloud
     spec:
-      # nodeSelector:
-      #   kubernetes.io/hostname: knode2
+      affinity:
+       podAntiAffinity:
+         preferredDuringSchedulingIgnoredDuringExecution:
+         - weight: 100
+           podAffinityTerm:
+             labelSelector:
+               matchExpressions:
+               - key: app
+                 operator: In
+                 values:
+                 - pms
+             topologyKey: kubernetes.io/hostname
       volumes:
       - name: config
         iscsi:
