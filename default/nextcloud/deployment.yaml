@@ -44,10 +44,10 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: nextcloud-data
-      - name: appdata
-        hostPath:
-          path: /mnt/BLOCK/nextcloud-appdata
-          type: Directory
+      # - name: appdata
+      #   hostPath:
+      #     path: /mnt/BLOCK/nextcloud-appdata
+      #     type: Directory
       - name: mariadb-config
         configMap:
           name: nextcloud-mariadb
@@ -79,8 +79,8 @@ spec:
           mountPath: /config
         - name: data
           mountPath: /data
-        - name: appdata
-          mountPath: /data/appdata
+        # - name: appdata
+        #   mountPath: /data/appdata
         - name: php-fpm-config
           mountPath: /etc/php7/php-fpm.d/
         - name: nextcloud-crontabs
