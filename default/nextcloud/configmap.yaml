@@ -60,7 +60,7 @@ data:
     nice    = 0
 
     [mysqld]
-    max_connections   = 100
+    max_connections   = 300
     connect_timeout   = 5
     wait_timeout    = 600
     max_allowed_packet  = 16M
