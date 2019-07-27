@@ -43,7 +43,7 @@ data:
     listen = 127.0.0.1:9000
     pm = static
     pm.max_children = 200
-    pm.max_requests = 1000
+    pm.max_requests = 0
 ---
 apiVersion: v1
 kind: ConfigMap
