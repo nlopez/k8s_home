@@ -5,8 +5,6 @@ metadata:
   namespace: media
   labels:
     name: media
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
 spec:
   capacity:
     storage: 1Pi
@@ -15,6 +13,11 @@ spec:
   nfs:
     server: 192.168.220.114
     path: "/mnt/etank/media"
+  mountOptions:
+    - nfsvers=4.1
+    - all_squash
+    - anonuid=1001
+    - anongid=1001
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -23,8 +26,6 @@ metadata:
   namespace: media
   labels:
     name: scratch
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
 spec:
   capacity:
     storage: 1Pi
@@ -33,6 +34,11 @@ spec:
   nfs:
     server: 192.168.220.149
     path: "/mnt/etank/scratch"
+  mountOptions:
+    - nfsvers=4.1
+    - all_squash
+    - anonuid=1001
+    - anongid=1001
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -41,8 +47,6 @@ metadata:
   namespace: media
   labels:
     name: roms
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
 spec:
   capacity:
     storage: 1Pi
@@ -51,6 +55,11 @@ spec:
   nfs:
     server: 192.168.220.149
     path: "/mnt/etank/scratch/roms"
+  mountOptions:
+    - nfsvers=4.1
+    - all_squash
+    - anonuid=1001
+    - anongid=1001
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -59,8 +68,6 @@ metadata:
   namespace: media
   labels:
     name: deluge
-  annotations:
-    volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
 spec:
   capacity:
     storage: 1Pi
@@ -69,3 +76,8 @@ spec:
   nfs:
     server: 192.168.220.149
     path: "/mnt/etank/scratch/downloads/deluge"
+  mountOptions:
+    - nfsvers=4.1
+    - all_squash
+    - anonuid=1001
+    - anongid=1001
