@@ -15,9 +15,6 @@ spec:
     path: "/mnt/etank/media"
   mountOptions:
     - nfsvers=4.1
-    - all_squash
-    - anonuid=1001
-    - anongid=1001
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -36,9 +33,6 @@ spec:
     path: "/mnt/etank/scratch"
   mountOptions:
     - nfsvers=4.1
-    - all_squash
-    - anonuid=1001
-    - anongid=1001
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -57,9 +51,6 @@ spec:
     path: "/mnt/etank/scratch/roms"
   mountOptions:
     - nfsvers=4.1
-    - all_squash
-    - anonuid=1001
-    - anongid=1001
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -78,6 +69,3 @@ spec:
     path: "/mnt/etank/scratch/downloads/deluge"
   mountOptions:
     - nfsvers=4.1
-    - all_squash
-    - anonuid=1001
-    - anongid=1001
