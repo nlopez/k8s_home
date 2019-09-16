@@ -54,6 +54,9 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: nextcloud-data
+      - name: nas-media
+        persistentVolumeClaim:
+          claimName: media
       # - name: appdata
       #   hostPath:
       #     path: /mnt/BLOCK/nextcloud-appdata
@@ -98,6 +101,8 @@ spec:
         - name: php-opcache-config
           mountPath: /etc/php7/conf.d/10-opcache.ini
           subPath: 10-opcache.ini
+        - name: nas-media
+          mountPath: /nas/media
         env:
         - name: PUID
           value: '1001'
