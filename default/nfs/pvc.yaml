@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: media
+      name: default-media
   accessModes:
     - ReadWriteMany
   resources:
@@ -21,7 +21,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: scratch
+      name: default-scratch
   accessModes:
     - ReadWriteMany
   resources:
@@ -36,7 +36,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: roms
+      name: default-roms
   accessModes:
     - ReadWriteMany
   resources:
@@ -51,7 +51,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: deluge
+      name: default-deluge
   accessModes:
     - ReadWriteMany
   resources:
