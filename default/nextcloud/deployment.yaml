@@ -82,6 +82,12 @@ spec:
           items:
           - key: 10-opcache.ini
             path: 10-opcache.ini
+      - name: php-ini
+        configMap:
+          name: nextcloud-php-ini
+          items:
+            - key: php.ini
+              path: php.ini
 
       containers:
 
@@ -101,6 +107,9 @@ spec:
         - name: php-opcache-config
           mountPath: /etc/php7/conf.d/10-opcache.ini
           subPath: 10-opcache.ini
+        - name: php-ini
+          mountPath: /etc/php7/php.ini
+          subPath: php.ini
         - name: nas-media
           mountPath: /nas/media
         env:
