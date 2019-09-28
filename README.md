@@ -4,12 +4,13 @@ A collection of Kubernetes objects for my home setup
 ## Notes
 ### kubeadm
 ```bash
-kubeadm init --config kubeadm-init.yaml
+kubeadm init --config kubeadm-init.conf --upload-certs
+# run control plane join command printed by kubeadm on additional masters
 ```
 
 ### Weave
 ```bash
-kubectl apply -f kube-system/weave-net*.yaml 
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 ```
 
 ### Untaint master
@@ -29,8 +30,8 @@ kubectl apply -f metallb-system
 
 ### Sealed secrets
 ```bash
-kubectl apply -f kube-system/kubeseal
 kubectl apply -f /path/to/kubeseal-secret-key
+kubectl apply -f kube-system/kubeseal
 ```
 
 ### flux
