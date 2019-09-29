@@ -57,6 +57,9 @@ spec:
       - name: nas-media
         persistentVolumeClaim:
           claimName: media
+      - name: nas-scratch
+        persistentVolumeClaim:
+          claimName: scratch
       # - name: appdata
       #   hostPath:
       #     path: /mnt/BLOCK/nextcloud-appdata
@@ -112,6 +115,8 @@ spec:
           subPath: php.ini
         - name: nas-media
           mountPath: /nas/media
+        - name: nas-scratch
+          mountPath: /nas/scratch
         env:
         - name: PUID
           value: '1001'
