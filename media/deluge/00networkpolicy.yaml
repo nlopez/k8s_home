@@ -10,13 +10,7 @@ spec:
   ingress:
   - ports:
     - port: 8112
-    from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    - namespaceSelector:
-        matchLabels:
-          name: media
+    from: []
 ---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
