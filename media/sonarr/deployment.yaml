@@ -55,7 +55,7 @@ spec:
           iqn: iqn.2014-09.com.radoncanyon:nas1:sonarr
           targetPortal: 192.168.220.149
           lun: 1
-          fsType: ext4
+          fsType: ext2
       - name: media
         persistentVolumeClaim:
           claimName: media
