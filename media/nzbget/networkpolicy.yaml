@@ -11,10 +11,4 @@ spec:
   ingress:
   - ports:
     - port: 6789
-    from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    - namespaceSelector:
-        matchLabels:
-          name: media
+    from: []
