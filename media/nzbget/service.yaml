@@ -1,8 +1,13 @@
-kind: Service
+---
 apiVersion: v1
+kind: Service
 metadata:
   name: nzbget
   namespace: media
 spec:
-  type: ExternalName
-  externalName: 192.168.222.3.xip.io
+  selector:
+    app: nzbget
+  ports:
+  - name: nzbget
+    port: 6789
+    targetPort: nzbget

@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -17,7 +18,7 @@ spec:
       - path: /
         backend:
           serviceName: nzbget
-          servicePort: 6789
+          servicePort: nzbget
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
