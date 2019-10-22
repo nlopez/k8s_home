@@ -48,15 +48,23 @@ spec:
         - name: nzbget
           containerPort: 6789
         readinessProbe:
-          tcpSocket:
-            port: nzbget
+          exec:
+            command:
+              - /app/nzbget/nzbget
+              - -c
+              - /config/nzbget.conf
+              - --serverversion
           initialDelaySeconds: 5
-          periodSeconds: 10
+          periodSeconds: 5
         livenessProbe:
-          tcpSocket:
-            port: nzbget
-          initialDelaySeconds: 15
-          periodSeconds: 20
+          exec:
+            command:
+              - /app/nzbget/nzbget
+              - -c
+              - /config/nzbget.conf
+              - --serverversion
+          initialDelaySeconds: 5
+          periodSeconds: 5
       # affinity:
       #   podAntiAffinity:
       #     preferredDuringSchedulingIgnoredDuringExecution:
