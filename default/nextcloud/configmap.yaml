@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: nextcloud-redis
   namespace: default
-  annotations:
-    flux.weave.works/ignore: 'false'
 data:
   redis.conf: |
     port 6379
@@ -17,8 +15,6 @@ kind: ConfigMap
 metadata:
   name: nextcloud-php-ini
   namespace: default
-  annotations:
-    flux.weave.works/ignore: 'false'
 data:
   php.ini: |
     [PHP]
@@ -182,8 +178,6 @@ kind: ConfigMap
 metadata:
   name: nextcloud-php-opcache-config
   namespace: default
-  annotations:
-    flux.weave.works/ignore: 'false'
 data:
   10-opcache.ini: |
     opcache.enable=1
@@ -198,8 +192,6 @@ kind: ConfigMap
 metadata:
   name: nextcloud-php-fpm
   namespace: default
-  annotations:
-    flux.weave.works/ignore: 'false'
 data:
   www.conf: |
     [www]
@@ -215,8 +207,6 @@ kind: ConfigMap
 metadata:
   name: nextcloud-mariadb
   namespace: default
-  annotations:
-    flux.weave.works/ignore: 'false'
 data:
   custom.cnf: |
     ## custom configuration file, please be aware that changing options here may break things
@@ -368,8 +358,6 @@ kind: ConfigMap
 metadata:
   name: nextcloud-crontabs
   namespace: default
-  annotations:
-    flux.weave.works/ignore: 'false'
 data:
   root: |
     */15 * * * * s6-setuidgid abc php7 -f /config/www/nextcloud/cron.php

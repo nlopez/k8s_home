@@ -7,7 +7,6 @@ metadata:
   annotations:
     flux.weave.works/tag.tautulli: glob:amd64-*-ls*
     flux.weave.works/automated: 'false'
-    flux.weave.works/ignore: 'false'
 spec:
   replicas: 1
   selector:

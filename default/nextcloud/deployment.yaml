@@ -5,7 +5,6 @@ metadata:
   name: nextcloud
   namespace: default
   annotations:
-    flux.weave.works/ignore: 'false'
     flux.weave.works/tag.nextcloud: glob:amd64-*-ls*
     flux.weave.works/tag.mariadb: glob:amd64-*-ls*
     flux.weave.works/tag.redis: glob:5*-alpine

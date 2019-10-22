@@ -7,7 +7,6 @@ metadata:
     name: nextcloud-data
   annotations:
     volume.beta.kubernetes.io/mount-options: "nfsvers=4.1"
-    flux.weave.works/ignore: 'false'
 spec:
   capacity:
     storage: 1Pi

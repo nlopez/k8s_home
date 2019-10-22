@@ -5,7 +5,6 @@ metadata:
   name: kibana
   namespace: mon
   annotations:
-    flux.weave.works/ignore: 'false'
     flux.weave.works/automated: 'false'
 spec:
   replicas: 1

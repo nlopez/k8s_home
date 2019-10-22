@@ -42,6 +42,23 @@ fluxctl identity # add key to GitHub with write access
 fluxctl sync
 ```
 
+#### Un/ignoring resources with flux
+```bash
+# Ignore
+kubectl annotate <resource> "flux.weave.works/ignore"
+
+# Unignore
+kubectl annotate <resource> "flux.weave.works/ignore"-
+
+# Ignore all in namespace 
+# (doesn't seem like there is --all-namespaces for this.)
+kubectl -n default annotate all --all "flux.weave.works/ignore"
+
+# Unignore all in namespace
+kubectl -n default annotate all --all "flux.weave.works/ignore"-
+```
+See https://github.com/fluxcd/flux/issues/1211 for more
+
 ## TODO
 - [ ] Translate notes section into a bootstrap shell script
 
