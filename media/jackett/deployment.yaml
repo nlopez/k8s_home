@@ -7,6 +7,7 @@ metadata:
   annotations:
     flux.weave.works/tag.jackett: glob:amd64-3*-ls*
     flux.weave.works/automated: 'false'
+    flux.weave.works/ignore: 'false'
 spec:
   replicas: 1
   selector:
@@ -19,7 +20,7 @@ spec:
     spec:
       containers:
       - name: jackett
-        image: linuxserver/jackett@sha256:3b4a78becbe24cac2649d5bb025965dc63c8838b49fa8851ca59a631d8b0248b
+        image: linuxserver/jackett:v0.12.847-ls44
         env:
         - name: PUID
           value: '1001'
