@@ -31,7 +31,7 @@ spec:
           medium: Memory
       containers:
       - name: pms-unicorn
-        image: nlopez/unicorn-transcoder:3
+        image: nlopez/unicorn-transcoder:4
         # resources:
         #   limits:
         #     gpu.intel.com/i915: 1
@@ -59,10 +59,8 @@ spec:
           value: 'pms-unicorn-redis'
         - name: LOADBALANCER_ADDRESS
           value: 'https://k.desertbluffs.com'
-        - name: MY_POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
+        - name: INSTANCE_ADDRESS
+          value: 'https://u2.desertbluffs.com'
         ports:
         - name: unicorn-lb
           containerPort: 3001
