@@ -65,6 +65,8 @@ spec:
           value: 'https://k.desertbluffs.com'
         - name: DEBUG
           value: '*'
+        - name: TEMP_FOLDER
+          value: '/transcode'
         ports:
         - name: unicorn-lb
           containerPort: 3001
