@@ -10,6 +10,8 @@ spec:
   tls:
   - hosts:
     - k.desertbluffs.com
+    - l.desertbluffs.com
+    - m.desertbluffs.com
   rules:
   - host: k.desertbluffs.com
     http:
@@ -17,3 +19,15 @@ spec:
       - backend:
           serviceName: pms-unicorn
           servicePort: 3001
+  - host: l.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: pms-unicorn
+          servicePort: 3000
+  - host: m.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: pms-unicorn
+          servicePort: 3000

@@ -1,14 +1,13 @@
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: pms-unicorn
+  name: pms-unicorn-l
   namespace: media
   annotations:
     flux.weave.works/automated: 'false'
 spec:
-  replicas: 2
-  serviceName: pms-unicorn
+  replicas: 1
   selector:
     matchLabels:
       app: pms-unicorn
@@ -17,6 +16,8 @@ spec:
       labels:
         app: pms-unicorn
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: knode1
       volumes:
       - name: pms-unicorn
         hostPath:
@@ -79,13 +80,3 @@ spec:
           postStart:
             exec:
               command: ["/bin/rm", "-f", "/usr/lib/plexmediaserver/Plex Relay"]
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - pms-unicorn
-            topologyKey: "kubernetes.io/hostname"
