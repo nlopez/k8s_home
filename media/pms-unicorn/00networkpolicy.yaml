@@ -1,12 +1,29 @@
+---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: pms-unicorn
+  name: pms-unicorn-1
   namespace: media
 spec:
   podSelector:
     matchLabels:
       app: pms-unicorn-1
+  ingress:
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 3001
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: pms-unicorn-2
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
       app: pms-unicorn-2
   ingress:
   - from: []
