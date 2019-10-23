@@ -36,9 +36,9 @@ spec:
       containers:
       - name: pms
         image: plexinc/pms-docker:1.18.0.1944-f2cae8d6b
-        # resources:
-        #   limits:
-        #     gpu.intel.com/i915: 1
+        resources:
+          limits:
+            gpu.intel.com/i915: 1
         volumeMounts:
         - name: pms-iscsi
           subPath: config
