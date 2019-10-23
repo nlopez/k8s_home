@@ -30,7 +30,7 @@ spec:
           medium: Memory
       containers:
       - name: pms-unicorn
-        image: nlopez/unicorn-transcoder:2
+        image: nlopez/unicorn-transcoder:3
         # resources:
         #   limits:
         #     gpu.intel.com/i915: 1
@@ -53,7 +53,7 @@ spec:
         - name: TZ
           value: 'America/New_York'
         - name: CUSTOM_SERVERS_LIST
-          value: 'http://pms-unicorn-0:3000/,http://pms-unicorn-1:3000/'
+          value: 'http://pms-unicorn-0.pms-unicorn:3000/,http://pms-unicorn-1.pms-unicorn:3000/'
         - name: REDIS_HOST
           value: 'pms-unicorn-redis'
         - name: LOADBALANCER_ADDRESS
