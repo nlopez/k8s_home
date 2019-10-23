@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pms-unicorn-1
+  name: pms-unicorn-2
   namespace: media
   annotations:
     flux.weave.works/automated: 'false'
@@ -10,14 +10,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pms-unicorn-1
+      app: pms-unicorn-2
   template:
     metadata:
       labels:
-        app: pms-unicorn-1
+        app: pms-unicorn-2
     spec:
       nodeSelector:
-        kubernetes.io/hostname: knode1
+        kubernetes.io/hostname: knode2
       volumes:
       - name: pms-unicorn
         hostPath:

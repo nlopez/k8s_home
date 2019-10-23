@@ -17,17 +17,17 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: pms-unicorn
+          serviceName: pms-unicorn-1
           servicePort: 3001
   - host: l.desertbluffs.com
     http:
       paths:
       - backend:
-          serviceName: pms-unicorn
+          serviceName: pms-unicorn-1
           servicePort: 3000
   - host: m.desertbluffs.com
     http:
       paths:
       - backend:
-          serviceName: pms-unicorn
+          serviceName: pms-unicorn-2
           servicePort: 3000

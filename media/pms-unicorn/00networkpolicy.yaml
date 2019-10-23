@@ -6,7 +6,8 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: pms-unicorn
+      app: pms-unicorn-1
+      app: pms-unicorn-2
   ingress:
   - from: []
     ports:

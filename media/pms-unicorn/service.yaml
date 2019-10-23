@@ -6,7 +6,7 @@ metadata:
   namespace: media
 spec:
   selector:
-    app: pms-unicorn
+    app: pms-unicorn-1
   type: LoadBalancer
   loadBalancerIP: 192.168.10.4
   externalTrafficPolicy: Local
