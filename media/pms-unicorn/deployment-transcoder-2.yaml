@@ -57,10 +57,12 @@ spec:
           value: 'https://u1.desertbluffs.com/,https://u2.desertbluffs.com/'
         - name: REDIS_HOST
           value: 'pms-unicorn-redis'
-        - name: LOADBALANCER_ADDRESS
-          value: 'https://k.desertbluffs.com'
         - name: INSTANCE_ADDRESS
           value: 'https://u2.desertbluffs.com'
+        - name: LOADBALANCER_ADDRESS
+          value: 'https://k.desertbluffs.com'
+        - name: SERVER_PUBLIC
+          value: 'https://k.desertbluffs.com'
         ports:
         - name: unicorn-lb
           containerPort: 3001
