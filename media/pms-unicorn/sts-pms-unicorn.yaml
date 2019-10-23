@@ -30,7 +30,7 @@ spec:
           medium: Memory
       containers:
       - name: pms-unicorn
-        image: nlopez/unicorn-transcoder:1
+        image: nlopez/unicorn-transcoder:2
         # resources:
         #   limits:
         #     gpu.intel.com/i915: 1
@@ -62,8 +62,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: INSTANCE_ADDRESS
-          value: 'http://${MY_POD_NAME}:3000'
         ports:
         - name: unicorn-lb
           containerPort: 3001
