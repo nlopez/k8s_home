@@ -17,7 +17,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: pms-unicorn-1
+          serviceName: pms-unicorn-lb
           servicePort: 3001
   - host: u1.desertbluffs.com
     http:
