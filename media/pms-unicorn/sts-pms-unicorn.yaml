@@ -30,7 +30,7 @@ spec:
           medium: Memory
       containers:
       - name: pms-unicorn
-        image: nlopez/pms-unicorn:1
+        image: nlopez/unicorn-transcoder:1
         resources:
           limits:
             gpu.intel.com/i915: 1
