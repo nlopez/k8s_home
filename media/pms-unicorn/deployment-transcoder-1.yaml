@@ -67,6 +67,8 @@ spec:
           value: '*'
         - name: TEMP_FOLDER
           value: '/transcode'
+        - name: CUSTOM_DOWNLOAD_FORWARD
+          value: 'true'
         ports:
         - name: unicorn-lb
           containerPort: 3001
