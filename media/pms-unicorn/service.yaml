@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pms-unicorn
+  name: pms-unicorn-lb
   namespace: media
 spec:
   selector:
@@ -14,3 +14,33 @@ spec:
   - name: unicorn-lb
     port: 3001
     targetPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pms-unicorn-1
+  namespace: media
+spec:
+  selector:
+    app: pms-unicorn-1
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - name: unicorn-transcoder
+    port: 3000
+    targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pms-unicorn-2
+  namespace: media
+spec:
+  selector:
+    app: pms-unicorn-2
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - name: unicorn-transcoder
+    port: 3000
+    targetPort: 3000
