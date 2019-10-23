@@ -32,9 +32,9 @@ spec:
       containers:
       - name: pms-unicorn
         image: nlopez/unicorn-transcoder:4
-        # resources:
-        #   limits:
-        #     gpu.intel.com/i915: 1
+        resources:
+          limits:
+            gpu.intel.com/i915: 1
         volumeMounts:
         - name: pms-unicorn
           subPath: config
