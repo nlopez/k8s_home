@@ -62,7 +62,7 @@ spec:
         - name: LOADBALANCER_ADDRESS
           value: 'https://k.desertbluffs.com'
         - name: SERVER_PUBLIC
-          value: 'https://k.desertbluffs.com'
+          value: 'https://k.desertbluffs.com/'
         - name: DEBUG
           value: '*'
         - name: TEMP_FOLDER
