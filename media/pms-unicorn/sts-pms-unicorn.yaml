@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pms-unicorn
+  namespace: media
+  annotations:
+    flux.weave.works/automated: 'false'
+spec:
+  replicas: 2
+  serviceName: pms-unicorn
+  selector:
+    matchLabels:
+      app: pms-unicorn
+  template:
+    metadata:
+      labels:
+        app: pms-unicorn
+    spec:
+      volumes:
+      - name: pms-unicorn
+        hostPath:
+          path: /mnt/BLOCK/pms-unicorn
+          type: Directory
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: transcode
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: pms-unicorn
+        image: nlopez/pms-unicorn:1
+        resources:
+          limits:
+            gpu.intel.com/i915: 1
+        volumeMounts:
+        - name: pms-unicorn
+          subPath: config
+          mountPath: /config
+        - name: transcode
+          mountPath: /transcode
+        - name: media
+          mountPath: /media
+          readOnly: true
+        env:
+        - name: CHANGE_CONFIG_DIR_OWNERSHIP
+          value: 'false'
+        - name: PLEX_UID
+          value: '1001'
+        - name: PLEX_GID
+          value: '1001'
+        - name: TZ
+          value: 'America/New_York'
+        - name: CUSTOM_SERVERS_LIST
+          value: 'http://pms-unicorn-0:3001/,http://pms-unicorn-1:3001/'
+        - name: REDIS_HOST
+          value: 'pms-unicorn-redis'
+        ports:
+        - name: pms-unicorn
+          containerPort: 3001
+        readinessProbe:
+          tcpSocket:
+            port: pms-unicorn
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: pms-unicorn
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/rm", "-f", "/usr/lib/plexmediaserver/Plex Relay"]
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pms-unicorn
+            topologyKey: "kubernetes.io/hostname"
