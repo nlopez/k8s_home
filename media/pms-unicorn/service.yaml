@@ -11,6 +11,6 @@ spec:
   loadBalancerIP: 192.168.10.4
   externalTrafficPolicy: Local
   ports:
-  - name: pms-unicorn
-    port: 3000
-    targetPort: 3000
+  - name: unicorn-lb
+    port: 3001
+    targetPort: 3001

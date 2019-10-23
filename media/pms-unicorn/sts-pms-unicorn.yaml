@@ -53,20 +53,20 @@ spec:
         - name: TZ
           value: 'America/New_York'
         - name: CUSTOM_SERVERS_LIST
-          value: 'http://pms-unicorn-0:3001/,http://pms-unicorn-1:3001/'
+          value: 'http://pms-unicorn-0:3000/,http://pms-unicorn-1:3000/'
         - name: REDIS_HOST
           value: 'pms-unicorn-redis'
         ports:
-        - name: pms-unicorn
+        - name: unicorn-lb
           containerPort: 3001
         readinessProbe:
           tcpSocket:
-            port: pms-unicorn
+            port: unicorn-lb
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           tcpSocket:
-            port: pms-unicorn
+            port: unicorn-lb
           initialDelaySeconds: 15
           periodSeconds: 20
         lifecycle:
