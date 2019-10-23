@@ -54,7 +54,7 @@ spec:
         - name: TZ
           value: 'America/New_York'
         - name: CUSTOM_SERVERS_LIST
-          value: 'http://pms-unicorn-0.pms-unicorn:3000/,http://pms-unicorn-1.pms-unicorn:3000/'
+          value: 'https://u1.desertbluffs.com/,https://u2.desertbluffs.com/'
         - name: REDIS_HOST
           value: 'pms-unicorn-redis'
         - name: LOADBALANCER_ADDRESS
