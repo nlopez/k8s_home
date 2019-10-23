@@ -31,9 +31,9 @@ spec:
       containers:
       - name: pms-unicorn
         image: nlopez/unicorn-transcoder:1
-        resources:
-          limits:
-            gpu.intel.com/i915: 1
+        # resources:
+        #   limits:
+        #     gpu.intel.com/i915: 1
         volumeMounts:
         - name: pms-unicorn
           subPath: config
@@ -56,6 +56,14 @@ spec:
           value: 'http://pms-unicorn-0:3000/,http://pms-unicorn-1:3000/'
         - name: REDIS_HOST
           value: 'pms-unicorn-redis'
+        - name: LOADBALANCER_ADDRESS
+          value: 'https://k.desertbluffs.com'
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: INSTANCE_ADDRESS
+          value: 'http://${MY_POD_NAME}:3000'
         ports:
         - name: unicorn-lb
           containerPort: 3001
