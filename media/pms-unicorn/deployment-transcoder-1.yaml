@@ -63,6 +63,8 @@ spec:
           value: 'https://k.desertbluffs.com'
         - name: SERVER_PUBLIC
           value: 'https://k.desertbluffs.com'
+        - name: DEBUG
+          value: '*'
         ports:
         - name: unicorn-lb
           containerPort: 3001
