@@ -105,7 +105,7 @@ metadata:
   name: netdata-freenas
   namespace: mon
   labels:
-    app: netdata-freenas
+    app: netdata
 spec:
   selector:
     matchLabels:
@@ -127,8 +127,6 @@ spec:
   serviceMonitorSelector:
     matchLabels:
       app: netdata
-    matchLabels:
-      app: netdata-freenas
   resources:
     requests:
       memory: 400Mi
