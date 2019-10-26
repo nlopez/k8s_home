@@ -162,6 +162,10 @@ spec:
   serviceMonitorSelector:
     matchLabels:
       app: netdata
+  remoteWrite:
+    - url: 'http://influxdb:8086/api/v1/prom/write?db=prometheus'
+  remoteRead:
+    - url: 'http://influxdb:8086/api/v1/prom/read?db=prometheus'
   resources:
     requests:
       memory: 400Mi
