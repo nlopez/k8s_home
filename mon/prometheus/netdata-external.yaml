@@ -5,67 +5,117 @@ metadata:
   name: knode1
   namespace: mon
   labels:
-    name: knode1
+    app: netdata
 spec:
   type: ExternalName
-  externalName: knode1.radoncanyon.com
+  externalName: 192.168.222.143
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: knode1
+  namespace: mon
+  labels:
+    name: knode1
+    app: netdata
+subsets:
+- addresses:
+  - ip: 192.168.222.143
   ports:
-    - name: netdata
-      protocol: TCP
-      port: 19999
+  - name: netdata
+    protocol: TCP
+    port: 19999
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: knode2
   namespace: mon
+  labels:
+    app: netdata
 spec:
   type: ExternalName
   externalName: knode2.radoncanyon.com
   ports:
-    - name: netdata
-      protocol: TCP
-      port: 19999
+  - name: netdata
+    protocol: TCP
+    port: 19999
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nas1
   namespace: mon
+  labels:
+    app: netdata-freenas
 spec:
   type: ExternalName
-  externalName: nas1.radoncanyon.com
+  externalName: 192.168.222.149
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nas1
+  namespace: mon
+  labels:
+    name: nas1
+    app: netdata-freenas
+subsets:
+- addresses:
+  - ip: 192.168.222.149
   ports:
-    - name: netdata
-      protocol: TCP
-      port: 19999
+  - name: netdata
+    protocol: TCP
+    port: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nas2
   namespace: mon
+  labels:
+    app: netdata-freenas
 spec:
   type: ExternalName
   externalName: nas2.radoncanyon.com
   ports:
-    - name: netdata
-      protocol: TCP
-      port: 19999
+  - name: netdata
+    protocol: TCP
+    port: 19999
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: knode1
+  name: netdata
   namespace: mon
   labels:
     app: netdata
 spec:
   selector:
     matchLabels:
-      name: knode1
+      app: netdata
   endpoints:
   - port: netdata
+    path: /api/v1/allmetrics
+    interval: 5s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: netdata-freenas
+  namespace: mon
+  labels:
+    app: netdata-freenas
+spec:
+  selector:
+    matchLabels:
+      app: netdata-freenas
+  endpoints:
+  - port: netdata
+    path: /netdata/api/v1/allmetrics
+    interval: 5s
+    scheme: http
+    honorLabels: true
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
@@ -77,6 +127,8 @@ spec:
   serviceMonitorSelector:
     matchLabels:
       app: netdata
+    matchLabels:
+      app: netdata-freenas
   resources:
     requests:
       memory: 400Mi
@@ -98,4 +150,3 @@ spec:
     targetPort: web
   selector:
     prometheus: netdata
----
