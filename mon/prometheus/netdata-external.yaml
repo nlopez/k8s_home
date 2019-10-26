@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: knode1
   namespace: mon
+  labels:
+    name: knode1
 spec:
   type: ExternalName
   externalName: knode1.radoncanyon.com
@@ -50,3 +52,32 @@ spec:
     - name: netdata
       protocol: TCP
       port: 19999
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: knode1
+  namespace: mon
+  labels:
+    app: netdata
+spec:
+  selector:
+    matchLabels:
+      name: knode1
+  endpoints:
+  - port: netdata
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: netdata
+  namespace: mon
+spec:
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      app: netdata
+  resources:
+    requests:
+      memory: 400Mi
+  enableAdminAPI: false
