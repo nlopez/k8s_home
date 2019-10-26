@@ -46,6 +46,6 @@ spec:
         - name: GF_AUTH_ANONYMOUS_ENABLED
           value: 'true'
         - name: GF_AUTH_ANONYMOUS_ORG_NAME
-          value: 'Desert Bluffs'
+          value: 'Main Org.'
         - name: GF_AUTH_ANONYMOUS_ORG_ROLE
           value: 'Admin'
