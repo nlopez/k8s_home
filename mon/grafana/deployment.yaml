@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: mon
+  annotations:
+    flux.weave.works/automated: 'false'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      volumes:
+      - name: grafana
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:grafana
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      containers:
+      - name: grafana
+        image: grafana/grafana:6.4.3
+        volumeMounts:
+        - name: grafana
+          mountPath: /var/lib/grafana
