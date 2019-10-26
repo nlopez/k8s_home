@@ -81,3 +81,20 @@ spec:
     requests:
       memory: 400Mi
   enableAdminAPI: false
+apiVersion: v1
+---
+kind: Service
+metadata:
+  name: prometheus-netdata
+  namespace: mon
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.10.5
+  externalTrafficPolicy: Local
+  ports:
+  - name: web
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  selector:
+    prometheus: netdata
