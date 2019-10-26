@@ -122,7 +122,12 @@ spec:
   endpoints:
   - port: netdata
     path: /api/v1/allmetrics
+    params:
+      format:
+        - prometheus
     interval: 5s
+    scheme: http
+    honorLabels: true
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -138,6 +143,9 @@ spec:
   endpoints:
   - port: netdata
     path: /netdata/api/v1/allmetrics
+    params:
+      format:
+        - prometheus
     interval: 5s
     scheme: http
     honorLabels: true
