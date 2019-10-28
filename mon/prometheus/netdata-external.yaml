@@ -155,13 +155,14 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
-  name: netdata
+  name: hindsight
   namespace: mon
 spec:
   serviceAccountName: prometheus
-  serviceMonitorSelector:
-    matchLabels:
-      app: netdata
+  # monitor all namespaces
+  # https://blog.coffeeapplied.com/prometheus-operator-service-monitor-auto-discovery-across-all-namespaces-4385b972b3e6
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
   remoteWrite:
     - url: 'http://influxdb:8086/api/v1/prom/write?db=prometheus'
   remoteRead:
@@ -174,7 +175,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus-netdata
+  name: prometheus-hindsight
   namespace: mon
 spec:
   type: LoadBalancer
@@ -186,4 +187,4 @@ spec:
     protocol: TCP
     targetPort: web
   selector:
-    prometheus: netdata
+    prometheus: hindsight
