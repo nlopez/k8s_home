@@ -51,3 +51,16 @@ spec:
             port: tautulli
           initialDelaySeconds: 15
           periodSeconds: 20
+      - name: tautulli-exporter
+        image: tubaguy50035/tautulli_exporter:v0.1.0
+        ports:
+        - name: exporter
+          containerPort: 9487
+        env:
+        - name: TAUTULLI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: tautulli
+              key: TAUTULLI_API_KEY
+        - name: TAUTULLI_URI
+          value: 'http://127.0.0.1:8181'

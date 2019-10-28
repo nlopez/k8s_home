@@ -11,3 +11,6 @@ spec:
   - ports:
     - port: 8181
     from: []
+  - ports:
+    - port: 9487
+    from: []
