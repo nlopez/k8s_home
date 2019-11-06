@@ -10,10 +10,4 @@ spec:
   ingress:
   - ports:
     - port: 11211
-    from:
-    - namespaceSelector:
-        matchLabels:
-          name: default
-      podSelector:
-        matchLabels:
-          name: flux
+    from: []

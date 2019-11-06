@@ -179,7 +179,7 @@ spec:
       volumes:
         - name: nonsecrets
           configMap:
-            name: nonsecrts
+            name: nonsecrets
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1
