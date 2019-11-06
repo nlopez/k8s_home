@@ -243,15 +243,15 @@ spec:
             mountPath: /etc/ssl/certs/lets-encrypt-x3-cross-signed.pem
             subPath: lets-encrypt-x3-cross-signed.pem
             readOnly: true
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - ingress-nginx
-            topologyKey: kubernetes.io/hostname
+      # affinity:
+      #   podAntiAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #     - labelSelector:
+      #         matchExpressions:
+      #         - key: app.kubernetes.io/name
+      #           operator: In
+      #           values:
+      #           - ingress-nginx
+      #       topologyKey: kubernetes.io/hostname
 
 ---
