@@ -34,6 +34,8 @@ data:
 
     # verify chain of trust of OCSP response using Root CA and Intermediate certs
     ssl_trusted_certificate /nonsecrets/root_CA_cert_plus_intermediates.pem;
+
+    resolver 8.8.8.8;
 ---
 kind: ConfigMap
 apiVersion: v1
