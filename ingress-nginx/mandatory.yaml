@@ -177,9 +177,9 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       volumes:
-        - name: lets-encrypt-x3-cross-signed
+        - name: nonsecrets
           configMap:
-            name: lets-encrypt-x3-cross-signed
+            name: nonsecrts
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1
@@ -239,10 +239,8 @@ spec:
                 command:
                   - /wait-shutdown
           volumeMounts:
-          - name: lets-encrypt-x3-cross-signed
-            mountPath: /etc/ssl/certs/lets-encrypt-x3-cross-signed.pem
-            subPath: lets-encrypt-x3-cross-signed.pem
-            readOnly: true
+          - name: nonsecrets
+            mountPath: /nonsecrets
       # affinity:
       #   podAntiAffinity:
       #     requiredDuringSchedulingIgnoredDuringExecution:
