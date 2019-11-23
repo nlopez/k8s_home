@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flux
+  namespace: flux
 spec:
   replicas: 1
   selector:
@@ -13,7 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        prometheus.io.port: "3031" # tell prometheus to scrape /metrics endpoint's port.
+        prometheus.io/port: "3031" # tell prometheus to scrape /metrics endpoint's port.
       labels:
         name: flux
     spec:
@@ -35,7 +36,7 @@ spec:
       # file, which you will need to do if you host your own git
       # repo rather than using github or the like. You'll also need to
       # mount it into the container, below. See
-      # https://github.com/weaveworks/flux/blob/master/site/standalone-setup.md#using-a-private-git-host
+      # https://docs.fluxcd.io/en/latest/guides/use-private-git-host.html
       # - name: ssh-config
       #   configMap:
       #     name: flux-ssh-config
@@ -61,9 +62,9 @@ spec:
       containers:
       - name: flux
         # There are no ":latest" images for flux. Find the most recent
-        # release or image version at https://hub.docker.com/r/weaveworks/flux/tags
+        # release or image version at https://hub.docker.com/r/fluxcd/flux/tags
         # and replace the tag here.
-        image: docker.io/weaveworks/flux:1.13.1
+        image: docker.io/fluxcd/flux:1.16.0
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -71,6 +72,18 @@ spec:
             memory: 64Mi
         ports:
         - containerPort: 3030 # informational
+        livenessProbe:
+          httpGet:
+            port: 3030
+            path: /api/flux/v6/identity.pub
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            port: 3030
+            path: /api/flux/v6/identity.pub
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
         volumeMounts:
         - name: git-key
           mountPath: /etc/fluxd/ssh # to match location given in image's /etc/ssh/config
@@ -85,7 +98,7 @@ spec:
 
         # Include this and the volume "kubeconfig" above, and the
         # environment entry "KUBECONFIG" below, to override the config
-        # used by kuebctl.
+        # used by kubectl.
         # - name: kubeconfig
         #   mountPath: /etc/fluxd/kube
 
@@ -102,6 +115,13 @@ spec:
         #   mountPath: /root/gpg-import
         #   readOnly: true
 
+        # Include this if you want to supply HTTP basic auth credentials for git
+        # via the `GIT_AUTHUSER` and `GIT_AUTHKEY` environment variables using a
+        # secret.
+        # envFrom:
+        # - secretRef:
+        #     name: flux-git-auth
+
         args:
 
         # If you deployed memcached in a different namespace to flux,
@@ -117,12 +137,17 @@ spec:
         # mounted above, for K8s >= 1.10
         - --ssh-keygen-dir=/var/fluxd/keygen
 
-        # Replace or remove the following URL.
+        # Replace the following URL to change the Git repository used by Flux.
+        # HTTP basic auth credentials can be supplied using environment variables:
+        # https://$(GIT_AUTHUSER):$(GIT_AUTHKEY)@github.com/user/repository.git
         - --git-url=git@github.com:nlopez/k8s_home
         - --git-branch=master
-        # include this if you want to restrict the manifests considered by flux
+        # Include this if you want to restrict the manifests considered by flux
         # to those under the following relative paths in the git repository
         # - --git-path=subdir1,subdir2
+        - --git-label=flux-sync
+        - --git-user=Flux automation
+        - --git-email=flux@example.com
 
         # Include these two to enable git commit signing
         # - --git-gpg-key-import=/root/gpg-import
@@ -131,10 +156,19 @@ spec:
         # Include this to enable git signature verification
         # - --git-verify-signatures
 
+        # Tell flux it has readonly access to the repo (default `false`)
+        # - --git-readonly
+
+        # Instruct flux where to put sync bookkeeping (default "git", meaning use a tag in the upstream git repo)
+        # - --sync-state=git
+
         # Include these next two to connect to an "upstream" service
         # (e.g., Weave Cloud). The token is particular to the service.
         # - --connect=wss://cloud.weave.works/api/flux
         # - --token=abc123abc123abc123abc123
+
+        # Enable manifest generation (default `false`)
+        # - --manifest-generation=false
 
         # Serve /metrics endpoint at different port;
         # make sure to set prometheus' annotation to scrape the port value.
