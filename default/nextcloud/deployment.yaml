@@ -151,7 +151,7 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: nextcloud
+              name: nextcloud-postgresql
               key: POSTGRES_PASSWORD
 
       - name: redis
