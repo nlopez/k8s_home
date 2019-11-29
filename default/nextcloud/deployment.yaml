@@ -141,7 +141,7 @@ spec:
               key: MYSQL_ROOT_PASSWORD
 
       - name: postgresql
-        image: postgresql:12.1
+        image: postgres:12.1
         volumeMounts:
         - name: postgresql
           mountPath: /var/lib/postgresql/data
