@@ -146,6 +146,8 @@ spec:
         - name: postgresql
           mountPath: /var/lib/postgresql/data
         env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         - name: POSTGRES_USER
           value: nextcloud
         - name: POSTGRES_PASSWORD
