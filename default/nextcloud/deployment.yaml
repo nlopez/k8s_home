@@ -6,7 +6,6 @@ metadata:
   namespace: default
   annotations:
     flux.weave.works/tag.nextcloud: glob:amd64-*-ls*
-    flux.weave.works/tag.mariadb: glob:amd64-*-ls*
     flux.weave.works/tag.redis: glob:5*-alpine
     flux.weave.works/automated: 'false'
 spec:
@@ -38,18 +37,6 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext4
-      - name: mariadb-databases
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-databases
-          targetPortal: 192.168.220.149
-          lun: 1
-          fsType: ext4
-      - name: mariadb-log
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-mariadb-log
-          targetPortal: 192.168.220.149
-          lun: 1
-          fsType: ext4
       - name: postgresql
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-postgresql
@@ -63,12 +50,6 @@ spec:
       #   hostPath:
       #     path: /mnt/BLOCK/nextcloud-appdata
       #     type: Directory
-      - name: mariadb-config
-        configMap:
-          name: nextcloud-mariadb
-          items:
-          - key: custom.cnf
-            path: custom.cnf
       - name: redis-config
         configMap:
           name: nextcloud-redis
@@ -117,28 +98,6 @@ spec:
           value: '1001'
         - name: PGID
           value: '1001'
-
-      - name: mariadb
-        image: linuxserver/mariadb:amd64-110.3.14mariabionic-ls15
-        volumeMounts:
-        - name: mariadb-config
-          mountPath: /config
-        - name: mariadb-databases
-          mountPath: /config/databases
-        - name: mariadb-log
-          mountPath: /config/log
-        env:
-        - name: PUID
-          value: '1001'
-        - name: PGID
-          value: '1001'
-        - name: TZ
-          value: 'America/New_York'
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: nextcloud
-              key: MYSQL_ROOT_PASSWORD
 
       - name: postgresql
         image: postgres:12.1
