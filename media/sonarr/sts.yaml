@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: sonarr
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.sonarr: glob:amd64-3*-ls*
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: sonarr
   replicas: 1
   selector:
     matchLabels:
