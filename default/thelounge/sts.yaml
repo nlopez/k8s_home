@@ -1,9 +1,11 @@
+---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: thelounge
   namespace: default
 spec:
+  serviceName: thelounge
   replicas: 1
   selector:
     matchLabels:
@@ -37,4 +39,3 @@ spec:
         ports:
         - containerPort: 9000
           name: thelounge
-
