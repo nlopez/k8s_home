@@ -1,12 +1,13 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: influxdb
   namespace: mon
   annotations:
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: influxdb
   replicas: 1
   selector:
     matchLabels:
