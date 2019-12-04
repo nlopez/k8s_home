@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: filebrowser
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.filebrowser: regexp:^v2.*$
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: filebrowser
   replicas: 1
   selector:
     matchLabels:
