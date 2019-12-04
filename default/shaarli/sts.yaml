@@ -1,9 +1,11 @@
+---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: shaarli
   namespace: default
 spec:
+  serviceName: shaarli
   replicas: 1
   selector:
     matchLabels:
