@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: nextcloud
   namespace: default
@@ -9,6 +9,7 @@ metadata:
     flux.weave.works/tag.redis: glob:5*-alpine
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: nextcloud
   replicas: 1
   selector:
     matchLabels:
