@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: deluge
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.deluge: glob:amd64-*-ls*
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: deluge
   replicas: 1
   selector:
     matchLabels:
