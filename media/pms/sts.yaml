@@ -1,6 +1,6 @@
 ---
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: pms
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.pms: regexp:^([0-9]*\.?)*-[0-9a-z]*$
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: pms
   replicas: 1
   template:
     metadata:
