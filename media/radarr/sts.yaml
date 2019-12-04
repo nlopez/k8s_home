@@ -1,6 +1,6 @@
 ---
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: radarr
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.radarr: glob:amd64-*-ls*
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: radarr
   replicas: 1
   selector:
     matchLabels:
