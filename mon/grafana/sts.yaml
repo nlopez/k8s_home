@@ -1,12 +1,13 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: grafana
   namespace: mon
   annotations:
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: grafana
   replicas: 1
   selector:
     matchLabels:
