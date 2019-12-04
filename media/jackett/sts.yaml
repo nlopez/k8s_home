@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: jackett
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.jackett: glob:amd64-3*-ls*
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: jackett
   replicas: 1
   selector:
     matchLabels:
