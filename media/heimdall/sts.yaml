@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: heimdall
   namespace: media
@@ -8,6 +8,7 @@ metadata:
     flux.weave.works/tag.heimdall: glob:amd64-*-ls*
     flux.weave.works/automated: 'false'
 spec:
+  serviceName: heimdall
   replicas: 1
   selector:
     matchLabels:
