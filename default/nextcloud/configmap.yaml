@@ -46,7 +46,7 @@ data:
     request_order = "GP"
     register_argc_argv = Off
     auto_globals_jit = On
-    post_max_size = 10G
+    post_max_size = 100G
     auto_prepend_file =
     auto_append_file =
     default_mimetype = "text/html"
@@ -56,7 +56,7 @@ data:
     user_dir =
     enable_dl = Off
     file_uploads = On
-    upload_max_filesize = 10G
+    upload_max_filesize = 100G
     max_file_uploads = 20
     allow_url_fopen = On
     allow_url_include = Off
