@@ -19,7 +19,7 @@ spec:
           secretName: oauth2-proxy
       containers:
       - name: oauth2-proxy
-        image: nlopez/oauth2_proxy
+        image: quay.io/pusher/oauth2_proxy:v4.1.0
         ports:
         - name: oauth2-proxy
           containerPort: 4180
