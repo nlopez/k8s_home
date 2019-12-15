@@ -1,11 +1,12 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: radarr
   namespace: media
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$request_uri"
     nginx.ingress.kubernetes.io/proxy-body-size: "2m"
 spec:
   tls:
@@ -19,21 +20,3 @@ spec:
         backend:
           serviceName: radarr
           servicePort: radarr
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: radarr-oauth2
-  namespace: media
-spec:
-  tls:
-  - hosts:
-    - f.desertbluffs.com
-  rules:
-  - host: f.desertbluffs.com
-    http:
-      paths:
-      - path: /oauth2
-        backend:
-          serviceName: oauth2-proxy
-          servicePort: oauth2-proxy

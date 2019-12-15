@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: oauth2-proxy
-  namespace: media
+  namespace: ingress-nginx
 spec:
   replicas: 1
   selector:
@@ -37,6 +37,7 @@ spec:
         - -upstream=file:///dev/null
         - -set-xauthrequest
         - -cookie-domain=.desertbluffs.com
+        - -whitelist-domain=.desertbluffs.com
         - -http-address=0.0.0.0:4180
         - -config=/etc/oauth2-proxy/config
         - -authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails
@@ -44,3 +45,4 @@ spec:
         - -cookie-secure=true
         - -cookie-expire=168h0m
         - -cookie-refresh=60m
+

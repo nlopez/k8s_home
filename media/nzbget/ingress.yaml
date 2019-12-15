@@ -4,8 +4,8 @@ metadata:
   name: nzbget
   namespace: media
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$request_uri"
 spec:
   tls:
   - hosts:
@@ -18,21 +18,3 @@ spec:
         backend:
           serviceName: nzbget
           servicePort: 6789
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: nzbget-oauth2
-  namespace: media
-spec:
-  tls:
-  - hosts:
-    - c.desertbluffs.com
-  rules:
-  - host: c.desertbluffs.com
-    http:
-      paths:
-      - path: /oauth2
-        backend:
-          serviceName: oauth2-proxy
-          servicePort: oauth2-proxy

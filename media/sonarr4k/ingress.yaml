@@ -1,11 +1,12 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: sonarr4k
   namespace: media
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start"
+    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$request_uri"
 spec:
   tls:
   - hosts:
@@ -18,21 +19,3 @@ spec:
         backend:
           serviceName: sonarr4k
           servicePort: sonarr4k
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: sonarr4k-oauth2
-  namespace: media
-spec:
-  tls:
-  - hosts:
-    - o.desertbluffs.com
-  rules:
-  - host: o.desertbluffs.com
-    http:
-      paths:
-      - path: /oauth2
-        backend:
-          serviceName: oauth2-proxy
-          servicePort: oauth2-proxy

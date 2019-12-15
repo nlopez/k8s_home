@@ -1,11 +1,12 @@
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: freenas
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
-    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start
+    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$request_uri"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   tls:
@@ -25,8 +26,8 @@ metadata:
   name: freenas2
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
-    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start
+    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$request_uri"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   tls:
@@ -39,41 +40,3 @@ spec:
         - backend:
             serviceName: nas2
             servicePort: 443
-
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: freenas-oauth2
-  namespace: default
-spec:
-  tls:
-  - hosts:
-    - q.desertbluffs.com
-  rules:
-  - host: q.desertbluffs.com
-    http:
-      paths:
-      - path: /oauth2
-        backend:
-          serviceName: oauth2-proxy
-          servicePort: oauth2-proxy
-
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: freenas2-oauth2
-  namespace: default
-spec:
-  tls:
-  - hosts:
-    - r.desertbluffs.com
-  rules:
-  - host: r.desertbluffs.com
-    http:
-      paths:
-      - path: /oauth2
-        backend:
-          serviceName: oauth2-proxy
-          servicePort: oauth2-proxy
