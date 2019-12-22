@@ -4,6 +4,7 @@ metadata:
   name: filebrowser
   namespace: media
   annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
