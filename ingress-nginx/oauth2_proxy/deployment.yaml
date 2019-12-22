@@ -45,4 +45,3 @@ spec:
         - -cookie-secure=true
         - -cookie-expire=168h0m
         - -cookie-refresh=60m
-

@@ -5,7 +5,7 @@ metadata:
   namespace: media
   annotations:
     nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$request_uri"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
     nginx.ingress.kubernetes.io/proxy-body-size: "5m"
 spec:
   tls:
