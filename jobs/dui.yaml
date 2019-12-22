@@ -36,7 +36,6 @@ spec:
               readOnly: true
           - name: rclone
             image: rclone/rclone:1.50.2
-            command: ["/usr/bin/rclone"]
             args:
             - --config
             - /config/rclone.conf
