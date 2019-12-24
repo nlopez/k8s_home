@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -210,4 +211,4 @@ metadata:
 data:
   root: |
     */15 * * * * s6-setuidgid abc php7 -f /config/www/nextcloud/cron.php
-    @hourly s6-setuidgid abc nice php7 -f /config/www/nextcloud/occ -- preview:pre-generate >> /data/preview.log
+    */15 * * * * s6-setuidgid abc nice php7 -f /config/www/nextcloud/occ -- preview:pre-generate >> /data/preview.log
