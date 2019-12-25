@@ -8,7 +8,7 @@ metadata:
     app: netdata
 spec:
   type: ExternalName
-  externalName: 192.168.222.143
+  externalName: knode1.lga1.radoncanyon.com
 ---
 apiVersion: v1
 kind: Endpoints
@@ -35,7 +35,7 @@ metadata:
     app: netdata
 spec:
   type: ExternalName
-  externalName: knode2.radoncanyon.com
+  externalName: knode2.lga1.radoncanyon.com
 ---
 apiVersion: v1
 kind: Endpoints

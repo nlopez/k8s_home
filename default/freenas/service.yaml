@@ -6,7 +6,7 @@ metadata:
   namespace: default
 spec:
   type: ExternalName
-  externalName: nas1.radoncanyon.com
+  externalName: nas1.lga1.radoncanyon.com
 ---
 kind: Service
 apiVersion: v1
@@ -15,4 +15,4 @@ metadata:
   namespace: default
 spec:
   type: ExternalName
-  externalName: nas2.radoncanyon.com
+  externalName: nas2.lga1.radoncanyon.com
