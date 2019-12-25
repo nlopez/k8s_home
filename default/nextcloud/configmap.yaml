@@ -200,7 +200,7 @@ data:
     group = abc
     listen = 127.0.0.1:9000
     pm = static
-    pm.max_children = 64
+    pm.max_children = 256
     pm.max_requests = 0
 ---
 apiVersion: v1
