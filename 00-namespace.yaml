@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -5,12 +6,37 @@ metadata:
   labels:
     name: media
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: default-deny
-  namespace: media
-spec:
-  podSelector: {}
-  policyTypes:
-  - Ingress
+  name: mon
+  labels:
+    name: mon
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jobs
+  labels:
+    name: jobs
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: metallb-system
+  labels:
+    name: metallb-system
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flux
+  labels:
+    name: flux
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+  labels:
+    name: ingress-nginx
