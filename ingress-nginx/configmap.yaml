@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/part-of: ingress-nginx
 data:
   ssl-redirect: "true"
+  force-ssl-redirect: "true"
   server-tokens: "false"
   server-snippet: |
     proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
