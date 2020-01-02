@@ -32,7 +32,7 @@ spec:
           medium: Memory
       containers:
       - name: emby
-        image: emby/embyserver:4.4.0.4
+        image: emby/embyserver:4.3.1.0
         resources:
           limits:
             gpu.intel.com/i915: 1
