@@ -6,8 +6,6 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   tls:
@@ -27,8 +25,6 @@ metadata:
   name: freenas2
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   tls:

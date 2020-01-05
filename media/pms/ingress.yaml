@@ -7,6 +7,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
 spec:
   tls:
   - hosts:
@@ -26,8 +27,6 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/auth-url: "https://login.desertbluffs.com/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
 spec:
   tls:
   - hosts:

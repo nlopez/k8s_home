@@ -11,6 +11,8 @@ data:
   ssl-redirect: "true"
   force-ssl-redirect: "true"
   server-tokens: "false"
+  global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
+  global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
   server-snippet: |
     proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
     proxy_ssl_verify off;
