@@ -9,5 +9,4 @@ spec:
   ports:
   - name: roms
     port: 80
-    targetPort: 80
   clusterIP: 10.103.184.41

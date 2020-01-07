@@ -12,8 +12,6 @@ spec:
   - name: tautulli
     port: 8181
     protocol: TCP
-    targetPort: tautulli
   - name: exporter
     port: 9487
     protocol: TCP
-    targetPort: exporter

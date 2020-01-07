@@ -9,4 +9,3 @@ spec:
   ports:
   - name: sonarr
     port: 8989
-    targetPort: 8989

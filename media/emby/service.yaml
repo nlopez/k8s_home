@@ -12,4 +12,3 @@ spec:
   ports:
   - name: emby
     port: 8096
-    targetPort: 8096

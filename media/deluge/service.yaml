@@ -12,10 +12,7 @@ spec:
   ports:
   - name: deluge
     port: 8112
-    targetPort: 8112
   - name: deluge-daemon
     port: 19058
-    targetPort: 19058
   - name: deluge-bt
     port: 22722
-    targetPort: 22722

@@ -9,4 +9,3 @@ spec:
   ports:
   - port: 5075
     name: nzbhydra
-    targetPort: nzbhydra

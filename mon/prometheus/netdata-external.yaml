@@ -185,6 +185,5 @@ spec:
   - name: web
     port: 9090
     protocol: TCP
-    targetPort: web
   selector:
     prometheus: hindsight

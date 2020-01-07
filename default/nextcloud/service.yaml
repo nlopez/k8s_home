@@ -9,4 +9,3 @@ spec:
   ports:
   - name: nextcloud
     port: 443
-    targetPort: 443

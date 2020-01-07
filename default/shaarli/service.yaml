@@ -9,4 +9,3 @@ spec:
   ports:
   - name: shaarli
     port: 80
-    targetPort: 80

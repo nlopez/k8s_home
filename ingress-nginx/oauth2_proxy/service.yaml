@@ -9,4 +9,3 @@ spec:
   ports:
   - name: oauth2-proxy
     port: 4180
-    targetPort: oauth2-proxy
