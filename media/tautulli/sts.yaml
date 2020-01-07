@@ -5,7 +5,6 @@ metadata:
   name: tautulli
   namespace: media
   annotations:
-    flux.weave.works/tag.tautulli: glob:amd64-*-ls*
     flux.weave.works/automated: 'false'
 spec:
   serviceName: tautulli
@@ -27,7 +26,7 @@ spec:
           fsType: ext2
       containers:
       - name: tautulli
-        image: linuxserver/tautulli:v2.1.39-ls32
+        image: linuxserver/tautulli:v2.1.42-ls34
         volumeMounts:
         - name: tautulli
           subPath: config
