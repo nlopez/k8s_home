@@ -1,13 +1,13 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: nzbhydra
+  name: hydra2
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: nzbhydra
+      app: hydra2
   ingress:
   - ports:
-    - port: 5075
+    - port: 5076
     from: []

@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: nzbhydra
+  name: hydra2
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -15,5 +15,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: nzbhydra
-          servicePort: nzbhydra
+          serviceName: hydra2
+          servicePort: hydra2
