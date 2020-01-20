@@ -8,7 +8,7 @@ metadata:
     flux.weave.works/automated: 'false'
 spec:
   serviceName: emby
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: emby
