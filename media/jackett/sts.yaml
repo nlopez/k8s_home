@@ -5,7 +5,6 @@ metadata:
   name: jackett
   namespace: media
   annotations:
-    flux.weave.works/tag.jackett: glob:amd64-3*-ls*
     flux.weave.works/automated: 'false'
 spec:
   serviceName: jackett
@@ -20,7 +19,7 @@ spec:
     spec:
       containers:
       - name: jackett
-        image: linuxserver/jackett:v0.12.847-ls44
+        image: linuxserver/jackett:v0.12.1605-ls39
         env:
         - name: PUID
           value: '1001'
@@ -52,6 +51,3 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext2
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
