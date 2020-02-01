@@ -50,6 +50,10 @@ spec:
           value: '1001'
         - name: TZ
           value: 'America/New_York'
+        - name: UMASK_SET
+          value: '022'
+        - name: DELUGE_LOGLEVEL
+          value: 'error'
         ports:
         - containerPort: 8112
           name: deluge-webui
@@ -57,25 +61,9 @@ spec:
           name: deluge-daemon
         - containerPort: 22722
           name: deluge-bt
-        readinessProbe:
-          tcpSocket:
-            port: deluge-bt
-          initialDelaySeconds: 5
-          periodSeconds: 10
         livenessProbe:
-          tcpSocket:
-            port: deluge-bt
-          initialDelaySeconds: 15
-          periodSeconds: 20
-      # affinity:
-      #   podAntiAffinity:
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #     - weight: 100
-      #       podAffinityTerm:
-      #         labelSelector:
-      #           matchExpressions:
-      #           - key: app
-      #             operator: In
-      #             values:
-      #             - pms
-      #         topologyKey: kubernetes.io/hostname
+          httpGet:
+            path: /
+            port: 8112
+          initialDelaySeconds: 30
+          periodSeconds: 10
