@@ -24,7 +24,7 @@ spec:
               secretName: dui-rclone-config
           initContainers:
           - name: dui
-            image: nlopez/dui:3
+            image: nlopez/dui:4
             env:
               - name: DUI_INI
                 value: /dui/config/dui.ini
