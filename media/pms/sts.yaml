@@ -38,7 +38,7 @@ spec:
           medium: Memory
       containers:
       - name: pms
-        image: plexinc/pms-docker:1.18.6.2368-97add474d
+        image: plexinc/pms-docker:1.18.7.2457-77cb9455c
         resources:
           limits:
             gpu.intel.com/i915: 1

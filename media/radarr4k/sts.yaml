@@ -5,7 +5,6 @@ metadata:
   name: radarr4k
   namespace: media
   annotations:
-    flux.weave.works/tag.radarr4k: glob:amd64-*-ls*
     flux.weave.works/automated: 'false'
 spec:
   serviceName: radarr4k
