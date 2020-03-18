@@ -25,7 +25,7 @@ kubectl get pod --all-namespaces -owide --watch
 
 # metallb
 ```bash
-kubectl apply -f metallb-system
+kubectl apply -f 00-namespace.yaml -f metallb-system
 ```
 
 ### Sealed secrets
@@ -36,10 +36,10 @@ kubectl apply -f kube-system/kubeseal
 
 ### flux
 ```bash
-kubectl apply -f default/flux
-fluxctl identity # add key to GitHub with write access
+kubectl apply -f flux
+fluxctl --k8s-fwd-ns flux identity  # add key to GitHub with write access
 # wait a bit for repo clone
-fluxctl sync
+fluxctl --k8s-fwd-ns flux sync
 ```
 
 #### Un/ignoring resources with flux
@@ -50,7 +50,7 @@ kubectl annotate <resource> "flux.weave.works/ignore"
 # Unignore
 kubectl annotate <resource> "flux.weave.works/ignore"-
 
-# Ignore all in namespace 
+# Ignore all in namespace
 # (doesn't seem like there is --all-namespaces for this.)
 kubectl -n default annotate all --all "flux.weave.works/ignore"
 
