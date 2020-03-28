@@ -19,7 +19,7 @@ spec:
         backend:
           serviceName: synclounge
           servicePort: 8088
-      - path: /slserver
+      - path: /server
         backend:
           serviceName: synclounge
           servicePort: 8089
