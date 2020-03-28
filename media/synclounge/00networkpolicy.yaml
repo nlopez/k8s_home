@@ -1,0 +1,14 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: synclounge
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: synclounge
+  ingress:
+  - ports:
+    - port: 8089
+    - port: 8088
+    from: []
