@@ -30,6 +30,8 @@ spec:
           value: 'true'
         - name: AUTOJOIN_SERVERURL
           value: 'https://s.desertbluffs.com/server'
+        - name: SERVERS
+          value: "[{name:'Desert Bluffs',location:'New York, United States',url:'https://s.desertbluffs.com/server',image:'flags/usa.png'}]"
         ports:
         - name: slwebapp
           containerPort: 8088
