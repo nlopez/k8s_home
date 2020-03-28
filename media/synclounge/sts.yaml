@@ -7,8 +7,6 @@ metadata:
   annotations:
     flux.weave.works/automated: 'false'
     nginx.ingress.kubernetes.io/hsts: 'false'
-    nginx.ingress.kubernetes.io/location-snippet: |
-      return 301 http://s.desertbluffs.com$request_uri;
 spec:
   serviceName: synclounge
   replicas: 1

@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
+  hsts: "false"
   hsts-include-subdomains: "false"
-  hsts-max-age: "3600"
   ssl-redirect: "false"
   force-ssl-redirect: "false"
   server-tokens: "false"
