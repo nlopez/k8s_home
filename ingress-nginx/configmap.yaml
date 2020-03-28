@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
-  ssl-redirect: "true"
-  force-ssl-redirect: "true"
+  ssl-redirect: "false"
+  force-ssl-redirect: "false"
   server-tokens: "false"
   global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
   global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"

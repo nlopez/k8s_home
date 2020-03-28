@@ -6,6 +6,8 @@ metadata:
   namespace: media
   annotations:
     flux.weave.works/automated: 'false'
+    nginx.ingress.kubernetes.io/location-snippet: |
+      return 301 http://s.desertbluffs.com$request_uri;
 spec:
   serviceName: synclounge
   replicas: 1
@@ -22,11 +24,11 @@ spec:
         image: starbix/synclounge@sha256:0e912bbe5f1fb471ff98cd471054baa2f0b2ca4bee34184fc1c470cd341acb0e
         env:
         - name: WEB_ACCESSURL
-          value: 'https://s.desertbluffs.com'
+          value: 'http://s.desertbluffs.com'
         - name: AUTOJOIN_ENABLED
           value: 'true'
         - name: AUTOJOIN_SERVERURL
-          value: 'https://s.desertbluffs.com/slserver'
+          value: 'http://s.desertbluffs.com/slserver'
         ports:
         - name: slwebapp
           containerPort: 8088

@@ -6,7 +6,7 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/proxy-body-size: "2m"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
 spec:
   tls:
   - hosts:
