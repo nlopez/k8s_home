@@ -173,6 +173,8 @@ items:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: spec.nodeName
+                - name: NO_MASQ_LOCAL
+                  value: '1'
               image: 'docker.io/weaveworks/weave-kube:2.6.2'
               readinessProbe:
                 httpGet:
@@ -206,8 +208,6 @@ items:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: spec.nodeName
-                - name: NO_MASQ_LOCAL
-                  value: '1'
               image: 'docker.io/weaveworks/weave-npc:2.6.2'
               resources:
                 requests:
