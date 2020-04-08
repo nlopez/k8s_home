@@ -11,7 +11,6 @@ data:
   hsts: "false"
   hsts-include-subdomains: "false"
   ssl-redirect: "true"
-  force-ssl-redirect: "true"
   server-tokens: "false"
   global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
   global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
