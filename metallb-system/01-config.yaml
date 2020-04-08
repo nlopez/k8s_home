@@ -10,10 +10,6 @@ data:
       peer-asn: 64513
       my-asn: 64512
     address-pools:
-    - name: default
-      protocol: bgp
-      addresses:
-      - 192.168.10.0/24
     - name: LAB
       protocol: bgp
       addresses:

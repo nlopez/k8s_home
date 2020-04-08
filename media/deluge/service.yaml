@@ -5,7 +5,7 @@ metadata:
   namespace: media
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.10.2
+  loadBalancerIP: 192.168.222.232
   externalTrafficPolicy: Local
   selector:
     app: deluge

@@ -7,7 +7,7 @@ spec:
   selector:
     app: pms
   type: LoadBalancer
-  loadBalancerIP: 192.168.10.1
+  loadBalancerIP: 192.168.222.231
   externalTrafficPolicy: Local
   ports:
   - name: pms
