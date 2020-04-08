@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
+  enable-brotli: "true"
   hsts: "true"
   hsts-include-subdomains: "false"
   ssl-redirect: "true"
