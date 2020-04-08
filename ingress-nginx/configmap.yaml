@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: ingress-nginx
 data:
   enable-brotli: "true"
-  hsts: "true"
+  hsts: "false"
   hsts-include-subdomains: "false"
   ssl-redirect: "true"
   server-tokens: "false"
