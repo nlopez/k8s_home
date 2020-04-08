@@ -14,3 +14,7 @@ data:
       protocol: bgp
       addresses:
       - 192.168.10.0/24
+    - name: LAB
+      protocol: bgp
+      addresses:
+      - 192.168.222.230-192.168.222.250
