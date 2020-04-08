@@ -9,9 +9,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - desertbluffs.com
+    - httpbin.desertbluffs.com
   rules:
-  - host: desertbluffs.com
+  - host: httpbin.desertbluffs.com
     http:
       paths:
       - backend:
