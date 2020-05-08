@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: sonarr
-        image: linuxserver/sonarr:3.0.3.770-ls9
+        image: linuxserver/sonarr:3.0.3.790-ls1
         env:
         - name: PUID
           value: '1001'
