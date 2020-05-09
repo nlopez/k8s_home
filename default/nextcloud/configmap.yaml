@@ -121,7 +121,8 @@ data:
     bcmath.scale = 0
     [browscap]
     [Session]
-    session.save_handler = files
+    session.save_handler = redis
+    session.save_path = "tcp://127.0.0.1:6379"
     session.use_strict_mode = 0
     session.use_cookies = 1
     session.use_only_cookies = 1
