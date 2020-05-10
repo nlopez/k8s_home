@@ -13,3 +13,5 @@ spec:
   values:
     controller:
       kind: DaemonSet
+      extraArgs:
+        default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
