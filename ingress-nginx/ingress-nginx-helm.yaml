@@ -22,8 +22,10 @@ spec:
         ssl-session-cache: "false"  # set via server-snippet
         ssl-session-tickets: "false"
         enable-ocsp: "true"
+        server-tokens: "false"
         server-snippet: |
           ssl_session_timeout 1d;
           ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions
+          proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
       extraArgs:
         default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
