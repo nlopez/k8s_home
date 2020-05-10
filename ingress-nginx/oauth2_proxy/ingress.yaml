@@ -15,7 +15,7 @@ spec:
   - host: login.desertbluffs.com
     http:
       paths:
-      - path: /oauth2
-        backend:
+      - backend:
           serviceName: oauth2-proxy
           servicePort: 4180
+        path: /oauth2
