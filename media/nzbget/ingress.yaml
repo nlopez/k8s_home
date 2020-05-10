@@ -6,9 +6,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
-  backend:
-    serviceName: nzbget
-    servicePort: 6789
   tls:
   - hosts:
     - c.desertbluffs.com
+  rules:
+  - host: c.desertbluffs.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nzbget
+          servicePort: 6789
