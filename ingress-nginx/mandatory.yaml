@@ -373,6 +373,8 @@ spec:
             - name: webhook-cert
               mountPath: /usr/local/certificates/
               readOnly: true
+            - name: nonsecrets
+              mountPath: /nonsecrets
           resources:
             requests:
               cpu: 100m
@@ -383,6 +385,9 @@ spec:
         - name: webhook-cert
           secret:
             secretName: ingress-nginx-admission
+        - name: nonsecrets
+          configMap:
+            name: nonsecrets
 ---
 # Source: ingress-nginx/templates/admission-webhooks/validating-webhook.yaml
 apiVersion: admissionregistration.k8s.io/v1beta1
