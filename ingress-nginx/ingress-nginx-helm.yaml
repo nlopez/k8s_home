@@ -18,5 +18,12 @@ spec:
         global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
         hsts: "false"
         hsts-include-subdomains: "false"
+        ssl-protocols: "TLSv1.3"
+        ssl-session-cache: "false"  # set via server-snippet
+        ssl-session-tickets: "false"
+        enable-ocsp: "true"
+        server-snippet: |
+          ssl_session_timeout 1d;
+          ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions
       extraArgs:
         default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
