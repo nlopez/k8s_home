@@ -6,14 +6,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
+  backend:
+    serviceName: jackett
+    servicePort: jackett
   tls:
   - hosts:
     - g.desertbluffs.com
-  rules:
-  - host: g.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: jackett
-          servicePort: jackett

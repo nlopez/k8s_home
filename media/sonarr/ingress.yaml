@@ -7,14 +7,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
+  backend:
+    serviceName: sonarr
+    servicePort: sonarr
   tls:
   - hosts:
     - h.desertbluffs.com
-  rules:
-  - host: h.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: sonarr
-          servicePort: sonarr

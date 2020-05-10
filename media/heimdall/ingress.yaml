@@ -7,14 +7,9 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
+  backend:
+    serviceName: heimdall
+    servicePort: heimdall-https
   tls:
   - hosts:
     - xn--st9h.desertbluffs.com
-  rules:
-  - host: xn--st9h.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: heimdall
-          servicePort: heimdall-https

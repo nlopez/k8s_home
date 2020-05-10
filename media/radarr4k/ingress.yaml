@@ -7,14 +7,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
+  backend:
+    serviceName: radarr4k
+    servicePort: radarr4k
   tls:
   - hosts:
     - j.desertbluffs.com
-  rules:
-  - host: j.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: radarr4k
-          servicePort: radarr4k

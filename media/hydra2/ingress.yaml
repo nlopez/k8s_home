@@ -6,14 +6,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
+  backend:
+    serviceName: hydra2
+    servicePort: hydra2
   tls:
   - hosts:
     - i.desertbluffs.com
-  rules:
-  - host: i.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: hydra2
-          servicePort: hydra2

@@ -7,14 +7,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
+  backend:
+    serviceName: tautulli
+    servicePort: tautulli
   tls:
   - hosts:
     - d.desertbluffs.com
-  rules:
-  - host: d.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: tautulli
-          servicePort: tautulli
