@@ -18,7 +18,8 @@ spec:
   podSelector:
     matchLabels:
       app.kubernetes.io/name: ingress-nginx
-      app.kubernetes.io/part-of: ingress-nginx
+      app.kubernetes.io/instance: ingress-nginx
+      app.kubernetes.io/component: controller
   ingress:
   - ports:
     - port: 80
