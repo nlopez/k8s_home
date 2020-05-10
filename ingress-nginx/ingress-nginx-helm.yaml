@@ -16,6 +16,7 @@ spec:
       config:
         global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
         global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
+        hsts: "false"
         hsts-include-subdomains: "false"
       extraArgs:
         default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
