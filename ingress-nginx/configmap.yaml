@@ -1,12 +1,16 @@
----
-kind: ConfigMap
+# Source: ingress-nginx/templates/controller-configmap.yaml
 apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: nginx-configuration
-  namespace: ingress-nginx
   labels:
+    helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/version: 0.32.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
 data:
   enable-brotli: "true"
   hsts: "false"
