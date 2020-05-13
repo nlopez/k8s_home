@@ -75,6 +75,8 @@ spec:
               value: 'standard_notes_db'
             - name: DB_USERNAME
               value: 'std_notes_user'
+            - name: 'DISABLE_USER_REGISTRATION'
+              value: 'true'
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
