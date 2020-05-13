@@ -1,0 +1,129 @@
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: sn-web
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: sn-web
+  ingress:
+  - ports:
+    - port: 3000
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sn-web
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sn-web
+  template:
+    metadata:
+      labels:
+        app: sn-web
+    spec:
+      volumes:
+      - name: config
+        configMap:
+          name: web
+          items:
+            - key: production.rb
+              path: production.rb
+      containers:
+        - name: sn-web
+          image: nlopez/standardnotes-web:latest
+          volumeMounts:
+            - name: config
+              mountPath: /app/config/environments/production.rb
+              subPath: production.rb
+          envFrom:
+            - secretRef:
+                name: web
+          env:
+            - name: 'SF_DEFAULT_SERVER'
+              value: 'https://u.desertbluffs.com'
+            - name: 'RAILS_ENV'
+              value: 'production'
+            - name: 'RAILS_LOG_TO_STDOUT'
+              value: 'true'
+            - name: 'RAILS_SERVE_STATIC_FILES'
+              value: 'true'
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sn-web
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
+spec:
+  tls:
+  - hosts:
+    - t.desertbluffs.com
+  rules:
+  - host: t.desertbluffs.com
+    http:
+      paths:
+      - backend:
+          serviceName: sn-web
+          servicePort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sn-web
+  namespace: default
+spec:
+  selector:
+    app: sn-web
+  ports:
+  - name: sn-web
+    port: 3000
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web
+  namespace: default
+data:
+  production.rb: |
+    Rails.application.configure do
+      config.force_ssl = false
+      config.cache_classes = true
+      MAX_LOG_MEGABYTES = 50
+      config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, MAX_LOG_MEGABYTES * 1024 * 1024)
+      require 'custom_log_formatter'
+      config.log_formatter = CustomLogFormatter.new
+      config.logger.formatter = config.log_formatter
+      if ENV["RAILS_LOG_TO_STDOUT"].present?
+        logger           = ActiveSupport::Logger.new(STDOUT)
+        logger.formatter = config.log_formatter
+        config.logger = ActiveSupport::TaggedLogging.new(logger)
+      end
+      config.eager_load = true
+      config.consider_all_requests_local       = false
+      config.action_controller.perform_caching = true
+      config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+      config.assets.compress = true
+      config.assets.js_compressor = :uglifier
+      config.assets.css_compressor = :sass
+      config.assets.compile = false
+      config.assets.digest = true
+      config.log_level = :info
+      config.i18n.fallbacks = true
+      config.active_support.deprecation = :notify
+      config.log_formatter = ::Logger::Formatter.new
+    end
