@@ -7,7 +7,7 @@ metadata:
 data:
   redis.conf: |
     unixsocket /sock/redis.sock
-    unixsocketperm 775
+    unixsocketperm 777
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -31,7 +31,7 @@ data:
     expose_php = Off
     max_execution_time = 3500
     max_input_time = 3600
-    memory_limit=512M
+    memory_limit=1G
     error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
     display_errors = Off
     display_startup_errors = Off
@@ -102,7 +102,7 @@ data:
     [browscap]
     [Session]
     session.save_handler = redis
-    session.save_path = "tcp://127.0.0.1:6379"
+    session.save_path = "/sock/redis.sock"
     session.use_strict_mode = 0
     session.use_cookies = 1
     session.use_only_cookies = 1
@@ -184,6 +184,9 @@ data:
     user = abc
     group = abc
     listen = /sock/php-fpm.sock
+    listen.owner = abc
+    listen.group = abc
+    listen.mode = 0660
     pm = static
     pm.max_children = 256
     pm.max_requests = 0
