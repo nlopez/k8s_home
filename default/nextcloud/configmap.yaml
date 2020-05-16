@@ -73,9 +73,6 @@ data:
     sqlite3.defensive = 1
     [Pcre]
     [Pdo]
-    [Pdo_mysql]
-    pdo_mysql.cache_size = 2000
-    pdo_mysql.default_socket=
     [Phar]
     [mail function]
     SMTP = localhost
@@ -95,21 +92,6 @@ data:
     ibase.timestampformat = "%Y-%m-%d %H:%M:%S"
     ibase.dateformat = "%Y-%m-%d"
     ibase.timeformat = "%H:%M:%S"
-    [MySQLi]
-    mysqli.max_persistent = -1
-    mysqli.allow_persistent = On
-    mysqli.max_links = -1
-    mysqli.cache_size = 2000
-    mysqli.default_port = 3306
-    mysqli.default_socket =
-    mysqli.default_host =
-    mysqli.default_user =
-    mysqli.default_pw =
-    mysqli.reconnect = Off
-    [mysqlnd]
-    mysqlnd.collect_statistics = On
-    mysqlnd.collect_memory_statistics = Off
-    [OCI8]
     [PostgreSQL]
     pgsql.allow_persistent = On
     pgsql.auto_reset_persistent = Off
@@ -132,8 +114,7 @@ data:
     session.cookie_path = /
     session.cookie_domain =
     session.cookie_httponly =
-    session.serialize_handler = igbinary
-    igbinary.compact_strings=On
+    session.serialize_handler = php
     session.gc_probability = 1
     session.gc_divisor = 1000
     session.gc_maxlifetime = 1440
@@ -161,18 +142,6 @@ data:
     [ldap]
     ldap.max_links = -1
     [dba]
-    [opcache]
-    opcache.enable=1
-    opcache.enable_cli=1
-    opcache.enable=1
-    opcache.enable_cli=1
-    opcache.memory_consumption=128
-    opcache.interned_strings_buffer=8
-    opcache.max_accelerated_files=10000
-    opcache.revalidate_freq=1
-    opcache.save_comments=1
-    opcache.enable=1
-    opcache.enable_cli=1
     [curl]
     [openssl]
     [APCu]
@@ -187,7 +156,6 @@ data:
     apc.slam_defense=1
     apc.enable_cli=1
     apc.use_request_time=1
-    apc.serializer=igbinary
     apc.coredump_unmap=0
     apc.preload_path
 ---
