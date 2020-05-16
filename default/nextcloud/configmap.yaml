@@ -31,9 +31,9 @@ data:
     disable_classes =
     zend.enable_gc = On
     expose_php = Off
-    max_execution_time = 30
-    max_input_time = 60
-    memory_limit=1G
+    max_execution_time = 3500
+    max_input_time = 3600
+    memory_limit=512M
     error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
     display_errors = Off
     display_startup_errors = Off
@@ -132,7 +132,8 @@ data:
     session.cookie_path = /
     session.cookie_domain =
     session.cookie_httponly =
-    session.serialize_handler = php
+    session.serialize_handler = igbinary
+    igbinary.compact_strings=On
     session.gc_probability = 1
     session.gc_divisor = 1000
     session.gc_maxlifetime = 1440
@@ -174,6 +175,21 @@ data:
     opcache.enable_cli=1
     [curl]
     [openssl]
+    [APCu]
+    apc.enabled=1
+    apc.max_file_size=5M
+    apc.shm_segments=1
+    apc.shm_size=128M
+    apc.entries_hint=4096
+    apc.ttl=3600
+    apc.gc_ttl=7200
+    apc.mmap_file_mask=NULL
+    apc.slam_defense=1
+    apc.enable_cli=1
+    apc.use_request_time=1
+    apc.serializer=igbinary
+    apc.coredump_unmap=0
+    apc.preload_path
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -183,11 +199,13 @@ metadata:
 data:
   10-opcache.ini: |
     opcache.enable=1
+    opcache.enable_cli=1
     opcache.interned_strings_buffer=8
     opcache.max_accelerated_files=10000
-    opcache.memory_consumption=128
+    opcache.memory_consumption=256
     opcache.save_comments=1
     opcache.revalidate_freq=1
+    opcache.validate_timestamps=1
 ---
 apiVersion: v1
 kind: ConfigMap
