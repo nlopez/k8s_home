@@ -6,10 +6,8 @@ metadata:
   namespace: default
 data:
   redis.conf: |
-    port 6379
-
-    # listen on localhost only
-    bind 127.0.0.1
+    unixsocket /sock/redis.sock
+    unixsocketperm 775
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -185,7 +183,7 @@ data:
     [www]
     user = abc
     group = abc
-    listen = 127.0.0.1:9000
+    listen = /sock/php-fpm.sock
     pm = static
     pm.max_children = 256
     pm.max_requests = 0

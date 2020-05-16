@@ -72,6 +72,8 @@ spec:
           items:
             - key: php.ini
               path: php.ini
+      - name: sockets
+        emptyDir: {}
 
       containers:
 
@@ -94,6 +96,8 @@ spec:
         - name: php-ini
           mountPath: /etc/php7/php.ini
           subPath: php.ini
+        - name: sockets
+          mountPath: /sock
         env:
         - name: PUID
           value: '1001'
@@ -123,6 +127,8 @@ spec:
         volumeMounts:
         - name: redis-config
           mountPath: /usr/local/etc/redis
+        - name: sockets
+          mountPath: /sock
         ports:
         - name: nextcloud
           containerPort: 443
