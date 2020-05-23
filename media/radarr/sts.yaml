@@ -5,7 +5,8 @@ metadata:
   name: radarr
   namespace: media
   annotations:
-    flux.weave.works/automated: 'false'
+    fluxcd.io/automated: 'true'
+    fluxcd.io/tag.radarr: 'regex:^0\.2\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: radarr
   replicas: 1
