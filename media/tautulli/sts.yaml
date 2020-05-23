@@ -5,7 +5,8 @@ metadata:
   name: tautulli
   namespace: media
   annotations:
-    flux.weave.works/automated: 'false'
+    fluxcd.io/automated: 'true'
+    fluxcd.io/tag.tautulli: 'regex:^v2\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: tautulli
   replicas: 1
