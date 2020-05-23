@@ -5,7 +5,8 @@ metadata:
   name: sonarr
   namespace: media
   annotations:
-    flux.weave.works/automated: 'false'
+    fluxcd.io/automated: 'true'
+    fluxcd.io/tag.sonarr: 'regex:^3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: sonarr
   replicas: 1

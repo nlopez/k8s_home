@@ -5,7 +5,8 @@ metadata:
   name: sonarr4k
   namespace: media
   annotations:
-    flux.weave.works/automated: 'false'
+    fluxcd.io/automated: 'true'
+    fluxcd.io/tag.sonarr4k: 'regex:^3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: sonarr4k
   replicas: 1
