@@ -6,7 +6,7 @@ metadata:
   namespace: media
   annotations:
     fluxcd.io/automated: 'true'
-    fluxcd.io/tag.radarr: 'regex:^0\.2\.[0-9\.]+-ls[0-9]+$'
+    fluxcd.io/tag.radarr: 'regex:^3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: radarr4k
   replicas: 1
