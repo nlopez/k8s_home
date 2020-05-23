@@ -5,8 +5,8 @@ metadata:
   name: filebrowser
   namespace: media
   annotations:
-    flux.weave.works/tag.filebrowser: regexp:^v2.*$
-    flux.weave.works/automated: 'false'
+    fluxcd.io/automated: 'true'
+    fluxcd.io/tag.filebrowser: 'regex:^v2\.[0-9\.]+$'
 spec:
   serviceName: filebrowser
   replicas: 1

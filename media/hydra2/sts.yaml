@@ -5,7 +5,8 @@ metadata:
   name: hydra2
   namespace: media
   annotations:
-    flux.weave.works/automated: 'false'
+    fluxcd.io/automated: 'true'
+    fluxcd.io/tag.hydra2: 'regex:^v2\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: hydra2
   replicas: 1
