@@ -18,13 +18,25 @@ spec:
     datadog:
       apiKeyExistingSecret: datadog-secret
       dockerSocketPath: /var/run/crio/crio.sock
+      criSocketPath: /var/run/crio/crio.sock
       leaderElection: true
       collectEvents: true
+      processAgent:
+        enabled: true
+        processCollection: true
+      systemProbe:
+        enabled: true
     agents:
       rbac:
         create: true
       containers:
         agent:
+          env:
+            - name: DD_PROCESS_AGENT_CONTAINER_SOURCE
+              value: kubelet
+            - name: DD_KUBELET_TLS_VERIFY
+              value: 'false'
+        processAgent:
           env:
             - name: DD_PROCESS_AGENT_CONTAINER_SOURCE
               value: kubelet
