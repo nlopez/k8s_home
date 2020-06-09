@@ -1,0 +1,36 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: datadog
+  namespace: default
+spec:
+  releaseName: datadog
+  chart:
+    git: https://github.com/helm/charts
+    ref: master
+    path: stable/datadog
+    version: 2.3.9
+  valuesFrom:
+    - externalSourceRef:
+        url: https://raw.githubusercontent.com/helm/charts/master/stable/datadog/values.yaml
+  values:
+    datadog:
+      apiKeyExistingSecret: datadog-secret
+      dockerSocketPath: /var/run/crio/crio.sock
+      leaderElection: true
+      collectEvents: true
+    agents:
+      rbac:
+        create: true
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: datadog-secret
+  namespace: default
+spec:
+  encryptedData:
+    api-key: AgAUMuNylWcETtqKwJreg8r2K4d4b/IYdhDmE4GTEFaRrI3zAYwnXiEkt03qLbXzAcyYVQSJ+4pYbfGSPPHQgBASHgFsRhleZo0xcxOnmJgyrRRHyu+9cipwIgg/YK9Tm1HDV8AULaj8To3qYqMXqTaK9A+t87T7k2Ftdz015lsDPLL/lkKLo9/FhbLRnLI3rXfDnn78vHZ5Yr0AyqOWU/B4Aq2A39m4CThDdNErRMwU6aGOL0YmE85kD1YzCpOp69mJmnUou5gWmN32OewFhn39F5PvW0OnaM1Fj3mGPCdkVhtOWZbTte55gKGH0Ui1AIQH6P48ScE0RzvYqUthM8Y1jpHQ2Kbj1VJMiUaI4h41qsI8c9rCCGKUXZjuAe/wZgN7W+nJPR05HCb7ys8qBOCdVfJax2RLJprHhzYb4fxMLALS+Amw0J4uWKeH3wbdzK385PRah5TNRmLoED5OBFYDMT4IVnhtILsxGGSXiRU5dSguqY7eO566Uf/NAVxtUxCH0NUvjIHlT/AQb2uAInzckPqS+DFp+nbRJSsnqTGylwpQSnKJNwa90htwYFjP1v90+vMRBXjw7u+VMETAuc6kct8kYUBfr9s1rGehvQLYCIFBc4BCtRtfJHUe31TozEY/2Enq9+7LJpojGOwnhkuWq1qKWRcltnYwpmAhghrZinnLMvYw49rXlE1LOrxzHiKeCwjlJvjov1f5zegyldOOZ2Xo7FLCECNYy6+I4LZO4w==
