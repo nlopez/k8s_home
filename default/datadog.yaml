@@ -23,7 +23,13 @@ spec:
     agents:
       rbac:
         create: true
-
+      containers:
+        agent:
+          env:
+            - name: DD_PROCESS_AGENT_CONTAINER_SOURCE
+              value: kubelet
+            - name: DD_KUBELET_TLS_VERIFY
+              value: 'false'
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
