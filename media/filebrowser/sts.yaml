@@ -36,7 +36,7 @@ spec:
           name: filebrowser
       containers:
       - name: filebrowser
-        image: filebrowser/filebrowser:v2.1.2
+        image: filebrowser/filebrowser:v2.2.0
         command: ["/filebrowser"]
         args:
         - --config
