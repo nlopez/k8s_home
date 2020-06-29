@@ -35,13 +35,19 @@ spec:
             - name: DD_PROCESS_AGENT_CONTAINER_SOURCE
               value: kubelet
             - name: DD_KUBELET_TLS_VERIFY
-              value: 'false'
+              value: "false"
+            - name: DD_COLLECT_KUBERNETES_EVENTS
+              value: "true"
+            - name: DD_KUBERNETES_POD_LABELS_AS_TAGS
+              value: "true"
+            - name: DD_KUBERNETES_POD_ANNOTATIONS_AS_TAGS
+              value: "true"
         processAgent:
           env:
             - name: DD_PROCESS_AGENT_CONTAINER_SOURCE
               value: kubelet
             - name: DD_KUBELET_TLS_VERIFY
-              value: 'false'
+              value: "false"
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
