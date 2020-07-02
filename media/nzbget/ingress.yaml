@@ -5,15 +5,16 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - c.desertbluffs.com
+    - hosts:
+        - c.desertbluffs.com
   rules:
-  - host: c.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: nzbget
-          servicePort: 6789
+    - host: c.desertbluffs.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: nzbget
+              servicePort: 6789

@@ -6,14 +6,15 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - p.desertbluffs.com
+    - hosts:
+        - p.desertbluffs.com
   rules:
-  - host: p.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: thelounge
-          servicePort: thelounge
+    - host: p.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: thelounge
+              servicePort: thelounge

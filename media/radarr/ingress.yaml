@@ -7,15 +7,16 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-body-size: "2m"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - f.desertbluffs.com
+    - hosts:
+        - f.desertbluffs.com
   rules:
-  - host: f.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: radarr
-          servicePort: radarr
+    - host: f.desertbluffs.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: radarr
+              servicePort: radarr

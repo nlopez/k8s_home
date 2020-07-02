@@ -6,15 +6,16 @@ metadata:
   namespace: mon
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - l.desertbluffs.com
+    - hosts:
+        - l.desertbluffs.com
   rules:
-  - host: l.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: grafana
-          servicePort: 3000
+    - host: l.desertbluffs.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: grafana
+              servicePort: 3000

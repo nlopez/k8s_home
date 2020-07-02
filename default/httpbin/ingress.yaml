@@ -7,14 +7,15 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - httpbin.desertbluffs.com
+    - hosts:
+        - httpbin.desertbluffs.com
   rules:
-  - host: httpbin.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: httpbin
-          servicePort: httpbin
+    - host: httpbin.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: httpbin
+              servicePort: httpbin

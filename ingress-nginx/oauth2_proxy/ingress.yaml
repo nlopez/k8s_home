@@ -7,15 +7,16 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - login.desertbluffs.com
+    - hosts:
+        - login.desertbluffs.com
   rules:
-  - host: login.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: oauth2-proxy
-          servicePort: 4180
-        path: /oauth2
+    - host: login.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: oauth2-proxy
+              servicePort: 4180
+            path: /oauth2

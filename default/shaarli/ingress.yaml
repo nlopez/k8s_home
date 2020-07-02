@@ -7,14 +7,15 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - n.desertbluffs.com
+    - hosts:
+        - n.desertbluffs.com
   rules:
-  - host: n.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: shaarli
-          servicePort: shaarli
+    - host: n.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: shaarli
+              servicePort: shaarli

@@ -7,15 +7,16 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - m.desertbluffs.com
+    - hosts:
+        - m.desertbluffs.com
   rules:
-  - host: m.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: filebrowser
-          servicePort: 8080
+    - host: m.desertbluffs.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: filebrowser
+              servicePort: 8080

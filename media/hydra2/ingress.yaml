@@ -5,15 +5,16 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - i.desertbluffs.com
+    - hosts:
+        - i.desertbluffs.com
   rules:
-  - host: i.desertbluffs.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: hydra2
-          servicePort: hydra2
+    - host: i.desertbluffs.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hydra2
+              servicePort: hydra2
