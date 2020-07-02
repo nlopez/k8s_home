@@ -10,14 +10,15 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - nextcloud.desertbluffs.com
+    - hosts:
+        - nextcloud.desertbluffs.com
   rules:
-  - host: nextcloud.desertbluffs.com
-    http:
-      paths:
-      - backend:
-          serviceName: nextcloud
-          servicePort: 443
+    - host: nextcloud.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: nextcloud
+              servicePort: 443

@@ -12,9 +12,6 @@ spec:
     version: 2.1.0
   values:
     controller:
-      service:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
       kind: DaemonSet
       config:
         global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
