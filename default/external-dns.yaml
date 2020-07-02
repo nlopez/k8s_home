@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: external-dns
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: external-dns
+rules:
+  - apiGroups: [""]
+    resources: ["services", "endpoints", "pods"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["extensions"]
+    resources: ["ingresses"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: external-dns-viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: external-dns
+subjects:
+  - kind: ServiceAccount
+    name: external-dns
+    namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      serviceAccountName: external-dns
+      containers:
+        - name: external-dns
+          image: registry.opensource.zalan.do/teapot/external-dns:v0.7.1
+          args:
+            - --source=ingress
+            - --domain-filter=desertbluffs.com
+            - --provider=cloudflare
+            - --registry=txt
+            - --txt-owner-id=cloistered-education
+
+          envFrom:
+            - secretRef:
+                name: external-dns
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: external-dns
+  namespace: default
+spec:
+  encryptedData:
+    CF_API_EMAIL: AgAMQsRKzS14+DWQgrvTB1BP9CMti7fOWABNiPdgTTCZZQdU2CYWdg48z0zhQlVtc1QziTF2z1M5rvR6t1+CFwSzLcHW5QptLpjitbVVdWJo7/k5pmWD06sRROVhRiwdu+TjmSHXGoQosiBwjorpeaC8u15wpJS02lV5pU2IJKy5VHKb7eRmzLzuOUuNeuObnuz3GXppKBaDknYU9GQrIXLlFcMnaaF4CdAHhhG461ype68Fqd0A1H0VRd2HNTftSc1fE3FoCECp1ALZYKlTcDUvHrWAxUTtUwaLMdCloNIHXr/DvWxwI3pxY/EZZ7tHCGhQjh7GSvHPXJSEhSru1X/PRoWbW6NWT1VLrkUw18bgjZzBOyISgOCJgTNpC2V9YRBCIt+e6jrEohn2yL1sQNrmGTeawCKq/5TESIECuZL0RFqdqHxuWdOdZNeXV7AlMGed1ni3ZIhdfyEjdHWa8VDErOf/bXLOfetZMI6hvyfN3GhSdzgFaMCwNPln5JHQt0Koj9YYfOOiRbT2LXtgtNO8FFL72Owa7Q95DgYNa6fujwKL1s7SlowrSq1rS7L/D//x0Fc+wEk/u1BMERZ0o8x5KnnbICJmyjQ5W6nSXYCSOTCf/ogAF1SusE2fwXQG+4vnPZAXVwbLQjq6wjVzmouW7uTaBwVD3ZzHtc3j67CNM3+76JvoqsOvTmm+dpwWSquLvuqINNb7WqVC0QcCUpdOFg0YR33XD98z
+    CF_API_KEY: AgBwkiTPU4NYg8j8uRJEXA6bF19mBprxMrs7FX4pw/up+86vDUqmaYAK7J6sKefmKPz6dp72Xz/tDILoQfIczqOLcDPiEvUBa5zqHxECI/TXj7VNi5fWD6BGBU2CefePTn6CS2pC3IcpfZhyGa/74g/Ifs8cBxSElc2CLuc4MzwaD+u+8mhGE9uAlfVqEdEq1KqySj2gbPkDNhJhWMpbnA3SzDKtHe8T2JdMmjcW5r/VEg95CedHWK3WMZ4a66M58O/hzmXGTHgp3Ds77IicIw26wsq6e5s/DdG2YPqzNnYJjRmEBrGaPDDkU3axikQQEJ1a9YRtCgSsFlZ9CEPQpKiGnbsCnLvgdXnZblucU2SFz+GkXUje+uRSK8stwDatiOvZ5BX8XLERCinnH5kZUDQm+T+o6jeyIOMjkC7rV3+0vqyZ5xTtOExm+70FWVaokk0nHCVdtiqSFFFopdPu/zkTSp5sAZsKjx8DkuyfgCFfDoCSH7dz7ewzQRnylmWqVcBxXOZjbrzWQWHJoQvJTRBLa2LXsAIx1ur0HflVIQ1Nf7f9Rlxc1d3ppRGSQNWlQAwZpwaf3NCfBIO3tlcJo0HJmQjGZ6dUt4HOCSoef4JXiKcGGossY94v8pXnoyta6sHZyXcyDgMrJBqmtU46LH3EnSvyEQ/BWWrsMDeR2ZimPOj8vL25hjqtJjNGCg/hh3SMlfkaiwiff7vEARTluBZLIA3RYEaRc+t+IOcnBLcXSyE4expj
