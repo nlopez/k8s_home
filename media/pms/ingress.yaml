@@ -28,6 +28,7 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    external-dns.alpha.kubernetes.io/target: "desertbluffs.com"
 spec:
   tls:
     - hosts:
