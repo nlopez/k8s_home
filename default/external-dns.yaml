@@ -57,7 +57,7 @@ spec:
             - --provider=cloudflare
             - --registry=txt
             - --txt-owner-id=cloistered-education
-            - --txt-prefix=ahzub2oh
+            - --txt-prefix=nz07-
 
           envFrom:
             - secretRef:
