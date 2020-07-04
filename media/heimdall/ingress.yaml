@@ -10,9 +10,9 @@ metadata:
 spec:
   tls:
     - hosts:
-        - heimdall.desertbluffs.com
+        - xn--st9h.desertbluffs.com
   rules:
-    - host: heimdall.desertbluffs.com
+    - host: xn--st9h.desertbluffs.com
       http:
         paths:
           - path: /
