@@ -34,14 +34,20 @@ spec:
               name: oauth2-proxy
               readOnly: true
           args:
+            - --provider=nextcloud
+            - --login-url="https://nextcloud.desertbluffs.com/index.php/apps/oauth2/authorize"
+            - --redeem-url="https://nextcloud.desertbluffs.com/index.php/apps/oauth2/api/v1/token"
+            - --validate-url="https://nextcloud.desertbluffs.com/ocs/v2.php/cloud/user?format=json"
             - --upstream=file:///dev/null
             - --set-xauthrequest
             - --cookie-domain=.desertbluffs.com
             - --whitelist-domain=.desertbluffs.com
             - --http-address=0.0.0.0:4180
-            - --config=/etc/oauth2-proxy/config
             - --authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails
             - --cookie-httponly=true
             - --cookie-secure=true
             - --cookie-expire=168h0m
             - --cookie-refresh=60m
+          envFrom:
+            - secretRef:
+                name: oauth2-proxy-env
