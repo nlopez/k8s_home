@@ -34,14 +34,14 @@ spec:
               name: oauth2-proxy
               readOnly: true
           args:
-            - -upstream=file:///dev/null
-            - -set-xauthrequest
-            - -cookie-domain=.desertbluffs.com
-            - -whitelist-domain=.desertbluffs.com
-            - -http-address=0.0.0.0:4180
-            - -config=/etc/oauth2-proxy/config
-            - -authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails
-            - -cookie-httponly=true
-            - -cookie-secure=true
-            - -cookie-expire=168h0m
-            - -cookie-refresh=60m
+            - --upstream=file:///dev/null
+            - --set-xauthrequest
+            - --cookie-domain=.desertbluffs.com
+            - --whitelist-domain=.desertbluffs.com
+            - --http-address=0.0.0.0:4180
+            - --config=/etc/oauth2-proxy/config
+            - --authenticated-emails-file=/etc/oauth2-proxy/authenticated-emails
+            - --cookie-httponly=true
+            - --cookie-secure=true
+            - --cookie-expire=168h0m
+            - --cookie-refresh=60m
