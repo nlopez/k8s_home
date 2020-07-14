@@ -19,6 +19,7 @@ spec:
         hsts-max-age: "31536000"
         hsts-preload: "true"
         ssl-redirect: "true"
+        force-ssl-redirect: "true"
         global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
         global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
         ssl-protocols: "TLSv1.3"
