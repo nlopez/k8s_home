@@ -35,3 +35,4 @@ spec:
           proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
       extraArgs:
         default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
+        default-backend-service: "$(POD_NAMESPACE)/ingress-nginx-defaultbackend"
