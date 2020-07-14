@@ -12,6 +12,11 @@ spec:
   tls:
     - hosts:
         - desertbluffs.com
-  backend:
-    serviceName: ingress-nginx-defaultbackend
-    servicePort: 80
+  rules:
+    - host: desertbluffs.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ingress-nginx-defaultbackend
+              servicePort: 80
