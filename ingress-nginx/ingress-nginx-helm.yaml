@@ -11,6 +11,8 @@ spec:
     name: ingress-nginx
     version: 2.11.0
   values:
+    defaultBackend:
+      enabled: true
     controller:
       kind: DaemonSet
       config:
