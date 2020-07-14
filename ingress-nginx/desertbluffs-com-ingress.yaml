@@ -2,7 +2,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: oauth2-proxy
+  name: desertbluffs-com
   namespace: ingress-nginx
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -11,12 +11,7 @@ metadata:
 spec:
   tls:
     - hosts:
-        - login.desertbluffs.com
-  rules:
-    - host: login.desertbluffs.com
-      http:
-        paths:
-          - backend:
-              serviceName: oauth2-proxy
-              servicePort: 4180
-            path: /oauth2
+        - desertbluffs.com
+  backend:
+    serviceName: ingress-nginx-defaultbackend
+    servicePort: 80
