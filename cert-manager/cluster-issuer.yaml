@@ -11,8 +11,9 @@ spec:
       name: letsencrypt-private-key
     solvers:
     - dns01:
-        cloudflare:
-          email: y26fpcpdk9@liamekaens.com
-          apiKeySecretRef:
-            name: cloudflare-api-key-secret
-            key: api-key
+        route53:
+          region: us-east-1
+          accessKeyID: AKIAX6OKM7CDHRHPJPDT
+          secretAccessKeySecretRef:
+            name: route53-credentials-secret
+            key: secret-access-key
