@@ -1,0 +1,165 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: authelia
+  namespace: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+spec:
+  tls:
+    - hosts:
+        - login2.desertbluffs.com
+  rules:
+    - host: login2.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: authelia
+              servicePort: 9091
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: authelia
+  namespace: ingress-nginx
+spec:
+  podSelector:
+    matchLabels:
+      app: authelia
+  ingress:
+  - ports:
+    - port: 9091
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authelia
+  namespace: ingress-nginx
+spec:
+  selector:
+    app: authelia
+  ports:
+  - name: authelia
+    port: 9091
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authelia
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authelia
+  template:
+    metadata:
+      labels:
+        app: authelia
+    spec:
+      volumes:
+        - name: authelia-config
+          projected:
+            sources:
+              - secret:
+                  name: authelia-users
+                  items:
+                    - key: users.yaml
+                      path: users.yaml
+              - configMap:
+                  name: authelia-custom
+                  items:
+                    - key: custom.yaml
+                      path: custom.yaml
+        - name: authelia-secrets
+          secret:
+            secretName: authelia-secrets
+      containers:
+        - name: authelia
+          image: authelia/authelia:4
+          # image: alpine
+          env:
+            - name: AUTHELIA_JWT_SECRET_FILE
+              value: /secrets/jwt
+            - name: AUTHELIA_SESSION_SECRET_FILE
+              value: /secrets/session
+          ports:
+            - name: authelia
+              containerPort: 9091
+          volumeMounts:
+            - name: authelia-config
+              mountPath: /config
+              readOnly: true
+            - name: authelia-secrets
+              mountPath: /secrets
+              readOnly: true
+          # command: ["sleep"]
+          # args: ["10000000"]
+          command: ["authelia"]
+          args: ["--config", "/config/custom.yaml"]
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authelia-custom
+  namespace: ingress-nginx
+data:
+  custom.yaml: |
+    ---
+    host: 0.0.0.0
+    port: 9091
+    access_control:
+      default_policy: deny
+      rules:
+        - domain:
+            - "*.desertbluffs.com"
+          policy: one_factor
+    authentication_backend:
+      disable_reset_password: true
+      file:
+        path: /config/users.yaml
+        password:
+          algorithm: argon2id
+          iterations: 1
+          salt_length: 16
+          parallelism: 8
+          memory: 1024
+    storage:
+      local:
+        path: /tmp/db.sqlite3
+    session:
+      name: authelia_session
+      expiration: 1h
+      inactivity: 5m
+      remember_me_duration:  1M  # 1 month
+      domain: desertbluffs.com
+    notifier:
+      disable_startup_check: true
+      filesystem:
+        filename: /dev/null
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: authelia-users
+  namespace: ingress-nginx
+spec:
+  encryptedData:
+    users.yaml: AgCQaDeOrJBuRbob34h5SkUa9+y/Og1MscnPKQ2PecO+dg9BisHEjlp/BvlJXg4nqjT6mnjBgous/cHazEYqZGlCJpy/z3FuhPIdpg3XWigL5oz0jbSo76lATyHPss+ueqsf5ohbpiGaigsA+Jx/ouFznK5I4X8kZg6ZvQZ6isvywV3BoszWDwjONrAdz8udcM2+Pg3dqHuMUn9Qz+GRqGwShNc9RhT33cvaecc+4I+aQbkyg3FKTP1kgMqZrWOx/bivj+nm7Ak1/RejuXQreEwmAoigQeoDAzd/n9HofLPtNxfCEUF7z0pBuD8r0//ivlO3jyr6LxKydWb0T+MRRV1nmu2AbSi6HsX243fD6w9fKwRY/hERqr3zqxQ2PQMwXUbT7d52Nuf2JJAq7DFo2JwdOodiaL3j2W6R6KkklGdTBFhOmnTd0S1YVrGLluYIOadobKHYFmbtMlBDDtsat5r+hHgEoZea1CgXL03U07VrGpEu5uJ3QkFLhthBD/EKW2bgIHGZ+ISbkB5/pouvxfKqatVXrxeffppIqtUp2lkV25NIqGc4jUd6MsA6cs4udfwIAbXuPsR5QLfdM2iC/hCIOEAsoPPcwJ7yVh2rObUeRHSMGd9FyeZRhw6qjBG3yiwMHXkA1BcvL9I0YFLPOnc6RlMPYI9d1MQIGiZPDj2LCiVXMSFeVa87HfJAg7fgo9T/Tf3mA+tHYdv+vIfXAMDmHcUjKEQhcohQF6iJXZwDoFHnh2LPLaCoKrLH1dZYcWdIKlXE8XAeNTbiIrgLbMv79loglMmKnvTcGkdZQvgkaBAKTdrYVvmzxqFYJUODPY1dmd2KB/bl2UL7K7ciKy2geAAamV0kHh8Xx3s/nyloOYeguoiwssHYPh83pBaZRTjPJ0ImApk5wjnxPzFqmL25Vb3yzZMOgANOREuIr2hxhQQ3EFr8wCg5EDPldc+BVJqew1m06HAW+DD22L9HOps1KEcHIA==
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: authelia-secrets
+  namespace: ingress-nginx
+spec:
+  encryptedData:
+    jwt: AgAxkSfplXPVWMbp3lAVzjUbxEPgVavUnGgPJmX7gC6b10+7dlrfaPVKu7s3FbI2Xf8K40BLOGEVK1CLgJeB7sebzGwrHWuflUOobs1puFGsdaEGdZ8btU9U8Ec75wVqquYyEUJXHL5f69+B1ODRb5QzNqiq8xSrgB+K2vbn12QPcyiMiH7s6v3zVpJ7jvtIsKOMTm2nOZEnSIlGqw5pGro89n6W82kD3q3ZqYHsEo8JtgKc3vHtKzyN505B/sQ5qAmwwrQIBsVsidFmzZR1w1FFevnSv3DeEEmRT3PPR9nOF8NCvNbd70NcTdKnXtd0QamkuPBzGAaUTI9mxeJ+TqfIrCLP4meHkyDa/QN4um56RcE5OL8wZ9ebrtR58mV0rGwkbFxsBJZtYg/UXlxC0eqEXSkxC+yR6Wre/ipaQ9lXH8mkNmtRGSUKaMiOaQgUDXIEKlh1NAaDFUvJdw2zu3Ud+fDu0rm1vjnvl9bmztfKRzYrnqMKc2iugnUo1L8gkucr1XnsZXzaNyqlKUXrVHDk2R+8nfHYkrMJSE6DBKqWb4pgk4cKqTac5sEt7elv9B+RxbmMYXbgQ9asyR9sD2c3s1+HIN0Fg21xmuDQ+Skf/sRoPYIMj5IIivDAlO/rShN9qbaB3sAlerCreCQzEFGTEzz32W1HmLbx79rRGBWUHvPS6o6Lz9DStC1dN1lteTS9qK8UuXt+zk94y4Ko4dQNf+lzpteonnU1xHu1exewVZlyWMqfuDADrMuuT+2svHRU8qfbV1T9+XRuKHBXAzfEf08+3G2AXuG54w15SygiRu/xc6Vg74sViKeBiXOcbNVu/toeOJpOzheLiFmoi13NUI6wLW/75eYhma/kC3UExQ==
+    session: AgBvltJDYIUhHWFMyuxkcdHCj0IQMpOwQPjDFnzk/8/L1eqkLx6LGl4ElxGleW+POfPSf6iCSnBWdr2C55xoEH3tCYpbaUh7BG/XtlyH0TvqzOT63sXfokNl/gTD/h51I4Zkb1z/tV3oJm3h1XMEbQjWhdDuxKpCp3RzhpTz6YVgaUHTRjb+Vak/raPltTxWjlfCeMFiXE3lPCUBe5ONXZJ62TDvxE26P2j4waQv9pbLDLV3LkWmEL0i1dJts0skovhTbAg+BBlWNmVVyQ82hk+bo1MjoV7qs03x/7jikMG9E+QiKn4D0FXmIPACKXUop2KZBgdbYGA/oMTPfzSwiLhQwinvEExEhk72Dpgx7pq5SrOUamFowJUSYHqLuIV2qDIun8xvh/75hAotQPppv3gULN94usHA2iT4R5giqr4wHZFK24aOUxWD9R2n0W3mQp0Xohjc69X5jfz3Xs+dC6xqZczyCVYGaa3AmoWmWMvlxfdwVC/+Ou+SaFdzVp3Jbi0WFVZnPfnERVfjzIKaGgKmQigBNGLW1b2bRGmuSFknqpYegIAxXsG3jC0NBwABwaaLwC+/QG7RWDYl0UZVNpaNJQBTN/A/EJHrQoaAfHCI+ckHibYxrPHZDAVUeQjOwPvCqh4hzEfWKKJdF3LGdIZNUi6F2pj40ye4O0waSvQLlqTwPF7S1asRC1U5ripuc0mnweYiWRj9mhE9M1t/SeL/tTDOQbPBSHrcsCrcPkKSFPi00xmYPpuV9qVHrrla2/J++LB/YTvU5W0URhSZ7bC39HANy9tcSY39gRGg/nEaDQHcK8uGVYVFPT6EECAL3qeIfomTI2p3ZYpC4mOoJSgrelsNB7SsxnGIq3rhGidUDA==
