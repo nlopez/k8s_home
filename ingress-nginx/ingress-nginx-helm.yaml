@@ -22,8 +22,8 @@ spec:
         hsts-preload: "true"
         ssl-redirect: "true"
         force-ssl-redirect: "true"
-        global-auth-url: "https://login.desertbluffs.com/oauth2/auth"
-        global-auth-signin: "https://login.desertbluffs.com/oauth2/start?rd=https://$host$escaped_request_uri"
+        global-auth-url: "https://login2.desertbluffs.com/api/verify"
+        global-auth-signin: "https://login2.desertbluffs.com/?rd=https://$host$escaped_request_uri"
         ssl-protocols: "TLSv1.3"
         ssl-session-cache: "false" # set via server-snippet
         ssl-session-tickets: "false"
