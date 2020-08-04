@@ -40,3 +40,10 @@ metadata:
   name: ingress-nginx
   labels:
     name: ingress-nginx
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pgo
+  labels:
+    name: pgo
