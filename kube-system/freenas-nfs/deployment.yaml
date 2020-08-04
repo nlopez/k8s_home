@@ -1,0 +1,29 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: freenas-nfs-provisioner
+  namespace: kube-system
+  labels:
+    app: freenas-nfs-provisioner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: freenas-nfs-provisioner
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: freenas-nfs-provisioner
+    spec:
+      serviceAccountName: freenas-nfs-provisioner
+      containers:
+        - name: freenas-nfs-provisioner
+          image: docker.io/nmaupu/freenas-provisioner:2.6
+          env:
+            #- name: IDENTIFIER
+            #  value:
+            #- name: PROVISIONER_NAME
+            #  value:
