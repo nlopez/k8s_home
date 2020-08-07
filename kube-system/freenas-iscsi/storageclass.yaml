@@ -1,0 +1,155 @@
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: freenas-iscsi
+#  annotations:
+#    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: freenas.org/iscsi
+# Delete|Retain
+reclaimPolicy: Retain
+allowVolumeExpansion: false
+parameters:
+  # set the default filesystem
+  # default: ext4
+  #fsType:
+
+  # namespace of the secret which contains FreeNAS server connection details
+  # default: kube-system
+  #serverSecretNamespace:
+
+  # name of the secret which contains FreeNAS server connection details
+  # default: freenas-iscsi
+  #serverSecretName:
+
+  # when provisioning partially succeeds and then fails, should we rollback (ie: delete)
+  # the assets created in FreeNAS up to the point of failure. Provisioning is idempotent
+  # so subsequent (re)requests from kubernetes to create the PV are safe if this is disabled.
+  # default: true
+  #provisionerRollbackPartialFailures:
+
+  # the name of the parent dataset (or simply pool) where all resources will
+  # be created, it *must* exist before provisioner will work
+  # Note: due to length limitations with iscsi the total string length must
+  # NOT exceed 17 chars (this includes slashes etc)
+  # example: tank/k8s/mycluster
+  # default: tank
+  datasetParentName: etank/k8s-iscsi
+
+  # portal details
+  # example: server:3260
+  # default: uses the 'host' attribute from the secret and port 3260
+  #provisionerTargetPortal:
+
+  # multipath portals (comma-separated)
+  # example: server2:3260,server3:3260
+  # default:
+  #provisionerPortals:
+
+  # adds the desired prefix to targets and extents
+  # example: somecluster.foo.
+  # default:
+  #provisionerISCSINamePrefix:
+
+  # adds the desired suffix to targets and extents
+  # example: .freenas.provisioner
+  # default:
+  #provisionerISCSINameSuffix:
+
+  # override the interface to use for iscsi connections
+  # default: default
+  #provisionerISCSIInterface:
+
+  # ID of the portal group
+  # Note: the ID visible in the UI is not always the true ID
+  # use http(s)://root:password@server/api/v1.0/services/iscsi/portal/ to retrieve the ID
+  targetGroupPortalgroup: "1"
+
+  # ID of the intiator group
+  # Note: the ID visible in the UI is not always the true ID
+  # use http(s)://root:password@server/api/v1.0/services/iscsi/authorizedinitiator/ to retrieve the ID
+  targetGroupInitiatorgroup: "1"
+
+  # Authentication type for the target group
+  # options: None, CHAP, or CHAP Mutual
+  # default: None
+  #targetGroupAuthtype:
+
+  # ID of the auth group
+  # default:
+  #targetGroupAuthgroup:
+
+  # Whether portal discovery authentication is employed
+  # default: false
+  #targetDiscoveryCHAPAuth:
+
+  # Whether session authentication is employed
+  # default: false
+  #targetSessionCHAPAuth:
+
+  # If either of the two settings above are true, then iSCSI
+  # secretRef will be filled according to the following settings
+  #
+  # Note: once volumes have been provisioned you should NOT change
+  # the secret name or namespace settings
+  #
+  # Namespace of secret which holds iscsi credentials
+  # default: kube-system
+  #authSecretNamespace:
+
+  # Name of secret which holds iscsi credentials
+  # default: freenas-iscsi-chap
+  #authSecretName:
+
+  # compression setting on the zvol
+  # options: "" (inherit), lz4, gzip-9, etc
+  # default: (inherit)
+  #zvolCompression:
+
+  # dedup setting on the zvol
+  # options: "" (inherit), on, off, verify
+  #zvolDedup:
+
+  # sparse setting on the zvol
+  # default: true
+  #zvolSparse:
+
+  # allow zvol to consume more than 80% of available space
+  # default: false
+  #zvolForce bool = false
+
+  # blocksize of the zvol
+  # options: "" (let FreeNAS decide), 512, 1K, 2K, 4K, 8K, 16K, 32K, 64K, 128K
+  # default:
+  #zvolBlocksize:
+
+  # blocksize of the extent
+  # options: ""/0 (let FreeNAS decide), 512, 1024, 2048, or 4096
+  # default: 0
+  #extentBlocksize:
+
+  # disabled physical blocksize reporting
+  # default: true
+  #extentDisablePhysicalBlocksize:
+
+  # available threshold capacity warning
+  # options: 0-100 (0 == ignore)
+  # default: 0
+  #extentAvailThreshold:
+
+  # extent enable TPC
+  # default: true
+  #extentInsecureTpc:
+
+  # extent xen compatibility mode
+  # default: false
+  #extentXen:
+
+  # extent RPM
+  # options: "" (let FreeNAS decide, currently defaults to SSD), Unknown, SSD, 5400, 7200, 10000, 15000
+  # default:
+  #extentRpm:
+
+  # extent read only
+  # default: false
+  #extentReadOnly:
