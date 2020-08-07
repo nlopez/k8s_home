@@ -1,0 +1,120 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: democratic-csi
+  namespace: kube-system
+spec:
+  releaseName: democratic-csi
+  chart:
+    repository: https://democratic-csi.github.io/charts/
+    name: democratic-csi
+    version: 0.2.1
+  valuesFrom:
+  - secretKeyRef:
+      name: democratic-csi
+      key: values.yaml
+  values:
+    csiDriver:
+      # should be globally unique for a given cluster
+      name: "org.democratic-csi.iscsi"
+
+    # add note here about volume expansion requirements
+    storageClasses:
+    - name: freenas-iscsi-csi
+      defaultClass: false
+      reclaimPolicy: Retain
+      volumeBindingMode: Immediate
+      allowVolumeExpansion: true
+      parameters:
+        # for block-based storage can be ext3, ext4, xfs
+        # for nfs should be nfs
+        fsType: ext4
+
+        # if true, volumes created from other snapshots will be
+        # zfs send/received instead of zfs cloned
+        # detachedVolumesFromSnapshots: "false"
+
+        # if true, volumes created from other volumes will be
+        # zfs send/received instead of zfs cloned
+        # detachedVolumesFromVolumes: "false"
+
+      mountOptions: []
+      secrets:
+        provisioner-secret:
+        controller-publish-secret:
+        node-stage-secret:
+        node-publish-secret:
+        controller-expand-secret:
+
+    # if your cluster supports snapshots you may enable below
+    volumeSnapshotClasses: []
+    #- name: freenas-iscsi-csi
+    #  parameters:
+    #  # if true, snapshots will be created with zfs send/receive
+    #  # detachedSnapshots: "false"
+    #  secrets:
+    #    snapshotter-secret:
+
+    driver:
+      config:
+        driver: freenas-iscsi
+        instance_id:
+        httpConnection:
+          protocol: https
+          host: nas1.lga1.radoncanyon.com
+          port: 443
+          username: root
+          allowInsecure: true
+        zfs:
+          # total volume name (zvol/<datasetParentName>/<pvc name>) length cannot exceed 63 chars
+          # https://www.ixsystems.com/documentation/freenas/11.2-U5/storage.html#zfs-zvol-config-opts-tab
+          # standard volume naming overhead is 46 chars
+          # datasetParentName should therefore be 17 chars or less
+          datasetParentName: etank/k8s/a/vols
+          detachedSnapshotsDatasetParentName: etank/k8s/a/snaps
+          # "" (inherit), lz4, gzip-9, etc
+          zvolCompression:
+          # "" (inherit), on, off, verify
+          zvolDedup:
+          zvolEnableReservation: false
+          # 512, 1K, 2K, 4K, 8K, 16K, 64K, 128K default is 16K
+          zvolBlocksize: 16K
+        iscsi:
+          targetPortal: "nas1-storage.lga1.radoncanyon.com:3260"
+          targetPortals: []
+          # leave empty to omit usage of -I with iscsiadm
+          interface:
+          namePrefix: csi-
+          nameSuffix: "-clustera"
+          # add as many as needed
+          targetGroups:
+            # get the correct ID from the "portal" section in the UI
+            - targetGroupPortalGroup: 1
+              # get the correct ID from the "initiators" section in the UI
+              targetGroupInitiatorGroup: 1
+              # None, CHAP, or CHAP Mutual
+              targetGroupAuthType: None
+              # get the correct ID from the "Authorized Access" section of the UI
+              # only required if using Chap
+              targetGroupAuthGroup:
+
+          extentInsecureTpc: true
+          extentXenCompat: false
+          extentDisablePhysicalBlocksize: true
+          # 512, 1024, 2048, or 4096,
+          extentBlocksize: 4096
+          # "" (let FreeNAS decide, currently defaults to SSD), Unknown, SSD, 5400, 7200, 10000, 15000
+          extentRpm: "SSD"
+          # 0-100 (0 == ignore)
+          extentAvailThreshold: 0
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: democratic-csi
+  namespace: kube-system
+spec:
+  encryptedData:
+    values.yaml: AgBiH1+aq+KexeNqVP0cCSmSxW7DLvCHiSsvGupWeFys9aKBfG04hSzszvRJBqIKKpzDUhD4HxS9IDpiPnRwPaKp8Jx4u1mH87nENkLn3d+hLFr8AauzTqUJsFr69dW7hgjwvGKT/+qS3gMogrN6WYxKiT/8YvNdd4+HWDi/qZUsa7Aqlh0q78ECIRWmAzzInE4NyBzhqBgPlcpN0OmiBKaB1bLd+oliWthRmCXwH6rSm9NLmIFzWj5BYYCfkrP9Bq7H1ftWKTl6MNZnvxfhlFc9BdmDkqS+nESZHE767n5xCsO8VFVU8HYQt0+nHZHNOpRnhZ3c3f1Af7CYRNGVw1Cs3FyQs3qsTtmDpL+seKzSzOkRtR/YsC6F8U9bw+fSn9LYEZNkcJ6NFa1arjHwIY/jncpVvknegsbqOamNJCS5/YP3B3m1P4extYEnANRlpm288HRu9i9U/Z+Lp9hD7TtcCKvWkeSWSo8WBau/O6R5gWqwAd3KL+sfo7Wbkvgwf5xHU9xXVtNSEbsp3xnJkKUoeA+x6XIgI9GZbK8JSW+2ucPzIoFjm8D+3nxEi6AbXwYiTdYmocfpUk0QDSNmpfmxqCM2pJbdZNP2gNdRodUVKBpRsAlIBD+5Z0ZYzprTqBbuwzSDVzu0z16uyhneb1AeWJcI2RpSbMFf99+k7NN5tVC+OMdUJcnlPblyLP/tbF1q94oTEA/DCMA2qsenA5MYP3o/Xuynxz/EkMw3P9umKm9FY/qOPvo0Hla7EsDcnrBJCxHrZaNRPrDhFg+S1fdJtf51f0/by0FYCv2Qmz15iGdHXs4dZoRNGFnSd19Ttf1TvRB+Okf5XVo5nK9G4y7y/wEmOvaBeEPz
