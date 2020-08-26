@@ -5,6 +5,7 @@ metadata:
   namespace: jobs
 spec:
   schedule: '12 */1 * * *'
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
@@ -87,6 +88,7 @@ metadata:
   namespace: jobs
 spec:
   schedule: '0 0 * * 0'  # at 00:00 on Sunday
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
