@@ -59,7 +59,7 @@ data:
     max_file_uploads = 20
     allow_url_fopen = On
     allow_url_include = Off
-    default_socket_timeout = 60
+    default_socket_timeout = -1
     [CLI Server]
     cli_server.color = On
     [Date]
