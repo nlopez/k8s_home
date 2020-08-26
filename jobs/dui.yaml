@@ -79,3 +79,31 @@ metadata:
 spec:
   encryptedData:
     rclone.conf: AgBlXZBt4Ww25FkxHsROBKCZeSNHFuSXMYchcxc1GkaJIEM7UtZz2PCSZ/bs94Sr0aSEQy4bd/80S0kgzMRWNBsCGdOr2fC/vkx+0dlKRRzpJcMvdZ2j1tw9mFl7mwor4lUIHGjKibhvh3V3KqnL5KjThCHA/pDsFaib6on36MS2KQbNnWyHyqso790d7hK4ME9vD9sMF8+ChhEidmorJL6hbK+oVWthLi3vESaPsr86S3PDel8U0x+kyOipltouSdddzPkDRxeCN3IgPr8G4c3Jac/61GjU+cbWgQU1yB/0CcmWjTbtT+KaL966/wZ8RP4MEgKBuLnD/GZxJDZ+woQsoyfIKath6QlGR09Q7b2ie7TGQwpclphBDlJj+EEKMjqVkYRMk0cf2p9w8O0tDNj1NIUQVfeQvpzowJDbVtgRvW5ViRStKAJqe3lp5yORxhXILq5kmLt3D79mnWeb307HVRetXyyAKtT/DJ6s4XhqSXyI8KnUREJhI5fs0wQE75T6NP9YZePwtgwvCJTDZfGCilLOOh4k2E4Ti4o71+i1ErRBYM7K23XVjPqGWQox8wFKipntStQq43nHWZIajufPYxZWFcCxaAi8nl5zImCUc5aRrknpfPEBAa5L528tSnop49cdL/Mn3bJ+ZKiCh9ZUQiOduGOvrFjKARMKW4/Wxy4Lnq3BWbhBcLVFXxs15AMxhoweYcyUksDOHSNHCKwqsaSCxkVJc2AriRXeOg0btKwuy4KTVp1pJju5YaF1Irc+piwjK+Xj8DEf3E1GtnE/9aRuKy9dxrchsbZ9v2F+01z6QRvmjh9cOBaOryPCJFB0FGBoy1Ni9hDLaKv8wLb7bAhE7WUz/8yIlTdTcqHGVu4oRbb64CUzlFPsa1q1IWSfrIoiETQH+oFuTG/dGWFEqgslxGRjvM1KGCRGr/CfVMT2
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dui-cache-clear
+  namespace: jobs
+spec:
+  schedule: '0 0 * * 0'  # at 00:00 on Sunday
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: dui
+            iscsi:
+              iqn: iqn.2014-09.com.radoncanyon:nas1:dui
+              targetPortal: 192.168.220.149
+              lun: 1
+              fsType: ext4
+          containers:
+          - name: dui
+            image: nlopez/dui:4
+            command: ["sh"]
+            args: ["-c" , "rm -rfv /dui/*"]
+            volumeMounts:
+            - name: dui
+              mountPath: /dui
+          restartPolicy: Never
