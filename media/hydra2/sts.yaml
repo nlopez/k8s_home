@@ -27,7 +27,7 @@ spec:
           fsType: ext4
       containers:
       - name: hydra2
-        image: linuxserver/nzbhydra2:v2.27.0-ls14
+        image: linuxserver/nzbhydra2:v2.27.1-ls14
         volumeMounts:
         - name: hydra2-config
           subPath: config
