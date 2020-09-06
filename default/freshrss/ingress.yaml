@@ -6,7 +6,7 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/enable-global-auth: "true"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
 spec:
   tls:
