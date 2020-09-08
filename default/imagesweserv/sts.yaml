@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: imagesweserv
+  namespace: default
+spec:
+  serviceName: imagesweserv
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imagesweserv
+  template:
+    metadata:
+      labels:
+        app: imagesweserv
+    spec:
+      volumes:
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi  # https://github.com/kubernetes/kubernetes/issues/63126
+      containers:
+      - name: imagesweserv
+        image: nlopez/imagesweserv@sha256:bff48fffe1a75ee68ab817fcac17b01064e8fa4d7fbfe8a193f1cd01b34e1171
+        volumeMounts:
+        - name: shm
+          mountPath: /dev/shm
