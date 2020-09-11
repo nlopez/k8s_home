@@ -194,6 +194,8 @@ data:
     ; stderr will be redirected to /dev/null according to FastCGI specs.
     ; Default Value: no
     catch_workers_output = yes
+    php_admin_value[error_log] = /config/log/php/error-www2.log
+    php_admin_flag[log_errors] = on
 ---
 apiVersion: v1
 kind: ConfigMap
