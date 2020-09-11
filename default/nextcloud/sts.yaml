@@ -33,12 +33,6 @@ spec:
                   - pms
               topologyKey: kubernetes.io/hostname
       volumes:
-      - name: config
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-config
-          targetPortal: 192.168.220.149
-          lun: 1
-          fsType: ext4
       - name: config2
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-config2
@@ -83,10 +77,8 @@ spec:
       - name: nextcloud
         image: linuxserver/nextcloud:19.0.3-ls98
         volumeMounts:
-        - name: config
-          mountPath: /config
         - name: config2
-          mountPath: /config2
+          mountPath: /config
         - name: data
           mountPath: /data
         - name: php-fpm-config
