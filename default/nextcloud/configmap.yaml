@@ -190,6 +190,10 @@ data:
     pm = static
     pm.max_children = 256
     pm.max_requests = 0
+    ; Redirect worker stdout and stderr into main error log. If not set, stdout and
+    ; stderr will be redirected to /dev/null according to FastCGI specs.
+    ; Default Value: no
+    catch_workers_output = yes
 ---
 apiVersion: v1
 kind: ConfigMap
