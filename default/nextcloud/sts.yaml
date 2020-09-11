@@ -20,17 +20,17 @@ spec:
         app: nextcloud
     spec:
       affinity:
-       podAntiAffinity:
-         preferredDuringSchedulingIgnoredDuringExecution:
-         - weight: 100
-           podAffinityTerm:
-             labelSelector:
-               matchExpressions:
-               - key: app
-                 operator: In
-                 values:
-                 - pms
-             topologyKey: kubernetes.io/hostname
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - pms
+              topologyKey: kubernetes.io/hostname
       volumes:
       - name: config
         iscsi:
@@ -72,15 +72,15 @@ spec:
         configMap:
           name: nextcloud-php-ini
           items:
-            - key: php.ini
-              path: php.ini
+          - key: php.ini
+            path: php.ini
       - name: sockets
         emptyDir: {}
 
       containers:
 
       - name: nextcloud
-        image: linuxserver/nextcloud:18.0.4-ls78
+        image: linuxserver/nextcloud:19.0.3-ls98
         volumeMounts:
         - name: config
           mountPath: /config
@@ -107,7 +107,7 @@ spec:
           value: '1001'
 
       - name: postgresql
-        image: postgres:12.1
+        image: postgres:9.5-alpine
         volumeMounts:
         - name: postgresql
           mountPath: /var/lib/postgresql/data
