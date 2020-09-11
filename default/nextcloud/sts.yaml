@@ -88,8 +88,9 @@ spec:
           mountPath: /config2
         - name: data
           mountPath: /data
-        # - name: php-fpm-config
-          # mountPath: /etc/php7/php-fpm.d/
+        - name: php-fpm-config
+          mountPath: /etc/php7/php-fpm.d/www2.conf
+          subPath: www2.conf
         - name: nextcloud-crontabs
           mountPath: /etc/crontabs/
         - name: php-opcache-config

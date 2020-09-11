@@ -173,24 +173,24 @@ data:
     opcache.revalidate_freq=1
     opcache.validate_timestamps=1
 ---
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: nextcloud-php-fpm
-#   namespace: default
-# data:
-#   www.conf: |
-#     [www]
-#     user = abc
-#     group = abc
-#     listen = /sock/php-fpm.sock
-#     listen.owner = abc
-#     listen.group = abc
-#     listen.mode = 0660
-#     pm = static
-#     pm.max_children = 256
-#     pm.max_requests = 0
-# ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nextcloud-php-fpm
+  namespace: default
+data:
+  www2.conf: |
+    [www]
+    user = abc
+    group = abc
+    listen = /sock/php-fpm.sock
+    listen.owner = abc
+    listen.group = abc
+    listen.mode = 0660
+    pm = static
+    pm.max_children = 256
+    pm.max_requests = 0
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
