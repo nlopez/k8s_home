@@ -7,6 +7,7 @@ metadata:
   annotations:
     flux.weave.works/tag.nextcloud: glob:19*-ls*
     flux.weave.works/tag.redis: glob:5*-alpine
+    flux.weave.works/tag.postgresql: glob:12*-alpine
     flux.weave.works/automated: 'true'
 spec:
   serviceName: nextcloud
