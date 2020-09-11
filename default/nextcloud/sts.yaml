@@ -38,6 +38,12 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext4
+      - name: config2
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-config2
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
       - name: postgresql
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:nextcloud-postgresql
@@ -47,10 +53,6 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: nextcloud-data
-      # - name: appdata
-      #   hostPath:
-      #     path: /mnt/BLOCK/nextcloud-appdata
-      #     type: Directory
       - name: redis-config
         configMap:
           name: nextcloud-redis
@@ -82,10 +84,10 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /config
+        - name: config2
+          mountPath: /config2
         - name: data
           mountPath: /data
-        # - name: appdata
-        #   mountPath: /data/appdata
         - name: php-fpm-config
           mountPath: /etc/php7/php-fpm.d/
         - name: nextcloud-crontabs
