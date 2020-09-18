@@ -24,12 +24,22 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext4
+      - name: invidious-config
+        secret:
+          secretName: invidious-config
       containers:
       - name: invidious
         image: omarroth/invidious@sha256:dfe1d1adf634ddbc6f5eadf22dc7a5f0659479b2178a8a38e1b27ac3f317a0d7
+        # command: ["sleep"]
+        # args: ["10000000"]
         ports:
         - containerPort: 3000
           name: invidious
+        volumeMounts:
+        - name: invidious-config
+          mountPath: /invidious/config/config.yml
+          subPath: config.yml
+          readOnly: true
       - name: postgresql
         image: postgres:12.4
         volumeMounts:
@@ -38,8 +48,10 @@ spec:
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
-        - name: POSTGRES_USER
+        - name: POSTGRES_DB
           value: invidious
+        - name: POSTGRES_USER
+          value: kemal
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
