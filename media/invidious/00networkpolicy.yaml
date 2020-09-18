@@ -1,0 +1,16 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: invidious
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: invidious
+  ingress:
+  - ports:
+    - port: 3000
+    from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx

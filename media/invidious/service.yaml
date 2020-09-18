@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: invidious
+  namespace: media
+spec:
+  selector:
+    app: invidious
+  ports:
+  - name: invidious
+    port: 3000

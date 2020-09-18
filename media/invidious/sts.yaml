@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: invidious
+  namespace: media
+  annotations:
+    fluxcd.io/automated: 'false'
+spec:
+  serviceName: invidious
+  replicas: 1
+  selector:
+    matchLabels:
+      app: invidious
+  template:
+    metadata:
+      labels:
+        app: invidious
+    spec:
+      volumes:
+      - name: postgresql
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:invidious-postgresql
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+      containers:
+      - name: invidious
+        image: omarroth/invidious@sha256:dfe1d1adf634ddbc6f5eadf22dc7a5f0659479b2178a8a38e1b27ac3f317a0d7
+        ports:
+        - containerPort: 3000
+          name: invidious
+      - name: postgresql
+        image: postgres:12.4
+        volumeMounts:
+        - name: postgresql
+          mountPath: /var/lib/postgresql/data
+        env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          value: invidious
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: invidious-postgresql
+              key: POSTGRES_PASSWORD
