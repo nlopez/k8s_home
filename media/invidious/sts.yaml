@@ -41,7 +41,7 @@ spec:
           subPath: config.yml
           readOnly: true
       - name: postgresql
-        image: postgres:12.4
+        image: postgres:10
         volumeMounts:
         - name: postgresql
           mountPath: /var/lib/postgresql/data
