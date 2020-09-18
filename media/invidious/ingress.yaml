@@ -14,7 +14,6 @@ spec:
     - host: x.desertbluffs.com
       http:
         paths:
-          - path: /
-            backend:
+          - backend:
               serviceName: invidious
               servicePort: invidious
