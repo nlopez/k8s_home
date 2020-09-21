@@ -10,4 +10,4 @@ spec:
   ingress:
   - ports:
     - port: 3000
-    from: {}
+    from: []

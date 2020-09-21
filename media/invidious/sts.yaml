@@ -35,10 +35,16 @@ spec:
         ports:
         - containerPort: 3000
           name: invidious
-        volumeMounts:
-        - name: invidious-config
-          mountPath: /invidious/config/config.yml
-          subPath: config.yml
+        # volumeMounts:
+        # - name: invidious-config
+        #   mountPath: /invidious/config/config.yml
+        #   subPath: config.yml
+        env:
+        - name: INVIDIOUS_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: invidious-config
+              key: config.yml
       - name: postgresql
         image: postgres:12.4
         volumeMounts:
