@@ -29,7 +29,7 @@ spec:
           secretName: invidious-config
       containers:
       - name: invidious
-        image: nlopez/invidious@sha256:46cc5e5c0e65bc62a6bb7c6968e1ee5c12a898469c46eb58b987cb03c194fcf2
+        image: omarroth/invidious@sha256:dfe1d1adf634ddbc6f5eadf22dc7a5f0659479b2178a8a38e1b27ac3f317a0d7
         # command: ["sleep"]
         # args: ["10000000"]
         ports:
@@ -39,7 +39,6 @@ spec:
         - name: invidious-config
           mountPath: /invidious/config/config.yml
           subPath: config.yml
-          readOnly: true
       - name: postgresql
         image: postgres:12.4
         volumeMounts:
