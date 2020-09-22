@@ -30,7 +30,7 @@ spec:
           claimName: media
       containers:
       - name: radarr
-        image: linuxserver/radarr:3.0.0.3746-ls23
+        image: linuxserver/radarr:3.0.0.3751-ls23
         volumeMounts:
         - name: radarr
           subPath: config
