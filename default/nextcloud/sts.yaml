@@ -117,7 +117,7 @@ spec:
               key: POSTGRES_PASSWORD
 
       - name: redis
-        image: redis:5-alpine
+        image: redis:5.0.10-alpine
         command: ["redis-server"]
         args: ["/usr/local/etc/redis/redis.conf"]
         volumeMounts:
