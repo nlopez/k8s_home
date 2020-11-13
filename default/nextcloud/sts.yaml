@@ -101,7 +101,7 @@ spec:
           value: '1001'
 
       - name: postgresql
-        image: postgres:12.4-alpine
+        image: postgres:12.5-alpine
         volumeMounts:
         - name: postgresql
           mountPath: /var/lib/postgresql/data
