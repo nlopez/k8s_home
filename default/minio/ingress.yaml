@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: minio
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      ignore_invalid_headers off;
+      chunked_transfer_encoding off;
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+spec:
+  tls:
+    - hosts:
+        - x.desertbluffs.com
+  rules:
+    - host: x.desertbluffs.com
+      http:
+        paths:
+          - backend:
+              serviceName: minio
+              servicePort: minio
