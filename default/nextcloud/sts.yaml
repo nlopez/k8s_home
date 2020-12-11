@@ -75,7 +75,7 @@ spec:
       containers:
 
       - name: nextcloud
-        image: linuxserver/nextcloud:19.0.3-ls100
+        image: linuxserver/nextcloud:version-20.0.3
         volumeMounts:
         - name: config2
           mountPath: /config
