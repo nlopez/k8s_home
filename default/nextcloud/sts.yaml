@@ -5,7 +5,7 @@ metadata:
   name: nextcloud
   namespace: default
   annotations:
-    flux.weave.works/tag.nextcloud: glob:19*-ls*
+    flux.weave.works/tag.nextcloud: glob:version-20*
     flux.weave.works/tag.redis: glob:5*-alpine
     flux.weave.works/tag.postgresql: glob:12.*-alpine
     flux.weave.works/automated: 'true'
