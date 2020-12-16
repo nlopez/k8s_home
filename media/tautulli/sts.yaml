@@ -27,7 +27,7 @@ spec:
           fsType: ext2
       containers:
       - name: tautulli
-        image: linuxserver/tautulli:v2.6.2-ls16
+        image: linuxserver/tautulli:v2.6.2-ls17
         volumeMounts:
         - name: tautulli
           subPath: config
