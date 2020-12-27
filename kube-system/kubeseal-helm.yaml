@@ -11,5 +11,7 @@ spec:
     name: sealed-secrets
     version: 1.13.2-r2
   values:
+    controller:
+      create: true
     commandArgs:
       - "--key-renew-period=0"
