@@ -39,7 +39,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns
-  namspace: default
+  namespace: default
 spec:
   strategy:
     type: Recreate

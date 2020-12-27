@@ -10,4 +10,6 @@ spec:
     repository: https://bitnami-labs.github.io/sealed-secrets
     name: sealed-secrets
     version: 1.13.2-r2
-  
+  values:
+    commandArgs:
+      - "--key-renew-period=0"
