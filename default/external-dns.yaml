@@ -85,4 +85,3 @@ spec:
       creationTimestamp: null
       name: external-dns
       namespace: default
-
