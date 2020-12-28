@@ -59,7 +59,7 @@ spec:
               value: "true"
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sn-web
@@ -76,9 +76,13 @@ spec:
     - host: t.desertbluffs.com
       http:
         paths:
-          - backend:
-              serviceName: sn-web
-              servicePort: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sn-web
+                port:
+                  number: 3000
 ---
 apiVersion: v1
 kind: Service

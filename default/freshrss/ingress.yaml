@@ -13,7 +13,7 @@ spec:
     - hosts:
         - v.desertbluffs.com
   rules:
-  - host: v.desertbluffs.com
+    - host: v.desertbluffs.com
       http:
         paths:
           - path: /

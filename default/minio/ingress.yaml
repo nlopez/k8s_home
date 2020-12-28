@@ -19,7 +19,7 @@ spec:
     - hosts:
         - x.desertbluffs.com
   rules:
-  - host: x.desertbluffs.com
+    - host: x.desertbluffs.com
       http:
         paths:
           - path: /
