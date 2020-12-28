@@ -16,6 +16,10 @@ spec:
     - host: n.desertbluffs.com
       http:
         paths:
-          - backend:
-              serviceName: shaarli
-              servicePort: shaarli
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: shaarli
+                port:
+                  number: 80

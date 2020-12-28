@@ -19,6 +19,10 @@ spec:
     - host: nextcloud.desertbluffs.com
       http:
         paths:
-          - backend:
-              serviceName: nextcloud
-              servicePort: 443
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud
+                port:
+                  number: 443

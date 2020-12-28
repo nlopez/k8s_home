@@ -12,9 +12,13 @@ spec:
     - hosts:
         - p.desertbluffs.com
   rules:
-    - host: p.desertbluffs.com
+  - host: p.desertbluffs.com
       http:
         paths:
-          - backend:
-              serviceName: thelounge
-              servicePort: thelounge
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: thelounge
+                port:
+                  number: 9000

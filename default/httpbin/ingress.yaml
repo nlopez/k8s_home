@@ -15,6 +15,10 @@ spec:
     - host: httpbin.desertbluffs.com
       http:
         paths:
-          - backend:
-              serviceName: httpbin
-              servicePort: httpbin
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: httpbin
+                port:
+                  number: 80

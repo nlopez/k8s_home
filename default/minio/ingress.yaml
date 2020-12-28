@@ -19,9 +19,13 @@ spec:
     - hosts:
         - x.desertbluffs.com
   rules:
-    - host: x.desertbluffs.com
+  - host: x.desertbluffs.com
       http:
         paths:
-          - backend:
-              serviceName: minio
-              servicePort: minio
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9000
