@@ -17,6 +17,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: filebrowser
-              servicePort: 8080
+              service:
+                name: filebrowser
+                port:
+                  number: 8080

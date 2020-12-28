@@ -15,6 +15,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: hydra2
-              servicePort: hydra2
+              service:
+                name: hydra2
+                port:
+                  number: 5076

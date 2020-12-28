@@ -16,6 +16,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: deluge
-              servicePort: deluge
+              service:
+                name: deluge
+                port:
+                  number: 8112

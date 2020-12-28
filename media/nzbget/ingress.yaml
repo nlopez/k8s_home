@@ -15,6 +15,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: nzbget
-              servicePort: 6789
+              service:
+                name: nzbget
+                port:
+                  number: 6789

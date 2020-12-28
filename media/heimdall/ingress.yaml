@@ -16,6 +16,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: heimdall
-              servicePort: heimdall-https
+              service:
+                name: heimdall
+                port:
+                  number: 443

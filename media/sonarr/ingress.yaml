@@ -16,6 +16,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: sonarr
-              servicePort: sonarr
+              service:
+                name: sonarr
+                port:
+                  number: 8989

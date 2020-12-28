@@ -16,6 +16,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: tautulli
-              servicePort: tautulli
+              service:
+                name: tautulli
+                port:
+                  number: 8181

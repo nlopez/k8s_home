@@ -17,6 +17,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: radarr
-              servicePort: radarr
+              service:
+                name: radarr
+                port:
+                  number: 7878
