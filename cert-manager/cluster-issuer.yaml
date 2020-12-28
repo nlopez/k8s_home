@@ -10,10 +10,11 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-private-key
     solvers:
-    - dns01:
-        route53:
-          region: us-east-1
-          accessKeyID: AKIAX6OKM7CDIRF7IMF2
-          secretAccessKeySecretRef:
-            name: route53-credentials-secret
-            key: secret-access-key
+      - selector: {}
+        dns01:
+          route53:
+            region: us-east-1
+            accessKeyID: AKIAX6OKM7CDIRF7IMF2
+            secretAccessKeySecretRef:
+              name: route53-credentials-secret
+              key: secret-access-key

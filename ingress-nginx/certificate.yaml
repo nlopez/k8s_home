@@ -8,14 +8,6 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: '*.desertbluffs.com'
   dnsNames:
-  - desertbluffs.com
-  - '*.desertbluffs.com'
-  acme:
-    config:
-    - dns01:
-        provider: route53
-      domains:
-      - '*.desertbluffs.com'
-      - desertbluffs.com
+    - '*.desertbluffs.com'
+    - desertbluffs.com
