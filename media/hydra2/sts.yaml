@@ -6,7 +6,7 @@ metadata:
   namespace: media
   annotations:
     fluxcd.io/automated: 'true'
-    fluxcd.io/tag.hydra2: 'regex:^v2\.[0-9\.]+-ls[0-9]+$'
+    fluxcd.io/tag.hydra2: 'regex:^v3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: hydra2
   replicas: 1
@@ -27,7 +27,7 @@ spec:
           fsType: ext4
       containers:
       - name: hydra2
-        image: linuxserver/nzbhydra2:v2.29.1-ls16
+        image: linuxserver/hydra2:v3.0.0-ls19
         volumeMounts:
         - name: hydra2-config
           subPath: config
