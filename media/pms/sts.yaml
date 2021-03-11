@@ -34,7 +34,7 @@ spec:
             medium: Memory
       containers:
         - name: pms
-          image: plexinc/pms-docker:1.21.3.4046-3c1c83ba4
+          image: plexinc/pms-docker:1.22.0.4163-d8c4875dd
           # image: alpine
           # command: ["sleep"]
           # args: ["10000000"]
