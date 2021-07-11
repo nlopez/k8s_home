@@ -9,7 +9,7 @@ spec:
       app: qbittorrent
   ingress:
   - ports:
-    - port: 8112
+    - port: 8080
     from: []
 ---
 kind: NetworkPolicy

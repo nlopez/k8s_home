@@ -46,12 +46,12 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: deluge
-  namespace: default
+  name: qbittorrent
+  namespace: media
 spec:
   selector:
     matchLabels:
-      name: default-deluge
+      name: media-qbittorrent
   accessModes:
     - ReadWriteMany
   resources:

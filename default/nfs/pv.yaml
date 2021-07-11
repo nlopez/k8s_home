@@ -55,10 +55,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: default-deluge
-  namespace: default
+  name: media-qbittorrent
+  namespace: media
   labels:
-    name: default-deluge
+    name: media-qbittorrent
 spec:
   capacity:
     storage: 1Pi
@@ -66,6 +66,6 @@ spec:
     - ReadWriteMany
   nfs:
     server: 192.168.220.149
-    path: "/mnt/etank/scratch/downloads/deluge"
+    path: "/mnt/etank/scratch/downloads/qbittorrent"
   mountOptions:
     - nfsvers=4.1
