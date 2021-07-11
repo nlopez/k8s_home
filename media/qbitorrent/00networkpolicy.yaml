@@ -1,12 +1,12 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: deluge-ui
+  name: qbittorrent-ui
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: deluge
+      app: qbittorrent
   ingress:
   - ports:
     - port: 8112
@@ -15,13 +15,16 @@ spec:
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: deluge-bt
+  name: qbittorrent-bt
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app: deluge
+      app: qbittorrent
   ingress:
   - ports:
-    - port: 22722
+    - port: 6881
+      protocol: TCP
+    - port: 6881
+      protocol: UDP
     from: []
