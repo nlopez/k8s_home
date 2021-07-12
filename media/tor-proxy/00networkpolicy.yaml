@@ -1,0 +1,13 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: tor-proxy
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: tor-proxy
+  ingress:
+  - ports:
+    - port: 8888
+    from: []
