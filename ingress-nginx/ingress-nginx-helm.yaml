@@ -1,15 +1,28 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  interval: 10m
+  url: https://kubernetes.github.io/ingress-nginx
 ---
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
-  releaseName: ingress-nginx
+  interval: 5m
   chart:
-    repository: https://kubernetes.github.io/ingress-nginx
-    name: ingress-nginx
-    version: 2.11.0
+    spec:
+      chart: ingress-nginx
+      version: "2.11.0"
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+        namespace: ingress-nginx
+      interval: 1m
   values:
     defaultBackend:
       enabled: true
