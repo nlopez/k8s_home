@@ -10,7 +10,7 @@ kubeadm init --config kubeadm-init.conf --upload-certs
 
 ### Weave
 ```bash
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64  | tr -d '\n')&env.NO_MASQ_LOCAL=1"
 ```
 
 ### Untaint master
