@@ -52,6 +52,42 @@ subsets:
     protocol: TCP
     port: 19999
 ---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: matisse
+  namespace: mon
+  labels:
+    app: prometheus
+subsets:
+- addresses:
+  - ip: 192.168.239.211
+  ports:
+  - name: prometheus
+    protocol: TCP
+    port: 9182
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus
+  namespace: mon
+  labels:
+    app: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  endpoints:
+  - port: prometheus
+    path: /metrics
+    params:
+      format:
+        - prometheus
+    interval: 5s
+    scheme: http
+    honorLabels: true
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:

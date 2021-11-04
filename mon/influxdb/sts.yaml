@@ -26,7 +26,7 @@ spec:
           fsType: ext4
       containers:
       - name: influxdb
-        image: influxdb:1.7.8
+        image: influxdb:2.0.9
         volumeMounts:
         - name: influxdb
           mountPath: /var/lib/influxdb
