@@ -120,25 +120,49 @@ spec:
     scheme: http
     honorLabels: true
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mon-prometheus
+  labels:
+    name: mon-prometheus
+spec:
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    iqn: iqn.2014-09.com.radoncanyon:nas1:prometheus
+    targetPortal: 192.168.220.149
+    lun: 1
+    fsType: ext4
+---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   name: hindsight
   namespace: mon
 spec:
+  storage:
+    volumeClaimTemplate:
+      spec:
+        selector:
+          matchLabels:
+            name: mon-prometheus
+        resources:
+          requests:
+            storage: 1Ti
   serviceAccountName: prometheus
   # monitor all namespaces
   # https://blog.coffeeapplied.com/prometheus-operator-service-monitor-auto-discovery-across-all-namespaces-4385b972b3e6
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  remoteWrite:
-    - url: 'http://influxdb:8086/api/v1/prom/write?db=prometheus'
-  remoteRead:
-    - url: 'http://influxdb:8086/api/v1/prom/read?db=prometheus'
   resources:
     requests:
       memory: 400Mi
   enableAdminAPI: false
+  retention: 90d
+  retentionSize: 800GB
 ---
 apiVersion: v1
 kind: Service
