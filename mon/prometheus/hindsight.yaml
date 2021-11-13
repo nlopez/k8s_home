@@ -95,7 +95,7 @@ spec:
     params:
       format:
         - prometheus
-    interval: 5s
+    interval: 10s
     scheme: http
     honorLabels: true
 ---
@@ -116,7 +116,7 @@ spec:
     params:
       format:
         - prometheus
-    interval: 5s
+    interval: 10s
     scheme: http
     honorLabels: true
 ---
