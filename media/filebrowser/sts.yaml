@@ -37,7 +37,7 @@ spec:
       containers:
       - name: filebrowser
         image: filebrowser/filebrowser:v2.20.1-s6
-        command: ["/filebrowser"]
+        command: ["filebrowser"]
         args:
         - --config
         - /etc/filebrowser.json
