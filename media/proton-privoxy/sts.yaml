@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: proton-privoxy
+  namespace: media
+  annotations:
+    flux.weave.works/automated: 'false'
+spec:
+  serviceName: proton-privoxy
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proton-privoxy
+  template:
+    metadata:
+      labels:
+        app: proton-privoxy
+    spec:
+      containers:
+      - name: proton-privoxy
+        image: walt3rl/proton-privoxy:latest
+        ports:
+        - containerPort: 8080
+          name: privoxy
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - NET_ADMIN
+        # image: alpine
+        # command: ["sleep"]
+        # args: ["10000000"]
+        env:
+        - name: PVPN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: proton-privoxy
+              key: PVPN_USERNAME
+        - name: PVPN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: proton-privoxy
+              key: PVPN_PASSWORD
+        - name: PVPN_TIER
+          value: '0'
+        - name: HOST_NETWORK
+          value: '192.168.0.0/16'
