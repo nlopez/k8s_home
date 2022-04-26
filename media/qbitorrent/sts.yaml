@@ -17,6 +17,8 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      nodeSelector:
+        workload: download
       volumes:
       - name: config
         iscsi:
@@ -51,10 +53,10 @@ spec:
         ports:
         - containerPort: 8080
           name: qbt-webui
-        - containerPort: 6881
+        - containerPort: 39910 
           name: qbt-bt-tcp
           protocol: TCP
-        - containerPort: 6881
+        - containerPort: 39910 
           name: qbt-bt-udp
           protocol: UDP
         livenessProbe:

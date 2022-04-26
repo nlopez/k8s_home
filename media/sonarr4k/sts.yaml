@@ -18,6 +18,8 @@ spec:
       labels:
         app: sonarr4k
     spec:
+      nodeSelector:
+        workload: download
       containers:
       - name: sonarr4k
         image: linuxserver/sonarr:version-3.0.7.1477

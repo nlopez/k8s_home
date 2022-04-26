@@ -12,5 +12,3 @@ spec:
   ports:
   - name: pms
     port: 32400
-  - name: webtools
-    port: 33400

@@ -43,6 +43,8 @@ spec:
               name: proton-privoxy
               key: PVPN_PASSWORD
         - name: PVPN_TIER
-          value: '0'
+          value: '1'
+        - name: PVPN_DEBUG
+          value: '1'
         - name: HOST_NETWORK
           value: '192.168.0.0/16'

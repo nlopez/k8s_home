@@ -17,8 +17,8 @@ spec:
       labels:
         app: pms
     spec:
-      # nodeSelector:
-      #   kubernetes.io/hostname: knode1
+      nodeSelector:
+        workload: plex
       volumes:
         - name: pms-iscsi
           iscsi:
@@ -34,7 +34,7 @@ spec:
             medium: Memory
       containers:
         - name: pms
-          image: plexinc/pms-docker:1.25.9.5721-965587f64
+          image: plexinc/pms-docker:1.26.0.5715-8cf78dab3
           # image: alpine
           # command: ["sleep"]
           # args: ["10000000"]
@@ -67,10 +67,10 @@ spec:
           readinessProbe:
             tcpSocket:
               port: pms
-            initialDelaySeconds: 5
+            initialDelaySeconds: 30
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
               port: pms
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 20

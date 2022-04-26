@@ -18,6 +18,8 @@ spec:
       labels:
         app: radarr4k
     spec:
+      nodeSelector:
+        workload: download
       volumes:
       - name: radarr4k
         iscsi:

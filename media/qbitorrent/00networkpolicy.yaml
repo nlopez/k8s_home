@@ -23,8 +23,8 @@ spec:
       app: qbittorrent
   ingress:
   - ports:
-    - port: 25060
+    - port: 39910
       protocol: TCP
-    - port: 25060
+    - port: 39910
       protocol: UDP
     from: []
