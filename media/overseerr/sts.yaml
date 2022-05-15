@@ -27,7 +27,7 @@ spec:
           fsType: ext2
       containers:
       - name: overseerr
-        image: lscr.io/linuxserver/overseerr:version-v1.28.0
+        image: lscr.io/linuxserver/overseerr:version-v1.29.1
         volumeMounts:
         - name: overseerr
           subPath: config
