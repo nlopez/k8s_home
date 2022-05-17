@@ -28,7 +28,7 @@ spec:
             thelounge
       containers:
       - name: thelounge
-        image: thelounge/thelounge:3.0.0-pre.7-alpine
+        image: docker.io/thelounge/thelounge:3.0.0-pre.7-alpine
         volumeMounts:
         - name: thelounge
           subPath: data

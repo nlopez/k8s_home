@@ -27,7 +27,7 @@ spec:
           fsType: ext2
       containers:
       - name: tautulli
-        image: linuxserver/tautulli:version-v2.9.7
+        image: lscr.io/linuxserver/tautulli:version-v2.9.7
         volumeMounts:
         - name: tautulli
           subPath: config
@@ -53,7 +53,7 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 20
       - name: tautulli-exporter
-        image: tubaguy50035/tautulli_exporter:v0.1.0
+        image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
         ports:
         - name: exporter
           containerPort: 9487

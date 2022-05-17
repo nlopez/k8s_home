@@ -36,7 +36,7 @@ spec:
           type: Directory
       containers:
       - name: radarr
-        image: linuxserver/radarr:version-4.1.0.6175
+        image: lscr.io/linuxserver/radarr:version-4.1.0.6175
         volumeMounts:
         - name: radarr
           subPath: config

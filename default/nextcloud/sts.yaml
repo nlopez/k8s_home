@@ -75,7 +75,7 @@ spec:
       containers:
 
       - name: nextcloud
-        image: linuxserver/nextcloud:version-23.0.3
+        image: lscr.io/linuxserver/nextcloud:version-23.0.3
         volumeMounts:
         - name: config2
           mountPath: /config
@@ -101,7 +101,7 @@ spec:
           value: '1001'
 
       - name: postgresql
-        image: postgres:12.5-alpine
+        image: docker.io/library/postgres:12.5-alpine
         volumeMounts:
         - name: postgresql
           mountPath: /var/lib/postgresql/data
@@ -117,7 +117,7 @@ spec:
               key: POSTGRES_PASSWORD
 
       - name: redis
-        image: redis:5-alpine
+        image: docker.io/library/redis:5-alpine
         command: ["redis-server"]
         args: ["/usr/local/etc/redis/redis.conf"]
         volumeMounts:

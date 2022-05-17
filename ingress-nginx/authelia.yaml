@@ -87,13 +87,18 @@ spec:
             secretName: authelia-secrets
       containers:
         - name: authelia
-          image: authelia/authelia:4
+          image: ghcr.io/authelia/authelia:4
           # image: alpine
           env:
             - name: AUTHELIA_JWT_SECRET_FILE
               value: /secrets/jwt
             - name: AUTHELIA_SESSION_SECRET_FILE
               value: /secrets/session
+            - name: AUTHELIA_STORAGE_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authelia-secrets
+                  key: storage_encryption_key
           ports:
             - name: authelia
               containerPort: 9091
@@ -117,8 +122,9 @@ metadata:
 data:
   custom.yaml: |
     ---
-    host: 0.0.0.0
-    port: 9091
+    server:
+      host: 0.0.0.0
+      port: 9091
     access_control:
       default_policy: deny
       rules:
@@ -172,10 +178,13 @@ metadata:
   namespace: ingress-nginx
 spec:
   encryptedData:
-    jwt: AgBcROb2ccoiJTnP1Copsd1snNKwnjzE5Qb5aIgeOYl1i8/VO2SovRbPAdJST/7Yai8CrGIMSNZTDUoiV6NsHr9I3gsSCiADJ9tJqj8fn5hMbc9iRO5M27U1v7PU/l6sDMnllIH6Xzr5AzIokxTr3dmuH3umHUAQ6FZwrxgGew9p9IM+7k2ZUEIb1UACk31RWsOXZCd0aYDDAODpTurM46N87jfJcqB/rbTp9XK+jbwGkrTzMCTuLk+kNQOX+nA6HYuOPWuHA9AxOHs1OKe0CsS46a8jROnLQtdcbwLn+kxuUy0hW5CSFrbEYrDGTK4fRl0fCZmks7hhEHo0Ic7IIvU8JNvlUQVayffceIzAJlm/WwW+HDA5BI0NpffJjtLYQSvTC7JCAIAWxh6YHZS5KckmPUKWIHqQil4iKQa/oxCpXoKr7/yV+gVqM0HN3za25UJvL+w9j3I4vhWZlsHvM7aqU4pGqqbgOUMW4kSvhhUSEU4Ic14QUppIlrYeC6slPpeiMa/LbyvZyvUCIDiW0pwD9EmU2wMsZArPMgyVXBvZgXDb2ZyvJ7TIjozO8A2Pfw0hZvOAuizUNXGaR1I+iEu5sgA1Uq29UfIb2bCrShNbg5xfu4FhipGWt33yqeua8UQlEGQSCBR85VZ6AMeKuYn8Ei3wA6vFdpeDiPthmcSMyetPe5+9wtMx68Jdh1IrmHeWhZMDoA43aHQKkPqqv4NEFcbXjJCkV4axn0LHof6K0HAQdGTYdOmYGH81HULhB7wM/PUcZvgBqof0lWDMKetpFIPStMb3HwuVn8OgYBuRgARGryIpxWeq4BUUPOwwSAdHIsWPnfKaX/ep+m4HZ6IoUVtkV7hDwTbTDUtUJBjnmg==
-    session: AgA66eCZZEzmmDX238sSvUdNH9sQbewMV4UFxslP39+RYF3jo7ZghPR308ijnjujKM4ud2Dq0o1mlS3Q2cUnK8Nb6x/Nc00mm63laZ2BGHEtSpsmaXI4LOw5fxEPQnjUxxytekiB9G11Gun3M4o8QvjwTCG8249jsX3aD2la59TGNZlCleQG+L8w1dD9ftHvVOWCdRi6zYSFAJMgdUPPULbq6uQezc5oLV6d2lrJjcpm6skrgK3jfQJMHuPThCyeTl2xa3qzKHyCSbA0ljkmC2WEyP32fxzrsldDOF2cnVMIcWaoinxQJYhVp5QK2h9z/A27kLk+nkwMn8wIiCulqYlKV2tV96ZhtqPZA+Lj13YVpRCID3qv0V0R7b1fPeaKA8O8FwGCOBurj/qGRI+EzphB+Si9jH8VzcU3lpu5yw4Cywrs2AYyX0Vctx2COgGMRT7trE9DXq9VjBl55WGhKUJm9zTi63nGMgCcrJaP5+pLUgKViiFTLjAah0aniHRsVWiSoae8s4wBHKym2oguFCsdveDeGEUBYEBlRF9zivMg59A7qMWmcHIyP2J+KVXAssbBSPE1oVRja6R+gg2QeWTwT0qBXsnpmHM1syKDoIzM0oDkplusZuOrW1UWB8A6qa8mEuMIdq5hv3Rl/4iHd+/gZ7RBigdRomWXlWczJofagUHG9UeacpOF3x/5Rsp3iRXPVgLAK64Hz800lSSOw+jKcBKlZqPiMWv6wDLe56SBfjIyslZghkbNdjDozuGARTlAYANtpXX7ixVwD73zrOWHQ28/rBjDyj1mMP8u5UEc0G08FX6qq/fzgRMLOoeFuqmWxZMt52DXBJydoOC7x3D7c4JsZ2wpbXasZMXWcmW+vA==
+    jwt: AgAAJBAwEEpq3p9ZBDTeHhdKIMOfISbA9vmxPa11hEzks3BbsJC+sRSK1uqwrO5Q8fcL4onXBQz6k3K+at6J4VKZN8JuKDTpjqx0bIo2XWgs/blM5UDzhWW6wQaXa+VTWADu5lSsLkqGOIkyME5RYj6jQZ9V7ac9fX9DmujkXY/tg6T22VOiI8NR0c1B73m6U9c49kYt3ShA0QNYgJSXaFV3OcWkfOde51MhBAZSzyMWOn8WHr8Ct06JfaGfjfOFW5uGRRmSPLFPuokFql5HK8JTqOwsDVjEsIaCOiYjuaAIcoybcaVshCapq6v9PsIf6GjywSDVJWjPqE4keBh7xvztYyRMXrdRsbShLSR9llG0z1yb2oJmmYw4pjx2wjHT4d7u0rjuLb3SOsFpNCyqJUSNeKFr5eyneKLBzGOHZLlUjL7zPgpTJvURehBDiGXN82zUj06vg2SETrvmD5vOFtaMwqPvsjS41roorMSkago7heL1EKrSBvzwUJHP5pSvhyItTtv9IT/QWlHWLkpBNxk9jQ/KjEDnONSUEnr20upSSwYh2YepeLC6YDrC9OKwQtAmu4jity9s5fQuiGDIzep5PuwdXdgKilaD+RwvEyAOPhEHR0NBsL2Li4m80Ts4BKtLmmf+oGdF1TwA+yB8actHcgtV7Umi7Sq5D3yfVBQEQHTDOw+7vsgIZiUb19NPNsIaK8n9LyRM1r1EYI2jM4GnFBjB4cKth8xs0cODSlLA4RR/VKVTLhJS4gUE6LNOG89SlGfYWZ6pRGLD2og5+wX8tKqNtWKsKK1jUePeqIN20eQ79n40x43SH+GqiHp4ee2giGsJ1kgQWfe7maTWfcgwmKSa58xTRp2OqJS71WccFg==
+    session: AgBgV2nll4rCI/0TmNH20gJh9d9zZYJPIyTzZkmV3Jk2wDz/M6b6VBnWVGzD9vAbpXV/8JchnYBsTPid6d3c+NZIN6RRHaU/sRyX4ITyzeER98c8e1Lacc2FauiS8c8c1nP4Zm49SZQDlbudX1wcFywInBlJCRNJx0OxGnbUHipLk0mcJlin0MJEJ5LUJH5rJmCUOaM6lidxt6p1MQqeL2hqIpkAEH0b6jSjn3JXJPkz6BCQVqa4/hbegl5skTlMnIOv2+GqgJgHjbWCHlf3ST8EI1JUP80U9636JoM0A/+6EgW7NMPZsVArjjhfPFwfIE7Ujm4+ZJfwmR7ZOw+MRowbaguxoxp6W6lNi3N1pwh1mp7ydbEjPkpuZHYn3lA0HcE9l9rksrLufb2QVQXyuCWFZupMfD+3oGhPc/bck99Cai1PpeZwUQwrXUyYF8G1VMEjhtMSCUJJykaDH9lAcU9/7L9RmX+m0NgJbc2RxQspwXXmNbW0o1GLjQ9ACm5DHLsJmmq++STZFdx0n7PvJgIuB2Bra+8MDWf6284ewvsp4X22mmRALQj9ZM+qhUyOqRvnxO8kgwOVcnkKOBKHEaLJaE5AU5tbQ8oGZegbj8xb4BU2UbYkJR0xDYf0rfY42c7527RGbjKdk5VVz7CSob98cUSIxqL8bOsv3H41Oqskbsp/ChF8u3t1J6p1rCZYJdlR8tXNTFSjlNkXrWu1fG0PA64hAvwQ+zAaXm1xhXQQXi9GnyHw+JlBAtLbruaGgQr4pXAF47CeesB7QJHB9OSqQRg+zwQaxRk/bqySH9df3c59dqojgAWhiNmv2TcpF2gD0nkmBM51iCRWkAKlGLcVlWuP+wgfRdBcgdhPhX3pJw==
+    storage_encryption_key: AgBF64zGxqvEd1qy/sGlWQO2nXrhRW7bBH5+Ny3vjYaA4CDc0WdEsoCQ0seteTQfUel7EciHP+2ECKJII/JciySaNkp8/KE5p/tXi4VeR3qfc8ZxfJwV9eBIcUwHiIWuDDRF8/YQKcBG78yqQIPzmE0KnDggeBX+1v3SNCgjpIWT30bTNosWlZbzT69orrn6PllKxuO+9nYIylJ3jAiupx8b0gwTTd9pUQd0Sw6vPsVBX/8YmdrI31YiUnevWMSmkTImRFvw8Hr6JSe2z6OowDEJPmjhROgGg/Kk3n+AIGBfo4R9DuOr4sNKtSy/5DPToZK4z65jtF4n0pjpWzYSzM0kJwXjuD9zF2j8IJC7qRNoJaMgm0DF0YPKclZoegYa0MfbKqGUqgT/CGhROdSmfKdBjEfvGe5IpAcU7A3a/6iBeLT5AQBSrGDDO1jFI8ufag12l00slZLBI+Z88zR6xAKKspZocW+9IngciG3QcUP7hEVYa/H0rQCn4+9gtziFkmQSP77+7356vbifSmQgsJv9i7iymB66kXV1TrgPdxI94rSwy9EkpgrIE8vTHugEDaW4Z3MG0h+T30U7wg+fI1Ka7hhEgnSkebMM6mTAhRWiS/+Ew7/K5XpUQvslnlb0ttMFB4oOykBfcU97WZ2ApidO1qw4kl9TRNOFeQIKe+YGsGLnuMTxI1n11vNCRxNAaY8MeDyMhkwj+Jrl/rHv1xSANvCEpYy+s8g1XQzLyEJxBpssbT/6XMxe7ai+tbxep3VHAAOk47QmEGCWxuw8fsHXQFVP1V3nraNuKThX9JJU8lpVBYwZTDKicQX2iw2kV9I+wybrEaoQ+a21zakvXOnn/Yca4vh+Y2vL62U1FUqyYA==
   template:
+    data: null
     metadata:
       creationTimestamp: null
       name: authelia-secrets
       namespace: ingress-nginx
+

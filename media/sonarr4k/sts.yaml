@@ -22,7 +22,7 @@ spec:
         workload: download
       containers:
       - name: sonarr4k
-        image: linuxserver/sonarr:version-3.0.7.1477
+        image: lscr.io/linuxserver/sonarr:version-3.0.7.1477
         env:
         - name: PUID
           value: '1001'

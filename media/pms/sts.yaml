@@ -34,13 +34,13 @@ spec:
             medium: Memory
       containers:
         - name: pms
-          image: plexinc/pms-docker:1.26.1.5798-99a4a6ac9
+          image: lscr.io/linuxserver/plex:version-1.26.1.5798-99a4a6ac9
           # image: alpine
           # command: ["sleep"]
           # args: ["10000000"]
           resources:
-            limits:
-              gpu.intel.com/i915: 1
+            # limits:
+              # gpu.intel.com/i915: 1
           volumeMounts:
             - name: pms-iscsi
               subPath: config
@@ -57,13 +57,15 @@ spec:
               value: "1001"
             - name: PLEX_GID
               value: "1001"
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
             - name: TZ
               value: "America/New_York"
           ports:
             - name: pms
               containerPort: 32400
-            - name: webtools
-              containerPort: 33400
           readinessProbe:
             tcpSocket:
               port: pms
@@ -74,13 +76,13 @@ spec:
               port: pms
             initialDelaySeconds: 60
             periodSeconds: 20
-        - name: plex-auto-trash
-          image: jakewharton/plex-auto-trash:1
-          env: 
-            - name: PLEX_BASE_URL
-              value: http://localhost:32400
-            - name: PLEX_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: plex-token
-                  key: PLEX_TOKEN
+        # - name: plex-auto-trash
+        #   image: docker.io/jakewharton/plex-auto-trash:1
+        #   env: 
+        #     - name: PLEX_BASE_URL
+        #       value: http://localhost:32400
+        #     - name: PLEX_TOKEN
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: plex-token
+        #           key: PLEX_TOKEN

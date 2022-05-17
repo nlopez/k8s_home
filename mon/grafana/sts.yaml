@@ -26,14 +26,14 @@ spec:
           fsType: ext4
       initContainers:
       - name: chown
-        image: busybox:1.28
+        image: docker.io/library/busybox:1.28
         command: ['sh', '-c', 'chown -R 472 /var/lib/grafana']
         volumeMounts:
         - name: grafana
           mountPath: /var/lib/grafana
       containers:
       - name: grafana
-        image: grafana/grafana:8.3.3
+        image: docker.io/grafana/grafana:8.3.3
         volumeMounts:
         - name: grafana
           mountPath: /var/lib/grafana
