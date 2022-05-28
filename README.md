@@ -8,14 +8,20 @@ kubeadm init --config kubeadm-init.conf --upload-certs
 # run control plane join command printed by kubeadm on additional masters
 ```
 
-### Weave
+### CNI: Cilium
 ```bash
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64  | tr -d '\n')&env.NO_MASQ_LOCAL=1"
+helm install cilium cilium/cilium \
+  --version 1.11.5 \
+  --namespace kube-system \
+  --set kubeProxyReplacement=strict \
+  --set k8sServiceHost=192.168.222.245 \
+  --set k8sServicePort=6443
 ```
 
-### Untaint master
+### Untaint master/control-plane
 ```bash
 kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
 
 ### Wait for coredns/control plane running
@@ -62,7 +68,7 @@ See https://github.com/fluxcd/flux/issues/1211 for more
 ## TODO
 - [ ] Translate notes section into a bootstrap shell script
 - [ ] Update bootstrap for Cilium CNI
-- [ ] Cilium [kubeproxy-free](https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/) setup to preserve source IPs coming in via metallb
+- [ ] Cilium [kubeproxy-free](https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/) setup to preserve source IPs coming in via metallb ([more on DSR](https://cilium.io/blog/2020/02/18/cilium-17#kubeproxy-removal))
 - [ ] Use Flux/HelmRelease CRDs better
 
 ## Thanks
