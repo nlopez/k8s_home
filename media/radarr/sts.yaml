@@ -27,10 +27,9 @@ spec:
       - name: media
         persistentVolumeClaim:
           claimName: media
-      - name: downloads
+      - name: scratch
         persistentVolumeClaim:
           claimName: scratch
-
       containers:
       - name: radarr
         image: lscr.io/linuxserver/radarr:version-4.1.0.6175
