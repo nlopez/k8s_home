@@ -61,6 +61,9 @@ See https://github.com/fluxcd/flux/issues/1211 for more
 
 ## TODO
 - [ ] Translate notes section into a bootstrap shell script
+- [ ] Update bootstrap for Cilium CNI
+- [ ] Cilium [kubeproxy-free](https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/) setup to preserve source IPs coming in via metallb
+- [ ] Use Flux/HelmRelease CRDs better
 
 ## Thanks
 *  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state). Particularly: iscsi, [flux](https://github.com/weaveworks/flux), and [sealed secrets](https://github.com/bitnami-labs/sealed-secrets).
