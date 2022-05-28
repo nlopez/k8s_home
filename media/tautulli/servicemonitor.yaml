@@ -1,20 +1,20 @@
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: tautulli
-  namespace: media
-  labels:
-    app: tautulli
-spec:
-  selector:
-    matchLabels:
-      app: tautulli
-  namespaceSelector:
-    matchNames:
-      - media
-  endpoints:
-  - port: exporter
-    path: /metrics
-    interval: 5s
-    scheme: http
+# ---
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: tautulli
+#   namespace: media
+#   labels:
+#     app: tautulli
+# spec:
+#   selector:
+#     matchLabels:
+#       app: tautulli
+#   namespaceSelector:
+#     matchNames:
+#       - media
+#   endpoints:
+#   - port: exporter
+#     path: /metrics
+#     interval: 5s
+#     scheme: http

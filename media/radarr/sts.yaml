@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: radarr
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.radarr: 'regex:^3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: radarr
   replicas: 1
@@ -31,9 +28,9 @@ spec:
         persistentVolumeClaim:
           claimName: media
       - name: downloads
-        hostPath:
-          path: /mnt/BLOCK/downloads
-          type: Directory
+        persistentVolumeClaim:
+          claimName: scratch
+
       containers:
       - name: radarr
         image: lscr.io/linuxserver/radarr:version-4.1.0.6175
@@ -43,8 +40,9 @@ spec:
           mountPath: /config
         - name: media
           mountPath: /media
-        - name: downloads
+        - name: scratch
           mountPath: /downloads
+          subPath: downloads
         env:
         - name: PUID
           value: '1001'

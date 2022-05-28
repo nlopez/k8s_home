@@ -76,13 +76,13 @@ spec:
               port: pms
             initialDelaySeconds: 60
             periodSeconds: 20
-        # - name: plex-auto-trash
-        #   image: docker.io/jakewharton/plex-auto-trash:1
-        #   env: 
-        #     - name: PLEX_BASE_URL
-        #       value: http://localhost:32400
-        #     - name: PLEX_TOKEN
-        #       valueFrom:
-        #         secretKeyRef:
-        #           name: plex-token
-        #           key: PLEX_TOKEN
+        - name: plex-auto-trash
+          image: docker.io/jakewharton/plex-auto-trash:1
+          env: 
+            - name: PLEX_BASE_URL
+              value: http://localhost:32400
+            - name: PLEX_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: plex-token
+                  key: PLEX_TOKEN

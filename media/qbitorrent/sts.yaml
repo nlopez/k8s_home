@@ -59,9 +59,9 @@ spec:
         - containerPort: 39910 
           name: qbt-bt-udp
           protocol: UDP
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
