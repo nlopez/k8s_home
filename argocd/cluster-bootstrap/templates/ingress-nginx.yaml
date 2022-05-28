@@ -9,9 +9,11 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
+    repoURL: https://kubernetes.github.io/ingress-nginx/
     chart: ingress-nginx
+    targetRevision: 4.1.2
     helm:
-      values: |-
+      values: |
         defaultBackend:
           enabled: "true"
         controller:
@@ -57,5 +59,3 @@ spec:
             - name: nonsecrets
               mountPath: /nonsecrets
               readOnly: true
-    repoURL: https://kubernetes.github.io/ingress-nginx/
-    targetRevision: 4.1.2
