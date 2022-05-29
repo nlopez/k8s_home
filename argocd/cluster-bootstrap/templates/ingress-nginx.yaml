@@ -4,6 +4,9 @@ metadata:
   name: ingress-nginx
   namespace: argocd
 spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
   destination:
     namespace: ingress-nginx
     server: {{ .Values.spec.destination.server }}

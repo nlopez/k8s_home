@@ -6,6 +6,9 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
   destination:
     namespace: media
     server: {{ .Values.spec.destination.server }}

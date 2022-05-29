@@ -5,6 +5,9 @@ metadata:
   name: cert-manager
   namespace: kube-system
 spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
   project: default
   source:
     repoURL: https://bitnami-labs.github.io/cert-manager
