@@ -1,8 +1,16 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dui
+  labels:
+    name: dui
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: dui
-  namespace: jobs
+  namespace: dui
 spec:
   schedule: '12 */1 * * *'
   concurrencyPolicy: Forbid
@@ -66,7 +74,7 @@ kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: dui-config
-  namespace: jobs
+  namespace: dui
 spec:
   encryptedData:
     dui.ini: AgCuUaeqii2ook6/b1wvNgdrb7rNJZsSgNP1CQtnI7/pKcMOmBVIbD9P/LiQPxrCx2a24I/tKjsh061QFr964jmGU1u2Cy2+5xvpbdN1Fk5PvWc3tCX8mMWZlYRlWUBgVj3BTD21AvVIs/8SuGJ+SZFeQLLVTjRUbIFg2NJWx4ePYHq22D2Q7Z3EvC/c2KcwMyjywKeeJBYrAhy6romtWuQer8GMziUagFs5qUJR3+wgZGUFPcyR27IvYy+fglhTqLnxH1BsjBxiYWpHhuM4LtZ++61x9OIiN5XCJxd7hp4+MVo9vnixBlE+H9AMjgdu2k0IYCFECGUEgGQ+DR7xiKNf7M0EOhvePgqHyoYTTzI/5f8Q3wBo59zb0/+3mv4Np1/+ytUdj7gCqhfZ5p2DRYLPYLvK+K5VPFCTvCF04FdBvcw7oeWcGCMpZqdoHxStX47bav3/R3EXUPLqWGvXtpWlqksee4Czp8YF7rGYv8tNtBcBNr9XHcdNc1QC28KESuxSJkvUmNqa6J5xOZNgthXZYZ9bOqRKNkomvLraqlqesltUKNYXN71e1B15b2pHLmgOF8YF8ibn5SfeNGzE9AVjKObTrYR10H0iDpl17R8N+RjniR+goMJqVqU3a+TwvVfd26CmhPF8mFAR0MOAfQZIe4aMwbqBalcgp8UxEWlOSN6qQOMPN1HeXqOkBzAbAMMUo8geJ4iQfsKIYCOrI4u9cNfpDaHqJHZ1ahBp941oRl/kWlhhiDM8nIGUU4aRInwap2DLd8XyKroaTS6rdpVXf8HRuF/zQUtqUWw3/2WmEPf2uoERU8X8vn7FIUP/sGU1eQ940Qp66S/qVZB28UFWU4n0Ju5aFy5HpYx6yGpI61LxjwU8LLwjU8+f959RA47dt3MPEybA0Oe64IB/VvEd4wDYKDG3nWFBzEoQOtc+In8GdDp8HmicgfQ/jNN+T2z464xPRnQOyo6tHXfMtOMXEM+vcU+lo63Mj8177veU8koFE1aJf8Xpt7qcL/2BUHyTecm1KzfMfltkFdGqW6UTPegLJ9y9o/315pxgtTbUH6OzlJFz6cz/R43fPBfeD9DWnCEeLk7ADNTcmw54SQDkfcI6dpdU9FH39UvGHLTN2ewAMMxss6O8fjnGyVdFHlxSjvmNP4i1QYVQZz1V9X5xOWWrbKhiJxW1ddWF4J2ydQSUjY113+njKDLTphnEiVU+YwCqtH3euySqai01UlX2u4r/1yCU9CTsrl5a5VuaZIXWxSDb+gk=
@@ -75,14 +83,14 @@ spec:
     metadata:
       creationTimestamp: null
       name: dui-config
-      namespace: jobs
+      namespace: dui
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   creationTimestamp: null
   name: dui-rclone-config
-  namespace: jobs
+  namespace: dui
 spec:
   encryptedData:
     rclone.conf: AgALO2K6E+L1aVt93oMIuGUuo2reS+ncsBNxuR/+fuced27cO9RQOynnnhpO684UhhE8KaV71mZdOdwp/ziBwPEi+uV90I6Pq/HXzL+8b0IWwKNaXb0X9zygV7ahIJsqz+hksRBPi84NFk091GdeCnP6OJybJf8XB8D6r9qvCgA6zlmcs62eLzpP5QGIYDwZviZaWudAS11soRd5jpPbrL4Nf5x0lrKVxgjd5C6+vQ0PMglO6e0Yf/yxrC133JU60JywnWXihBy/n0vry8AuTN1Uwby+n2U8/bFGWf3//GxhTvUbx5CBGxL2GieJsESVhOxirsGcBzqR271xhhevfdxlKPzSzBskDp/EjdiBBiyZ9TpdTqgbvCyr3wPP1rriUNXxHntbEm2FzEkoXWVVtPHHVlFYrBHm6XsUFtqXx6nesa5JqyuyDmFopwSG3C6AiHEq96j5DJykQKKQbYUeOnpWoEtFt8lbyDscDJSKlETeSnc+Fa0J/wp1mdbZYhauGrUpyNUO9RTJ73DhKfwe5BJMbDA1RiXC57rZGEbjxiAKxAQohw4qLShDEAWgudyhlwcV0Fl5Vt/mT68/tKCClumxg9gJCf4gQCj4GVkb82dDle5n6atHh+qg66JO9lYJvcgvl2F75ntQEKYlxZxyI3VR2SBG3mkhqCiEhizvaz+r0WuJ3NURyCTxsLWD+jWU2hsABN+18Umj1tgWTnPBjfFC9Es3XLPO9jBAz9aedfcTS9J9bZOnzoeeWgy6m0/ENRDWiQjHOdP+cTr2pz9UtC0epxLcPU13h7ur4aon8qpHBbEZ1E2pGudVXKgVe/10Z54T6yM1OmKzotOhlefSrB7vfUlsahFphGxywRqm21ObOwUCEOXwEP7/jg0//YuOEwfrbcpeWiZWyjCw5f9NXKEmSdYg8jDeFZ1ppB7iEojAc+0=
@@ -91,13 +99,13 @@ spec:
     metadata:
       creationTimestamp: null
       name: dui-rclone-config
-      namespace: jobs
+      namespace: dui
 ---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: dui-cache-clear
-  namespace: jobs
+  namespace: dui
 spec:
   schedule: '0 0 * * 0'  # at 00:00 on Sunday
   concurrencyPolicy: Forbid
@@ -121,3 +129,13 @@ spec:
             - name: dui
               mountPath: /dui
           restartPolicy: Never
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: dui
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress

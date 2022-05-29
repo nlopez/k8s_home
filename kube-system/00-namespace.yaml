@@ -16,13 +16,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: jobs
-  labels:
-    name: jobs
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: metallb-system
   labels:
     name: metallb-system
