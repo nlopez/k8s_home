@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: overserr
+  name: overseerr
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -11,6 +11,6 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: media/overserr
+    path: media/overseerr
     repoURL: git@github.com:nlopez/k8s_home.git
     targetRevision: unstable
