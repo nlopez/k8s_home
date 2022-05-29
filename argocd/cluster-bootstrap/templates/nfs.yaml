@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nfs
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: media
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    path: media/nfs
+    repoURL: git@github.com:nlopez/k8s_home.git
+    targetRevision: unstable
