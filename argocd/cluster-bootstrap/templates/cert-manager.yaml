@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: kube-system
+spec:
+  project: default
+  source:
+    repoURL: https://bitnami-labs.github.io/cert-manager
+    chart: sealed-secrets
+    targetRevision: 1.13.2-r2
+    helm:
+      values: |
+        controller:
+          create: true
+        commandArgs:
+          - "--key-renew-period=0"
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kubeseal

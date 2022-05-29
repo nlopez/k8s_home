@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-bootstrap
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
+  destination:
+    namespace: argocd
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    path: argocd/cluster-bootstrap
+    repoURL: git@github.com:nlopez/k8s_home.git
+    targetRevision: unstable
