@@ -30,13 +30,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: flux
-  labels:
-    name: flux
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: ingress-nginx
   labels:
     name: ingress-nginx
@@ -44,6 +37,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: pgo
+  name: cert-manager
   labels:
-    name: pgo
+    name: cert-manager
