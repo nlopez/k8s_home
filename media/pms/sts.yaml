@@ -39,8 +39,8 @@ spec:
           # command: ["sleep"]
           # args: ["10000000"]
           resources:
-            # limits:
-              # gpu.intel.com/i915: 1
+            limits:
+              gpu.intel.com/i915: 1
           volumeMounts:
             - name: pms-iscsi
               subPath: config
@@ -78,7 +78,7 @@ spec:
             periodSeconds: 20
         - name: plex-auto-trash
           image: docker.io/jakewharton/plex-auto-trash:1
-          env: 
+          env:
             - name: PLEX_BASE_URL
               value: http://localhost:32400
             - name: PLEX_TOKEN
