@@ -22,6 +22,13 @@ spec:
           targetPortal: 192.168.220.149
           lun: 1
           fsType: ext2
+      - name: pms-iscsi
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+          targetPortal: 192.168.220.149
+          lun: 1
+          fsType: ext4
+          readOnly: true
       containers:
       - name: tautulli
         image: lscr.io/linuxserver/tautulli:version-v2.10.1
@@ -29,6 +36,9 @@ spec:
         - name: tautulli
           subPath: config
           mountPath: /config
+        - name: pms-iscsi
+          mountPath: /pms
+          readOnly: true
         env:
         - name: PUID
           value: '1001'
