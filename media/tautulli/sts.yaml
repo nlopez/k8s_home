@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: tautulli
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.tautulli: 'regex:^v2\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: tautulli
   replicas: 1
@@ -27,7 +24,7 @@ spec:
           fsType: ext2
       containers:
       - name: tautulli
-        image: lscr.io/linuxserver/tautulli:version-v2.10.0
+        image: lscr.io/linuxserver/tautulli:version-v2.10.1
         volumeMounts:
         - name: tautulli
           subPath: config
