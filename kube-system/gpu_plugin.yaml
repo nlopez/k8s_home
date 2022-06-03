@@ -21,7 +21,7 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
-        image: docker.io/intel/intel-gpu-plugin@sha256:82617b99aa6d5f5b3483f4d2846b728cb15e0666528ab1ca2b6963bb54c966aa
+        image: docker.io/intel/intel-gpu-plugin:0.24.0
         imagePullPolicy: IfNotPresent
         securityContext:
           readOnlyRootFilesystem: true
