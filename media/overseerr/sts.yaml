@@ -39,6 +39,13 @@ spec:
           value: '1001'
         - name: TZ
           value: 'America/New_York'
+        - name: TAUTULLI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: overseerr
+              key: TAUTULLI_API_KEY
+        - name: TAUTULLI_URI
+          value: 'http://127.0.0.1:8181'
         ports:
         - name: overseerr
           containerPort: 5055
@@ -52,11 +59,3 @@ spec:
             port: overseerr
           initialDelaySeconds: 15
           periodSeconds: 20
-        env:
-        - name: TAUTULLI_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: overseerr
-              key: TAUTULLI_API_KEY
-        - name: TAUTULLI_URI
-          value: 'http://127.0.0.1:8181'
