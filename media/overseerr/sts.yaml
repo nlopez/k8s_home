@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: overseerr
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.overseerr: 'regex:^v2\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: overseerr
   replicas: 1
