@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: hydra2
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.hydra2: 'regex:^v3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: hydra2
   replicas: 1
@@ -27,7 +24,7 @@ spec:
           fsType: ext4
       containers:
       - name: hydra2
-        image: lscr.io/linuxserver/nzbhydra2:version-v4.3.1
+        image: lscr.io/linuxserver/nzbhydra2:version-v4.3.3
         volumeMounts:
         - name: hydra2-config
           subPath: config
