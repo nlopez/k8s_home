@@ -34,7 +34,7 @@ spec:
             medium: Memory
       containers:
         - name: pms
-          image: lscr.io/linuxserver/plex:version-1.26.2.5797-5bd057d2b
+          image: lscr.io/linuxserver/plex:version-1.27.0.5897-3940636f2
           # image: alpine
           # command: ["sleep"]
           # args: ["10000000"]
