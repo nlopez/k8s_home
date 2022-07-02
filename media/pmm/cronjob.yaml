@@ -7,6 +7,7 @@ metadata:
 spec:
   schedule: "@daily"
   concurrencyPolicy: Forbid
+  restartPolicy: Never
   jobTemplate:
     spec:
       template:
