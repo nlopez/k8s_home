@@ -156,6 +156,9 @@ data:
     apc.use_request_time=1
     apc.coredump_unmap=0
     apc.preload_path
+    redis.session.locking_enabled=1
+    redis.session.lock_retries=-1
+    redis.session.lock_wait_time=10000
 ---
 apiVersion: v1
 kind: ConfigMap
