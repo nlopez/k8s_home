@@ -10,6 +10,7 @@ spec:
   jobTemplate:
     spec:
       template:
+        restartPolicy: Never
         spec:
           volumes:
             - name: pmm-iscsi
