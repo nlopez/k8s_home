@@ -5,5 +5,6 @@ metadata:
   name: pmm
   namespace: media
 spec:
+  clusterIP: None
   selector:
     app: pmm
