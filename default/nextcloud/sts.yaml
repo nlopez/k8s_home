@@ -70,7 +70,7 @@ spec:
       containers:
 
       - name: nextcloud
-        image: lscr.io/linuxserver/nextcloud:version-23.0.3
+        image: lscr.io/linuxserver/nextcloud:version-24.0.2
         volumeMounts:
         - name: config2
           mountPath: /config
