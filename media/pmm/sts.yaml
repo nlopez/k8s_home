@@ -1,18 +1,20 @@
 ---
-apiVersion: batch/v1
-kind: CronJob
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: pmm
   namespace: media
 spec:
-  schedule: "@daily"
-  concurrencyPolicy: Forbid
-  restartPolicy: Never
-  jobTemplate:
-    spec:
-      template:
+  serviceName: pmm
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pmm
+  template:
+    metadata:
+      labels:
+        app: pmm
         spec:
-          restartPolicy: Never
           volumes:
             - name: pmm-iscsi
               iscsi:
@@ -31,8 +33,10 @@ spec:
                   subPath: config
                   mountPath: /config
               env:
+                - name: PMM_TIME
+                  value: "06:00,18:00"
                 - name: PMM_RUN
-                  value: "True"
+                  value: "FALSE"
                 - name: PMM_CONFIG
                   value: "/config/config.yaml"
                 - name: PUID
