@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nextcloud
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
+  destination:
+    namespace: media
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    path: default/nextcloud
+    repoURL: git@github.com:nlopez/k8s_home.git
+    targetRevision: unstable
