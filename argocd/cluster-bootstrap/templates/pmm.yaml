@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pmm
+  name: pms
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -14,6 +14,6 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: media/pmm
+    path: media/pms
     repoURL: git@github.com:nlopez/k8s_home.git
     targetRevision: unstable
