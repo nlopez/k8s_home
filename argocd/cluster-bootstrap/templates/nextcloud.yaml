@@ -10,7 +10,7 @@ spec:
     automated:
       selfHeal: true
   destination:
-    namespace: media
+    namespace: default
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
