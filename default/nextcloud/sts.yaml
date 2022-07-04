@@ -77,15 +77,15 @@ spec:
         - name: data
           mountPath: /data
         - name: php-fpm-config
-          mountPath: /etc/php7/php-fpm.d/www2.conf
+          mountPath: /etc/php8/php-fpm.d/www2.conf
           subPath: www2.conf
         - name: nextcloud-crontabs
           mountPath: /etc/crontabs/
         - name: php-opcache-config
-          mountPath: /etc/php7/conf.d/10-opcache.ini
+          mountPath: /etc/php8/conf.d/10-opcache.ini
           subPath: 10-opcache.ini
         - name: php-ini
-          mountPath: /etc/php7/php.ini
+          mountPath: /etc/php8/php.ini
           subPath: php.ini
         - name: sockets
           mountPath: /sock

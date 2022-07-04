@@ -50,7 +50,7 @@ data:
     auto_append_file =
     default_mimetype = "text/html"
     default_charset = "UTF-8"
-    include_path = ".:/usr/share/php7"
+    include_path = ".:/usr/share/php8"
     doc_root =
     user_dir =
     enable_dl = Off
@@ -207,5 +207,5 @@ metadata:
   namespace: default
 data:
   root: |
-    */15 * * * * s6-setuidgid abc php7 -f /config/www/nextcloud/cron.php
-    */15 * * * * s6-setuidgid abc nice php7 -f /config/www/nextcloud/occ -- preview:pre-generate >> /data/preview.log
+    */15 * * * * s6-setuidgid abc php8 -f /config/www/nextcloud/cron.php
+    */15 * * * * s6-setuidgid abc nice php8 -f /config/www/nextcloud/occ -- preview:pre-generate >> /data/preview.log
