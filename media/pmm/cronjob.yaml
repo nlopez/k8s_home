@@ -49,3 +49,46 @@ spec:
               - --retry
               - '3'
               - https://hc-ping.com/026a2f64-0cc7-4a60-9b02-185c5a3f7f08
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pmm-debug
+  namespace: media
+spec:
+  suspend: true
+  schedule: "0 9 * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          volumes:
+            - name: pmm-iscsi
+              iscsi:
+                iqn: iqn.2014-09.com.radoncanyon:nas1:pmm
+                targetPortal: 192.168.220.149
+                lun: 1
+                fsType: ext4
+          containers:
+            - name: pmm
+              image: alpine
+              command: ["sleep"]
+              args: ["infinity"]
+              volumeMounts:
+                - name: pmm-iscsi
+                  subPath: config
+                  mountPath: /config
+              env:
+                - name: PMM_RUN
+                  value: "TRUE"
+                - name: PMM_CONFIG
+                  value: "/config/config.yml"
+                - name: PUID
+                  value: "1001"
+                - name: PGID
+                  value: "1001"
+                - name: TZ
+                  value: "America/New_York"
