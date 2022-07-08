@@ -20,7 +20,7 @@ spec:
                 targetPortal: 192.168.220.149
                 lun: 1
                 fsType: ext4
-          containers:
+          initContainers:
             - name: pmm
               image: meisnate12/plex-meta-manager:v1.17.1
               # image: alpine
@@ -41,3 +41,11 @@ spec:
                   value: "1001"
                 - name: TZ
                   value: "America/New_York"
+          containers:
+            - name: hc-ping
+              image: buildpack-deps:bionic-curl
+              command: ["/usr/bin/curl"]
+              args:
+              - --retry
+              - '3'
+              - https://hc-ping.com/026a2f64-0cc7-4a60-9b02-185c5a3f7f08
