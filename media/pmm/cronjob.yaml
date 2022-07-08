@@ -6,10 +6,13 @@ metadata:
   namespace: media
 spec:
   schedule: "0 */4 * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
         spec:
+          restartPolicy: Never
           volumes:
             - name: pmm-iscsi
               iscsi:
