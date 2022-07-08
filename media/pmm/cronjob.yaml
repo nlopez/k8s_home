@@ -5,7 +5,7 @@ metadata:
   name: pmm
   namespace: media
 spec:
-  schedule: "0 */4 * * *"
+  schedule: "0 9 * * *"
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   jobTemplate:
