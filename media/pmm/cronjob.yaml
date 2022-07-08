@@ -22,10 +22,10 @@ spec:
                 fsType: ext4
           containers:
             - name: pmm
-              # image: lscr.io/linuxserver/plex-meta-manager:version-v1.17.1
-              image: alpine
-              command: ["sleep"]
-              args: ["10000000"]
+              image: lscr.io/linuxserver/plex-meta-manager:version-v1.17.1
+              # image: alpine
+              # command: ["sleep"]
+              # args: ["10000000"]
               volumeMounts:
                 - name: pmm-iscsi
                   subPath: config
@@ -34,7 +34,7 @@ spec:
                 - name: PMM_RUN
                   value: "TRUE"
                 - name: PMM_CONFIG
-                  value: "/config/config.yaml"
+                  value: "/config/config.yml"
                 - name: PUID
                   value: "1001"
                 - name: PGID
