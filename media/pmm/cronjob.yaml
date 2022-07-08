@@ -1,0 +1,39 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "0 */4 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: pmm-iscsi
+              iscsi:
+                iqn: iqn.2014-09.com.radoncanyon:nas1:pmm
+                targetPortal: 192.168.220.149
+                lun: 1
+                fsType: ext4
+          containers:
+            - name: pmm
+              # image: lscr.io/linuxserver/plex-meta-manager:version-v1.17.1
+              image: alpine
+              command: ["sleep"]
+              args: ["10000000"]
+              volumeMounts:
+                - name: pmm-iscsi
+                  subPath: config
+                  mountPath: /config
+              env:
+                - name: PMM_RUN
+                  value: "TRUE"
+                - name: PMM_CONFIG
+                  value: "/config/config.yaml"
+                - name: PUID
+                  value: "1001"
+                - name: PGID
+                  value: "1001"
+                - name: TZ
+                  value: "America/New_York"
