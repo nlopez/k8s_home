@@ -2,7 +2,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: hello
+  name: pmm
+  namespace: media
 spec:
   schedule: "0 */4 * * *"
   jobTemplate:
