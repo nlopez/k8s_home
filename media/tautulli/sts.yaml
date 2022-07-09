@@ -19,13 +19,13 @@ spec:
       - name: tautulli
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:tautulli
-          targetPortal: 192.168.220.149
+          targetPortal: 192.168.222.149
           lun: 1
           fsType: ext2
       - name: pms-iscsi
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:pms
-          targetPortal: 192.168.220.149
+          targetPortal: 192.168.222.149
           lun: 1
           fsType: ext4
           readOnly: true
