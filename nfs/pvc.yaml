@@ -1,3 +1,4 @@
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -57,3 +58,64 @@ spec:
   resources:
     requests:
       storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: media
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: scratch
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: scratch
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: roms
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: roms
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: deluge
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: deluge
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
