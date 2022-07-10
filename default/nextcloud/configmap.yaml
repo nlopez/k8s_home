@@ -31,7 +31,7 @@ data:
     expose_php = Off
     max_execution_time = 3500
     max_input_time = 3600
-    memory_limit=-1
+    memory_limit=1G
     error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
     display_errors = Off
     display_startup_errors = Off
@@ -193,7 +193,7 @@ data:
     listen.group = abc
     listen.mode = 0660
     pm = static
-    pm.max_children = 256
+    pm.max_children = 64
     pm.max_requests = 0
     ; Redirect worker stdout and stderr into main error log. If not set, stdout and
     ; stderr will be redirected to /dev/null according to FastCGI specs.
