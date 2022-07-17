@@ -15,28 +15,39 @@ spec:
       labels:
         app: tautulli
     spec:
+      nodeName: knode1
       volumes:
-      - name: tautulli
+      - name: tautulli-host
+        hostPath:
+          path: /mnt/BLOCK/tautulli
+          type: DirectoryOrCreate
+      - name: pms-host
+        hostPath:
+          path: /mnt/BLOCK/pms
+          type: DirectoryOrCreate
+      - name: tautulli-iscsi
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:tautulli
           targetPortal: 192.168.222.149
           lun: 1
           fsType: ext2
-      - name: pms-iscsi
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:pms
-          targetPortal: 192.168.222.149
-          lun: 1
-          fsType: ext4
-          readOnly: true
+      # - name: pms-iscsi
+      #   iscsi:
+      #     iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+      #     targetPortal: 192.168.222.149
+      #     lun: 1
+      #     fsType: ext4
+      #     readOnly: true
       containers:
       - name: tautulli
         image: lscr.io/linuxserver/tautulli:version-v2.10.2
         volumeMounts:
-        - name: tautulli
+        - name: tautulli-iscsi
           subPath: config
           mountPath: /config
-        - name: pms-iscsi
+        - name: tautulli-host
+          mountPath: /config-host
+        - name: pms-host
           mountPath: /pms
           readOnly: true
         env:
