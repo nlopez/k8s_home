@@ -19,12 +19,12 @@ spec:
     spec:
       nodeName: knode1
       volumes:
-        - name: pms-iscsi
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:pms
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext4
+        # - name: pms-iscsi
+        #   iscsi:
+        #     iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+        #     targetPortal: 192.168.222.149
+        #     lun: 1
+        #     fsType: ext4
         - name: media
           persistentVolumeClaim:
             claimName: media
@@ -37,20 +37,20 @@ spec:
             type: DirectoryOrCreate
       containers:
         - name: pms
-          # image: lscr.io/linuxserver/plex:version-1.27.2.5929-a806c5905
-          image: alpine
-          command: ["sleep"]
-          args: ["10000000"]
+          image: lscr.io/linuxserver/plex:version-1.27.2.5929-a806c5905
+          # image: alpine
+          # command: ["sleep"]
+          # args: ["infinity"]
           resources:
             limits:
               gpu.intel.com/i915: 1
           volumeMounts:
-            - name: pms-iscsi
-              subPath: config
-              mountPath: /config
+            # - name: pms-iscsi
+            #   subPath: config
+            #   mountPath: /config-iscsi
             - name: pms-host
               subPath: config
-              mountPath: /config-host
+              mountPath: /config
             - name: transcode
               mountPath: /transcode
             - name: media
