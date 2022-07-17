@@ -31,10 +31,10 @@ spec:
         - name: transcode
           emptyDir:
             medium: Memory
-        # - name: pms-host
-        #   hostPath:
-        #     path: /mnt/BLOCK/pms
-        #     type: DirectoryOrCreate
+        - name: pms-host
+          hostPath:
+            path: /mnt/BLOCK/pms
+            type: DirectoryOrCreate
       containers:
         - name: pms
           image: lscr.io/linuxserver/plex:version-1.27.2.5929-a806c5905
@@ -48,9 +48,9 @@ spec:
             - name: pms-iscsi
               subPath: config
               mountPath: /config
-            # - name: pms-host
-            #   subPath: config
-            #   mountPath: /config-host
+            - name: pms-host
+              subPath: config
+              mountPath: /config-host
             - name: transcode
               mountPath: /transcode
             - name: media
