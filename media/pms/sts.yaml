@@ -37,10 +37,10 @@ spec:
             type: DirectoryOrCreate
       containers:
         - name: pms
-          image: lscr.io/linuxserver/plex:version-1.27.2.5929-a806c5905
-          # image: alpine
-          # command: ["sleep"]
-          # args: ["10000000"]
+          # image: lscr.io/linuxserver/plex:version-1.27.2.5929-a806c5905
+          image: alpine
+          command: ["sleep"]
+          args: ["10000000"]
           resources:
             limits:
               gpu.intel.com/i915: 1
