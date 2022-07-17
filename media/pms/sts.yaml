@@ -49,7 +49,6 @@ spec:
             #   subPath: config
             #   mountPath: /config-iscsi
             - name: pms-host
-              subPath: config
               mountPath: /config
             - name: transcode
               mountPath: /transcode
