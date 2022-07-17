@@ -72,16 +72,16 @@ spec:
           ports:
             - name: pms
               containerPort: 32400
-          readinessProbe:
-            tcpSocket:
-              port: pms
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          livenessProbe:
-            tcpSocket:
-              port: pms
-            initialDelaySeconds: 60
-            periodSeconds: 20
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: pms
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: pms
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 20
         - name: plex-auto-trash
           image: docker.io/jakewharton/plex-auto-trash:1
           env:
