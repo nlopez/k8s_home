@@ -7,7 +7,7 @@ metadata:
 spec:
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
   destination:
     namespace: argocd
     server: {{ .Values.spec.destination.server }}

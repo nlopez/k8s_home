@@ -8,7 +8,7 @@ metadata:
 spec:
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
   destination:
     namespace: dui
     server: {{ .Values.spec.destination.server }}

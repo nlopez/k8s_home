@@ -6,7 +6,7 @@ metadata:
 spec:
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
   destination:
     namespace: ingress-nginx
     server: {{ .Values.spec.destination.server }}
