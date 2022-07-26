@@ -14,7 +14,7 @@ spec:
   nfs:
     server: 192.168.222.114
     path: "/mnt/etank/media"
-  mountOptions: &nfsMountOptions
+  mountOptions:
     - nfsvers=4.1
     - rsize=1048576
     - wsize=1048576
@@ -40,7 +40,16 @@ spec:
   nfs:
     server: 192.168.222.149
     path: "/mnt/etank/scratch"
-  mountOptions: *nfsMountOptions
+  mountOptions:
+    - nfsvers=4.1
+    - rsize=1048576
+    - wsize=1048576
+    - hard
+    - timeo=600
+    - retrans=2
+    - noresvport
+    - _netdev
+    - nofail
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -57,7 +66,16 @@ spec:
   nfs:
     server: 192.168.222.114
     path: "/mnt/etank/media"
-  mountOptions: *nfsMountOptions
+  mountOptions:
+    - nfsvers=4.1
+    - rsize=1048576
+    - wsize=1048576
+    - hard
+    - timeo=600
+    - retrans=2
+    - noresvport
+    - _netdev
+    - nofail
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -74,4 +92,13 @@ spec:
   nfs:
     server: 192.168.222.149
     path: "/mnt/etank/scratch"
-  mountOptions: *nfsMountOptions
+  mountOptions:
+    - nfsvers=4.1
+    - rsize=1048576
+    - wsize=1048576
+    - hard
+    - timeo=600
+    - retrans=2
+    - noresvport
+    - _netdev
+    - nofail
