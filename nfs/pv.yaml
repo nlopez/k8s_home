@@ -14,8 +14,16 @@ spec:
   nfs:
     server: 192.168.222.114
     path: "/mnt/etank/media"
-  mountOptions:
+  mountOptions: &nfsMountOptions
     - nfsvers=4.1
+    - rsize=1048576
+    - wsize=1048576
+    - hard
+    - timeo=600
+    - retrans=2
+    - noresvport
+    - _netdev
+    - nofail
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -32,44 +40,7 @@ spec:
   nfs:
     server: 192.168.222.149
     path: "/mnt/etank/scratch"
-  mountOptions:
-    - nfsvers=4.1
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: default-roms
-  namespace: default
-  labels:
-    name: default-roms
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.222.149
-    path: "/mnt/etank/scratch/roms"
-  mountOptions:
-    - nfsvers=4.1
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: media-qbittorrent
-  namespace: media
-  labels:
-    name: media-qbittorrent
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.222.149
-    path: "/mnt/etank/scratch/downloads/qbittorrent"
-  mountOptions:
-    - nfsvers=4.1
+  mountOptions: *nfsMountOptions
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -86,8 +57,7 @@ spec:
   nfs:
     server: 192.168.222.114
     path: "/mnt/etank/media"
-  mountOptions:
-    - nfsvers=4.1
+  mountOptions: *nfsMountOptions
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -104,41 +74,4 @@ spec:
   nfs:
     server: 192.168.222.149
     path: "/mnt/etank/scratch"
-  mountOptions:
-    - nfsvers=4.1
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: roms
-  namespace: media
-  labels:
-    name: roms
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.222.149
-    path: "/mnt/etank/scratch/roms"
-  mountOptions:
-    - nfsvers=4.1
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: deluge
-  namespace: media
-  labels:
-    name: deluge
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.222.149
-    path: "/mnt/etank/scratch/downloads/deluge"
-  mountOptions:
-    - nfsvers=4.1
+  mountOptions: *nfsMountOptions
