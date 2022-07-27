@@ -28,7 +28,7 @@ spec:
           fsType: ext4
       - name: downloads
         persistentVolumeClaim:
-          claimName: qbittorrent
+          claimName: scratch
       containers:
       - name: qbittorrent
         image: lscr.io/linuxserver/qbittorrent:version-14.3.8.99202110120741-7429-1bae770b2ubuntu20.04.1
@@ -41,6 +41,7 @@ spec:
           mountPath: /config
         - name: downloads
           mountPath: /downloads/qbittorrent
+          subPath: downloads/qbittorrent
         env:
         - name: PUID
           value: '1001'
