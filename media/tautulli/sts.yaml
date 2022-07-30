@@ -20,11 +20,11 @@ spec:
       - name: tautulli-host
         hostPath:
           path: /mnt/BLOCK/tautulli
-          type: DirectoryOrCreate
+          type: Directory
       - name: pms-host
         hostPath:
           path: /mnt/BLOCK/pms
-          type: DirectoryOrCreate
+          type: Directory
       - name: tautulli-iscsi
       containers:
       - name: tautulli
