@@ -53,7 +53,7 @@ spec:
           targetPortal: 192.168.222.149
           lun: 1
           fsType: ext4
-      - name: rclone
+      - name: media-rclone
         hostPath:
           path: /mnt/media-rclone
           type: Directory
