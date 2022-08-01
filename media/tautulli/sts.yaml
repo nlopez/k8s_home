@@ -16,7 +16,49 @@ spec:
         app: tautulli
     spec:
       nodeName: knode1
-      volumes:
+      containers:
+        - name: tautulli
+          image: lscr.io/linuxserver/tautulli:version-v2.10.2
+          volumeMounts:
+            - name: tautulli-host
+              mountPath: /config
+            - name: pms-host
+              mountPath: /pms
+              readOnly: true
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+          ports:
+            - name: tautulli
+              containerPort: 8181
+          readinessProbe:
+            tcpSocket:
+              port: tautulli
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: tautulli
+            initialDelaySeconds: 15
+            periodSeconds: 20
+        - name: tautulli-exporter
+          image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
+          ports:
+            - name: exporter
+              containerPort: 9487
+          env:
+            - name: TAUTULLI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tautulli
+                  key: TAUTULLI_API_KEY
+            - name: TAUTULLI_URI
+              value: "http://127.0.0.1:8181"
+    volumes:
       - name: tautulli-host
         hostPath:
           path: /mnt/BLOCK/tautulli
@@ -26,45 +68,3 @@ spec:
           path: /mnt/BLOCK/pms
           type: Directory
       - name: tautulli-iscsi
-      containers:
-      - name: tautulli
-        image: lscr.io/linuxserver/tautulli:version-v2.10.2
-        volumeMounts:
-        - name: tautulli-host
-          mountPath: /config
-        - name: pms-host
-          mountPath: /pms
-          readOnly: true
-        env:
-        - name: PUID
-          value: '1001'
-        - name: PGID
-          value: '1001'
-        - name: TZ
-          value: 'America/New_York'
-        ports:
-        - name: tautulli
-          containerPort: 8181
-        readinessProbe:
-          tcpSocket:
-            port: tautulli
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: tautulli
-          initialDelaySeconds: 15
-          periodSeconds: 20
-      - name: tautulli-exporter
-        image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
-        ports:
-        - name: exporter
-          containerPort: 9487
-        env:
-        - name: TAUTULLI_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: tautulli
-              key: TAUTULLI_API_KEY
-        - name: TAUTULLI_URI
-          value: 'http://127.0.0.1:8181'

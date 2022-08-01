@@ -17,46 +17,46 @@ spec:
     spec:
       nodeSelector:
         workload: download
-      volumes:
-      - name: radarr4k
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:radarr4k
-          targetPortal: 192.168.222.149
-          lun: 1
-          fsType: ext4
-      - name: media-rclone
-        hostPath:
-          path: /mnt/media-rclone
-          type: Directory
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
       containers:
-      - name: radarr4k
-        image: lscr.io/linuxserver/radarr:version-4.1.0.6175
-        volumeMounts:
         - name: radarr4k
-          subPath: config
-          mountPath: /config
+          image: lscr.io/linuxserver/radarr:version-4.1.0.6175
+          volumeMounts:
+            - name: radarr4k
+              subPath: config
+              mountPath: /config
+            - name: media-rclone
+              mountPath: /media
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+          ports:
+            - name: radarr
+              containerPort: 7878
+          readinessProbe:
+            tcpSocket:
+              port: radarr
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: radarr
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: radarr4k
+          iscsi:
+            iqn: iqn.2014-09.com.radoncanyon:nas1:radarr4k
+            targetPortal: 192.168.222.149
+            lun: 1
+            fsType: ext4
+        - name: media-rclone
+          hostPath:
+            path: /mnt/media-rclone
+            type: Directory
         - name: media
-          mountPath: /media
-        env:
-        - name: PUID
-          value: '1001'
-        - name: PGID
-          value: '1001'
-        - name: TZ
-          value: 'America/New_York'
-        ports:
-        - name: radarr
-          containerPort: 7878
-        readinessProbe:
-          tcpSocket:
-            port: radarr
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: radarr
-          initialDelaySeconds: 15
-          periodSeconds: 20
+          persistentVolumeClaim:
+            claimName: media

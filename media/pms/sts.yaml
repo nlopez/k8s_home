@@ -16,27 +16,6 @@ spec:
         app: pms
     spec:
       nodeName: knode1
-      volumes:
-        # - name: pms-iscsi
-        #   iscsi:
-        #     iqn: iqn.2014-09.com.radoncanyon:nas1:pms
-        #     targetPortal: 192.168.222.149
-        #     lun: 1
-        #     fsType: ext4
-        - name: media
-          persistentVolumeClaim:
-            claimName: media
-        - name: media-rclone
-          hostPath:
-            path: /mnt/media-rclone
-            type: Directory
-        - name: transcode
-          emptyDir:
-            medium: Memory
-        - name: pms-host
-          hostPath:
-            path: /mnt/BLOCK/pms
-            type: Directory
       containers:
         - name: pms
           image: lscr.io/linuxserver/plex:version-1.28.0.5999-97678ded3
@@ -46,17 +25,6 @@ spec:
           resources:
             limits:
               gpu.intel.com/i915: "1"
-          volumeMounts:
-            # - name: pms-iscsi
-            #   subPath: config
-            #   mountPath: /config-iscsi
-            - name: pms-host
-              mountPath: /config
-            - name: transcode
-              mountPath: /transcode
-            - name: media
-              mountPath: /media
-              readOnly: true
           env:
             - name: CHANGE_CONFIG_DIR_OWNERSHIP
               value: "false"
@@ -73,23 +41,35 @@ spec:
           ports:
             - name: pms
               containerPort: 32400
-        #   readinessProbe:
-        #     tcpSocket:
-        #       port: pms
-        #     initialDelaySeconds: 30
-        #     periodSeconds: 10
-        #   livenessProbe:
-        #     tcpSocket:
-        #       port: pms
-        #     initialDelaySeconds: 60
-        #     periodSeconds: 20
-        # - name: plex-auto-trash
-        #   image: docker.io/jakewharton/plex-auto-trash:1
-        #   env:
-        #     - name: PLEX_BASE_URL
-        #       value: http://localhost:32400
-        #     - name: PLEX_TOKEN
-        #       valueFrom:
-        #         secretKeyRef:
-        #           name: plex-token
-        #           key: PLEX_TOKEN
+          volumeMounts:
+            # - name: pms-iscsi
+            #   subPath: config
+            #   mountPath: /config-iscsi
+            - name: pms-host
+              mountPath: /config
+            - name: transcode
+              mountPath: /transcode
+            - name: media-rclone
+              mountPath: /media
+              readOnly: true
+      volumes:
+        - name: pms-iscsi
+          iscsi:
+            iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+            targetPortal: 192.168.222.149
+            lun: 1
+            fsType: ext4
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: media-rclone
+          hostPath:
+            path: /mnt/media-rclone
+            type: Directory
+        - name: transcode
+          emptyDir:
+            medium: Memory
+        - name: pms-host
+          hostPath:
+            path: /mnt/BLOCK/pms
+            type: Directory
