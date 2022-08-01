@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: sonarr
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.sonarr: 'regex:^3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: sonarr
   replicas: 1
@@ -45,8 +42,8 @@ spec:
         - name: sonarr
           subPath: config
           mountPath: /config
-        - name: media
-          mountPath: /media
+        - name: media-rclone
+          mountPath: /mnt/media-rclone
         - name: scratch
           mountPath: /downloads
           subPath: downloads
@@ -57,9 +54,10 @@ spec:
           targetPortal: 192.168.222.149
           lun: 1
           fsType: ext2
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
+      - name: rclone
+        hostPath:
+          path: /mnt/media-rclone
+          type: Directory
       - name: scratch
         persistentVolumeClaim:
           claimName: scratch

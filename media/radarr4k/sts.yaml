@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: radarr4k
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.radarr4k: 'regex:^3\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: radarr4k
   replicas: 1
@@ -27,9 +24,10 @@ spec:
           targetPortal: 192.168.222.149
           lun: 1
           fsType: ext4
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
+      - name: rclone
+        hostPath:
+          path: /mnt/media-rclone
+          type: Directory
       containers:
       - name: radarr4k
         image: lscr.io/linuxserver/radarr:version-4.1.0.6175
@@ -37,8 +35,8 @@ spec:
         - name: radarr4k
           subPath: config
           mountPath: /config
-        - name: media
-          mountPath: /media
+        - name: media-rclone
+          mountPath: /mnt/media-rclone
         env:
         - name: PUID
           value: '1001'
