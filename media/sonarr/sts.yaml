@@ -42,7 +42,7 @@ spec:
         - name: sonarr
           subPath: config
           mountPath: /config
-        - name: media-rclone
+        - name: media
           mountPath: /media
         - name: scratch
           mountPath: /downloads
@@ -61,3 +61,6 @@ spec:
       - name: scratch
         persistentVolumeClaim:
           claimName: scratch
+      - name: media
+        persistentVolumeClaim:
+          claimName: media

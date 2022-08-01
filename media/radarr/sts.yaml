@@ -28,6 +28,9 @@ spec:
         hostPath:
           path: /mnt/media-rclone
           type: Directory
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
       - name: scratch
         persistentVolumeClaim:
           claimName: scratch
@@ -38,7 +41,7 @@ spec:
         - name: radarr
           subPath: config
           mountPath: /config
-        - name: media-rclone
+        - name: media
           mountPath: /media
         - name: scratch
           mountPath: /downloads

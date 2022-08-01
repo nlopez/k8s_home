@@ -44,7 +44,7 @@ spec:
         - name: sonarr4k
           subPath: config
           mountPath: /config
-        - name: media-rclone
+        - name: media
           mountPath: /media
       volumes:
       - name: sonarr4k
@@ -57,3 +57,6 @@ spec:
         hostPath:
           path: /mnt/media-rclone
           type: Directory
+      - name: media
+        persistentVolumeClaim:
+          claimName: media

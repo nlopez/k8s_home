@@ -28,6 +28,9 @@ spec:
         hostPath:
           path: /mnt/media-rclone
           type: Directory
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
       containers:
       - name: radarr4k
         image: lscr.io/linuxserver/radarr:version-4.1.0.6175
@@ -35,7 +38,7 @@ spec:
         - name: radarr4k
           subPath: config
           mountPath: /config
-        - name: media-rclone
+        - name: media
           mountPath: /media
         env:
         - name: PUID
