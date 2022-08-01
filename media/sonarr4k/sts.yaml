@@ -45,7 +45,7 @@ spec:
           subPath: config
           mountPath: /config
         - name: media-rclone
-          mountPath: /mnt/media-rclone
+          mountPath: /media
       volumes:
       - name: sonarr4k
         iscsi:

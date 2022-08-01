@@ -55,7 +55,7 @@ spec:
             - name: transcode
               mountPath: /transcode
             - name: media-rclone
-              mountPath: /mnt/media-rclone
+              mountPath: /media
               readOnly: true
           env:
             - name: CHANGE_CONFIG_DIR_OWNERSHIP
