@@ -20,6 +20,7 @@ spec:
       containers:
         - name: radarr
           image: lscr.io/linuxserver/radarr:version-4.1.0.6175
+
           volumeMounts:
             - name: radarr
               subPath: config
@@ -29,6 +30,7 @@ spec:
             - name: scratch
               mountPath: /downloads
               subPath: downloads
+
           env:
             - name: PUID
               value: "1001"
@@ -36,19 +38,25 @@ spec:
               value: "1001"
             - name: TZ
               value: "America/New_York"
+
           ports:
             - name: radarr
               containerPort: 7878
-          readinessProbe:
-            tcpSocket:
-              port: radarr
-            initialDelaySeconds: 5
-            periodSeconds: 10
+
           livenessProbe:
-            tcpSocket:
+            httpGet:
               port: radarr
-            initialDelaySeconds: 15
-            periodSeconds: 20
+              path: /
+            periodSeconds: 10
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              port: radarr
+              path: /
+            periodSeconds: 10
+            failureThreshold: 30
+
       volumes:
         - name: radarr
           iscsi:

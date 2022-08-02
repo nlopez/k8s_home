@@ -18,6 +18,7 @@ spec:
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:version-3.0.8.1507
+
           env:
             - name: PUID
               value: "1001"
@@ -25,19 +26,25 @@ spec:
               value: "1001"
             - name: TZ
               value: "America/New_York"
+
           ports:
             - name: sonarr
               containerPort: 8989
-          readinessProbe:
-            tcpSocket:
-              port: sonarr
-            initialDelaySeconds: 5
-            periodSeconds: 10
+
           livenessProbe:
-            tcpSocket:
+            httpGet:
               port: sonarr
-            initialDelaySeconds: 15
-            periodSeconds: 20
+              path: /
+            periodSeconds: 10
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              port: sonarr
+              path: /
+            periodSeconds: 10
+            failureThreshold: 30
+
           volumeMounts:
             - name: sonarr
               subPath: config

@@ -19,12 +19,14 @@ spec:
       containers:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:version-v2.10.2
+
           volumeMounts:
             - name: tautulli-host
               mountPath: /config
             - name: pms-host
               mountPath: /pms
               readOnly: true
+
           env:
             - name: PUID
               value: "1001"
@@ -32,24 +34,32 @@ spec:
               value: "1001"
             - name: TZ
               value: "America/New_York"
+
           ports:
             - name: tautulli
               containerPort: 8181
-          readinessProbe:
-            tcpSocket:
-              port: tautulli
-            initialDelaySeconds: 5
-            periodSeconds: 10
+
           livenessProbe:
-            tcpSocket:
+            httpGet:
               port: tautulli
-            initialDelaySeconds: 15
-            periodSeconds: 20
+              path: /status
+            periodSeconds: 10
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              port: tautulli
+              path: /status
+            periodSeconds: 10
+            failureThreshold: 30
+
         - name: tautulli-exporter
           image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
+
           ports:
             - name: exporter
               containerPort: 9487
+
           env:
             - name: TAUTULLI_API_KEY
               valueFrom:
@@ -58,13 +68,13 @@ spec:
                   key: TAUTULLI_API_KEY
             - name: TAUTULLI_URI
               value: "http://127.0.0.1:8181"
-    volumes:
-      - name: tautulli-host
-        hostPath:
-          path: /mnt/BLOCK/tautulli
-          type: Directory
-      - name: pms-host
-        hostPath:
-          path: /mnt/BLOCK/pms
-          type: Directory
-      - name: tautulli-iscsi
+
+      volumes:
+        - name: tautulli-host
+          hostPath:
+            path: /mnt/BLOCK/tautulli
+            type: Directory
+        - name: pms-host
+          hostPath:
+            path: /mnt/BLOCK/pms
+            type: Directory
