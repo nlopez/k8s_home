@@ -16,36 +16,43 @@ spec:
         app: hydra2
     spec:
       volumes:
-      - name: hydra2-config
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:hydra2
-          targetPortal: 192.168.222.149
-          lun: 1
-          fsType: ext4
-      containers:
-      - name: hydra2
-        image: lscr.io/linuxserver/nzbhydra2:version-v4.4.0
-        volumeMounts:
         - name: hydra2-config
-          subPath: config
-          mountPath: /config
-        env:
-        - name: PUID
-          value: '1001'
-        - name: PGID
-          value: '1001'
-        - name: TZ
-          value: 'America/New_York'
-        ports:
-        - containerPort: 5076
-          name: hydra2
-        readinessProbe:
-          tcpSocket:
-            port: hydra2
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: hydra2
-          initialDelaySeconds: 15
-          periodSeconds: 20
+          iscsi:
+            iqn: iqn.2014-09.com.radoncanyon:nas1:hydra2
+            targetPortal: 192.168.222.149
+            lun: 1
+            fsType: ext4
+      containers:
+        - name: hydra2
+          image: lscr.io/linuxserver/nzbhydra2:version-v4.4.0
+
+          volumeMounts:
+            - name: hydra2-config
+              subPath: config
+              mountPath: /config
+
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+
+          ports:
+            - containerPort: 5076
+              name: hydra2
+
+          livenessProbe:
+            httpGet:
+              port: hydra2
+              path: /internalapi/control/ping
+            periodSeconds: 10
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              port: hydra2
+              path: /internalapi/control/ping
+            periodSeconds: 10
+            failureThreshold: 30
