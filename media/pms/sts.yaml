@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: pms
+        rclone-mounts: "true"
     spec:
       nodeName: knode1
       containers:
