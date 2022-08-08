@@ -11,11 +11,12 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-private-key
     solvers:
-      - selector: {}
-        dns01:
-          route53:
-            region: us-east-1
-            accessKeyID: AKIAX6OKM7CDIRF7IMF2
+      - dns01:
+          cloudflare:
+            email: cloudflare@aethertrail.com
             secretAccessKeySecretRef:
-              name: route53-credentials-secret
+              name: cloudflare-credentials-secret
               key: secret-access-key
+        selector:
+          matchLabels:
+            use-cloudflare-solver: "true"
