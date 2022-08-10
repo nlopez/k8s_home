@@ -22,7 +22,7 @@ spec:
             value: "1"
       containers:
         - name: tautulli
-          image: lscr.io/linuxserver/tautulli:version-v2.10.2
+          image: lscr.io/linuxserver/tautulli:version-v2.10.3
 
           volumeMounts:
             - name: tautulli-host
