@@ -17,7 +17,13 @@ spec:
         rclone-mounts: "true"
     spec:
       nodeName: knode1
+      # https://forums.plex.tv/t/request-for-participants-pms-1-23-x-dns-investigation/717155/57
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       containers:
+
         - name: pms
           image: lscr.io/linuxserver/plex:version-1.28.0.5999-97678ded3
           # image: alpine

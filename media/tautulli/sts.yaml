@@ -16,6 +16,10 @@ spec:
         app: tautulli
     spec:
       nodeName: knode1
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       containers:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:version-v2.10.2
