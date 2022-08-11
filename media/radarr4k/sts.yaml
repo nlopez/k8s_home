@@ -28,6 +28,9 @@ spec:
               mountPath: /config
             - name: media-rclone
               mountPath: /media
+            - name: scratch
+              mountPath: /downloads
+              subPath: downloads
 
           env:
             - name: PUID
@@ -69,3 +72,6 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: media
+        - name: scratch
+          persistentVolumeClaim:
+            claimName: scratch
