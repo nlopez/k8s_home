@@ -11,7 +11,7 @@ kubeadm init --config kubeadm-init.conf --upload-certs
 ### CNI: Cilium
 ```bash
 helm install cilium cilium/cilium \
-  --version 1.11.5 \
+  --version 1.12.0 \
   --namespace kube-system \
   --set global.tunnel=disabled \
   --set global.autoDirectNodeRoutes=true \
