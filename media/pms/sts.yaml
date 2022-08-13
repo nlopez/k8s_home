@@ -17,11 +17,13 @@ spec:
         rclone-mounts: "true"
     spec:
       nodeName: knode1
+
       # https://forums.plex.tv/t/request-for-participants-pms-1-23-x-dns-investigation/717155/57
       dnsConfig:
         options:
           - name: ndots
             value: "1"
+
       containers:
 
         - name: pms
@@ -50,7 +52,6 @@ spec:
               containerPort: 32400
           volumeMounts:
             - name: pms-iscsi
-              subPath: config
               mountPath: /config
             # - name: pms-host
             #   mountPath: /config-host
