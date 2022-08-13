@@ -25,6 +25,8 @@ spec:
           image: lscr.io/linuxserver/tautulli:version-v2.10.3
 
           volumeMounts:
+            # - name: tautulli-host
+            #   mountPath: /config
             - name: tautulli-iscsi
               mountPath: /config
             # - name: pms-host
