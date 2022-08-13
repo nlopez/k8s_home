@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: heimdall
   namespace: media
-  annotations:
-    fluxcd.io/automated: 'true'
-    fluxcd.io/tag.heimdall: 'regex:^2\.[0-9\.]+-ls[0-9]+$'
 spec:
   serviceName: heimdall
   replicas: 1
@@ -27,7 +24,7 @@ spec:
           fsType: ext4
       containers:
       - name: heimdall
-        image: lscr.io/linuxserver/heimdall:2.2.2-ls144
+        image: lscr.io/linuxserver/heimdall:version-v2.4.13
         volumeMounts:
         - name: config
           mountPath: /config
