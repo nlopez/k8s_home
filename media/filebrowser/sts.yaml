@@ -5,7 +5,7 @@ metadata:
   name: filebrowser
   namespace: media
   annotations:
-    fluxcd.io/automated: 'true'
+    fluxcd.io/automated: "true"
     fluxcd.io/tag.filebrowser: 'regex:^v2\.[0-9\.]+$'
 spec:
   serviceName: filebrowser
@@ -19,40 +19,44 @@ spec:
         app: filebrowser
     spec:
       volumes:
-      - name: media
-        persistentVolumeClaim:
-          claimName: media
-      - name: scratch
-        persistentVolumeClaim:
-          claimName: scratch
-      - name: filebrowser
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:filebrowser
-          targetPortal: 192.168.222.149
-          lun: 1
-          fsType: ext4
-      - name: config
-        configMap:
-          name: filebrowser
-      containers:
-      - name: filebrowser
-        image: docker.io/filebrowser/filebrowser:v2.21.1-s6
-        command: ["filebrowser"]
-        args:
-        - --config
-        - /etc/filebrowser.json
-        volumeMounts:
-        - name: config
-          mountPath: /etc/filebrowser.json
-          subPath: filebrowser.json
-          readOnly: true
-        - name: filebrowser
-          subPath: data
-          mountPath: /data
-        - name: media
-          mountPath: /srv/media
+        # - name: media
+        #   persistentVolumeClaim:
+        #     claimName: media
+        - name: media-rclone
+          hostPath:
+            path: /mnt/media-rclone
+            type: Directory
         - name: scratch
-          mountPath: /srv/scratch
-        ports:
-        - containerPort: 8080
-          name: filebrowser
+          persistentVolumeClaim:
+            claimName: scratch
+        - name: filebrowser
+          iscsi:
+            iqn: iqn.2014-09.com.radoncanyon:nas1:filebrowser
+            targetPortal: 192.168.222.149
+            lun: 1
+            fsType: ext4
+        - name: config
+          configMap:
+            name: filebrowser
+      containers:
+        - name: filebrowser
+          image: docker.io/filebrowser/filebrowser:v2.21.1-s6
+          command: ["filebrowser"]
+          args:
+            - --config
+            - /etc/filebrowser.json
+          volumeMounts:
+            - name: config
+              mountPath: /etc/filebrowser.json
+              subPath: filebrowser.json
+              readOnly: true
+            - name: filebrowser
+              subPath: data
+              mountPath: /data
+            - name: media
+              mountPath: /srv/media
+            - name: scratch
+              mountPath: /srv/scratch
+          ports:
+            - containerPort: 8080
+              name: filebrowser
