@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sabnzbd
+  namespace: media
+spec:
+  serviceName: sabnzbd
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sabnzbd
+  template:
+    metadata:
+      labels:
+        app: sabnzbd
+    spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      containers:
+        - name: sabnzbd
+          image: linuxserver/sabnzbd:version-3.6.0
+          volumeMounts:
+            - name: sabnzbd
+              subPath: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads/sabnzbd
+              subPath: downloads/sabnzbd
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+          ports:
+            - name: sabnzbd
+              containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: sabnzbd
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: sabnzbd
+            initialDelaySeconds: 15
+            periodSeconds: 20
+
+      volumes:
+        - name: sabnzbd
+          iscsi:
+            iqn: iqn.2014-09.com.radoncanyon:nas1:sabnzbd
+            targetPortal: 192.168.222.149
+            lun: 1
+            fsType: ext4
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: scratch
