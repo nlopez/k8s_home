@@ -69,9 +69,9 @@ spec:
           hostPath:
             path: /mnt/media-rclone
             type: Directory
-        - name: media
-          persistentVolumeClaim:
-            claimName: media
+        # - name: media
+        #   persistentVolumeClaim:
+        #     claimName: media
         - name: scratch
           persistentVolumeClaim:
             claimName: scratch

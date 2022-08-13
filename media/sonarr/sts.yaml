@@ -69,6 +69,6 @@ spec:
         - name: scratch
           persistentVolumeClaim:
             claimName: scratch
-        - name: media
-          persistentVolumeClaim:
-            claimName: media
+        # - name: media
+        #   persistentVolumeClaim:
+        #     claimName: media
