@@ -2,66 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: media
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      name: default-media
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: scratch
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      name: default-scratch
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: roms
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      name: default-roms
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: media
-  namespace: media
-spec:
-  selector:
-    matchLabels:
-      name: media
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Pi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: scratch
   namespace: media
 spec:
