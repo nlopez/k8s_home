@@ -52,9 +52,9 @@ spec:
               containerPort: 32400
           volumeMounts:
             - name: pms-iscsi
-              mountPath: /config-iscsi
-            - name: pms-host
               mountPath: /config
+            # - name: pms-host
+            #   mountPath: /config-host
             - name: transcode
               mountPath: /transcode
             - name: media-rclone
@@ -77,7 +77,7 @@ spec:
         - name: transcode
           emptyDir:
             medium: Memory
-        - name: pms-host
-          hostPath:
-            path: /mnt/BLOCK/pms
-            type: Directory
+        # - name: pms-host
+        #   hostPath:
+        #     path: /mnt/BLOCK/pms
+        #     type: Directory
