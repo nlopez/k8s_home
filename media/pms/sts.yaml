@@ -60,6 +60,14 @@ spec:
             - name: media-rclone
               mountPath: /media
               readOnly: true
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - test -f /media/.anchors/dropbox
+            periodSeconds: 10
+            failureThreshold: 1
       volumes:
         - name: pms-iscsi
           iscsi:
