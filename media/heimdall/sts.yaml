@@ -22,6 +22,10 @@ spec:
           targetPortal: 192.168.222.149
           lun: 1
           fsType: ext4
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       containers:
       - name: heimdall
         image: lscr.io/linuxserver/heimdall:version-v2.4.13

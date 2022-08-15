@@ -1,4 +1,3 @@
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -6,7 +5,6 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/proxy-body-size: "2m"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
 spec:
   tls:

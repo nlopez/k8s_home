@@ -5,7 +5,6 @@ metadata:
   namespace: media
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
 spec:
   tls:
@@ -19,6 +18,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: qbittorrent-tcp
+                name: qbittorrent
                 port:
                   number: 8080

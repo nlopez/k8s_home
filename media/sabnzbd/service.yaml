@@ -1,11 +1,9 @@
-apiVersion: v1
+---
 kind: Service
+apiVersion: v1
 metadata:
   name: sabnzbd
   namespace: media
 spec:
-  selector:
-    app: sabnzbd
-  ports:
-  - name: sabnzbd
-    port: 8080
+  type: ExternalName
+  externalName: 192.168.222.10.sslip.io
