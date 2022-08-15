@@ -45,11 +45,13 @@ spec:
               containerPort: 7878
 
           livenessProbe:
-            httpGet:
-              port: radarr
-              path: /
+            exec:
+              command:
+                - sh
+                - -c
+                - test -f /media/.anchors/dropbox
             periodSeconds: 10
-            failureThreshold: 3
+            failureThreshold: 1
 
           startupProbe:
             httpGet:

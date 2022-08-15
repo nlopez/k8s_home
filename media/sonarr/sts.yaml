@@ -33,11 +33,13 @@ spec:
               containerPort: 8989
 
           livenessProbe:
-            httpGet:
-              port: sonarr
-              path: /
+            exec:
+              command:
+                - sh
+                - -c
+                - test -f /media/.anchors/dropbox
             periodSeconds: 10
-            failureThreshold: 3
+            failureThreshold: 1
 
           startupProbe:
             httpGet:
