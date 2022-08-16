@@ -16,6 +16,8 @@ spec:
         app: sonarr
         rclone-mounts: "true"
     spec:
+      nodeSelector:
+        workload: download
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:version-3.0.9.1549

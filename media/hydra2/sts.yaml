@@ -5,6 +5,8 @@ metadata:
   name: hydra2
   namespace: media
 spec:
+  nodeSelector:
+    workload: download
   serviceName: hydra2
   replicas: 1
   selector:

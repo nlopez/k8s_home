@@ -4,9 +4,6 @@ kind: Deployment
 metadata:
   name: jackett
   namespace: media
-  annotations:
-    flux.weave.works/tag.jackett: glob:amd64-3*-ls*
-    flux.weave.works/automated: 'false'
 spec:
   replicas: 1
   selector:
@@ -17,40 +14,42 @@ spec:
       labels:
         app: jackett
     spec:
+      nodeSelector:
+        workload: download
       containers:
-      - name: jackett
-        image: lscr.io/linuxserver/jackett:0.20.1088
-        env:
-        - name: PUID
-          value: '1001'
-        - name: PGID
-          value: '1001'
-        - name: TZ
-          value: 'America/New_York'
-        ports:
         - name: jackett
-          containerPort: 9117
-        readinessProbe:
-          tcpSocket:
-            port: jackett
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: jackett
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        volumeMounts:
-        - name: jackett
-          subPath: config
-          mountPath: /config
+          image: lscr.io/linuxserver/jackett:0.20.1088
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+          ports:
+            - name: jackett
+              containerPort: 9117
+          readinessProbe:
+            tcpSocket:
+              port: jackett
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: jackett
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: jackett
+              subPath: config
+              mountPath: /config
       volumes:
-      - name: jackett
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:jackett
-          targetPortal: 192.168.222.149
-          lun: 1
-          fsType: ext2
+        - name: jackett
+          iscsi:
+            iqn: iqn.2014-09.com.radoncanyon:nas1:jackett
+            targetPortal: 192.168.222.149
+            lun: 1
+            fsType: ext2
       # - name: media
       #   persistentVolumeClaim:
       #     claimName: media
