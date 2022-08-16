@@ -15,6 +15,10 @@ spec:
       labels:
         app: thelounge
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       volumes:
       - name: thelounge
         iscsi:
