@@ -13,12 +13,13 @@ kubeadm init --config kubeadm-init.conf --upload-certs
 helm install cilium cilium/cilium \
   --version 1.12.0 \
   --namespace kube-system \
-  --set global.tunnel=disabled \
-  --set global.autoDirectNodeRoutes=true \
+  --set tunnel=disabled \
+  --set autoDirectNodeRoutes=true \
   --set kubeProxyReplacement=strict \
-  --set global.nodePort.mode=dsr \
-  --set global.nodePort.acceleration=native \
-  --set global.nodePort.directRoutingDevice=eno1 \
+  --set loadBalancer.algorithm=maglev \
+  --set loadBalancer.mode=dsr \
+  --set nodePort.acceleration=native \
+  --set nodePort.directRoutingDevice=eno1 \
   --set k8sServiceHost=192.168.222.245 \
   --set k8sServicePort=6443
 ```
