@@ -16,3 +16,6 @@ bgp:
   announce:
     loadbalancerIP: true
     podCIDR: true
+bandwidthManager:
+  enabled: true
+  bbr: true

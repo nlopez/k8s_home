@@ -16,13 +16,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: metallb-system
-  labels:
-    name: metallb-system
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: ingress-nginx
   labels:
     name: ingress-nginx
