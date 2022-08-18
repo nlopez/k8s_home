@@ -14,7 +14,7 @@ spec:
       - dns01:
           cloudflare:
             email: cloudflare@aethertrail.com
-            secretAccessKeySecretRef:
+            apiTokenSecretRef:
               name: cloudflare-credentials-secret
               key: secret-access-key
         selector:
