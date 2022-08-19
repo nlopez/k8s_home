@@ -7,3 +7,19 @@ metadata:
 spec:
   addresses:
   - 192.168.222.230-192.168.222.250
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: opnsense
+  namespace: metallb-system
+spec:
+  myASN: 64512
+  peerASN: 64513
+  peerAddress: 192.168.222.1
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: lab
+  namespace: metallb-system

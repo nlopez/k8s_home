@@ -1,21 +1,4 @@
 ---
 # https://github.com/cilium/cilium/blob/master/install/kubernetes/cilium/values.yaml.tmpl
-k8sServiceHost: 192.168.222.245
-k8sServicePort: 6443
-kubeProxyReplacement: strict
-ipv4NativeRoutingCIDR: 10.0.0.0/8
-tunnel: disabled
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
-nodePort:
-  acceleration: native
-  nodePort:directRoutingDevice: eno1
-bgp:
-  enabled: true
-  announce:
-    loadbalancerIP: true
-    podCIDR: true
-bandwidthManager:
-  enabled: true
-  bbr: true
+k8sServiceHost: "192.168.222.245"
+k8sServicePort: "6443"
