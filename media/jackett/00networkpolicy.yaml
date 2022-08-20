@@ -9,6 +9,6 @@ spec:
     matchLabels:
       app: jackett
   ingress:
-  - ports:
-    - port: 9117
-    from: []
+    - ports:
+        - port: 9117
+      from: []

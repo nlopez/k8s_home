@@ -1,11 +1,11 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: jackett
   namespace: media
 spec:
-  replicas: 1
+  serviceName: jackett
   selector:
     matchLabels:
       app: jackett
@@ -45,11 +45,5 @@ spec:
               mountPath: /config
       volumes:
         - name: jackett
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:jackett
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext2
-      # - name: media
-      #   persistentVolumeClaim:
-      #     claimName: media
+          persistentVolumeClaim:
+            claimName: jackett-iscsi-pvc

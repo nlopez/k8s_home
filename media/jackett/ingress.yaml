@@ -8,17 +8,16 @@ metadata:
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
 spec:
   tls:
-  - hosts:
-    - g.desertbluffs.com
+    - hosts:
+        - g.desertbluffs.com
   rules:
-  - host: g.desertbluffs.com
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: jackett
-              port:
-                number: 9117
-
+    - host: g.desertbluffs.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jackett
+                port:
+                  number: 9117

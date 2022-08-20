@@ -7,6 +7,6 @@ spec:
   selector:
     app: jackett
   ports:
-  - name: jackett
-    port: 9117
-    targetPort: 9117
+    - name: jackett
+      port: 9117
+      targetPort: 9117

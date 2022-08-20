@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jackett-iscsi-pvc
+  namespace: media
+spec:
+  volumeName: jackett-iscsi-pv
+  resources:
+    requests:
+      storage: 5G
+  accessModes:
+    - ReadWriteOnce
