@@ -24,6 +24,9 @@ spec:
             externalTrafficPolicy: "Local"
             loadBalancerIP: "192.168.222.230"
           kind: DaemonSet
+          pod:
+            annotations:
+              ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"ingress-nginx"}]'
           config:
             hsts: "true"
             hsts-include-subdomains: "true"
