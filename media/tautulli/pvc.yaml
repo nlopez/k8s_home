@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tautulli-iscsi-pvc
+  namespace: media
+spec:
+  volumeName: tautulli-iscsi-pv
+  resources:
+    requests:
+      storage: 10G
+  accessModes:
+    - ReadWriteOnce

@@ -25,13 +25,8 @@ spec:
           image: lscr.io/linuxserver/tautulli:version-v2.10.3
 
           volumeMounts:
-            # - name: tautulli-host
-            #   mountPath: /config
             - name: tautulli-iscsi
               mountPath: /config
-            # - name: pms-host
-            #   mountPath: /pms
-            #   readOnly: true
 
           env:
             - name: PUID
@@ -76,17 +71,6 @@ spec:
               value: "http://127.0.0.1:8181"
 
       volumes:
-        # - name: tautulli-host
-        #   hostPath:
-        #     path: /mnt/BLOCK/tautulli
-        #     type: Directory
-        # - name: pms-host
-        #   hostPath:
-        #     path: /mnt/BLOCK/pms
-        #     type: Directory
         - name: tautulli-iscsi
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:tautulli
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext2
+          persistentVolumeClaim:
+            claimName: tautulli-iscsi-pvc
