@@ -26,7 +26,7 @@ spec:
             loadBalancerIP: "192.168.222.230"
           kind: DaemonSet
           podAnnotations:
-              ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"ingress-nginx"}]'
+              ad.datadoghq.com/nginx-ingress-controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
           config:
             hsts: "true"
             hsts-include-subdomains: "true"
