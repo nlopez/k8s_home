@@ -15,6 +15,7 @@ spec:
     repoURL: https://kubernetes.github.io/ingress-nginx/
     chart: ingress-nginx
     targetRevision: 4.1.2
+    # https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/charts/ingress-nginx/values.yaml
     helm:
       values: |
         defaultBackend:
@@ -24,8 +25,7 @@ spec:
             externalTrafficPolicy: "Local"
             loadBalancerIP: "192.168.222.230"
           kind: DaemonSet
-          pod:
-            annotations:
+          podAnnotations:
               ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"ingress-nginx"}]'
           config:
             hsts: "true"
