@@ -71,7 +71,7 @@ spec:
       volumes:
         - name: pms-iscsi
           iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:pms
+            iqn: iqn.2014-09.com.radoncanyon:nas1:pms-ssd
             targetPortal: 192.168.222.149
             lun: 1
             fsType: ext4
