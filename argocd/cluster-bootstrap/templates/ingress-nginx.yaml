@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -26,7 +27,10 @@ spec:
             loadBalancerIP: "192.168.222.230"
           kind: DaemonSet
           podAnnotations:
-              ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
+            ad.datadoghq.com/controller.check_names: '["nginx_ingress_controller"]'
+            ad.datadoghq.com/controller.init_configs: '[{}]'
+            ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'
+            ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
           config:
             hsts: "true"
             hsts-include-subdomains: "true"
