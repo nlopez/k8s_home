@@ -61,18 +61,12 @@ spec:
               subPath: downloads
       volumes:
         - name: sonarr
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:sonarr
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext2
+          persistentVolumeClaim:
+            claimName: sonarr-iscsi-pvc
+        - name: scratch
+          persistentVolumeClaim:
+            claimName: scratch
         - name: media-rclone
           hostPath:
             path: /mnt/media-rclone
             type: Directory
-        - name: scratch
-          persistentVolumeClaim:
-            claimName: scratch
-        # - name: media
-        #   persistentVolumeClaim:
-        #     claimName: media
