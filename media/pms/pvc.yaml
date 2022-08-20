@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pms-iscsi-pvc
+  namespace: media
+spec:
+  volumeName: pms-iscsi-pv
+  resources:
+    requests:
+      storage: 80Gi
+  accessModes:
+    - ReadWriteOnce
