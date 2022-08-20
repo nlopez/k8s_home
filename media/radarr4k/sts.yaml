@@ -62,18 +62,12 @@ spec:
 
       volumes:
         - name: radarr4k
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:radarr4k
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext4
+          persistentVolumeClaim:
+            claimName: radarr4k-iscsi-pvc
+        - name: scratch
+          persistentVolumeClaim:
+            claimName: scratch
         - name: media-rclone
           hostPath:
             path: /mnt/media-rclone
             type: Directory
-        # - name: media
-        #   persistentVolumeClaim:
-        #     claimName: media
-        - name: scratch
-          persistentVolumeClaim:
-            claimName: scratch

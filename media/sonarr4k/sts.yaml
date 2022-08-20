@@ -62,18 +62,12 @@ spec:
 
       volumes:
         - name: sonarr4k
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:sonarr4k
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext4
+          persistentVolumeClaim:
+            claimName: sonarr4k-iscsi-pvc
+        - name: scratch
+          persistentVolumeClaim:
+            claimName: scratch
         - name: media-rclone
           hostPath:
             path: /mnt/media-rclone
             type: Directory
-        - name: scratch
-          persistentVolumeClaim:
-            claimName: scratch
-        # - name: media
-        #   persistentVolumeClaim:
-        #     claimName: media
