@@ -8,6 +8,6 @@ spec:
   volumeName: pms-iscsi-pv
   resources:
     requests:
-      storage: 80Gi
+      storage: 80G
   accessModes:
     - ReadWriteOnce

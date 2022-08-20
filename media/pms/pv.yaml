@@ -5,7 +5,7 @@ metadata:
   name: pms-iscsi-pv
 spec:
   capacity:
-    storage: 80Gi
+    storage: 80G
   accessModes:
     - ReadWriteOnce
   iscsi:
