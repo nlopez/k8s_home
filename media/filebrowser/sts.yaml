@@ -19,9 +19,6 @@ spec:
         app: filebrowser
     spec:
       volumes:
-        # - name: media
-        #   persistentVolumeClaim:
-        #     claimName: media
         - name: media-rclone
           hostPath:
             path: /mnt/media-rclone
@@ -30,11 +27,8 @@ spec:
           persistentVolumeClaim:
             claimName: scratch
         - name: filebrowser
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:filebrowser
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext4
+          persistentVolumeClaim:
+            claimName: filebrowser-iscsi-pvc
         - name: config
           configMap:
             name: filebrowser
@@ -53,7 +47,7 @@ spec:
             - name: filebrowser
               subPath: data
               mountPath: /data
-            - name: media
+            - name: media-rclone
               mountPath: /srv/media
             - name: scratch
               mountPath: /srv/scratch
