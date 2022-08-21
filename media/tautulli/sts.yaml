@@ -61,17 +61,23 @@ spec:
 
           livenessProbe:
             httpGet:
-              port: tautulli
               path: /status
-            periodSeconds: 10
-            failureThreshold: 3
+              port: 8181
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
 
-          startupProbe:
+          readinessProbe:
             httpGet:
-              port: tautulli
               path: /status
-            periodSeconds: 10
-            failureThreshold: 30
+              port: 8181
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
 
         - name: tautulli-exporter
           image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
@@ -88,6 +94,26 @@ spec:
                   key: TAUTULLI_API_KEY
             - name: TAUTULLI_URI
               value: "http://127.0.0.1:8181"
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9487
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9487
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
 
       volumes:
         - name: tautulli-iscsi

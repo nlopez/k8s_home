@@ -41,3 +41,21 @@ spec:
           name: heimdall-http
         - containerPort: 443
           name: heimdall-https
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          periodSeconds: 15
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          periodSeconds: 15
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
