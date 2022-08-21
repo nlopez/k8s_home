@@ -25,7 +25,6 @@ spec:
             value: "1"
 
       containers:
-
         - name: pms
           image: lscr.io/linuxserver/plex:version-1.28.1.6104-788f82488
           # image: alpine
@@ -53,10 +52,8 @@ spec:
           volumeMounts:
             - name: pms-iscsi
               mountPath: /config
-            # - name: pms-host
-            #   mountPath: /config-host
-            - name: transcode
-              mountPath: /transcode
+            - name: tmp
+              mountPath: /tmp
             - name: media-rclone
               mountPath: /media
               readOnly: true
@@ -76,6 +73,6 @@ spec:
           hostPath:
             path: /mnt/media-rclone
             type: Directory
-        - name: transcode
+        - name: tmp
           emptyDir:
             medium: Memory
