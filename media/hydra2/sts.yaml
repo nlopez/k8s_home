@@ -19,11 +19,8 @@ spec:
         workload: download
       volumes:
         - name: hydra2-config
-          iscsi:
-            iqn: iqn.2014-09.com.radoncanyon:nas1:hydra2
-            targetPortal: 192.168.222.149
-            lun: 1
-            fsType: ext4
+          persistentVolumeClaim:
+            claimName: hydra2-iscsi-pvc
       containers:
         - name: hydra2
           image: lscr.io/linuxserver/nzbhydra2:version-v4.4.0
