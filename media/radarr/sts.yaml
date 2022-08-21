@@ -16,6 +16,10 @@ spec:
         app: radarr
         rclone-mounts: "true"
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       nodeSelector:
         workload: download
       containers:
