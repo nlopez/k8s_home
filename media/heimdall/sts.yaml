@@ -17,11 +17,8 @@ spec:
     spec:
       volumes:
       - name: config
-        iscsi:
-          iqn: iqn.2014-09.com.radoncanyon:nas1:heimdall
-          targetPortal: 192.168.222.149
-          lun: 1
-          fsType: ext4
+        persistentVolumeClaim:
+          claimName: heimdall-iscsi-pvc
       dnsConfig:
         options:
           - name: ndots
