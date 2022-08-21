@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: overseerr-iscsi-pvc
+  namespace: media
+spec:
+  volumeName: overseerr-iscsi-pv
+  resources:
+    requests:
+      storage: 10G
+  accessModes:
+    - ReadWriteOnce
