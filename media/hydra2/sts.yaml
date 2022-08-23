@@ -27,7 +27,7 @@ spec:
             claimName: hydra2-iscsi-pvc
       containers:
         - name: hydra2
-          image: lscr.io/linuxserver/nzbhydra2:version-v4.4.0
+          image: lscr.io/linuxserver/nzbhydra2:version-v4.6.0
 
           volumeMounts:
             - name: hydra2-config
