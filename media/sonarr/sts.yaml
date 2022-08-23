@@ -39,14 +39,11 @@ spec:
               containerPort: 8989
 
           livenessProbe:
-            httpGet:
-              path: /
-              port: sonarr
             exec:
-                command:
-                  - sh
-                  - -c
-                  - test -f /media/.anchors/dropbox
+              command:
+                - sh
+                - -c
+                - test -f /media/.anchors/dropbox
             periodSeconds: 15
             initialDelaySeconds: 15
             timeoutSeconds: 5
@@ -54,9 +51,6 @@ spec:
             failureThreshold: 6
 
           readinessProbe:
-            httpGet:
-              path: /
-              port: sonarr
             exec:
               command:
                 - sh
