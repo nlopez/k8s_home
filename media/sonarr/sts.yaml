@@ -39,20 +39,34 @@ spec:
               containerPort: 8989
 
           livenessProbe:
+            httpGet:
+              path: /
+              port: sonarr
+            exec:
+                command:
+                  - sh
+                  - -c
+                  - test -f /media/.anchors/dropbox
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: sonarr
             exec:
               command:
                 - sh
                 - -c
                 - test -f /media/.anchors/dropbox
-            periodSeconds: 10
-            failureThreshold: 1
-
-          startupProbe:
-            httpGet:
-              port: sonarr
-              path: /
-            periodSeconds: 10
-            failureThreshold: 30
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
 
           volumeMounts:
             - name: sonarr
