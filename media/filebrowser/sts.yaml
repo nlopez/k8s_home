@@ -18,6 +18,10 @@ spec:
       labels:
         app: filebrowser
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       volumes:
         - name: media-rclone
           hostPath:
