@@ -15,4 +15,4 @@ spec:
             email: cloudflare@aethertrail.com
             apiTokenSecretRef:
               name: cloudflare-credentials-secret
-              key: secret-access-key
+              key: api-token
