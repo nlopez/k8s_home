@@ -9,6 +9,8 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "yes"
 spec:
   tls:
     - hosts:
