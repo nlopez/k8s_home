@@ -3,8 +3,6 @@ kind: Certificate
 metadata:
   name: desertbluffs-com
   namespace: ingress-nginx
-  labels:
-    use-cloudflare-solver: "true"
 spec:
   secretName: desertbluffs-tls
   issuerRef:
