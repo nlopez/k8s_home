@@ -18,4 +18,4 @@ spec:
         installCRDs: "true"
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: kube-system
+    namespace: cert-manager
