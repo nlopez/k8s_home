@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authelia
+  namespace: ingress-nginx
+spec:
+  selector:
+    app: authelia
+  ports:
+    - name: authelia
+      port: 9091

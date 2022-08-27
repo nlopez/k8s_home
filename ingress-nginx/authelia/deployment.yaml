@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authelia
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authelia
+  template:
+    metadata:
+      labels:
+        app: authelia
+    spec:
+      volumes:
+        - name: authelia-config
+          projected:
+            sources:
+              - secret:
+                  name: authelia-users
+                  items:
+                    - key: users.yaml
+                      path: users.yaml
+              - configMap:
+                  name: authelia-custom
+                  items:
+                    - key: custom.yaml
+                      path: custom.yaml
+        - name: authelia-secrets
+          secret:
+            secretName: authelia-secrets
+      containers:
+        - name: authelia
+          image: ghcr.io/authelia/authelia:4
+          # image: alpine
+          env:
+            - name: AUTHELIA_JWT_SECRET_FILE
+              value: /secrets/jwt
+            - name: AUTHELIA_SESSION_SECRET_FILE
+              value: /secrets/session
+            - name: AUTHELIA_STORAGE_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authelia-secrets
+                  key: storage_encryption_key
+          ports:
+            - name: authelia
+              containerPort: 9091
+          volumeMounts:
+            - name: authelia-config
+              mountPath: /config
+              readOnly: true
+            - name: authelia-secrets
+              mountPath: /secrets
+              readOnly: true
+          # command: ["sleep"]
+          # args: ["10000000"]
+          command: ["authelia"]
+          args: ["--config", "/config/custom.yaml"]
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9091
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9091
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
