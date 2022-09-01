@@ -22,7 +22,7 @@ spec:
         workload: download
       containers:
         - name: jackett
-          image: lscr.io/linuxserver/jackett:0.20.1088
+          image: lscr.io/linuxserver/jackett:version-v0.20.1821
           resources:
             requests:
               cpu: "250m"

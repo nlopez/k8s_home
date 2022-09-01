@@ -15,6 +15,22 @@ spec:
       labels:
         app: pms
         rclone-mounts: "true"
+      annotations:
+        ad.datadoghq.com/pms.logs: |
+          [
+            {
+                "type": "file",
+                "path": "/mnt/logs/pms/*.log",
+                "source": "pms",
+                "service": "pms"
+            },
+            {
+                "type": "file",
+                "path": "/mnt/logs/pms/*/*.log",
+                "source": "pms",
+                "service": "pms"
+            }
+          ]
     spec:
       nodeName: knode1
 
@@ -57,6 +73,9 @@ spec:
             - name: media-rclone
               mountPath: /media
               readOnly: true
+            - name: logs
+              mountPath: /logs-pms
+              subPath: pms
           startupProbe:
             exec:
               command:
@@ -77,6 +96,9 @@ spec:
         - name: pms-iscsi
           persistentVolumeClaim:
             claimName: pms-iscsi-pvc
+        - name: logs
+          persistentVolumeClaim:
+            claimName: logs
         - name: media-rclone
           hostPath:
             path: /mnt/media-rclone
@@ -87,4 +109,3 @@ spec:
         - name: logs
           persistentVolumeClaim:
             claimName: logs
-            subPath: pms
