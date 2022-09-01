@@ -29,6 +29,14 @@ spec:
         - name: hydra2
           image: lscr.io/linuxserver/nzbhydra2:version-v4.6.0
 
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+
           volumeMounts:
             - name: hydra2-config
               subPath: config

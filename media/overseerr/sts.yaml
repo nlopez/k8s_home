@@ -28,6 +28,13 @@ spec:
       containers:
       - name: overseerr
         image: lscr.io/linuxserver/overseerr:version-v1.29.1
+        resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
         volumeMounts:
         - name: overseerr
           subPath: config

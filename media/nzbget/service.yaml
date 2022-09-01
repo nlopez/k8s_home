@@ -1,9 +1,0 @@
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: nzbget
-  namespace: media
-spec:
-  type: ExternalName
-  externalName: 192.168.222.3.lga1.radoncanyon.com

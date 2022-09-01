@@ -39,6 +39,13 @@ spec:
       containers:
         - name: filebrowser
           image: docker.io/filebrowser/filebrowser:v2.21.1-s6
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "32Mi"
+            limits:
+              cpu: "500m"
+              memory: "32Mi"
           command: ["filebrowser"]
           args:
             - --config

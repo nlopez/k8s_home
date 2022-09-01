@@ -31,8 +31,8 @@ spec:
               cpu: "500m"
               memory: "1Gi"
             limits:
-              memory: "1Gi"
               cpu: "500m"
+              memory: "1Gi"
 
           volumeMounts:
             - name: radarr
