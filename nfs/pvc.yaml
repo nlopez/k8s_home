@@ -13,3 +13,33 @@ spec:
   resources:
     requests:
       storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: logs
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: logs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10G
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: logs-ro
+  namespace: datadog
+spec:
+  selector:
+    matchLabels:
+      name: logs-ro
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10G
