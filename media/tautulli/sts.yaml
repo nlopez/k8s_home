@@ -43,6 +43,14 @@ spec:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:version-v2.10.3
 
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
           volumeMounts:
             - name: tautulli-iscsi
               mountPath: /config
@@ -81,6 +89,14 @@ spec:
 
         - name: tautulli-exporter
           image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "32Mi"
 
           ports:
             - name: exporter

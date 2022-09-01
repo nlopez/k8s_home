@@ -26,6 +26,14 @@ spec:
         - name: radarr
           image: lscr.io/linuxserver/radarr:version-4.1.0.6175
 
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+
           volumeMounts:
             - name: radarr
               subPath: config

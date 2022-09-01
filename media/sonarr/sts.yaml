@@ -26,6 +26,14 @@ spec:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:version-3.0.9.1549
 
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+
           env:
             - name: PUID
               value: "1001"
