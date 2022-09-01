@@ -57,6 +57,14 @@ spec:
             - name: media-rclone
               mountPath: /media
               readOnly: true
+          startupProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - test -f /media/.anchors/dropbox
+            periodSeconds: 10
+            failureThreshold: 1
           livenessProbe:
             exec:
               command:
@@ -76,3 +84,7 @@ spec:
         - name: tmp
           emptyDir:
             medium: Memory
+        - name: logs
+          persistentVolumeClaim:
+            claimName: logs
+            subPath: pms
