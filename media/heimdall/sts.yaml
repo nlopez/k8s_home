@@ -28,10 +28,9 @@ spec:
         image: lscr.io/linuxserver/heimdall:version-v2.4.13
         resources:
             requests:
-              cpu: "500m"
+              cpu: "1000m"
               memory: "256Mi"
             limits:
-              cpu: "500m"
               memory: "256Mi"
         volumeMounts:
         - name: config

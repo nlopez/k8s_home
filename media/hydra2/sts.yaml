@@ -34,7 +34,6 @@ spec:
               cpu: "500m"
               memory: "1Gi"
             limits:
-              cpu: "500m"
               memory: "1Gi"
 
           volumeMounts:

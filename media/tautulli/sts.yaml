@@ -48,7 +48,6 @@ spec:
               cpu: "500m"
               memory: "512Mi"
             limits:
-              cpu: "500m"
               memory: "512Mi"
 
           volumeMounts:
@@ -95,7 +94,6 @@ spec:
               cpu: "100m"
               memory: "32Mi"
             limits:
-              cpu: "100m"
               memory: "32Mi"
 
           ports:
