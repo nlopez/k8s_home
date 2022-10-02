@@ -34,7 +34,7 @@ spec:
             }
           ]
     spec:
-      nodeName: knode1
+      # nodeName: knode1
       dnsConfig:
         options:
           - name: ndots
