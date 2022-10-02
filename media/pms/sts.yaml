@@ -32,7 +32,7 @@ spec:
             }
           ]
     spec:
-      nodeName: knode1
+      # nodeName: knode1
 
       # https://forums.plex.tv/t/request-for-participants-pms-1-23-x-dns-investigation/717155/57
       dnsConfig:
