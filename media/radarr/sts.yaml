@@ -24,7 +24,7 @@ spec:
         workload: download
       containers:
         - name: radarr
-          image: lscr.io/linuxserver/radarr:version-4.1.0.6175
+          image: lscr.io/linuxserver/radarr:version-4.2.4.6635
 
           resources:
             requests:
