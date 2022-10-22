@@ -27,6 +27,9 @@ spec:
             loadBalancerIP: "192.168.222.230"
           kind: DaemonSet
           podAnnotations:
+            traffic.sidecar.istio.io/excludeInboundPorts: 80,443
+            traffic.sidecar.istio.io/includeInboundPorts: ""
+            traffic.sidecar.istio.io/excludeOutboundIPRanges: "10.11.0.0/16,10.96.0.0/12"
             ad.datadoghq.com/controller.check_names: '["nginx_ingress_controller"]'
             ad.datadoghq.com/controller.init_configs: '[{}]'
             ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'

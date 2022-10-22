@@ -39,5 +39,4 @@ spec:
             principals:
               - cluster.local/ns/media/sa/overseerr
               - cluster.local/ns/media/sa/heimdall
-        - source:
-            namespaces: ["ingress-nginx"]
+              - cluster.local/ns/ingress-nginx/sa/ingress-nginx
