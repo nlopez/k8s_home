@@ -4,20 +4,20 @@ kind: StatefulSet
 metadata:
   name: filebrowser
   namespace: media
-  annotations:
-    fluxcd.io/automated: "true"
-    fluxcd.io/tag.filebrowser: 'regex:^v2\.[0-9\.]+$'
 spec:
   serviceName: filebrowser
   replicas: 1
   selector:
     matchLabels:
       app: filebrowser
+      version: v1
   template:
     metadata:
       labels:
         app: filebrowser
+        version: v1
     spec:
+      serviceAccountName: filebrowser
       dnsConfig:
         options:
           - name: ndots

@@ -3,12 +3,16 @@ kind: Service
 metadata:
   name: pms
   namespace: media
+  labels:
+    app: pms
+    version: v1
 spec:
   selector:
     app: pms
+    version: v1
   type: LoadBalancer
   loadBalancerIP: 192.168.222.231
   externalTrafficPolicy: Local
   ports:
-  - name: pms
-    port: 32400
+    - name: http-pms
+      port: 32400

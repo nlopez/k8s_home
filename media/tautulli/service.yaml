@@ -5,13 +5,15 @@ metadata:
   namespace: media
   labels:
     app: tautulli
+    version: v1
 spec:
   selector:
     app: tautulli
+    version: v1
   ports:
-  - name: tautulli
+  - name: http-tautulli
     port: 8181
     protocol: TCP
-  - name: exporter
+  - name: http-exporter
     port: 9487
     protocol: TCP

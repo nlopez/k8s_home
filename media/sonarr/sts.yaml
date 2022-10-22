@@ -4,18 +4,24 @@ kind: StatefulSet
 metadata:
   name: sonarr
   namespace: media
+  labels:
+    app: sonarr
+    version: v1
 spec:
   serviceName: sonarr
   replicas: 1
   selector:
     matchLabels:
       app: sonarr
+      version: v1
   template:
     metadata:
       labels:
         app: sonarr
         rclone-mounts: "true"
+        version: v1
     spec:
+      serviceAccountName: sonarr
       dnsConfig:
         options:
           - name: ndots

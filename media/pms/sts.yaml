@@ -4,16 +4,21 @@ kind: StatefulSet
 metadata:
   name: pms
   namespace: media
+  labels:
+    app: pms
+    version: v1
 spec:
   serviceName: pms
   replicas: 1
   selector:
     matchLabels:
       app: pms
+      version: v1
   template:
     metadata:
       labels:
         app: pms
+        version: v1
         rclone-mounts: "true"
       annotations:
         ad.datadoghq.com/pms.logs: |
@@ -32,7 +37,7 @@ spec:
             }
           ]
     spec:
-      # nodeName: knode1
+      serviceAccountName: pms
 
       # https://forums.plex.tv/t/request-for-participants-pms-1-23-x-dns-investigation/717155/57
       dnsConfig:
@@ -42,7 +47,7 @@ spec:
 
       containers:
         - name: pms
-          image: lscr.io/linuxserver/plex:version-1.29.0.6244-819d3678c
+          image: lscr.io/linuxserver/plex:version-1.29.1.6316-f4cdfea9c
           # image: alpine
           # command: ["sleep"]
           # args: ["infinity"]
@@ -63,7 +68,7 @@ spec:
             - name: TZ
               value: "America/New_York"
           ports:
-            - name: pms
+            - name: http-pms
               containerPort: 32400
           volumeMounts:
             - name: pms-iscsi

@@ -25,4 +25,4 @@ spec:
               service:
                 name: pms
                 port:
-                  number: 32400
+                  name: http-pms

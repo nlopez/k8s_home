@@ -6,6 +6,7 @@ metadata:
 spec:
   selector:
     app: filebrowser
+    version: v1
   ports:
-  - name: filebrowser
+  - name: http-filebrowser
     port: 8080

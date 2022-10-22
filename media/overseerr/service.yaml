@@ -5,11 +5,12 @@ metadata:
   namespace: media
   labels:
     app: overseerr
+    version: v1
 spec:
   selector:
     app: overseerr
+    version: v1
   ports:
-  - name: overseerr
+  - name: http-overseerr
     port: 5055
     protocol: TCP
-  

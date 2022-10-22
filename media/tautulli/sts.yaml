@@ -4,16 +4,21 @@ kind: StatefulSet
 metadata:
   name: tautulli
   namespace: media
+  labels:
+    app: tautulli
+    version: v1
 spec:
   serviceName: tautulli
   replicas: 1
   selector:
     matchLabels:
       app: tautulli
+      version: v1
   template:
     metadata:
       labels:
         app: tautulli
+        version: v1
       annotations:
         ad.datadoghq.com/tautulli-exporter.check_names: |
           ["openmetrics"]
@@ -63,13 +68,13 @@ spec:
               value: "America/New_York"
 
           ports:
-            - name: tautulli
+            - name: http-tautulli
               containerPort: 8181
 
           livenessProbe:
             httpGet:
               path: /status
-              port: 8181
+              port: http-tautulli
             periodSeconds: 15
             initialDelaySeconds: 15
             timeoutSeconds: 5
@@ -79,7 +84,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /status
-              port: 8181
+              port: http-tautulli
             periodSeconds: 15
             initialDelaySeconds: 15
             timeoutSeconds: 5
@@ -97,7 +102,7 @@ spec:
               memory: "32Mi"
 
           ports:
-            - name: exporter
+            - name: http-exporter
               containerPort: 9487
 
           env:
@@ -112,7 +117,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: 9487
+              port: http-exporter
             periodSeconds: 15
             initialDelaySeconds: 15
             timeoutSeconds: 5
@@ -122,7 +127,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 9487
+              port: http-exporter
             periodSeconds: 15
             initialDelaySeconds: 15
             timeoutSeconds: 5
