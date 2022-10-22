@@ -36,6 +36,8 @@ spec:
   rules:
     - from:
         - source:
-            principals: ["cluster.local/ns/media/sa/overseerr"]
+            principals:
+              - cluster.local/ns/media/sa/overseerr
+              - cluster.local/ns/media/sa/heimdall
         - source:
             namespaces: ["ingress-nginx"]

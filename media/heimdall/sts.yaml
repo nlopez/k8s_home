@@ -4,64 +4,70 @@ kind: StatefulSet
 metadata:
   name: heimdall
   namespace: media
+  labels:
+    app: heimdall
+    version: v1
 spec:
   serviceName: heimdall
   replicas: 1
   selector:
     matchLabels:
       app: heimdall
+      version: v1
   template:
     metadata:
       labels:
         app: heimdall
+        version: v1
     spec:
+      serviceAccountName: heimdall
       volumes:
-      - name: config
-        persistentVolumeClaim:
-          claimName: heimdall-iscsi-pvc
+        - name: config
+          persistentVolumeClaim:
+            claimName: heimdall-iscsi-pvc
       dnsConfig:
         options:
           - name: ndots
             value: "1"
       containers:
-      - name: heimdall
-        image: lscr.io/linuxserver/heimdall:version-v2.4.13
-        resources:
+        - name: heimdall
+          image: lscr.io/linuxserver/heimdall:version-v2.4.13
+          resources:
             requests:
               cpu: "1000m"
               memory: "256Mi"
             limits:
               memory: "256Mi"
-        volumeMounts:
-        - name: config
-          mountPath: /config
-        env:
-        - name: PUID
-          value: '1001'
-        - name: PGID
-          value: '1001'
-        - name: TZ
-          value: 'America/New_York'
-        ports:
-        - containerPort: 80
-          name: heimdall-http
-        - containerPort: 443
-          name: heimdall-https
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          periodSeconds: 15
-          initialDelaySeconds: 15
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 6
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          periodSeconds: 15
-          initialDelaySeconds: 15
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 6
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+          ports:
+            - containerPort: 80
+              name: heimdall-http
+            - containerPort: 443
+              name: heimdall-https
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6

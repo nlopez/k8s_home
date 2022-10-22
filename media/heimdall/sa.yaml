@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: heimdall
+  namespace: media
+automountServiceAccountToken: false
