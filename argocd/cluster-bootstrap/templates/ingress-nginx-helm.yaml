@@ -30,6 +30,7 @@ spec:
             traffic.sidecar.istio.io/excludeInboundPorts: 80,443
             traffic.sidecar.istio.io/includeInboundPorts: ""
             traffic.sidecar.istio.io/excludeOutboundIPRanges: "10.11.0.0/16,10.96.0.0/12"
+            sidecar.istio.io/inject: "true"
             ad.datadoghq.com/controller.check_names: '["nginx_ingress_controller"]'
             ad.datadoghq.com/controller.init_configs: '[{}]'
             ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'
