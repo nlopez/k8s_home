@@ -21,7 +21,6 @@ metadata:
   name: ingress-nginx
   labels:
     name: ingress-nginx
-    istio-injection: disabled
 ---
 apiVersion: v1
 kind: Namespace
