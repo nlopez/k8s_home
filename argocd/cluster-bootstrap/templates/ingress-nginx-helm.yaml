@@ -38,7 +38,7 @@ spec:
             hsts-preload: "true"
             ssl-redirect: "true"
             force-ssl-redirect: "true"
-            global-auth-url: "http://authelia/api/verify"
+            global-auth-url: "http://authelia.ingress-nginx.svc.cluster.local/api/verify"
             global-auth-signin: "https://login2.desertbluffs.com/?rd=https://$host$escaped_request_uri"
             global-auth-method: GET
             global-auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
@@ -50,8 +50,6 @@ spec:
             enable-ocsp: "true"
             server-tokens: "false"
             server-snippet: |-
-              resolver 1.1.1.1 1.0.0.1 ipv6=off;
-
               proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
 
               ssl_session_timeout 10m;
