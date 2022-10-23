@@ -65,4 +65,4 @@ spec:
               readOnly: true
           ports:
             - containerPort: 8080
-              name: http-filebrowser
+              name: http
