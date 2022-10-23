@@ -14,6 +14,7 @@ spec:
       labels:
         app: authelia
     spec:
+      enableServiceLinks: false
       volumes:
         - name: authelia-config
           projected:
@@ -46,7 +47,7 @@ spec:
                   name: authelia-secrets
                   key: storage_encryption_key
           ports:
-            - name: authelia
+            - name: http-authelia
               containerPort: 9091
           volumeMounts:
             - name: authelia-config
@@ -59,6 +60,13 @@ spec:
           # args: ["10000000"]
           command: ["authelia"]
           args: ["--config", "/config/custom.yaml"]
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: 2Gi
+            limits:
+              memory: 2Gi
 
           livenessProbe:
             httpGet:

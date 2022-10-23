@@ -38,8 +38,12 @@ spec:
             hsts-preload: "true"
             ssl-redirect: "true"
             force-ssl-redirect: "true"
-            global-auth-url: "https://login2.desertbluffs.com/api/verify"
+            global-auth-url: "http://authelia.ingress-nginx.svc.cluster.local/api/verify"
             global-auth-signin: "https://login2.desertbluffs.com/?rd=https://$host$escaped_request_uri"
+            global-auth-method: GET
+            global-auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
+            global-auth-snippet: |
+              proxy_set_header X-Forwarded-Method $request_method;
             ssl-protocols: "TLSv1.3"
             ssl-session-cache: "false" # set via server-snippet
             ssl-session-tickets: "false"
