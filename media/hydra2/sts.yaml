@@ -19,8 +19,7 @@ spec:
         options:
           - name: ndots
             value: "1"
-      nodeSelector:
-        workload: download
+
       volumes:
         - name: hydra2-config
           persistentVolumeClaim:

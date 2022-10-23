@@ -20,8 +20,7 @@ spec:
         options:
           - name: ndots
             value: "1"
-      nodeSelector:
-        workload: download
+
       containers:
         - name: radarr4k
           image: lscr.io/linuxserver/radarr:version-4.2.4.6635

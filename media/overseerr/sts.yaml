@@ -18,8 +18,7 @@ spec:
         version: v1
     spec:
       serviceAccountName: overseerr
-      nodeSelector:
-        workload: download
+
       volumes:
         - name: overseerr
           persistentVolumeClaim:

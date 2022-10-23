@@ -26,8 +26,7 @@ spec:
         options:
           - name: ndots
             value: "1"
-      nodeSelector:
-        workload: download
+
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:version-3.0.9.1549

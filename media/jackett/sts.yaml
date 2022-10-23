@@ -18,8 +18,7 @@ spec:
         options:
           - name: ndots
             value: "1"
-      nodeSelector:
-        workload: download
+
       containers:
         - name: jackett
           image: lscr.io/linuxserver/jackett:version-v0.20.1821
