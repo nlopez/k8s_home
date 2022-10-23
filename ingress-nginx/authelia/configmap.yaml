@@ -17,7 +17,8 @@ data:
             - "*.desertbluffs.com"
           policy: one_factor
     authentication_backend:
-      disable_reset_password: true
+      password_reset:
+        disable: true
       file:
         path: /config/users.yaml
         password:
