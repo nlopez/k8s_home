@@ -59,8 +59,10 @@ spec:
               mountPath: /data
             - name: media-rclone
               mountPath: /srv/media
+              readOnly: true
             - name: scratch
               mountPath: /srv/scratch
+              readOnly: true
           ports:
             - containerPort: 8080
-              name: filebrowser
+              name: http-filebrowser

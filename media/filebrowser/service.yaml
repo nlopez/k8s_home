@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,5 +9,6 @@ spec:
     app: filebrowser
     version: v1
   ports:
-  - name: http-filebrowser
-    port: 8080
+    - name: http
+      port: 80
+      targetPort: http-filebrowser
