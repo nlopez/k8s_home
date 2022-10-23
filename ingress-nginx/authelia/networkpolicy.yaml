@@ -10,7 +10,7 @@ spec:
       app: authelia
   ingress:
     - ports:
-        - port: 9091
+        - port: http-authelia
       from:
         - namespaceSelector:
             matchLabels:
