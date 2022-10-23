@@ -22,4 +22,4 @@ spec:
               service:
                 name: authelia
                 port:
-                  number: 9091
+                  name: http
