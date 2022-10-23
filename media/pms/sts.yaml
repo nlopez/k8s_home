@@ -81,14 +81,6 @@ spec:
             - name: logs
               mountPath: /logs-pms
               subPath: pms
-          startupProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - test -f /media/.anchors/dropbox
-            periodSeconds: 10
-            failureThreshold: 1
           livenessProbe:
             exec:
               command:
@@ -96,7 +88,7 @@ spec:
                 - -c
                 - test -f /media/.anchors/dropbox
             periodSeconds: 10
-            failureThreshold: 1
+            failureThreshold: 3
       volumes:
         - name: pms-iscsi
           persistentVolumeClaim:
