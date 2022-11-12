@@ -15,9 +15,14 @@ spec:
   source:
     repoURL: https://nlopez.github.io/helm-charts
     chart: nitter
-    targetRevision: 0.1.0
+    targetRevision: 0.1.1
     helm:
       values: |
+        nitter:
+          Server:
+            hostname: nitter.desertbluffs.com
+          Preferences:
+            replaceTwitter: nitter.desertbluffs.com
         ingress:
           enabled: true
           className: nginx
