@@ -1,0 +1,35 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nitter
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: false
+  destination:
+    namespace: default
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    repoURL: https://nlopez.github.io/helm-charts
+    chart: nitter
+    targetRevision: 0.1.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          className: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/enable-global-auth: "true"
+            nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
+            nginx.ingress.kubernetes.io/auth-tls-verify-client: "yes"
+          tls:
+            - hosts:
+                - nitter.desertbluffs.com
+          hosts:
+            - host: nitter.desertbluffs.com
+              paths:
+                - path: /
+                  pathType: Prefix
