@@ -34,6 +34,8 @@ spec:
             ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
           config:
             proxy-buffering: "on"
+            proxy-buffers-number: 4
+            proxy-buffers-size: "64k"
             proxy-body-size: "0"
             hsts: "true"
             hsts-include-subdomains: "true"
