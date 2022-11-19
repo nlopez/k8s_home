@@ -33,10 +33,6 @@ spec:
             ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'
             ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
           config:
-            proxy-buffering: "on"
-            proxy-buffers-number: 4
-            proxy-buffers-size: "64k"
-            proxy-body-size: "0"
             hsts: "true"
             hsts-include-subdomains: "true"
             hsts-max-age: "63072000"
