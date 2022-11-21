@@ -29,11 +29,11 @@ spec:
 
         csiDriver:
           # should be globally unique for a given cluster
-          name: "org.democratic-csi.iscsi"
+          name: "org.democratic-csi.iscsi-mtank"
 
         # add note here about volume expansion requirements
         storageClasses:
-        - name: freenas-iscsi-csi
+        - name: freenas-iscsi-csi-mtank
           defaultClass: false
           reclaimPolicy: Delete
           volumeBindingMode: Immediate
