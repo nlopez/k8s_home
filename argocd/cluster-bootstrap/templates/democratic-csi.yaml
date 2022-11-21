@@ -18,6 +18,15 @@ spec:
     targetRevision: 0.13.5
     helm:
       values: |
+        driver:
+          # see the driver-config-secret.yaml for syntax
+          # NOTE: if setting an existing secret you must still set `driver.config.driver`
+          # to the corresponding value that you place in the secret as the value is used
+          # by the chart for other purposes beyond secret creation
+          existingConfigSecret: democratic-csi-mtank-driver-config
+          config:
+            driver: freenas-iscsi
+
         csiDriver:
           # should be globally unique for a given cluster
           name: "org.democratic-csi.iscsi"
@@ -43,30 +52,3 @@ spec:
             # detachedVolumesFromVolumes: "false"
 
           mountOptions: []
-          secrets:
-            provisioner-secret:
-            controller-publish-secret:
-            node-stage-secret:
-        #      # any arbitrary iscsiadm entries can be add by creating keys starting with node-db.<entry.name>
-        #      # if doing CHAP
-        #      node-db.node.session.auth.authmethod: CHAP
-        #      node-db.node.session.auth.username: foo
-        #      node-db.node.session.auth.password: bar
-        #
-        #      # if doing mutual CHAP
-        #      node-db.node.session.auth.username_in: baz
-        #      node-db.node.session.auth.password_in: bar
-            node-publish-secret:
-            controller-expand-secret:
-
-        # if your cluster supports snapshots you may enable below
-        volumeSnapshotClasses: []
-        #- name: freenas-iscsi-csi
-        #  parameters:
-        #  # if true, snapshots will be created with zfs send/receive
-        #  # detachedSnapshots: "false"
-        #  secrets:
-        #    snapshotter-secret:
-
-        driver:
-          existingConfigSecret: democratic-csi-config-mtank
