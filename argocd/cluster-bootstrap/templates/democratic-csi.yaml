@@ -70,3 +70,4 @@ spec:
 
         driver:
           existing-config-secret: democratic-csi-config-mtank
+          config: {}
