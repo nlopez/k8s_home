@@ -69,5 +69,4 @@ spec:
         #    snapshotter-secret:
 
         driver:
-          existing-config-secret: democratic-csi-config-mtank
-          config: {}
+          existingConfigSecret: democratic-csi-config-mtank
