@@ -1,0 +1,72 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: democratic-csi-mtank
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: false
+  destination:
+    namespace: democratic-csi
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    repoURL: https://democratic-csi.github.io/charts/
+    chart: democratic-csi
+    targetRevision: 0.13.5
+    helm:
+      values: |
+        csiDriver:
+          # should be globally unique for a given cluster
+          name: "org.democratic-csi.iscsi"
+
+        # add note here about volume expansion requirements
+        storageClasses:
+        - name: freenas-iscsi-csi
+          defaultClass: false
+          reclaimPolicy: Delete
+          volumeBindingMode: Immediate
+          allowVolumeExpansion: true
+          parameters:
+            # for block-based storage can be ext3, ext4, xfs
+            # for nfs should be nfs
+            fsType: ext4
+
+            # if true, volumes created from other snapshots will be
+            # zfs send/received instead of zfs cloned
+            # detachedVolumesFromSnapshots: "false"
+
+            # if true, volumes created from other volumes will be
+            # zfs send/received instead of zfs cloned
+            # detachedVolumesFromVolumes: "false"
+
+          mountOptions: []
+          secrets:
+            provisioner-secret:
+            controller-publish-secret:
+            node-stage-secret:
+        #      # any arbitrary iscsiadm entries can be add by creating keys starting with node-db.<entry.name>
+        #      # if doing CHAP
+        #      node-db.node.session.auth.authmethod: CHAP
+        #      node-db.node.session.auth.username: foo
+        #      node-db.node.session.auth.password: bar
+        #
+        #      # if doing mutual CHAP
+        #      node-db.node.session.auth.username_in: baz
+        #      node-db.node.session.auth.password_in: bar
+            node-publish-secret:
+            controller-expand-secret:
+
+        # if your cluster supports snapshots you may enable below
+        volumeSnapshotClasses: []
+        #- name: freenas-iscsi-csi
+        #  parameters:
+        #  # if true, snapshots will be created with zfs send/receive
+        #  # detachedSnapshots: "false"
+        #  secrets:
+        #    snapshotter-secret:
+
+        driver:
+          existing-config-secret: democratic-csi-config-mtank
