@@ -46,7 +46,7 @@ spec:
             value: "1"
       containers:
         - name: tautulli
-          image: lscr.io/linuxserver/tautulli:version-v2.10.5
+          image: lscr.io/linuxserver/tautulli:version-v2.11.1
 
           resources:
             requests:
