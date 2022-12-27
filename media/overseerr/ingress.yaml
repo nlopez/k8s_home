@@ -5,12 +5,12 @@ metadata:
   name: overseerr
   namespace: media
   annotations:
-    kubernetes.io/ingress.class: "nginx"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
     nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "yes"
 spec:
+  ingressClassName: external-nginx
   tls:
     - hosts:
         - b.desertbluffs.com

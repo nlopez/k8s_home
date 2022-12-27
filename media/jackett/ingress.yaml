@@ -9,6 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "yes"
 spec:
+  ingressClassName: external-nginx
   tls:
     - hosts:
         - g.desertbluffs.com
