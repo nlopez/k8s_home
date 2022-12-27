@@ -35,7 +35,7 @@ spec:
           ingressClassResource:
             name: external-nginx
             enabled: true
-            default: true
+            default: false
             controllerValue: "k8s.io/external-ingress-nginx"
           config:
             hsts: "true"
