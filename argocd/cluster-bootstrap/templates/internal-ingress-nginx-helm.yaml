@@ -27,12 +27,10 @@ spec:
             externalTrafficPolicy: "Local"
             loadBalancerIP: "192.168.222.232"
           kind: DaemonSet
-          podAnnotations:
-            ad.datadoghq.com/controller.check_names: '["nginx_ingress_controller"]'
-            ad.datadoghq.com/controller.init_configs: '[{}]'
-            ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'
-            ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
+          podAnnotations: {}
           electionID: "internal-nginx-controller-leader"
+          ingressClass: internal-nginx
+          ingressClassByName: true
           ingressClassResource:
             name: internal-nginx
             enabled: true
