@@ -33,6 +33,9 @@ metadata:
   annotations: {}
 spec:
   ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - d.radoncanyon.com
   rules:
     - host: d.radoncanyon.com
       http:
