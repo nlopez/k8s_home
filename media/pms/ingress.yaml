@@ -26,3 +26,27 @@ spec:
                 name: pms
                 port:
                   name: http-pms
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: internal-pms
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: internal-nginx
+  tls:
+    - hosts:
+        - e.radoncanyon.com
+  rules:
+    - host: e.radoncanyon.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pms
+                port:
+                  name: http-pms
