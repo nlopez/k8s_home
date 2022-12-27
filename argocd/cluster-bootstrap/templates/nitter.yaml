@@ -25,7 +25,7 @@ spec:
             replaceTwitter: nitter.desertbluffs.com
         ingress:
           enabled: true
-          className: nginx
+          className: external-nginx
           annotations:
             nginx.ingress.kubernetes.io/enable-global-auth: "true"
             nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
