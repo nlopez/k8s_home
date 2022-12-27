@@ -11,3 +11,17 @@ spec:
   dnsNames:
     - '*.desertbluffs.com'
     - desertbluffs.com
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: radoncanyon-com
+  namespace: ingress-nginx
+spec:
+  secretName: radoncanyon-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - '*.radoncanyon.com'
+    - radoncanyon.com
