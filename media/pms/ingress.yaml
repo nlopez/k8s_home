@@ -8,8 +8,9 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/enable-global-auth: "false"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
-    nginx.ingress.kubernetes.io/auth-tls-verify-client: "yes"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
 spec:
   ingressClassName: external-nginx
   tls:
@@ -34,6 +35,8 @@ metadata:
   namespace: media
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    external-dns.alpha.kubernetes.io/target: "internal-nginx.radoncanyon.com"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   ingressClassName: internal-nginx
   tls:
