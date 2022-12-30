@@ -35,7 +35,7 @@ metadata:
   namespace: media
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    external-dns.alpha.kubernetes.io/target: "internal-nginx.radoncanyon.com"
+    external-dns.alpha.kubernetes.io/target: "internal-nginx.radoncanyon.com."
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   ingressClassName: internal-nginx

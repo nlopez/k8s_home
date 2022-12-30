@@ -32,6 +32,7 @@ metadata:
   namespace: media
   annotations:
       external-dns.alpha.kubernetes.io/target: "internal-nginx.radoncanyon.com."
+      external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   ingressClassName: internal-nginx
   tls:
