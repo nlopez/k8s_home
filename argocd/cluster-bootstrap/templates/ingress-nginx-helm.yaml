@@ -44,6 +44,8 @@ spec:
           config:
             enable-modsecurity: "true"
             enable-owasp-modsecurity-crs: "true"
+            proxy-buffering: "off"
+            ssl-reject-handshake: "true"
             hsts: "true"
             hsts-include-subdomains: "true"
             hsts-max-age: "63072000"
