@@ -15,8 +15,8 @@ spec:
     targetRevision: 3.8.3
     helm:
       parameters:
-        - name: apiService.insecureSkipTLSVerify
-          value: "true"
+        - name: args
+          value: '{"--kubelet-insecure-tls"}'
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: kube-system
