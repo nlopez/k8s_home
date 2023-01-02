@@ -32,6 +32,9 @@ spec:
             ad.datadoghq.com/controller.init_configs: '[{}]'
             ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'
             ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
+          electionID: "external-nginx-controller-leader"
+          ingressClass: external-nginx
+          ingressClassByName: true
           ingressClassResource:
             name: external-nginx
             enabled: true
