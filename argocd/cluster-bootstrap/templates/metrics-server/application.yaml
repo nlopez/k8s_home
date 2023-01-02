@@ -14,8 +14,9 @@ spec:
     chart: metrics-server
     targetRevision: 3.8.3
     helm:
-      valueFiles:
-        - values.yaml
+      parameters:
+        - name: apiService.insecureSkipTLSVerify
+          value: true
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: kube-system
