@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://kubernetes-sigs.github.io/metrics-server/
     chart: metrics-server
-    targetRevision: 0.6.2
+    targetRevision: 3.8.3
     # https://artifacthub.io/packages/helm/metrics-server/metrics-server
     helm:
       values: |
