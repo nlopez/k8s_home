@@ -42,6 +42,8 @@ spec:
             default: false
             controllerValue: "k8s.io/external-ingress-nginx"
           config:
+            enable-modsecurity: "true"
+            enable-owasp-modsecurity-crs: "true"
             hsts: "true"
             hsts-include-subdomains: "true"
             hsts-max-age: "63072000"
