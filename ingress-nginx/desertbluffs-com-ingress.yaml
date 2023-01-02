@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: desertbluffs-com
+  namespace: ingress-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
+    nginx.ingress.kubernetes.io/temporal-redirect: "https://www.welcometonightvale.com/"
+spec:
+  ingressClassName: external-nginx
+  tls:
+    - hosts:
+        - desertbluffs.com
+  rules:
+  - host: desertbluffs.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: external-ingress-nginx-defaultbackend
+              port:
+                name: http
