@@ -16,7 +16,7 @@ spec:
     helm:
       parameters:
         - name: apiService.insecureSkipTLSVerify
-          value: true
+          value: "true"
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: kube-system
