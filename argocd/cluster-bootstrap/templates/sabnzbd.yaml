@@ -9,6 +9,7 @@ metadata:
 spec:
   syncPolicy:
     automated:
+      prune: true
       selfHeal: false
   destination:
     namespace: media
