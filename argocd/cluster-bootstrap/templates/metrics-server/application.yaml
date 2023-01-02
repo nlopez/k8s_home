@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: false
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/metrics-server/
+    chart: metrics-server
+    targetRevision: 3.8.3
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: kube-system
