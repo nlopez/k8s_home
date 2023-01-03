@@ -44,9 +44,7 @@ spec:
           config:
             enable-modsecurity: "false"
             enable-owasp-modsecurity-crs: "false"
-            proxy-buffering: "on"
-            proxy-buffers-number: 32
-            proxy-buffer-size: "4k"
+            proxy-buffering: "off"
             ssl-reject-handshake: "true"
             hsts: "true"
             hsts-include-subdomains: "true"
