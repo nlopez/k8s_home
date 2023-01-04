@@ -105,6 +105,8 @@ spec:
 
               proxy_hide_header "Server";
               proxy_hide_header "X-Powered-By";
+            location-snippet: |-
+              if ($http_early_data) { return 425; }
           extraArgs:
             default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
             enable-ssl-passthrough: "false"
