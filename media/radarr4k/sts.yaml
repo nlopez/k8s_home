@@ -23,7 +23,7 @@ spec:
 
       containers:
         - name: radarr4k
-          image: lscr.io/linuxserver/radarr:version-4.2.4.6635
+          image: lscr.io/linuxserver/radarr:version-4.3.2.6857
 
           resources:
             requests:
