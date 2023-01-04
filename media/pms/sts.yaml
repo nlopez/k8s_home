@@ -37,6 +37,7 @@ spec:
             }
           ]
     spec:
+      nodeName: knode1
       serviceAccountName: pms
 
       # https://forums.plex.tv/t/request-for-participants-pms-1-23-x-dns-investigation/717155/57
