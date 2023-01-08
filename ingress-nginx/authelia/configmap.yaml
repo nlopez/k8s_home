@@ -10,6 +10,9 @@ data:
     server:
       host: 0.0.0.0
       port: 9091
+      buffers:
+        read: 8192
+        write: 8192
     access_control:
       default_policy: deny
       rules:
