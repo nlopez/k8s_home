@@ -42,6 +42,7 @@ spec:
             default: false
             controllerValue: "k8s.io/external-ingress-nginx"
           config:
+            large-client-header-buffers: "4 16k"
             enable-modsecurity: "false"
             enable-owasp-modsecurity-crs: "false"
             proxy-buffering: "off"
