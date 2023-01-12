@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: breezewiki
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+  destination:
+    namespace: default
+    server: {{ .Values.spec.destination.server }}
+  project: default
+  source:
+    repoURL: https://nlopez.github.io/helm-charts
+    chart: breezewiki
+    targetRevision: 0.1.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          className: external-nginx
+          annotations:
+            nginx.ingress.kubernetes.io/enable-global-auth: "true"
+            nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
+            nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
+            external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+          tls:
+            - hosts:
+                - breezewiki.desertbluffs.com
+          hosts:
+            - host: breezewiki.desertbluffs.com
+              paths:
+                - path: /
+                  pathType: Prefix
