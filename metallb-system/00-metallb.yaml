@@ -1904,7 +1904,7 @@ spec:
         - /bin/sh
         - -c
         - cp -f /frr-reloader.sh /etc/frr_reloader/
-        image: quay.io/metallb/speaker:main
+        image: quay.io/metallb/speaker:v0.13.7
         name: cp-reloader
         volumeMounts:
         - mountPath: /etc/frr_reloader
@@ -1913,7 +1913,7 @@ spec:
         - /bin/sh
         - -c
         - cp -f /frr-metrics /etc/frr_metrics/
-        image: quay.io/metallb/speaker:main
+        image: quay.io/metallb/speaker:v0.13.7
         name: cp-metrics
         volumeMounts:
         - mountPath: /etc/frr_metrics
