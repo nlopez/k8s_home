@@ -21,7 +21,7 @@ spec:
       values: |
         replicaCount: 2
         breezewiki:
-          canonical_origin: "https://breezewiki.desertbluffs.com"
+          canonical_origin: https://breezewiki.desertbluffs.com
         ingress:
           enabled: true
           className: external-nginx
