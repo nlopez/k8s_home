@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://nlopez.github.io/helm-charts
     chart: breezewiki
-    targetRevision: 0.1.1
+    targetRevision: 0.1.2
     helm:
       values: |
         ingress:
