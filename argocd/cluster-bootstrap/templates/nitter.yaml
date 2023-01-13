@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://nlopez.github.io/helm-charts
     chart: nitter
-    targetRevision: 0.1.2
+    targetRevision: 0.1.*
     helm:
       values: |
         nitter:
