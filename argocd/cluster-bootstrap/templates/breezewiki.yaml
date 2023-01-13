@@ -19,6 +19,7 @@ spec:
     targetRevision: 0.1.*
     helm:
       values: |
+        replicaCount: 2
         ingress:
           enabled: true
           className: external-nginx
