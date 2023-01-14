@@ -58,6 +58,10 @@ spec:
           volumeMounts:
             - name: tautulli-iscsi
               mountPath: /config
+            - name: logs
+              mountPath: /logs-pms
+              subPath: pms
+              readOnly: true
 
           env:
             - name: PUID
@@ -138,3 +142,6 @@ spec:
         - name: tautulli-iscsi
           persistentVolumeClaim:
             claimName: tautulli-iscsi-pvc
+        - name: logs
+          persistentVolumeClaim:
+            claimName: logs
