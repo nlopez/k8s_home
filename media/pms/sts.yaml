@@ -68,6 +68,8 @@ spec:
               value: "1001"
             - name: TZ
               value: "America/New_York"
+            - name: VERSION
+              value: "docker" # don't auto update
           ports:
             - name: http-pms
               containerPort: 32400
