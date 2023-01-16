@@ -32,7 +32,7 @@ spec:
             thelounge
       containers:
       - name: thelounge
-        image: docker.io/thelounge/thelounge:4.3.1
+        image: docker.io/thelounge/thelounge:3.3.0
         volumeMounts:
         - name: thelounge
           subPath: data
