@@ -30,6 +30,9 @@ spec:
       containers:
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:version-3.0.9.1549
+          # image: alpine
+          # command: ["sleep"]
+          # args: ["infinity"]
 
           resources:
             requests:
@@ -86,7 +89,7 @@ spec:
       volumes:
         - name: sonarr
           persistentVolumeClaim:
-            claimName: sonarr-iscsi-pvc
+            claimName: sonarr-iscsi-pvc-ssd
         - name: scratch
           persistentVolumeClaim:
             claimName: scratch
