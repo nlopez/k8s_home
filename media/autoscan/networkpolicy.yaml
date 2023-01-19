@@ -1,0 +1,14 @@
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: autoscan
+  namespace: media
+spec:
+  podSelector:
+    matchLabels:
+      app: autoscan
+  ingress:
+  - ports:
+    - port: 3030
+    from: []

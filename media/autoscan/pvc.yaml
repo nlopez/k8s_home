@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: tautulli-iscsi-pvc-ssd
+  name: autoscan-iscsi-pvc
   namespace: media
 spec:
-  volumeName: tautulli-iscsi-pv-ssd
+  volumeName: autoscan-iscsi-pv
   resources:
     requests:
       storage: 10G

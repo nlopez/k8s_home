@@ -47,6 +47,9 @@ spec:
       containers:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:version-v2.11.1
+          # image: alpine
+          # command: ["sleep"]
+          # args: ["infinity"]
 
           resources:
             requests:
@@ -56,7 +59,7 @@ spec:
               memory: "512Mi"
 
           volumeMounts:
-            - name: tautulli-iscsi
+            - name: tautulli-iscsi-ssd
               mountPath: /config
             - name: logs
               mountPath: /logs-pms
@@ -139,9 +142,9 @@ spec:
             failureThreshold: 6
 
       volumes:
-        - name: tautulli-iscsi
+        - name: tautulli-iscsi-ssd
           persistentVolumeClaim:
-            claimName: tautulli-iscsi-pvc
+            claimName: tautulli-iscsi-pvc-ssd
         - name: logs
           persistentVolumeClaim:
             claimName: logs
