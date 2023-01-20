@@ -59,23 +59,8 @@ spec:
                 - sh
                 - -c
                 - test -f /media/.anchors/dropbox
-            periodSeconds: 15
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
-
-          readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - test -f /media/.anchors/dropbox
-            periodSeconds: 15
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
+            periodSeconds: 10
+            failureThreshold: 3
 
           volumeMounts:
             - name: sonarr

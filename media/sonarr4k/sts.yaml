@@ -61,7 +61,7 @@ spec:
                 - -c
                 - test -f /media/.anchors/dropbox
             periodSeconds: 10
-            failureThreshold: 1
+            failureThreshold: 3
 
           startupProbe:
             httpGet:
