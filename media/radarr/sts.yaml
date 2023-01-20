@@ -21,6 +21,17 @@ spec:
           - name: ndots
             value: "1"
 
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - pms
+              topologyKey: "kubernetes.io/hostname"
+
       containers:
         - name: radarr
           image: lscr.io/linuxserver/radarr:version-4.3.2.6857

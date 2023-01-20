@@ -44,6 +44,7 @@ spec:
         options:
           - name: ndots
             value: "1"
+
       containers:
         - name: tautulli
           image: lscr.io/linuxserver/tautulli:version-v2.11.1
