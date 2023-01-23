@@ -13,7 +13,7 @@ data:
     # <- processor ->
 
     # default: 10m
-    minimum-age: 2m
+    minimum-age: 0m
 
     # delay between processed scans
     # default: 5s

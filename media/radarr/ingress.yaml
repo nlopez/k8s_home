@@ -25,3 +25,30 @@ spec:
                 name: radarr
                 port:
                   number: 7878
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radarr-api
+  namespace: media
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
+spec:
+  ingressClassName: external-nginx
+  tls:
+    - hosts:
+        - f.desertbluffs.com
+  rules:
+    - host: f.desertbluffs.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr
+                port:
+                  number: 8989
