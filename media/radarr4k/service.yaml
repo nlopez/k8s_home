@@ -7,5 +7,6 @@ spec:
   selector:
     app: radarr4k
   ports:
-  - name: radarr4k
-    port: 7878
+  - name: http
+    port: 80
+    targetPort: http

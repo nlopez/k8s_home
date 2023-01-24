@@ -62,7 +62,7 @@ spec:
               value: "America/New_York"
 
           ports:
-            - name: radarr
+            - name: http
               containerPort: 7878
 
           livenessProbe:
@@ -76,7 +76,7 @@ spec:
 
           startupProbe:
             httpGet:
-              port: radarr
+              port: http
               path: /
             periodSeconds: 10
             failureThreshold: 30
