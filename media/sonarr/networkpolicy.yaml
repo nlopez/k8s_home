@@ -9,5 +9,5 @@ spec:
       app: sonarr
   ingress:
   - ports:
-    - port: 8989
+    - port: http
     from: []
