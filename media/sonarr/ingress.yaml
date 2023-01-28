@@ -23,7 +23,7 @@ spec:
               service:
                 name: sonarr
                 port:
-                  number: 8989
+                  name: http
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -50,4 +50,4 @@ spec:
               service:
                 name: sonarr
                 port:
-                  number: 8989
+                  name: http
