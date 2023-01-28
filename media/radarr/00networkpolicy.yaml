@@ -9,5 +9,5 @@ spec:
       app: radarr
   ingress:
   - ports:
-    - port: 7878
+    - port: http
     from: []

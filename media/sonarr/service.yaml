@@ -8,5 +8,6 @@ spec:
   selector:
     app: sonarr
   ports:
-    - name: http-sonarr
-      port: 8989
+    - name: http
+      port: 80
+      targetPort: http
