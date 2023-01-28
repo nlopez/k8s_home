@@ -7,5 +7,6 @@ spec:
   selector:
     app: sonarr4k
   ports:
-  - name: sonarr4k
-    port: 8989
+  - name: http
+    port: 80
+    targetPort: http

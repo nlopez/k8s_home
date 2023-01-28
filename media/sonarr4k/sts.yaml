@@ -52,7 +52,7 @@ spec:
               value: "America/New_York"
 
           ports:
-            - name: sonarr
+            - name: http
               containerPort: 8989
 
           volumeMounts:
