@@ -76,7 +76,7 @@ spec:
 
           startupProbe:
             httpGet:
-              port: sonarr
+              port: http
               path: /
             periodSeconds: 10
             failureThreshold: 30
