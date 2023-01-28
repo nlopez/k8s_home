@@ -22,4 +22,4 @@ spec:
               service:
                 name: hydra2
                 port:
-                  number: 5076
+                  name: http

@@ -26,7 +26,7 @@ spec:
             claimName: hydra2-iscsi-pvc
       containers:
         - name: hydra2
-          image: lscr.io/linuxserver/nzbhydra2:version-v4.7.6
+          image: lscr.io/linuxserver/nzbhydra2:version-v5.1.1
 
           resources:
             requests:
@@ -50,18 +50,18 @@ spec:
 
           ports:
             - containerPort: 5076
-              name: hydra2
+              name: http
 
           livenessProbe:
             httpGet:
-              port: hydra2
+              port: http
               path: /internalapi/control/ping
             periodSeconds: 10
             failureThreshold: 3
 
           startupProbe:
             httpGet:
-              port: hydra2
+              port: http
               path: /internalapi/control/ping
             periodSeconds: 10
             failureThreshold: 30

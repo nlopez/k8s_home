@@ -9,5 +9,5 @@ spec:
       app: hydra2
   ingress:
   - ports:
-    - port: 5076
+    - port: http
     from: []
