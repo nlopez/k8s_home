@@ -10,5 +10,5 @@ spec:
       app: overseerr
   ingress:
   - ports:
-    - port: 5055
+    - port: http
     from: []

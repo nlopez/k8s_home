@@ -24,4 +24,4 @@ spec:
               service:
                 name: overseerr
                 port:
-                  number: 5055
+                  name: http

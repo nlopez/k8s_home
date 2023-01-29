@@ -11,6 +11,6 @@ spec:
     app: overseerr
     version: v1
   ports:
-  - name: http-overseerr
-    port: 5055
-    protocol: TCP
+  - name: http
+    port: 80
+    targetPort: http

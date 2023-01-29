@@ -29,7 +29,7 @@ spec:
             value: "1"
       containers:
         - name: overseerr
-          image: lscr.io/linuxserver/overseerr:version-v1.32.2
+          image: lscr.io/linuxserver/overseerr:version-v1.32.4
           resources:
             requests:
               cpu: "500m"
@@ -55,15 +55,15 @@ spec:
             - name: TAUTULLI_URI
               value: "http://127.0.0.1:8181"
           ports:
-            - name: http-overseerr
+            - name: http
               containerPort: 5055
           readinessProbe:
             tcpSocket:
-              port: http-overseerr
+              port: http
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
-              port: http-overseerr
+              port: http
             initialDelaySeconds: 15
             periodSeconds: 20
