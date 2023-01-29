@@ -41,10 +41,10 @@ spec:
           image: docker.io/filebrowser/filebrowser:v2.23.0-s6
           resources:
             requests:
-              cpu: "500m"
-              memory: "32Mi"
+              cpu: "2"
+              memory: "2Gi"
             limits:
-              memory: "32Mi"
+              memory: "2Gi"
           command: ["filebrowser"]
           args:
             - --config
