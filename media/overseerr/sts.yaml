@@ -29,7 +29,7 @@ spec:
             value: "1"
       containers:
         - name: overseerr
-          image: lscr.io/linuxserver/overseerr:version-v1.32.4
+          image: lscr.io/linuxserver/overseerr:version-v1.32.5
           resources:
             requests:
               cpu: "500m"
