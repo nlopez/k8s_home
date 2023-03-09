@@ -10,7 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "0"
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
     nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
-    nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "required"
 spec:
   ingressClassName: external-nginx
   tls:
