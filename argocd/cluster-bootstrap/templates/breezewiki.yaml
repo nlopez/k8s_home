@@ -21,7 +21,7 @@ spec:
       values: |
         replicaCount: 2
         breezewiki:
-          canonical_origin: https://breezewiki.desertbluffs.com
+          canonical_origin: https://fandom.desertbluffs.com
         ingress:
           enabled: true
           className: external-nginx
@@ -32,9 +32,9 @@ spec:
             external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
           tls:
             - hosts:
-                - breezewiki.desertbluffs.com
+                - fandom.desertbluffs.com
           hosts:
-            - host: breezewiki.desertbluffs.com
+            - host: fandom.desertbluffs.com
               paths:
                 - path: /
                   pathType: Prefix
