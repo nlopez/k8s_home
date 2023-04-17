@@ -105,8 +105,8 @@ spec:
 
               proxy_hide_header "Server";
               proxy_hide_header "X-Powered-By";
-            location-snippet: |-
-              if ($http_early_data) { return 425; }
+            http-snippet: |-
+              proxy_cache_path /var/cache/nginx/jellyfin levels=1:2 keys_zone=jellyfin:100m max_size=15g inactive=30d use_temp_path=off;
           extraArgs:
             default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
             enable-ssl-passthrough: "false"
@@ -114,7 +114,12 @@ spec:
             - name: nonsecrets
               configMap:
                 name: nonsecrets
+            - name: cache-nginx-jellyfin
+              emptyDir:
+                sizeLimit: 15G
           extraVolumeMounts:
             - name: nonsecrets
               mountPath: /nonsecrets
               readOnly: true
+            - name: cache-nginx-jellyfin
+              mountPath: /var/cache/nginx/jellyfin
