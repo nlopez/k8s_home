@@ -17,7 +17,7 @@ spec:
     repoURL: https://kubernetes.github.io/ingress-nginx/
     chart: ingress-nginx
     # https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/CHANGELOG.md
-    targetRevision: 4.4.0
+    targetRevision: 4.6.1
     # https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/charts/ingress-nginx/values.yaml
     helm:
       values: |
