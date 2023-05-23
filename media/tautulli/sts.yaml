@@ -47,7 +47,7 @@ spec:
 
       containers:
         - name: tautulli
-          image: lscr.io/linuxserver/tautulli:version-v2.12.3
+          image: lscr.io/linuxserver/tautulli:version-v2.12.4
           # image: alpine
           # command: ["sleep"]
           # args: ["infinity"]
