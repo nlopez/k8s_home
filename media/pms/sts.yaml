@@ -49,7 +49,7 @@ spec:
       containers:
         - &pms
           name: pms
-          image: lscr.io/linuxserver/plex:version-1.32.3.7162-b0a36929b
+          image: lscr.io/linuxserver/plex:version-1.32.3.7192-7aa441827
 
           # image: alpine
           # command: ["sleep"]
