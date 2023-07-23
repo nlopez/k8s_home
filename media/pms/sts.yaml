@@ -108,11 +108,11 @@ spec:
         - name: tmp
           emptyDir:
             medium: Memory
-      initContainers:
-        - <<: *pms
-          name: plex-db-repair
-          livenessProbe: null
-          command:
-            - sh
-            - -c
-            - curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/a38da9e44eba13c5a8646d39050fb26ef1c94bca/DBRepair.sh | bash -x -s - 1 4 3 9
+      # initContainers:
+      #   - <<: *pms
+      #     name: plex-db-repair
+      #     livenessProbe: null
+      #     command:
+      #       - sh
+      #       - -c
+      #       - curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/a38da9e44eba13c5a8646d39050fb26ef1c94bca/DBRepair.sh | bash -x -s - 1 4 3 9
