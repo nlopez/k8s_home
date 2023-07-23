@@ -41,7 +41,7 @@ spec:
 
       containers:
         - name: bazarr
-          image: lscr.io/linuxserver/bazarr:develop-4.0.0.560-ls517
+          image: lscr.io/linuxserver/bazarr:1.2.4
           # image: alpine
           # command: ["sleep"]
           # args: ["infinity"]
@@ -63,7 +63,7 @@ spec:
 
           ports:
             - name: http
-              containerPort: 8989
+              containerPort: 6767
 
           livenessProbe:
             exec:
@@ -87,16 +87,10 @@ spec:
               mountPath: /config
             - name: media-rclone
               mountPath: /media
-            - name: scratch
-              mountPath: /downloads
-              subPath: downloads
       volumes:
         - name: bazarr
           persistentVolumeClaim:
             claimName: bazarr-iscsi-pvc-ssd
-        - name: scratch
-          persistentVolumeClaim:
-            claimName: scratch
         - name: media-rclone
           hostPath:
             path: /mnt/media-rclone
