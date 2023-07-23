@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bazarr-iscsi-pvc-ssd
+  namespace: media
+spec:
+  volumeName: bazarr-iscsi-pv-ssd
+  resources:
+    requests:
+      storage: 10G
+  accessModes:
+    - ReadWriteOnce

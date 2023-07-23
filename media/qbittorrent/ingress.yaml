@@ -6,7 +6,7 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
     nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
-    nginx.ingress.kubernetes.io/auth-tls-verify-client: "required"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
     nginx.ingress.kubernetes.io/proxy-body-size: "2m"
 spec:
   ingressClassName: external-nginx

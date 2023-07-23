@@ -1,26 +1,26 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: autoscan
+  name: bazarr
   namespace: media
   annotations:
     external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
     nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
-    nginx.ingress.kubernetes.io/enable-global-auth: "false"
 spec:
   ingressClassName: external-nginx
   tls:
     - hosts:
-        - l.desertbluffs.com
+        - s.desertbluffs.com
   rules:
-    - host: l.desertbluffs.com
+    - host: s.desertbluffs.com
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: autoscan
+                name: bazarr
                 port:
                   name: http
