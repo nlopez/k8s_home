@@ -43,3 +43,18 @@ spec:
   resources:
     requests:
       storage: 10G
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      name: media
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi

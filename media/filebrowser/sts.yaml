@@ -27,6 +27,9 @@ spec:
           hostPath:
             path: /mnt/media-rclone
             type: Directory
+        - name: media-nfs
+          persistentVolumeClaim:
+            claimName: media
         - name: scratch
           persistentVolumeClaim:
             claimName: scratch
@@ -59,6 +62,8 @@ spec:
               mountPath: /data
             - name: media-rclone
               mountPath: /srv/media
+            - name: media-nfs
+              mountPath: /srv/media-nfs
             - name: scratch
               subPath: downloads
               mountPath: /srv/scratch
