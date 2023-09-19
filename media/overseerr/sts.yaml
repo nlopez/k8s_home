@@ -29,7 +29,7 @@ spec:
             value: "1"
       containers:
         - name: overseerr
-          image: lscr.io/linuxserver/overseerr:version-v1.31.0
+          image: lscr.io/linuxserver/overseerr:version-v1.33.2
           resources:
             requests:
               cpu: "500m"
@@ -60,10 +60,10 @@ spec:
           readinessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 5
+            initialDelaySeconds: 20
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 20
