@@ -57,13 +57,13 @@ spec:
           ports:
             - name: http
               containerPort: 5055
-          readinessProbe:
-            tcpSocket:
-              port: http
-            initialDelaySeconds: 20
-            periodSeconds: 10
-          livenessProbe:
-            tcpSocket:
-              port: http
-            initialDelaySeconds: 60
-            periodSeconds: 20
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: http
+          #   initialDelaySeconds: 20
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: http
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 20
