@@ -82,7 +82,7 @@ spec:
               mountPath: /tmp
             - name: media-rclone
               mountPath: /media
-              readOnly: true
+              readOnly: false
             - name: logs
               mountPath: /logs-pms
               subPath: pms
