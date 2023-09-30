@@ -49,7 +49,7 @@ spec:
       containers:
         - &pms
           name: pms
-          image: lscr.io/linuxserver/plex:version-1.32.6.7468-07e0d4a7e
+          image: lscr.io/linuxserver/plex:version-1.32.6.7557-1cf77d501
 
           # image: alpine
           # command: ["sleep"]
@@ -108,11 +108,11 @@ spec:
         - name: tmp
           emptyDir:
             medium: Memory
-      # initContainers:
-      #   - <<: *pms
-      #     name: plex-db-repair
-      #     livenessProbe: null
-      #     command:
-      #       - sh
-      #       - -c
-      #       - curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/a38da9e44eba13c5a8646d39050fb26ef1c94bca/DBRepair.sh | bash -x -s - 1 4 3 9
+      initContainers:
+        - <<: *pms
+          name: plex-db-repair
+          livenessProbe: null
+          command:
+            - sh
+            - -c
+            - curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/4d8fa8058c0978e3f1f51aa5f801d03019348f41/DBRepair.sh | bash -x -s - check auto exit
