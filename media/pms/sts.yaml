@@ -82,20 +82,20 @@ spec:
               mountPath: /config
             - name: tmp
               mountPath: /tmp
-            - name: media-rclone
+            - name: media-nfs
               mountPath: /media
               readOnly: false
             - name: logs
               mountPath: /logs-pms
               subPath: pms
-          livenessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - test -f /media/.anchors/dropbox
-            periodSeconds: 10
-            failureThreshold: 3
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - sh
+          #       - -c
+          #       - test -f /media/.anchors/dropbox
+          #   periodSeconds: 10
+          #   failureThreshold: 3
       volumes:
         - name: pms-iscsi
           persistentVolumeClaim:
@@ -107,6 +107,9 @@ spec:
           hostPath:
             path: /mnt/media-rclone
             type: Directory
+        - name: media-nfs
+          persistentVolumeClaim:
+            claimName: media
         - name: tmp
           emptyDir:
             medium: Memory
