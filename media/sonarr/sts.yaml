@@ -65,14 +65,14 @@ spec:
             - name: http
               containerPort: 8989
 
-          livenessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - test -f /media/.anchors/dropbox
-            periodSeconds: 10
-            failureThreshold: 3
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - sh
+          #       - -c
+          #       - test -f /media/.anchors/dropbox
+          #   periodSeconds: 10
+          #   failureThreshold: 3
 
           startupProbe:
             httpGet:
@@ -85,7 +85,7 @@ spec:
             - name: sonarr
               subPath: config
               mountPath: /config
-            - name: media-rclone
+            - name: media-nfs
               mountPath: /media
             - name: scratch
               mountPath: /downloads
@@ -101,3 +101,6 @@ spec:
           hostPath:
             path: /mnt/media-rclone
             type: Directory
+        - name: media-nfs
+          persistentVolumeClaim:
+            claimName: media
