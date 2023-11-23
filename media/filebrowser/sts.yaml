@@ -23,7 +23,7 @@ spec:
           - name: ndots
             value: "1"
       volumes:
-        - name: media-nfs
+        - name: media
           persistentVolumeClaim:
             claimName: media
         - name: scratch
