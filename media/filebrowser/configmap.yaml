@@ -14,5 +14,5 @@ data:
       "noauth": true,
       "baseURL": "",
       "address": "",
-      "commands": []
+      "commands": ["ls", "rsync", "cp", "mv", "rclone", "stat", "find", "cat", "less", "screen", "pwd"]
     }

@@ -23,10 +23,6 @@ spec:
           - name: ndots
             value: "1"
       volumes:
-        - name: media-rclone
-          hostPath:
-            path: /mnt/media-rclone
-            type: Directory
         - name: media-nfs
           persistentVolumeClaim:
             claimName: media
@@ -60,10 +56,8 @@ spec:
             - name: filebrowser
               subPath: data
               mountPath: /data
-            - name: media-rclone
+            - name: media
               mountPath: /srv/media
-            - name: media-nfs
-              mountPath: /srv/media-nfs
             - name: scratch
               subPath: downloads
               mountPath: /srv/scratch
