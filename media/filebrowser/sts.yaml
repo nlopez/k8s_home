@@ -70,11 +70,11 @@ spec:
           ports:
             - containerPort: 8080
               name: http
-          livenessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - test -f /srv/media/.anchors/dropbox
-            periodSeconds: 10
-            failureThreshold: 3
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - sh
+          #       - -c
+          #       - test -f /srv/media/.anchors/dropbox
+            # periodSeconds: 10
+            # failureThreshold: 3
