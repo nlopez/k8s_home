@@ -41,7 +41,7 @@ spec:
             name: filebrowser
       containers:
         - name: filebrowser
-          image: docker.io/filebrowser/filebrowser:v2.23.0-s6
+          image: docker.io/filebrowser/filebrowser:v2.26.0-s6
           resources:
             requests:
               cpu: "2"
