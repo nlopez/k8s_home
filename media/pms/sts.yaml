@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -43,51 +42,51 @@ spec:
       # https://forums.plex.tv/t/request-for-participants-pms-1-23-x-dns-investigation/717155/57
       dnsConfig:
         options:
-          - name: ndots
-            value: "1"
+        - name: ndots
+          value: "1"
 
       containers:
-        - &pms
-          name: pms
-          image: lscr.io/linuxserver/plex:version-1.32.7.7621-871adbd44
+      - &pms
+        name: pms
+        image: lscr.io/linuxserver/plex:version-1.32.8.7639-fb6452ebf
 
-          # image: alpine
-          # command: ["sleep"]
-          # args: ["infinity"]
-          resources:
-            limits:
-              gpu.intel.com/i915: "1"
-          env:
-            - name: DO_DB_REPAIR
-              value: "false"
-            - name: CHANGE_CONFIG_DIR_OWNERSHIP
-              value: "false"
-            - name: PLEX_UID
-              value: "1001"
-            - name: PLEX_GID
-              value: "1001"
-            - name: PUID
-              value: "1001"
-            - name: PGID
-              value: "1001"
-            - name: TZ
-              value: "America/New_York"
-            - name: VERSION
-              value: "docker" # don't auto update
-          ports:
-            - name: http-pms
-              containerPort: 32400
-          volumeMounts:
-            - name: pms-iscsi
-              mountPath: /config
-            - name: tmp
-              mountPath: /tmp
-            - name: media-nfs
-              mountPath: /media
-              readOnly: false
-            - name: logs
-              mountPath: /logs-pms
-              subPath: pms
+        # image: alpine
+        # command: ["sleep"]
+        # args: ["infinity"]
+        resources:
+          limits:
+            gpu.intel.com/i915: "1"
+        env:
+        - name: DO_DB_REPAIR
+          value: "false"
+        - name: CHANGE_CONFIG_DIR_OWNERSHIP
+          value: "false"
+        - name: PLEX_UID
+          value: "1001"
+        - name: PLEX_GID
+          value: "1001"
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        - name: TZ
+          value: "America/New_York"
+        - name: VERSION
+          value: "docker" # don't auto update
+        ports:
+        - name: http-pms
+          containerPort: 32400
+        volumeMounts:
+        - name: pms-iscsi
+          mountPath: /config
+        - name: tmp
+          mountPath: /tmp
+        - name: media-nfs
+          mountPath: /media
+          readOnly: false
+        - name: logs
+          mountPath: /logs-pms
+          subPath: pms
           # livenessProbe:
           #   exec:
           #     command:
@@ -97,27 +96,27 @@ spec:
           #   periodSeconds: 10
           #   failureThreshold: 3
       volumes:
-        - name: pms-iscsi
-          persistentVolumeClaim:
-            claimName: pms-iscsi-pvc
-        - name: logs
-          persistentVolumeClaim:
-            claimName: logs
-        - name: media-rclone
-          hostPath:
-            path: /mnt/media-rclone
-            type: Directory
-        - name: media-nfs
-          persistentVolumeClaim:
-            claimName: media
-        - name: tmp
-          emptyDir:
-            medium: Memory
+      - name: pms-iscsi
+        persistentVolumeClaim:
+          claimName: pms-iscsi-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: logs
+      - name: media-rclone
+        hostPath:
+          path: /mnt/media-rclone
+          type: Directory
+      - name: media-nfs
+        persistentVolumeClaim:
+          claimName: media
+      - name: tmp
+        emptyDir:
+          medium: Memory
       initContainers:
-        - <<: *pms
-          name: plex-db-repair
-          livenessProbe: null
-          command:
-            - sh
-            - -c
-            - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/4f21080862c847797402a8560afe4172eb2c1927/DBRepair.sh | bash -x -s - auto exit)'
+      - <<: *pms
+        name: plex-db-repair
+        livenessProbe: null
+        command:
+        - sh
+        - -c
+        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/4f21080862c847797402a8560afe4172eb2c1927/DBRepair.sh | bash -x -s - auto exit)'

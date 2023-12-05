@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -42,110 +41,110 @@ spec:
       # nodeName: knode1
       dnsConfig:
         options:
-          - name: ndots
-            value: "1"
+        - name: ndots
+          value: "1"
 
       containers:
-        - name: tautulli
-          image: lscr.io/linuxserver/tautulli:version-v2.13.2
-          # image: alpine
-          # command: ["sleep"]
-          # args: ["infinity"]
+      - name: tautulli
+        image: lscr.io/linuxserver/tautulli:version-v2.13.3
+        # image: alpine
+        # command: ["sleep"]
+        # args: ["infinity"]
 
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "512Mi"
-            limits:
-              memory: "512Mi"
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            memory: "512Mi"
 
-          volumeMounts:
-            - name: tautulli-iscsi-ssd
-              mountPath: /config
-            - name: logs
-              mountPath: /logs-pms
-              subPath: pms
-              readOnly: true
+        volumeMounts:
+        - name: tautulli-iscsi-ssd
+          mountPath: /config
+        - name: logs
+          mountPath: /logs-pms
+          subPath: pms
+          readOnly: true
 
-          env:
-            - name: PUID
-              value: "1001"
-            - name: PGID
-              value: "1001"
-            - name: TZ
-              value: "America/New_York"
+        env:
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        - name: TZ
+          value: "America/New_York"
 
-          ports:
-            - name: http-tautulli
-              containerPort: 8181
+        ports:
+        - name: http-tautulli
+          containerPort: 8181
 
-          livenessProbe:
-            httpGet:
-              path: /status
-              port: http-tautulli
-            periodSeconds: 15
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: http-tautulli
+          periodSeconds: 15
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
 
-          readinessProbe:
-            httpGet:
-              path: /status
-              port: http-tautulli
-            periodSeconds: 15
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: http-tautulli
+          periodSeconds: 15
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
 
-        - name: tautulli-exporter
-          image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
+      - name: tautulli-exporter
+        image: docker.io/tubaguy50035/tautulli_exporter:v0.1.0
 
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "32Mi"
-            limits:
-              memory: "32Mi"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "32Mi"
+          limits:
+            memory: "32Mi"
 
-          ports:
-            - name: http-exporter
-              containerPort: 9487
+        ports:
+        - name: http-exporter
+          containerPort: 9487
 
-          env:
-            - name: TAUTULLI_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: tautulli
-                  key: TAUTULLI_API_KEY
-            - name: TAUTULLI_URI
-              value: "http://127.0.0.1:8181"
+        env:
+        - name: TAUTULLI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: tautulli
+              key: TAUTULLI_API_KEY
+        - name: TAUTULLI_URI
+          value: "http://127.0.0.1:8181"
 
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http-exporter
-            periodSeconds: 15
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http-exporter
+          periodSeconds: 15
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
 
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http-exporter
-            periodSeconds: 15
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http-exporter
+          periodSeconds: 15
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
 
       volumes:
-        - name: tautulli-iscsi-ssd
-          persistentVolumeClaim:
-            claimName: tautulli-iscsi-pvc-ssd
-        - name: logs
-          persistentVolumeClaim:
-            claimName: logs
+      - name: tautulli-iscsi-ssd
+        persistentVolumeClaim:
+          claimName: tautulli-iscsi-pvc-ssd
+      - name: logs
+        persistentVolumeClaim:
+          claimName: logs
