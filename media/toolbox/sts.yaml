@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: toolbox
+  namespace: media
+spec:
+  serviceName: toolbox
+  replicas: 1
+  selector:
+    matchLabels:
+      app: toolbox
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: toolbox
+        version: v1
+    spec:
+      nodeName: knode2
+      serviceAccountName: toolbox
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: scratch
+          persistentVolumeClaim:
+            claimName: scratch
+        - name: config
+          configMap:
+            name: toolbox
+      containers:
+        - name: toolbox
+          image: docker.io/nlopez/media-toolbox@sha256:15f85db36f58141834f451971fc182aefa0f82cb3618057c2dd0004ff01e8e00
+          resources:
+            requests:
+              cpu: "2"
+              memory: "4Gi"
+            limits:
+              memory: "4Gi"
+          command: ["sleep"]
+          args:
+          - infinity
+          volumeMounts:
+            - name: media
+              mountPath: /media
+            - name: scratch
+              mountPath: /scratch
