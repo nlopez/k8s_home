@@ -1,4 +1,3 @@
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -15,19 +14,23 @@ metadata:
 spec:
   ingressClassName: external-nginx
   tls:
-    - hosts:
-        - e.desertbluffs.com
+  - hosts:
+    - e.desertbluffs.com
+    - t.desertbluffs.com
   rules:
-    - host: e.desertbluffs.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: pms
-                port:
-                  name: http-pms
+  - host: e.desertbluffs.com
+    http: &http-pms
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pms
+            port:
+              name: http-pms
+  - host: t.desertbluffs.com
+    http:
+      !!merge <<: *http-pms
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -41,16 +44,20 @@ metadata:
 spec:
   ingressClassName: internal-nginx
   tls:
-    - hosts:
-        - e.radoncanyon.com
+  - hosts:
+    - e.radoncanyon.com
+    - t.radoncnyon.com
   rules:
-    - host: e.radoncanyon.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: pms
-                port:
-                  name: http-pms
+  - host: e.radoncanyon.com
+    http: &http-pms
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pms
+            port:
+              name: http-pms
+  - host: t.radoncanyon.com
+    http:
+      !!merge <<: *http-pms
