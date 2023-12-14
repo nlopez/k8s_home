@@ -1,3 +1,4 @@
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -5,6 +6,26 @@ metadata:
   namespace: ingress-nginx
 spec:
   secretName: desertbluffs-tls
+  privateKey:
+    rotationPolicy: Always
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - '*.desertbluffs.com'
+    - desertbluffs.com
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: desertbluffs-com-ecdsa
+  namespace: ingress-nginx
+spec:
+  secretName: desertbluffs-tls-ecdsa
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
