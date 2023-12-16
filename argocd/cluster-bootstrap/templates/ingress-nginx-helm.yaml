@@ -108,7 +108,7 @@ spec:
             http-snippet: |-
               proxy_cache_path /var/cache/nginx/jellyfin levels=1:2 keys_zone=jellyfin:100m max_size=15g inactive=30d use_temp_path=off;
           extraArgs:
-            default-ssl-certificate: "ingress-nginx/desertbluffs-tls"
+            default-ssl-certificate: "ingress-nginx/desertbluffs-tls-ecdsa"
             enable-ssl-passthrough: "false"
           extraVolumes:
             - name: nonsecrets
