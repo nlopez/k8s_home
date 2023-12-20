@@ -24,7 +24,7 @@ spec:
           fsType: ext4
       containers:
       - name: shaarli
-        image: ghcr.io/shaarli/shaarli:v0.12.2
+        image: ghcr.io/shaarli/shaarli:v0.13.0
         volumeMounts:
         - mountPath: /var/www/shaarli/data
           name: shaarli
