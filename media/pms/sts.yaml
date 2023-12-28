@@ -48,11 +48,11 @@ spec:
       containers:
       - &pms
         name: pms
-        image: lscr.io/linuxserver/plex:version-1.32.8.7639-fb6452ebf
+        # image: lscr.io/linuxserver/plex:version-1.32.8.7639-fb6452ebf
 
-        # image: alpine
-        # command: ["sleep"]
-        # args: ["infinity"]
+        image: alpine
+        command: ["sleep"]
+        args: ["infinity"]
         resources:
           limits:
             gpu.intel.com/i915: "1"
