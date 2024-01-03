@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: satisfactory-server
+  namespace: games
+spec:
+  serviceName: satisfactory-server
+  replicas: 1
+  selector:
+    matchLabels:
+      app: satisfactory-server
+  template:
+    metadata:
+      labels:
+        app: satisfactory-server
+    spec:
+      volumes:
+        - name: satisfactory-server-iscsi
+          persistentVolumeClaim:
+            claimName: satisfactory-server-iscsi-pvc
+        # - name: config
+        #   configMap:
+        #     name: satisfactory-server
+      containers:
+        - name: satisfactory-server
+          image: docker.io/wolveix/satisfactory-server:v1.6.1
+          # image: alpine
+          # command: ["sleep"]
+          # args: ["infinity"]
+          volumeMounts:
+            - name: satisfactory-server-iscsi
+              mountPath: /config
+            # - name: config
+            #   mountPath: /config/config.yaml
+            #   subPath: config.yaml
+          env:
+            - name: ROOTLESS
+              value: "false"
+            - name: STEAMBETA
+              value: "false"
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+          ports:
+            - containerPort: 7777
+              protocol: UDP
+            - containerPort: 15000
+              protocol: UDP
+            - containerPort: 15777
+              protocol: UDP

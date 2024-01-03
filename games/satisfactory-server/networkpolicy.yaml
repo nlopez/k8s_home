@@ -1,0 +1,19 @@
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: satisfactory-server
+  namespace: games
+spec:
+  podSelector:
+    matchLabels:
+      app: satisfactory-server
+  ingress:
+  - ports:
+    - port: 777
+      protocol: UDP
+    - port: 15000
+      protocol: UDP
+    - port: 15777
+      protocol: UDP
+    from: []
