@@ -10,5 +10,5 @@ spec:
       app: pms
   ingress:
   - ports:
-    - port: http-pms
+    - port: https
     from: []

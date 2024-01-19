@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pms-tailscale
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - quizzical-queen
+  defaultBackend:
+    service:
+      name: pms
+      port:
+        name: https
+  ingressClassName: tailscale

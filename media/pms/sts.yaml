@@ -74,7 +74,7 @@ spec:
         - name: VERSION
           value: "docker" # don't auto update
         ports:
-        - name: http-pms
+        - name: https
           containerPort: 32400
         volumeMounts:
         - name: pms-iscsi

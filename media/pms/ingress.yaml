@@ -16,7 +16,6 @@ spec:
   tls:
   - hosts:
     - e.desertbluffs.com
-    - t.desertbluffs.com
   rules:
   - host: e.desertbluffs.com
     http: &http-pms
@@ -27,10 +26,7 @@ spec:
           service:
             name: pms
             port:
-              name: http-pms
-  - host: t.desertbluffs.com
-    http:
-      !!merge <<: *http-pms
+              name: https
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -46,7 +42,6 @@ spec:
   tls:
   - hosts:
     - e.radoncanyon.com
-    - t.radoncnyon.com
   rules:
   - host: e.radoncanyon.com
     http: &http-pms
@@ -57,7 +52,4 @@ spec:
           service:
             name: pms
             port:
-              name: http-pms
-  - host: t.radoncanyon.com
-    http:
-      !!merge <<: *http-pms
+              name: https
