@@ -43,3 +43,9 @@ data:
       disable_startup_check: true
       filesystem:
         filename: /dev/null
+    webauthn:
+      disable: false
+      timeout: 60s
+      display_name: Desert Bluffs
+      attestation_conveyance_preference: indirect
+      user_verification: required
