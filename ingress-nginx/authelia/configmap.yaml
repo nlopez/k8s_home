@@ -19,7 +19,7 @@ data:
       rules:
         - domain:
             - "*.desertbluffs.com"
-          policy: two_factor
+          policy: one_factor
     authentication_backend:
       password_reset:
         disable: true
@@ -42,8 +42,6 @@ data:
       domain: desertbluffs.com
     notifier:
       disable_startup_check: true
-      filesystem:
-        filename: /tmp/notification.txt
     webauthn:
       disable: false
       timeout: 60s
