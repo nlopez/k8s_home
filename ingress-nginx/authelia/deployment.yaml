@@ -34,7 +34,7 @@ spec:
             secretName: authelia-secrets
       containers:
         - name: authelia
-          image: ghcr.io/authelia/authelia:4.37.5
+          image: ghcr.io/authelia/authelia:v4.38.0-beta3
           # image: alpine
           env:
             - name: AUTHELIA_JWT_SECRET_FILE
