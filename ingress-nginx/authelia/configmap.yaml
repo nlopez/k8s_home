@@ -7,6 +7,7 @@ metadata:
 data:
   custom.yaml: |
     ---
+    default_2fa_method: "totp"
     server:
       host: 0.0.0.0
       port: 9091
@@ -18,7 +19,7 @@ data:
       rules:
         - domain:
             - "*.desertbluffs.com"
-          policy: one_factor
+          policy: two_factor
     authentication_backend:
       password_reset:
         disable: true
@@ -49,3 +50,11 @@ data:
       display_name: Desert Bluffs
       attestation_conveyance_preference: indirect
       user_verification: required
+    totp:
+      disable: false
+      issuer: desertbluffs.com
+      algorithm: sha1
+      digits: 6
+      period: 30
+      skew: 1
+      secret_size: 32
