@@ -43,7 +43,7 @@ data:
     notifier:
       disable_startup_check: true
       filesystem:
-        filename: /dev/null
+        filename: /tmp/notification.txt
     webauthn:
       disable: false
       timeout: 60s
