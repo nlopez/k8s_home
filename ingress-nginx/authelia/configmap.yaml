@@ -42,6 +42,8 @@ data:
       domain: desertbluffs.com
     notifier:
       disable_startup_check: true
+      filesystem:
+        filename: /tmp/notification.txt
     webauthn:
       disable: false
       timeout: 60s
