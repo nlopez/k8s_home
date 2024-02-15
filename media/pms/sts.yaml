@@ -48,7 +48,7 @@ spec:
       containers:
       - &pms
         name: pms
-        image: lscr.io/linuxserver/plex:version-1.32.8.7639-fb6452ebf
+        image: lscr.io/linuxserver/plex:version-1.40.0.7998-c29d4c0c8
 
         # image: alpine
         # command: ["sleep"]
@@ -113,7 +113,7 @@ spec:
         emptyDir:
           medium: Memory
       initContainers:
-      - <<: *pms
+      - !!merge <<: *pms
         name: plex-db-repair
         livenessProbe: null
         command:
