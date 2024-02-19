@@ -41,7 +41,7 @@ spec:
 
       containers:
         - name: sonarr
-          image: lscr.io/linuxserver/sonarr:develop-4.0.0.738-ls16
+          image: lscr.io/linuxserver/sonarr:develop-4.0.1.1131-ls37
           # image: alpine
           # command: ["sleep"]
           # args: ["infinity"]
