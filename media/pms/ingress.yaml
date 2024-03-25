@@ -16,6 +16,7 @@ spec:
   tls:
   - hosts:
     - e.desertbluffs.com
+    - t.desertbluffs.com
   rules:
   - host: e.desertbluffs.com
     http: &http-pms
@@ -27,6 +28,9 @@ spec:
             name: pms
             port:
               name: https
+  - host: t.desertbluffs.com
+    http:
+      <<: *http-pms
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
