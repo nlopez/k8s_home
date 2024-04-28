@@ -34,7 +34,7 @@ spec:
 
       containers:
         - name: radarr
-          image: lscr.io/linuxserver/radarr:version-5.3.6.8612
+          image: lscr.io/linuxserver/radarr:version-5.4.6.8723
 
           resources:
             requests:
