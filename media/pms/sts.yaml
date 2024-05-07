@@ -58,7 +58,7 @@ spec:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "false"
+          value: "true"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: "false"
         - name: PLEX_UID
@@ -119,4 +119,4 @@ spec:
         command:
         - sh
         - -c
-        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/89ea800bdb765a391bf51aa8a495f1e3ab738d59/DBRepair.sh | bash -x -s - auto exit)'
+        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/d0084c96fb0b5d1ff1da4111370e40bf5205951f/DBRepair.sh | bash -x -s - auto exit)'
