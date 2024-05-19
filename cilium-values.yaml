@@ -1,5 +1,18 @@
 ---
-# https://github.com/cilium/cilium/blob/master/install/kubernetes/cilium/values.yaml.tmpl
+# https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml.tmpl
 k8sServiceHost: "192.168.222.245"
 k8sServicePort: "6443"
 kubeProxyReplacement: strict
+routingMode: "native"
+ipam:
+  mode: "kubernetes"
+ipv4NativeRoutingCIDR: "10.0.0.0/8"
+enableIPv4Masquerade: true
+ipMasqAgent:
+  enabled: true
+ipv4:
+  enabled: true
+ipv6:
+  enabled: false
+bpf:
+  masquerade: true
