@@ -16,3 +16,5 @@ ipv6:
   enabled: false
 bpf:
   masquerade: true
+bgpControlPlane:
+  enabled: true

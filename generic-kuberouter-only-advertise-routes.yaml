@@ -31,7 +31,7 @@ spec:
         - "--bgp-graceful-restart=true"
         - "--enable-cni=false"
         - "--enable-ibgp=true"
-        - "--enable-overlay=false"
+        - "--enable-overlay=true"
         - "--peer-router-ips=192.168.222.1"
         - "--peer-router-asns=64513"
         - "--cluster-asn=64514"

@@ -1,9 +1,0 @@
-# ---
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: satisfactory-server
-#   namespace: games
-# data:
-#   config.yaml: |
-#     # yo

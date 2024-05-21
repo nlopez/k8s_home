@@ -7,11 +7,10 @@ spec:
   selector:
     app: thelounge
   type: LoadBalancer
-  loadBalancerIP: 192.168.222.233
+  loadBalancerIP: 10.0.10.233
   externalTrafficPolicy: Local
   ports:
   - name: thelounge
     port: 9000
   - name: identd
     port: 113
-

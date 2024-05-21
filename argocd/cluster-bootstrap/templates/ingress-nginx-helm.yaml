@@ -31,7 +31,7 @@ spec:
         controller:
           service:
             externalTrafficPolicy: "Local"
-            loadBalancerIP: "192.168.222.230"
+            loadBalancerIP: "10.0.10.230"
           kind: DaemonSet
           podAnnotations:
             ad.datadoghq.com/controller.check_names: '["nginx_ingress_controller"]'
