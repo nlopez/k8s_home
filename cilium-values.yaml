@@ -11,11 +11,13 @@ autoDirectNodeRoutes: true
 ipMasqAgent:
   enabled: true
   config:
-    nonMasqueradeCIDRs:
-      - 10.0.0.0/8
-      - 172.16.0.0/12
-      - 192.168.0.0/16
+    nonMasqueradeCIDRs: []
+      # - 10.0.0.0/8
+      # - 172.16.0.0/12
+      # - 192.168.0.0/16
 bpf:
   masquerade: true
 bgpControlPlane:
   enabled: true
+extraArgs:
+- --vlan-bpf-bypass=0
