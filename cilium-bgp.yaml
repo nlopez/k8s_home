@@ -1,8 +1,23 @@
 ---
 apiVersion: "cilium.io/v2alpha1"
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: my-bgp-policy
+spec:
+  virtualRouters:
+    - localASN: 64514
+      exportPodCIDR: true
+      serviceSelector:  # Advertise every service
+        matchExpressions:
+          - { key: somekey, operator: NotIn, values: ["never-used-value"] }
+      neighbors:
+        - peerAddress: "192.168.222.1/32"
+          peerASN: 64513
+---
+apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: "lga1-pool"
+  name: my-lb-pool
 spec:
   blocks:
-  - cidr: "10.0.10.0/24"
+    - cidr: "10.0.10.0/24"
