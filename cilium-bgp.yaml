@@ -7,12 +7,19 @@ spec:
   virtualRouters:
     - localASN: 64514
       exportPodCIDR: true
-      serviceSelector:  # Advertise every service
+      serviceSelector:
         matchExpressions:
-          - { key: somekey, operator: NotIn, values: ["never-used-value"] }
+          - { key: somekey, operator: NotIn, values: ["never-used-value"] } # <-- Advertise every service
+      serviceAdvertisements:
+        - LoadBalancerIP
+        - ClusterIP
+        - ExternalIP
       neighbors:
         - peerAddress: "192.168.222.1/32"
           peerASN: 64513
+          gracefulRestart:
+            enabled: true # <-- enable graceful restart
+            restartTimeSeconds: 120 # <-- set RestartTime
 ---
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool

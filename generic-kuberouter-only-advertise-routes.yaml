@@ -30,11 +30,11 @@ spec:
         - "--run-service-proxy=false"
         - "--bgp-graceful-restart=true"
         - "--enable-cni=false"
-        - "--enable-ibgp=true"
-        - "--enable-overlay=true"
-        - "--peer-router-ips=192.168.222.1"
-        - "--peer-router-asns=64513"
-        - "--cluster-asn=64514"
+        - "--enable-ibgp=false"
+        - "--enable-overlay=false"
+        # - "--peer-router-ips=<CHANGE ME>"
+        # - "--peer-router-asns=<CHANGE ME>"
+        # - "--cluster-asn=<CHANGE ME>"
         - "--advertise-cluster-ip=true"
         - "--advertise-external-ip=true"
         - "--advertise-loadbalancer-ip=true"
@@ -43,6 +43,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         livenessProbe:
           httpGet:
             path: /healthz
@@ -115,6 +119,20 @@ rules:
       - list
       - watch
   - apiGroups:
+      - "coordination.k8s.io"
+    resources:
+      - leases
+    verbs:
+      - get
+      - create
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - services/status
+    verbs:
+      - update
+  - apiGroups:
       - "discovery.k8s.io"
     resources:
       - endpointslices
@@ -122,6 +140,7 @@ rules:
       - get
       - list
       - watch
+
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

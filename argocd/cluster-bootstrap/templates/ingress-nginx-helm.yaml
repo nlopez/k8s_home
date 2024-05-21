@@ -24,10 +24,7 @@ spec:
         defaultBackend:
           enabled: "true"
         tcp: {}
-        udp:
-          7777: "games/satisfactory-server:7777"
-          15000: "games/satisfactory-server:15000"
-          15777: "games/satisfactory-server:15777"
+        udp: {}
         controller:
           service:
             externalTrafficPolicy: "Local"
