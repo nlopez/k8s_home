@@ -7,12 +7,12 @@ routingMode: "native"
 ipam:
   mode: "kubernetes"
 ipv4NativeRoutingCIDR: "10.0.0.0/8"
-autoDirectNodeRoutes: true
+autoDirectNodeRoutes: false
 ipMasqAgent:
   enabled: true
   config:
-    nonMasqueradeCIDRs: []
-      # - 10.0.0.0/8
+    nonMasqueradeCIDRs:
+      - 10.0.0.0/8
       # - 172.16.0.0/12
       # - 192.168.0.0/16
 bpf:
