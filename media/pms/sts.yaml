@@ -58,6 +58,8 @@ spec:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
+          value: "false"
+        - name: DO_DISK_CLEANUP
           value: "true"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: "false"
@@ -113,6 +115,13 @@ spec:
         emptyDir:
           medium: Memory
       initContainers:
+      - !!merge <<: *pms
+        name: plex-disk-cleanup
+        livenessProbe: null
+        command:
+        - sh
+        - -c
+        - '[ "${DO_DISK_CLEANUP:-false}" = "false" ] && exit 0 || (find /config/Library/Application\ Support/Plex\ Media\ Server/Cache/PhotoTranscoder -name "*.jpg" -type f -mtime +5 -delete)'
       - !!merge <<: *pms
         name: plex-db-repair
         livenessProbe: null
