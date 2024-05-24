@@ -34,7 +34,7 @@ spec:
 
       containers:
         - name: sonarr4k
-          image: lscr.io/linuxserver/sonarr:develop-4.0.4.1572-ls55
+          image: lscr.io/linuxserver/sonarr:develop-4.0.4.1695-ls61
 
           resources:
             requests:

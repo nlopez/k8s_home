@@ -58,7 +58,7 @@ spec:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "false"
+          value: "true"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: "false"
         - name: PLEX_UID
