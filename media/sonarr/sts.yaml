@@ -41,7 +41,8 @@ spec:
 
       containers:
         - name: sonarr
-          image: lscr.io/linuxserver/sonarr:develop-4.0.4.1695-ls61
+          # crane ls lscr.io/linuxserver/sonarr | rg '^develop-4.*ls.*$' | sort -V | tail -n1 | pbcopy
+          image: lscr.io/linuxserver/sonarr:develop-4.0.5.1719-ls64
           # image: alpine
           # command: ["sleep"]
           # args: ["infinity"]
