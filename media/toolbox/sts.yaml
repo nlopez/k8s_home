@@ -35,7 +35,7 @@ spec:
             name: toolbox
       containers:
         - name: toolbox
-          image: docker.io/nlopez/media-toolbox@sha256:15f85db36f58141834f451971fc182aefa0f82cb3618057c2dd0004ff01e8e00
+          image: docker.io/nlopez/media-toolbox@latest
           resources:
             requests:
               cpu: "2"
