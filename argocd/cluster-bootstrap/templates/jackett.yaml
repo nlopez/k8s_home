@@ -15,5 +15,5 @@ spec:
   project: default
   source:
     path: media/jackett
-    repoURL: git@github.com:nlopez/k8s_home.git
+    repoURL: https://github.com/nlopez/k8s_home
     targetRevision: unstable
