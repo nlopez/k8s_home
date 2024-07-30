@@ -13,7 +13,6 @@ spec:
       selfHeal: false
   destination:
     namespace: default
-    https://kubernetes.default.svc
   project: default
   source:
     path: default/httpbin

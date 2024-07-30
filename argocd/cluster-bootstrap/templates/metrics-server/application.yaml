@@ -18,5 +18,4 @@ spec:
         - name: args
           value: '{"--kubelet-insecure-tls"}'
   destination:
-    https://kubernetes.default.svc
     namespace: kube-system
