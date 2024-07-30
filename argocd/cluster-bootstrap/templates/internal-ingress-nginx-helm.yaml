@@ -26,8 +26,9 @@ spec:
         controller:
           service:
             externalTrafficPolicy: "Local"
-            loadBalancerIP: "192.168.222.232"
           kind: DaemonSet
+          podAnnotations:
+            "lbipam.cilium.io/ips": "192.168.222.232"
           podAnnotations: {}
           electionID: "internal-nginx-controller-leader"
           ingressClass: internal-nginx

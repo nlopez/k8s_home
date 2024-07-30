@@ -1,25 +1,19 @@
 ---
-apiVersion: "cilium.io/v2alpha1"
-kind: CiliumBGPPeeringPolicy
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPClusterConfig
 metadata:
-  name: my-bgp-policy
+  name: cilium-bgp
 spec:
-  virtualRouters:
-    - localASN: 64514
-      exportPodCIDR: true
-      serviceSelector:
-        matchExpressions:
-          - { key: somekey, operator: NotIn, values: ["never-used-value"] } # <-- Advertise every service
-      serviceAdvertisements:
-        - LoadBalancerIP
-        - ClusterIP
-        - ExternalIP
-      neighbors:
-        - peerAddress: "192.168.222.1/32"
-          peerASN: 64513
-          gracefulRestart:
-            enabled: true # <-- enable graceful restart
-            restartTimeSeconds: 120 # <-- set RestartTime
+  bgpInstances:
+  - name: "instance-64514"
+    localASN: 64514
+    peers:
+    - name: "peer-64513-gw"
+      peerASN: 64513
+      peerAddress: 192.168.222.1
+      peerConfigRef:
+        name: "cilium-peer"
+
 ---
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
@@ -28,3 +22,12 @@ metadata:
 spec:
   blocks:
     - cidr: "10.0.10.0/24"
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeerConfig
+metadata:
+  name: cilium-peer
+spec:
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 120

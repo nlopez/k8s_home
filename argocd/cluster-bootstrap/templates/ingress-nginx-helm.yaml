@@ -28,13 +28,13 @@ spec:
         controller:
           service:
             externalTrafficPolicy: "Local"
-            loadBalancerIP: "10.0.10.230"
           kind: DaemonSet
           podAnnotations:
             ad.datadoghq.com/controller.check_names: '["nginx_ingress_controller"]'
             ad.datadoghq.com/controller.init_configs: '[{}]'
             ad.datadoghq.com/controller.instances: '[{"prometheus_url": "http://%%host%%:10254/metrics"}]'
             ad.datadoghq.com/controller.logs: '[{"service": "controller", "source": "nginx-ingress-controller"}]'
+            "lbipam.cilium.io/ips": "10.0.10.230"
           electionID: "external-nginx-controller-leader"
           ingressClass: external-nginx
           ingressClassByName: true

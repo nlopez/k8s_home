@@ -6,12 +6,13 @@ metadata:
   labels:
     app: pms
     version: v1
+  annotations:
+     "lbipam.cilium.io/ips": "10.0.10.231"
 spec:
+  type: LoadBalancer
   selector:
     app: pms
     version: v1
-  type: LoadBalancer
-  loadBalancerIP: 10.0.10.231
   externalTrafficPolicy: Local
   ports:
     - name: https
