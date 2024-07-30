@@ -11,7 +11,6 @@ spec:
       selfHeal: false
   destination:
     namespace: argocd
-    server: {{ .Values.spec.destination.server }}
   project: default
   source:
     path: argocd/cluster-bootstrap

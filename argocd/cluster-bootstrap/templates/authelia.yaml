@@ -13,7 +13,6 @@ spec:
       selfHeal: false
   destination:
     namespace: default
-    server: {{ .Values.spec.destination.server }}
   project: default
   source:
     path: ingress-nginx/authelia

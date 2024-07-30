@@ -18,5 +18,4 @@ spec:
         - name: args
           value: '{"--kubelet-insecure-tls"}'
   destination:
-    server: {{ .Values.spec.destination.server }}
     namespace: kube-system

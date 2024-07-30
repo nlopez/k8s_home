@@ -11,7 +11,6 @@ spec:
       selfHeal: false
   destination:
     namespace: ingress-nginx
-    server: {{ .Values.spec.destination.server }}
   project: default
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx/

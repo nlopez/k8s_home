@@ -12,7 +12,6 @@ spec:
       selfHeal: false
   destination:
     namespace: media
-    server: {{ .Values.spec.destination.server }}
   project: default
   source:
     path: media/heimdall
