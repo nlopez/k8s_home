@@ -13,6 +13,7 @@ spec:
       selfHeal: false
   destination:
     namespace: media
+    https://kubernetes.default.svc
   project: default
   source:
     path: media/sabnzbd

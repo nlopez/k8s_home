@@ -12,6 +12,7 @@ spec:
       selfHeal: false
   destination:
     namespace: ingress-nginx
+    https://kubernetes.default.svc
   project: default
   source:
     path: ingress-nginx

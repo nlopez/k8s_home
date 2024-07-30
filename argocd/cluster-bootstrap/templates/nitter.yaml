@@ -11,6 +11,7 @@ spec:
       selfHeal: false
   destination:
     namespace: default
+    https://kubernetes.default.svc
   project: default
   source:
     repoURL: https://nlopez.github.io/helm-charts
