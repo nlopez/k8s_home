@@ -20,6 +20,6 @@ data:
         prometheus :9153
         forward . 1.1.1.1 1.0.0.1
         cache 30
-        loop
+        loadbalance
         reload
     }
