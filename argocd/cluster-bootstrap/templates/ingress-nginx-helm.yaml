@@ -10,6 +10,7 @@ spec:
       prune: true
       selfHeal: false
   destination:
+    server: https://kubernetes.default.svc
     namespace: ingress-nginx
   project: default
   source:

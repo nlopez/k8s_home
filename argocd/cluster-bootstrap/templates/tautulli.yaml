@@ -11,6 +11,7 @@ spec:
       prune: true
       selfHeal: false
   destination:
+    server: https://kubernetes.default.svc
     namespace: media
   project: default
   source:

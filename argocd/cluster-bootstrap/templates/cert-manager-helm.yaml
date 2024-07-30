@@ -23,5 +23,6 @@ spec:
             - "1.1.1.1"
             - "8.8.8.8"
   destination:
+    server: https://kubernetes.default.svc
     server: "https://kubernetes.default.svc"
     namespace: cert-manager

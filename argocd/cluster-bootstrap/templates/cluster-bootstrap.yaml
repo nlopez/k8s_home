@@ -10,8 +10,8 @@ spec:
       prune: true
       selfHeal: false
   destination:
-    namespace: argocd
     server: https://kubernetes.default.svc
+    namespace: argocd
   project: default
   source:
     path: argocd/cluster-bootstrap

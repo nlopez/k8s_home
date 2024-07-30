@@ -12,6 +12,7 @@ spec:
       prune: true
       selfHeal: false
   destination:
+    server: https://kubernetes.default.svc
     namespace: default
   project: default
   source:
