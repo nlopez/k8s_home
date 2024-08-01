@@ -62,13 +62,13 @@ spec:
           value: "America/New_York"
 
         ports:
-        - name: http-tautulli
+        - name: http
           containerPort: 8181
 
         livenessProbe:
           httpGet:
             path: /status
-            port: http-tautulli
+            port: http
           periodSeconds: 15
           initialDelaySeconds: 15
           timeoutSeconds: 5
@@ -78,7 +78,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /status
-            port: http-tautulli
+            port: http
           periodSeconds: 15
           initialDelaySeconds: 15
           timeoutSeconds: 5

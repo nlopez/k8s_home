@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tautulli-tailscale
+  name: sonarr-tailscale
   namespace: media
 spec:
   tls:
   - hosts:
-    - bustling-goat
+    - majestic-fear
   defaultBackend:
     service:
-      name: tautulli
+      name: sonarr
       port:
         name: http
   ingressClassName: tailscale
