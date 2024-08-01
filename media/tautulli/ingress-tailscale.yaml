@@ -12,4 +12,4 @@ spec:
       name: tautulli
       port:
         name: http-tautulli
-  ingressClassName: tautulli
+  ingressClassName: tailscale
