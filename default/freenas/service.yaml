@@ -1,9 +1,0 @@
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: nas1
-  namespace: default
-spec:
-  type: ExternalName
-  externalName: 192.168.222.149.sslip.io
