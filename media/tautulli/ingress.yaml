@@ -23,7 +23,7 @@ spec:
               service:
                 name: tautulli
                 port:
-                  number: 8181
+                  name: http
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -48,4 +48,4 @@ spec:
               service:
                 name: tautulli
                 port:
-                  number: 8181
+                  name: http
