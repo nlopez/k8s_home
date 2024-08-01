@@ -4,6 +4,9 @@ apiVersion: v1
 metadata:
   name: sabnzbd
   namespace: media
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "dead-room"
 spec:
   type: ExternalName
   externalName: 192.168.222.10.sslip.io
