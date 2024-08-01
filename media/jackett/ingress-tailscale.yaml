@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jackett-tailscale
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - jazzy-hat
+  defaultBackend:
+    service:
+      name: jackett
+      port:
+        name: http
+  ingressClassName: tailscale

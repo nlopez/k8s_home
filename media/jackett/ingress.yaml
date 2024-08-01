@@ -22,4 +22,4 @@ spec:
               service:
                 name: jackett
                 port:
-                  number: 9117
+                  name: http

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radarr4k-tailscale
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - small-orange
+  defaultBackend:
+    service:
+      name: radarr4k
+      port:
+        name: http
+  ingressClassName: tailscale

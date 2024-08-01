@@ -36,16 +36,16 @@ spec:
             - name: TZ
               value: "America/New_York"
           ports:
-            - name: jackett
+            - name: http
               containerPort: 9117
           readinessProbe:
             tcpSocket:
-              port: jackett
+              port: http
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
-              port: jackett
+              port: http
             initialDelaySeconds: 15
             periodSeconds: 20
           volumeMounts:

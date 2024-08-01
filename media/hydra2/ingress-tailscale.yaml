@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hydra2-tailscale
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - billowy-voice
+  defaultBackend:
+    service:
+      name: hydra2
+      port:
+        name: http
+  ingressClassName: tailscale

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: filebrowser-tailscale
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - small-orange
+  defaultBackend:
+    service:
+      name: filebrowser
+      port:
+        name: http
+  ingressClassName: tailscale
