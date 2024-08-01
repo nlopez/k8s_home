@@ -31,7 +31,7 @@ spec:
           annotations:
             nginx.ingress.kubernetes.io/enable-global-auth: "false"
             nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
-            nginx.ingress.kubernetes.io/auth-tls-verify-client: "required"
+            nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
             external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
           tls:
             - hosts:
