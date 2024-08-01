@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: heimdall-tailscale
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - hushed-amusement
+  defaultBackend:
+    service:
+      name: heimdall
+      port:
+        name: https
+  ingressClassName: tailscale

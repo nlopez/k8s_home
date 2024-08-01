@@ -50,9 +50,9 @@ spec:
               value: "America/New_York"
           ports:
             - containerPort: 80
-              name: heimdall-http
+              name: http
             - containerPort: 443
-              name: heimdall-https
+              name: https
           livenessProbe:
             httpGet:
               path: /
