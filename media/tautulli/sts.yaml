@@ -18,14 +18,20 @@ spec:
       labels:
         app: tautulli
         version: v1
-      annotations: {}
+      annotations:
     spec:
       # nodeName: knode1
       dnsConfig:
         options:
         - name: ndots
           value: "1"
-
+      volumes:
+      - name: tautulli-iscsi-ssd
+        persistentVolumeClaim:
+          claimName: tautulli-iscsi-pvc-ssd
+      - name: logs
+        persistentVolumeClaim:
+          claimName: logs-pms
       containers:
       - name: tautulli
         image: lscr.io/linuxserver/tautulli:version-v2.14.3
