@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: pms-tautulli
+  name: tautulli-tailscale
   namespace: media
 spec:
   tls:
