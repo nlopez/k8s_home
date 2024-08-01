@@ -9,7 +9,7 @@ spec:
     app: heimdall
     version: v1
   ports:
-    - name: heimdall-http
+    - name: http
       port: 80
-    - name: heimdall-https
+    - name: https
       port: 443
