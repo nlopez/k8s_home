@@ -11,9 +11,7 @@ spec:
     app: tautulli
     version: v1
   ports:
-  - name: http-tautulli
-    port: 8181
+  - name: http
+    port: 80
     protocol: TCP
-  - name: http-exporter
-    port: 9487
-    protocol: TCP
+    targetPort: http
