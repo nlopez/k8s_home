@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pms-tautulli
+  namespace: media
+spec:
+  tls:
+  - hosts:
+    - bustling-goat
+  defaultBackend:
+    service:
+      name: tautulli
+      port:
+        name: http-tautulli
+  ingressClassName: tautulli
