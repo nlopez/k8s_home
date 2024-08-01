@@ -14,5 +14,13 @@ spec:
           cloudflare:
             email: cloudflare@aethertrail.com
             apiTokenSecretRef:
-              name: cloudflare-credentials-secret
+              name: cloudflare-api-token-secret
               key: api-token
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+spec:
+  itemPath: "vaults/k8s_home/items/cloudflare-api-token-secret"
