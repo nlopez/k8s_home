@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: thelounge
+  name: tailscale
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -12,9 +12,9 @@ spec:
       selfHeal: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: tailscale
   project: default
   source:
-    path: default/thelounge
+    path: tailscale
     repoURL: https://github.com/nlopez/k8s_home
     targetRevision: unstable

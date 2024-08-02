@@ -1,0 +1,11 @@
+# https://github.com/tailscale/tailscale/issues/10814#issuecomment-2070440398
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: prod
+spec:
+  statefulSet:
+    pod:
+       tailscaleContainer:
+         securityContext:
+           privileged: true
