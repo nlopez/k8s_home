@@ -4,10 +4,11 @@ apiVersion: v1
 metadata:
   name: sabnzbd
   namespace: media
+  labels:
+    tailscale.com/proxy-class: "prod"
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "dead-room"
-    tailscale.com/proxy-class: "prod"
 spec:
   type: ExternalName
   externalName: 192.168.222.10.sslip.io

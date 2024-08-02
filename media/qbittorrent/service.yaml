@@ -4,10 +4,11 @@ apiVersion: v1
 metadata:
   name: qbittorrent
   namespace: media
+  labels:
+    tailscale.com/proxy-class: "prod"
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "rough-pig"
-    tailscale.com/proxy-class: "prod"
 spec:
   type: ExternalName
   externalName: 192.168.222.9.sslip.io
