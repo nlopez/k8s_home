@@ -7,8 +7,8 @@ metadata:
   labels:
     tailscale.com/proxy-class: "prod"
   annotations:
-    tailscale.com/expose: "true"
     tailscale.com/hostname: "dead-room"
+    tailscale.com/expose: "true"
 spec:
   type: ExternalName
   externalName: 192.168.222.10.sslip.io
