@@ -21,7 +21,8 @@ spec:
 
       containers:
         - name: jackett
-          image: lscr.io/linuxserver/jackett:version-v0.21.1084
+          # crane ls lscr.io/linuxserver/jackett | sort -V | tail -n1 | pbcopy
+          image: lscr.io/linuxserver/jackett:version-v0.22.398
           resources:
             requests:
               cpu: "250m"
