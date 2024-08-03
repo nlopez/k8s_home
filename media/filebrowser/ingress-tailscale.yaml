@@ -6,7 +6,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - small-orange
+    - sour-ghost
   defaultBackend:
     service:
       name: filebrowser
