@@ -1,0 +1,34 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pms
+  namespace: media
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
+    external-dns.alpha.kubernetes.io/target: "lga1.desertbluffs.com"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "ingress-nginx/auth-tls-secret"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  ingressClassName: external-nginx
+  tls:
+  - hosts:
+    - e.desertbluffs.com
+    - t.desertbluffs.com
+  rules:
+  - host: e.desertbluffs.com
+    http: &http-pms
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pms
+            port:
+              name: https
+  - host: t.desertbluffs.com
+    http:
+      <<: *http-pms
