@@ -36,12 +36,12 @@ spec:
       containers:
         - name: toolbox
           image: docker.io/nlopez/media-toolbox:latest
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: "2"
               memory: "4Gi"
-            limits:
-              memory: "4Gi"
+            limits: {}
           command: ["sleep"]
           args:
           - infinity
