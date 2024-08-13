@@ -17,6 +17,10 @@ spec:
         app: toolbox
         version: v1
     spec:
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
       nodeName: knode2
       serviceAccountName: toolbox
       dnsConfig:
@@ -50,3 +54,5 @@ spec:
               mountPath: /media
             - name: scratch
               mountPath: /scratch
+          securityContext:
+            allowPrivilegeEscalation: false
