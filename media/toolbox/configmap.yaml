@@ -6,6 +6,7 @@ metadata:
 data:
   config: |-
     --add-header "User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+    --cache-dir /media/youtube/cache
     --clean-info-json
     --concurrent-fragments 4
     --cookies /media/youtube/cfg/cookies.txt
@@ -17,7 +18,7 @@ data:
     --format "bv+ba/b"
     --merge-output-format mkv
     --no-part
-    --output "/media/youtube/out/%(channel)s_[%(channel_id)s]/%(release_timestamp>%Y%m%dT%H%MZ)s_%(title)s_[%(id)s].%(ext)s"
+    --output "out/%(channel)s_[%(channel_id)s]/%(release_timestamp>%Y%m%dT%H%MZ)s_%(title)s_[%(id)s].%(ext)s"
     --paths "temp:/media/youtube/tmp"
     --paths /media/youtube
     --restrict-filenames
