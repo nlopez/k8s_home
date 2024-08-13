@@ -37,6 +37,12 @@ spec:
         - name: config
           configMap:
             name: toolbox
+        - name: yt-dlp
+          configMap:
+            name: yt-dlp
+            items:
+              - key: config
+                path: config
       containers:
         - name: toolbox
           image: docker.io/nlopez/media-toolbox:latest
@@ -54,5 +60,8 @@ spec:
               mountPath: /media
             - name: scratch
               mountPath: /scratch
+            - name: yt-dlp
+              mountPath: /home/user/.config/yt-dlp/config
+              subPath: config
           securityContext:
             allowPrivilegeEscalation: false
