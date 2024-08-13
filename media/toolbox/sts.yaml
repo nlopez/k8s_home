@@ -43,6 +43,8 @@ spec:
             items:
               - key: config
                 path: config
+        - name: temp
+          emptyDir: {}
       containers:
         - name: toolbox
           image: docker.io/nlopez/media-toolbox:latest
@@ -54,7 +56,7 @@ spec:
             limits: {}
           command: ["sleep"]
           args:
-          - infinity
+            - infinity
           volumeMounts:
             - name: media
               mountPath: /media
@@ -63,5 +65,20 @@ spec:
             - name: yt-dlp
               mountPath: /home/user/.config/yt-dlp/config
               subPath: config
+            - name: temp
+              mountPath: /yt-dlp-temp
           securityContext:
             allowPrivilegeEscalation: false
+          env:
+            - name: HISTFILE
+              value: /media/youtube/cfg/bash_history
+            - name: HISTFILESIZE
+              value: ""
+            - name: HISTSIZE
+              value: ""
+            - name: PROMPT_COMMAND
+              value: "history -a"
+            - name: TZ
+              value: "America/New_York"
+            - name: HISTTIMEFORMAT
+              value: "%Y-%m-%dT%H:%M:%S%z "

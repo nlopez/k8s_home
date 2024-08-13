@@ -19,7 +19,7 @@ data:
     --merge-output-format mkv
     --no-part
     --output "out/%(channel)s_[%(channel_id)s]/%(release_timestamp>%Y%m%dT%H%MZ)s_%(title)s_[%(id)s].%(ext)s"
-    --paths "temp:/media/youtube/tmp"
+    --paths "temp:/yt-dlp-temp"
     --paths /media/youtube
     --restrict-filenames
     --write-info-json
