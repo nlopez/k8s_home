@@ -33,6 +33,7 @@ spec:
           claimName: logs
       containers:
       - name: tautulli
+        # IMAGE=lscr.io/linuxserver/tautulli; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
         image: lscr.io/linuxserver/tautulli:version-v2.14.4
         # image: alpine
         # command: ["sleep"]

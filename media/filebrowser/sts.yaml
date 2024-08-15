@@ -37,7 +37,8 @@ spec:
             name: filebrowser
       containers:
         - name: filebrowser
-          image: docker.io/filebrowser/filebrowser:v2.26.0-s6
+          # IMAGE=docker.io/filebrowser/filebrowser; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: docker.io/filebrowser/filebrowser:v2.30.0-s6
           resources:
             requests:
               cpu: "2"

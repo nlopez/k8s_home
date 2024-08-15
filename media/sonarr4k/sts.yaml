@@ -34,8 +34,8 @@ spec:
 
       containers:
         - name: sonarr4k
-          # crane ls lscr.io/linuxserver/sonarr | rg '^develop-4.*ls.*$' | sort -V | tail -n1 | pbcopy
-          image: lscr.io/linuxserver/sonarr:develop-4.0.8.1988-ls82
+          # IMAGE=lscr.io/linuxserver/sonarr; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: lscr.io/linuxserver/sonarr:version-4.0.8.1874
 
           resources:
             requests:

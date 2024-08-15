@@ -48,7 +48,8 @@ spec:
       containers:
       - &pms
         name: pms
-        image: lscr.io/linuxserver/plex:version-1.40.4.8679-424562606
+        # IMAGE=lscr.io/linuxserver/plex; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+        image: lscr.io/linuxserver/plex:version-1.40.5.8854-f36c552fd
 
         # image: alpine
         # command: ["sleep"]
