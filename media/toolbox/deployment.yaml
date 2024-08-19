@@ -49,9 +49,7 @@ spec:
           image: docker.io/nlopez/media-toolbox:latest
           imagePullPolicy: Always
           resources:
-            requests:
-              cpu: "2"
-              memory: "4Gi"
+            requests: {}
             limits: {}
           command: ["sleep"]
           args:
