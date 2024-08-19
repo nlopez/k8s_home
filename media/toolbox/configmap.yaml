@@ -24,6 +24,5 @@ data:
     --paths "temp:/yt-dlp-temp"
     --paths /media/youtube
     --restrict-filenames
-    --wait-for-video 300
     --write-info-json
     --write-thumbnail
