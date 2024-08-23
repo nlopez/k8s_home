@@ -31,8 +31,8 @@ spec:
             value: "1"
       containers:
         - name: heimdall
-          # IMAGE=lscr.io/linuxserver/heimdall; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-          image: lscr.io/linuxserver/heimdall:version-v2.6.1
+          # IMAGE=ghcr.io/linuxserver/heimdall; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: ghcr.io/linuxserver/heimdall:version-v2.6.1
           resources:
             requests:
               cpu: "1000m"

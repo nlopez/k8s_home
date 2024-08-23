@@ -26,8 +26,8 @@ spec:
             claimName: hydra2-iscsi-pvc
       containers:
         - name: hydra2
-          # IMAGE=lscr.io/linuxserver/nzbhydra2; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-          image: lscr.io/linuxserver/nzbhydra2:version-v7.4.0
+          # IMAGE=ghcr.io/linuxserver/nzbhydra2; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: ghcr.io/linuxserver/nzbhydra2:version-v7.4.0
 
           resources:
             requests:

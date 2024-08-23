@@ -29,8 +29,8 @@ spec:
             value: "1"
       containers:
         - name: overseerr
-          # IMAGE=lscr.io/linuxserver/overseerr; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-          image: lscr.io/linuxserver/overseerr:version-v1.33.2
+          # IMAGE=ghcr.io/linuxserver/overseerr; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: ghcr.io/linuxserver/overseerr:version-v1.33.2
           resources:
             requests:
               cpu: "500m"

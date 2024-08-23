@@ -41,8 +41,8 @@ spec:
 
       containers:
         - name: sonarr
-          # IMAGE=lscr.io/linuxserver/sonarr; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-          image: lscr.io/linuxserver/sonarr:version-4.0.8.1874
+          # IMAGE=ghcr.io/linuxserver/sonarr; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: ghcr.io/linuxserver/sonarr:version-4.0.8.1874
           # image: alpine
           # command: ["sleep"]
           # args: ["infinity"]

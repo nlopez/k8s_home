@@ -21,8 +21,8 @@ spec:
 
       containers:
         - name: jackett
-          # IMAGE=lscr.io/linuxserver/jackett; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-          image: lscr.io/linuxserver/jackett:version-v0.22.450
+          # IMAGE=ghcr.io/linuxserver/jackett; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
+          image: ghcr.io/linuxserver/jackett:version-v0.22.450
           resources:
             requests:
               cpu: "250m"
