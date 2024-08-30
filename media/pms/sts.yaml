@@ -49,7 +49,7 @@ spec:
       - &pms
         name: pms
         # IMAGE=ghcr.io/linuxserver/plex; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-        image: ghcr.io/linuxserver/plex:version-1.40.5.8897-e5987a19d
+        image: ghcr.io/linuxserver/plex:version-1.40.5.8921-836b34c27
 
         # image: alpine
         # command: ["sleep"]
