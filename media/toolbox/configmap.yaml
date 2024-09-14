@@ -25,6 +25,7 @@ data:
     --paths /media/youtube
     --restrict-filenames
     --sub-langs all
+    --write-auto-subs
     --write-info-json
     --write-subs
     --write-thumbnail
