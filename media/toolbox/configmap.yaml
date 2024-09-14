@@ -20,7 +20,7 @@ data:
     --live-from-start
     --merge-output-format mkv
     --no-part
-    --output "out/%(channel)s_[%(channel_id)s]/%(release_timestamp>%Y%m%dT%H%MZ)s_%(title)s_[%(id)s].%(ext)s"
+    --output "out/%(channel)s_[%(channel_id)s]/%(release_timestamp>%Y%m%dT%H%MZ,timestamp>%Y%m%dT%H%MZ)s_%(title)s_[%(id)s].%(ext)s"
     --paths "temp:/yt-dlp-temp"
     --paths /media/youtube
     --restrict-filenames
