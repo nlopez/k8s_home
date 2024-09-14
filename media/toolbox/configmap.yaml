@@ -24,8 +24,8 @@ data:
     --paths "temp:/yt-dlp-temp"
     --paths /media/youtube
     --restrict-filenames
-    --sub-langs en,live_chat
-    --write-auto-subs
+    # --sub-langs en,live_chat
+    # --write-auto-subs
     --write-info-json
-    --write-subs
+    # --write-subs
     --write-thumbnail
