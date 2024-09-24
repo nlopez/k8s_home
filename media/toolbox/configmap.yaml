@@ -16,7 +16,7 @@ data:
     --downloader-args aria2c:"--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --file-allocation=none --continue=true"
     --embed-chapters
     --embed-metadata
-    --format "bv+ba/b"
+    --format "bv+ba[ext=m4a]/b"
     --live-from-start
     --merge-output-format mkv
     --no-part
