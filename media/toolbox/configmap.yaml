@@ -9,11 +9,8 @@ data:
     --add-header "User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
     --cache-dir /media/youtube/cache
     --clean-info-json
-    --concurrent-fragments 4
     --cookies /media/youtube/cfg/cookies.txt
-    --download-archive /media/youtube/cfg/download-archive.txt
-    --downloader aria2c
-    --downloader-args aria2c:"--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --file-allocation=none --continue=true"
+    --download-archive /media/youtube/cfg/download-archive/default.txt
     --embed-chapters
     --embed-metadata
     --format "bv+ba[ext=m4a]/b"
@@ -24,8 +21,5 @@ data:
     --paths "temp:/yt-dlp-temp"
     --paths /media/youtube
     --restrict-filenames
-    # --sub-langs en,live_chat
-    # --write-auto-subs
     --write-info-json
-    # --write-subs
     --write-thumbnail
