@@ -8,6 +8,7 @@ data:
   config: |-
     --add-header "User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
     --alias autosubs "--write-subs --write-auto-subs --sub-lang en --no-download --download-archive /media/youtube/cfg/download-archive/livechat.txt"
+    --alias comments "--write-comments --no-download  --no-download-archive"
     --alias live "--live-from-start --wait-for-video 60"
     --alias livechat "--live --write-subs --sub-lang live_chat --no-download --download-archive /media/youtube/cfg/download-archive/livechat.txt"
     --alias livestream "--live --video"
