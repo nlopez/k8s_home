@@ -18,7 +18,6 @@ data:
     --cookies /media/youtube/cfg/cookies.txt
     --download-archive /media/youtube/cfg/download-archive/default.txt
     --merge-output-format mkv
-    --newline
     --no-part
     --output "out/%(channel)s_[%(channel_id)s]/%(release_timestamp>%Y%m%dT%H%MZ,timestamp>%Y%m%dT%H%MZ)s_%(title)s_[%(id)s].%(ext)s"
     --paths "temp:/yt-dlp-temp"
