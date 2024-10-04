@@ -27,3 +27,5 @@ data:
     --prefer-free-formats
     --restrict-filenames
     --verbose
+    --format "bv*+ba[ext=webm]+ba[ext=m4a]/bv*+ba"
+    --audio-multistreams
