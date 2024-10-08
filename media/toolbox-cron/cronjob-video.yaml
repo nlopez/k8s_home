@@ -1,0 +1,76 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: toolbox-cron-video
+  namespace: media
+spec:
+  suspend: false
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+          # nodeName: knode2
+          serviceAccountName: toolbox
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "1"
+          volumes:
+            - name: media
+              persistentVolumeClaim:
+                claimName: media
+            - name: scratch
+              persistentVolumeClaim:
+                claimName: scratch
+            - name: config
+              configMap:
+                name: toolbox
+            - name: yt-dlp
+              configMap:
+                name: yt-dlp
+                items:
+                  - key: config
+                    path: config
+            - name: temp
+              emptyDir: {}
+          containers:
+            - name: toolbox
+              image: docker.io/nlopez/media-toolbox:latest
+              imagePullPolicy: Always
+              resources:
+                requests: {}
+                limits: {}
+              command: ["yt-dlp"]
+              args:
+                - "--batch"
+                - "/media/youtube/cfg/batch_cron.txt"
+                - "--download-archive"
+                - "/media/youtube/cfg/download-archive/cron-video.txt"
+                - "--playlist-items"
+                - "::-1"
+                - "--wait-for-video"
+                - "60"
+                - "--color"
+                - "never"
+              volumeMounts:
+                - name: media
+                  mountPath: /media
+                - name: scratch
+                  mountPath: /scratch
+                - name: yt-dlp
+                  mountPath: /home/user/.config/yt-dlp/config
+                  subPath: config
+                - name: temp
+                  mountPath: /yt-dlp-temp
+              securityContext:
+                allowPrivilegeEscalation: false
+              env: []
