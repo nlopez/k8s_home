@@ -6,6 +6,10 @@ metadata:
   namespace: media
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: toolbox
@@ -33,14 +37,11 @@ spec:
         - name: scratch
           persistentVolumeClaim:
             claimName: scratch
-        - name: config
+        - name: toolbox-config
           configMap:
-            name: toolbox
-        - name: yt-dlp
-          configMap:
-            name: yt-dlp
+            name: toolbox-config
             items:
-              - key: config
+              - key: yt-dlp.conf
                 path: config
         - name: temp
           emptyDir: {}
@@ -59,7 +60,7 @@ spec:
               mountPath: /media
             - name: scratch
               mountPath: /scratch
-            - name: yt-dlp
+            - name: toolbox-config
               mountPath: /home/user/.config/yt-dlp/config
               subPath: config
             - name: temp
