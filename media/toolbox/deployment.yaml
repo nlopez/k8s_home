@@ -47,7 +47,7 @@ spec:
           emptyDir: {}
       containers:
         - name: toolbox
-          image: docker.io/nlopez/media-toolbox:29476b3
+          image: docker.io/nlopez/media-toolbox:116a215
           imagePullPolicy: Always
           resources:
             requests: {}
@@ -74,6 +74,8 @@ spec:
               value: ""
             - name: HISTSIZE
               value: ""
+            - name: HISTCONTROL
+              value: "ignorespace;ignoredups;erasedups"
             - name: PROMPT_COMMAND
               value: "history -a"
             - name: TZ
