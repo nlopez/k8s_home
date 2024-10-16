@@ -34,7 +34,7 @@ spec:
       containers:
       - name: tautulli
         # IMAGE=ghcr.io/linuxserver/tautulli; echo -en "$IMAGE:$(crane ls $IMAGE | sort -V | tail -n1)" | pbcopy
-        image: ghcr.io/linuxserver/tautulli:version-v2.14.4
+        image: ghcr.io/linuxserver/tautulli:version-v2.14.6
         # image: alpine
         # command: ["sleep"]
         # args: ["infinity"]
