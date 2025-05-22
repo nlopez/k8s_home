@@ -6,7 +6,7 @@ metadata:
 spec:
   concurrencyPolicy: Forbid
   timeZone: America/New_York
-  schedule: '33 4 * * *' # Restart Plex every day at 4:33pm NY time
+  schedule: '33 4 * * *' # Restart Plex every day at 4:33am NY time
   jobTemplate:
     spec:
       backoffLimit: 2
