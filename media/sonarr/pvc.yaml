@@ -12,3 +12,31 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media
+spec:
+  selector:
+    matchLabels:
+      name: media
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: scratch
+spec:
+  selector:
+    matchLabels:
+      name: scratch
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
