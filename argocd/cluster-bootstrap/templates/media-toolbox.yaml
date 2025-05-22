@@ -11,4 +11,4 @@ spec:
     targetRevision: HEAD
   destination:
     namespace: media
-    server: 'in-cluster'
+    server: 'https://kubernetes.default.svc'
