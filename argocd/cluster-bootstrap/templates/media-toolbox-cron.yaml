@@ -4,6 +4,10 @@ kind: Application
 metadata:
   name: media-toolbox-cron-yt-dlp
 spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
   project: default
   source:
     path: media/toolbox-cron/overlays/yt-dlp
@@ -18,6 +22,10 @@ kind: Application
 metadata:
   name: media-toolbox-cron-yt-dlp-live-chat
 spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
   project: default
   source:
     path: media/toolbox-cron/overlays/yt-dlp-live-chat
