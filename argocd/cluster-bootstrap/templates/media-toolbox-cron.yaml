@@ -1,0 +1,42 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media-toolbox-cron-yt-dlp
+spec:
+  project: default
+  source:
+    path: media/toolbox-cron/overlays/yt-dlp
+    repoURL: https://github.com/nlopez/k8s_home
+    targetRevision: HEAD
+  destination:
+    namespace: media
+    server: 'https://kubernetes.default.svc'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media-toolbox-cron-yt-dlp-live-chat
+spec:
+  project: default
+  source:
+    path: media/toolbox-cron/overlays/yt-dlp-live-chat
+    repoURL: https://github.com/nlopez/k8s_home
+    targetRevision: HEAD
+  destination:
+    namespace: media
+    server: 'https://kubernetes.default.svc'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media-toolbox-cron-ytarchive
+spec:
+  project: default
+  source:
+    path: media/toolbox-cron/overlays/ytarchive
+    repoURL: https://github.com/nlopez/k8s_home
+    targetRevision: HEAD
+  destination:
+    namespace: media
+    server: 'https://kubernetes.default.svc'
