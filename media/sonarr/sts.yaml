@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sonarr
-  namespace: media
   labels:
     app: sonarr
     version: v1

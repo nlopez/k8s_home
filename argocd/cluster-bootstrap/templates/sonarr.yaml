@@ -12,7 +12,7 @@ spec:
       selfHeal: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: media
+    namespace: sonarr
   project: default
   source:
     path: media/sonarr
