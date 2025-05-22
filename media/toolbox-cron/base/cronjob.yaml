@@ -37,11 +37,6 @@ spec:
                     path: config
             - name: temp
               emptyDir: {}
-          initContainers:
-            - name: bgutil-ytdlp-pot-provider
-              image: brainicism/bgutil-ytdlp-pot-provider:0.8.5
-              restartPolicy: Always
-              imagePullPolicy: IfNotPresent
           containers:
             - name: toolbox
               image: docker.io/nlopez/media-toolbox:latest
