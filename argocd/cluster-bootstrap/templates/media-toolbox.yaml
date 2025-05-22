@@ -1,0 +1,14 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media-toolbox-blue
+spec:
+  project: default
+  source:
+    path: media/toolbox/overlays/blue
+    repoURL: https://github.com/nlopez/k8s_home
+    targetRevision: HEAD
+  destination:
+    namespace: media
+    server: 'in-cluster'
