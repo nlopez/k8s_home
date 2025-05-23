@@ -92,15 +92,6 @@ spec:
               mountPath: /downloads
               subPath: downloads
 
-          securityContext:
-            privileged: false
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsUser: 1001
-            runAsGroup: 1001
       volumes:
         - name: sonarr
           persistentVolumeClaim:
@@ -111,8 +102,3 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: media
-
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
