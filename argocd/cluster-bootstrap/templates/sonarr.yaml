@@ -9,7 +9,7 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
+      selfHeal: false
   destination:
     server: https://kubernetes.default.svc
     namespace: media
