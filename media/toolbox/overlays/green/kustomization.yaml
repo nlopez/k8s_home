@@ -6,7 +6,7 @@ resources:
 nameSuffix: -green
 images:
 - name: docker.io/nlopez/media-toolbox
-  newTag: "ae9a8ae"
+  newTag: "907461c"
 labels:
 - includeSelectors: true
   pairs:
