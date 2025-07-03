@@ -16,7 +16,7 @@ spec:
     targetRevision: v1.18.2
     helm:
       values: |
-        installCRDs: "true"
+        installCRDs: true
         podDnsPolicy: "None"
         podDnsConfig:
           nameservers:
