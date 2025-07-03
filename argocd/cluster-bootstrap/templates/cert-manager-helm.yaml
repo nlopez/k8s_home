@@ -17,8 +17,8 @@ spec:
     helm:
       values: |
         crds:
-          enabled: "true"
-          keep: "true"
+          enabled: true
+          keep: true
         podDnsPolicy: "None"
         podDnsConfig:
           nameservers:
