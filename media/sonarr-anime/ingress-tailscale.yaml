@@ -6,6 +6,9 @@ metadata:
     app: sonarr-anime
     version: v1
 spec:
+  tls:
+    - hosts:
+      - suitable-starfish
   ingressClassName: tailscale
   rules:
     - http:
