@@ -5,6 +5,8 @@ metadata:
   labels:
     app: sonarr-anime
     version: v1
+  annotations:
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:
     - hosts:
