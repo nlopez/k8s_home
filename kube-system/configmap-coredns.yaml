@@ -23,3 +23,8 @@ data:
         loadbalance
         reload
     }
+    ts.net {
+      errors
+      cache 30
+      forward . 10.98.16.133
+    }
