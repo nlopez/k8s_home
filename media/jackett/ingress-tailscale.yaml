@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: jackett-tailscale
   namespace: media
+  annotations:
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:
   - hosts:
