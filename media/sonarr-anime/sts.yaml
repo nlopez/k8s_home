@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sonarr-anime
+  labels:
+    app: sonarr-anime
+    version: v1
+spec:
+  serviceName: sonarr-anime
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr-anime
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: sonarr-anime
+        rclone-mounts: "true"
+        version: v1
+    spec:
+      serviceAccountName: sonarr-anime
+
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - pms
+              topologyKey: "kubernetes.io/hostname"
+
+      containers:
+        - name: sonarr-anime
+          image: ghcr.io/linuxserver/sonarr:version-4.0.14.2939
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"
+            limits:
+              memory: "2Gi"
+
+          env:
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "1001"
+            - name: TZ
+              value: "America/New_York"
+
+          ports:
+            - name: http
+              containerPort: 8989
+
+          startupProbe:
+            httpGet:
+              port: http
+              path: /
+            periodSeconds: 10
+            failureThreshold: 30
+
+          volumeMounts:
+            - name: sonarr-anime
+              subPath: config
+              mountPath: /config
+            - name: media
+              mountPath: /media
+            - name: scratch
+              mountPath: /downloads
+              subPath: downloads
+
+      volumes:
+        - name: sonarr-anime
+          persistentVolumeClaim:
+            claimName: sonarr-anime-pv-claim
+        - name: scratch
+          persistentVolumeClaim:
+            claimName: scratch
+        - name: media
+          persistentVolumeClaim:
+            claimName: media

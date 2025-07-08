@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sonarr-anime
+  labels:
+    app: sonarr-anime
+    version: v1
