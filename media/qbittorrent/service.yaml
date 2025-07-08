@@ -9,6 +9,7 @@ metadata:
   annotations:
     tailscale.com/hostname: "solid-hound"
     tailscale.com/expose: "true"
+    tailscale.com/tailnet-fqdn: "nas2.macaroni-pirate.ts.net"
 spec:
   type: ExternalName
   externalName: 192.168.222.149.sslip.io
