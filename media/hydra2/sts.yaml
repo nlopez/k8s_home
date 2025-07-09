@@ -27,7 +27,7 @@ spec:
       containers:
         - name: hydra2
           # IMAGE=ghcr.io/linuxserver/nzbhydra2; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-          image: ghcr.io/linuxserver/nzbhydra2:version-v7.13.0
+          image: ghcr.io/linuxserver/nzbhydra2:version-v7.15.3
           resources:
             requests:
               cpu: "500m"

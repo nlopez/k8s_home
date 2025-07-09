@@ -19,7 +19,6 @@ spec:
         app: tautulli
         version: v1
     spec:
-      # nodeName: knode1
       dnsConfig:
         options:
         - name: ndots
