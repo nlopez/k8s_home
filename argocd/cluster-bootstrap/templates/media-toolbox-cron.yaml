@@ -7,7 +7,7 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
+      selfHeal: false
   project: default
   source:
     path: media/toolbox-cron/overlays/yt-dlp
@@ -25,7 +25,7 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: true
+      selfHeal: false
   project: default
   source:
     path: media/toolbox-cron/overlays/yt-dlp-live-chat
