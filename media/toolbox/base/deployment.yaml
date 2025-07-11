@@ -45,7 +45,7 @@ spec:
           emptyDir: {}
       containers:
         - name: toolbox
-          image: docker.io/nlopez/media-toolbox:907461c
+          image: docker.io/nlopez/media-toolbox:d188916
           imagePullPolicy: IfNotPresent
           resources:
             requests: {}
