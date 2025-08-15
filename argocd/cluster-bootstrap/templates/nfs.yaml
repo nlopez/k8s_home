@@ -15,6 +15,6 @@ spec:
     namespace: media
   project: default
   source:
-    path: media/nfs
+    path: nfs
     repoURL: https://github.com/nlopez/k8s_home
     targetRevision: unstable
