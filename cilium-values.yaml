@@ -11,11 +11,30 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["10.43.16.0/20"]
     clusterPoolIPv4MaskSize: 24
 routingMode: "native"
-autoDirectNodeRoutes: "false"
-directRoutingSkipUnreachable: false
+autoDirectNodeRoutes: true
+directRoutingSkipUnreachable: true
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
 bpf:
   masquerade: true
   lbExternalClusterIP: true
   hostLegacyRouting: false
   tproxy: true
+ipMasqAgent:
+  enabled: true
+  config:
+    nonMasqueradeCIDRs:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    masqLinkLocal: false
+    masqLinkLocalIPv6: false
+bandwidthManager:
+  enabled: true
+  bbr: true
+vlanBypass: 0
+hubble:
+  enabled: true
+  ui:
+    enabled: true
+  relay:
+    enabled: true
