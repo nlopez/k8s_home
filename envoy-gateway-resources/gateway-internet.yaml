@@ -6,7 +6,7 @@ spec:
   gatewayClassName: internet
   addresses:
     - type: IPAddress
-      value: 10.43.64.2
+      value: 10.43.64.20
   listeners:
     - name: http
       protocol: HTTP
