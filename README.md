@@ -26,6 +26,17 @@ cilium status --wait
 kubectl get pod --all-namespaces -owide --watch
 ```
 
+### ArgoCD
+```bash
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+argocd login --core
+argocd admin initial-password -n argocd
+export ARGOCD_SVC_IP="$(kubectl get svc -n argocd -l app.kubernetes.io/name=argocd-server -o jsonpath='{.items[*].spec.clusterIP}')"
+argocd login "$ARGOCD_SVC_IP" --insecure --username admin
+
+```
+
 ### 1Password Connect
 ```bash
 helm repo add 1password https://1password.github.io/connect-helm-charts/
