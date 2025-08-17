@@ -15,7 +15,7 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
   destination:
-    namespace: envoy-gateway-system
+    namespace: envoy-gateway
     name: "in-cluster"
   sources:
     - path: .
