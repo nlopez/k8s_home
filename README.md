@@ -8,15 +8,17 @@ kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-
 # run control plane join command printed by kubeadm on additional masters
 ```
 
-### CNI: Cilium
-```bash
-cilium install --helm-values=cilium-values.yaml
-```
-
 ### Untaint master/control-plane
 ```bash
 kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+```
+
+### CNI: Cilium
+```bash
+helm repo add cilium https://helm.cilium.io/
+helm install cilium cilium/cilium --version 1.18.1 --namespace kube-system
+cilium status --wait
 ```
 
 ### Wait for coredns/control plane running
