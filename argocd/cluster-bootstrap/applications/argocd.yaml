@@ -13,6 +13,6 @@ spec:
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 3.21.0
+      targetRevision: 8.3.0
       helm: # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
         parameters: []
