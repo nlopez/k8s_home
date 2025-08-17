@@ -26,3 +26,6 @@ spec:
             value: "true"
           - name: crds.keep
             value: "true"
+    - repoURL: https://github.com/nlopez/k8s_home
+      path: cert-manager-resources
+      targetRevision: unstable
