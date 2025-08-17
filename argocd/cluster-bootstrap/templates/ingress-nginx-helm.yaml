@@ -1,20 +1,23 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/application_v1alpha1.json
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-ingress-nginx
+  name: ingress-nginx
   namespace: argocd
 spec:
+  project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
   destination:
-    server: https://kubernetes.default.svc
+    name: "in-cluster"
     namespace: ingress-nginx
-  project: default
   source:
-    repoURL: https://kubernetes.github.io/ingress-nginx/
+    repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
     # https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/CHANGELOG.md
     targetRevision: 4.13.0
