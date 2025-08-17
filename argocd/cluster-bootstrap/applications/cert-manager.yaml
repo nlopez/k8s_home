@@ -25,6 +25,12 @@ spec:
             value: "true"
           - name: crds.keep
             value: "true"
+          - name: config.apiVersion
+            value: "controller.config.cert-manager.io/v1alpha1"
+          - name: config.kind
+            value: "ControllerConfiguration"
+          - name: config.enableGatewayAPI
+            value: "true"
     - repoURL: https://github.com/nlopez/k8s_home
       path: cert-manager-resources
       targetRevision: unstable

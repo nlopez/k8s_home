@@ -21,5 +21,8 @@ spec:
     - path: .
       repoURL: oci://docker.io/envoyproxy/gateway-helm
       targetRevision: v1.5.0
-      helm:
+      helm: # https://github.com/envoyproxy/gateway/blob/main/charts/gateway-helm/values.tmpl.yaml
         parameters: []
+    - repoURL: https://github.com/nlopez/k8s_home
+      path: envoy-gateway-resources
+      targetRevision: unstable
