@@ -47,13 +47,12 @@ metadata:
 spec:
   advertisements:
     - advertisementType: "PodCIDR"
-      attributes:
-        communities:
-          standard: [ "65000:99" ]
-        localPreference: 99
     - advertisementType: "Service"
       service:
         addresses:
           - ClusterIP
           - ExternalIP
           - LoadBalancerIP
+      selector:
+        matchExpressions:
+        - {key: somekey, operator: NotIn, values: ['never-used-value']}
