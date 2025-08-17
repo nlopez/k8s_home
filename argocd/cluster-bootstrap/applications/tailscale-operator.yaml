@@ -9,8 +9,7 @@ spec:
   project: default
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: false
+      enabled: true
     syncOptions:
       - CreateNamespace=true
   destination:
@@ -22,6 +21,12 @@ spec:
       targetRevision: 1.82.0
       helm: # https://github.com/tailscale/tailscale/blob/main/cmd/k8s-operator/deploy/chart/values.yaml
         parameters:
+          - name: operatorConfig.defaultTags[0]
+            value: "tag:k8s-operator"
+          - name: operatorConfig.defaultTags[1]
+            value: "tag:home"
+          - name: operatorConfig.defaultTags[1]
+            value: "tag:lga1"
           - name: operatorConfig.podAnnotations.operator\.1password\.io/item-path
             value: "vaults/copxopw5gkuo2m3cv7acvkrfxy/items/dgz5karhxoosz25a6lk2ndudhi"
           - name: operatorConfig.podAnnotations.operator\.1password\.io/item-name

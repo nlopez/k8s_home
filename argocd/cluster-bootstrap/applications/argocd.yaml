@@ -6,10 +6,15 @@ metadata:
   name: argocd
   namespace: argocd
 spec:
+  project: default
+  syncPolicy:
+    automated:
+      enabled: true
+    syncOptions:
+      - CreateNamespace=true
   destination:
     namespace: argocd
     name: "in-cluster"
-  project: default
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
