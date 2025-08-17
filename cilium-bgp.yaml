@@ -21,7 +21,7 @@ metadata:
   name: my-lb-pool
 spec:
   blocks:
-    - cidr: "10.0.10.0/24"
+    - cidr: "10.43.64.0/24"
 ---
 apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
