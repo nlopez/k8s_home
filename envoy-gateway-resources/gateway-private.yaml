@@ -3,10 +3,12 @@ kind: Gateway
 metadata:
   name: private
   annotations:
-    lbipam.cilium.io/ips: "10.43.64.10"
+    lbipam.cilium.io/ips: ""
 spec:
   gatewayClassName: private
-  addresses: []
+  addresses:
+    - type: IPAddress
+      value: 10.43.64.10
   listeners:
     - name: http
       protocol: HTTP
