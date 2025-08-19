@@ -21,3 +21,6 @@ spec:
       targetRevision: 8.3.0
       helm: # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
         parameters: []
+    - repoURL: https://github.com/nlopez/k8s_home
+      path: argocd-resources
+      targetRevision: unstable
