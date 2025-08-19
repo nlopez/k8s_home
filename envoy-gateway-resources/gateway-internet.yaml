@@ -8,26 +8,32 @@ metadata:
 spec:
   gatewayClassName: internet
   addresses:
-    - type: IPAddress
-      value: 10.43.64.20
+  - type: IPAddress
+    value: 10.43.64.20
   listeners:
-    - name: wildcard-desertbluffs-com-https
-      protocol: HTTPS
-      hostname: "*.desertbluffs.com"
-      port: 443
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: wildcard-desertbluffs-com-cert
-            group: ""
-    - name: wildcard-radoncanyon-com-https
-      protocol: HTTPS
-      hostname: "*.radoncanyon.com"
-      port: 443
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: wildcard-radoncanyon-com-cert
-            group: ""
+  - name: wildcard-desertbluffs-com-https
+    protocol: HTTPS
+    hostname: "*.desertbluffs.com"
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: wildcard-desertbluffs-com-cert
+        group: ""
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: wildcard-radoncanyon-com-https
+    protocol: HTTPS
+    hostname: "*.radoncanyon.com"
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: wildcard-radoncanyon-com-cert
+        group: ""
+    allowedRoutes:
+      namespaces:
+        from: All
