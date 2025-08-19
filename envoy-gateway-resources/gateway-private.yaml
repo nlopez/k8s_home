@@ -28,5 +28,5 @@ spec:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: wildcard-desertbluffs-com-cert
+            name: wildcard-radncanyon-com-cert
             group: ""
