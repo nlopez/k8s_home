@@ -7,19 +7,10 @@ spec:
   parentRefs:
   - name: internet
     namespace: envoy-gateway-system
+    sectionName: wildcard-desertbluffs-com-https
   hostnames:
   - c.desertbluffs.com
   rules:
   - backendRefs:
     - name: argocd-server
       port: 443
-    matches:
-    - path:
-        type: PathPrefix
-        value: /
-    filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
-        set:
-        - name: X-Forwarded-Proto
-          value: "https"
