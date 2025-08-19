@@ -8,8 +8,12 @@ spec:
   - name: internet
     namespace: envoy-gateway-system
   hostnames:
-  - "c.desertbluffs.com"
+  - c.desertbluffs.com
   rules:
   - backendRefs:
     - name: argocd-server
-      port: 80
+      port: 443
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
