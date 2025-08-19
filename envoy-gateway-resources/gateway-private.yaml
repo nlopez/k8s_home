@@ -12,9 +12,7 @@ spec:
   listeners:
     - name: wildcard-desertbluffs-com-https
       protocol: HTTPS
-      hostnames:
-        - "*.desertbluffs.com"
-        - "desertbluffs.com"
+      hostname: "*.desertbluffs.com"
       port: 443
       tls:
         mode: Terminate
@@ -24,9 +22,7 @@ spec:
             group: ""
     - name: wildcard-radoncanyon-com-https
       protocol: HTTPS
-      hostnames:
-        - "*.radoncanyon.com"
-        - "radoncanyon.com"
+      hostname: "*.radoncanyon.com"
       port: 443
       tls:
         mode: Terminate
