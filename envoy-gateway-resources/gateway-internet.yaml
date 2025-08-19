@@ -2,11 +2,11 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: internet
+  annotations:
+    lbipam.cilium.io/ips: "10.43.64.20"
 spec:
   gatewayClassName: internet
-  addresses:
-    - type: IPAddress
-      value: 10.43.64.20
+  addresses: []
   listeners:
     - name: http
       protocol: HTTP
