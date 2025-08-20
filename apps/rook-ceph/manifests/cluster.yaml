@@ -331,7 +331,7 @@ spec:
       enabled: false
 
     # cephfs driver specific settings.
-    cephfs:
+    cephfs: {}
       # Set CephFS Kernel mount options to use https://docs.ceph.com/en/latest/man/8/mount.ceph/#options.
       # kernelMountOptions: ""
       # Set CephFS Fuse mount options to use https://docs.ceph.com/en/latest/man/8/ceph-fuse/#options.
