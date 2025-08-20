@@ -24,6 +24,8 @@ spec:
       parameters:
       - name: global.domain
         value: c.desertbluffs.com
+      - name: global.server.insecure
+        value: "true"
   - repoURL: https://github.com/nlopez/k8s_home
     path: argocd-resources
     targetRevision: unstable
