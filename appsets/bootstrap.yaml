@@ -58,6 +58,7 @@ spec:
         helm:
           valueFiles:
           - $values/apps/{{.name}}/values.yaml
+          ignoreMissingValueFiles: true
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
         ref: values
