@@ -15,10 +15,16 @@ spec:
         repoURL: 'https://argoproj.github.io/argo-helm'
         chart: argo-cd
         targetRevision: 8.3.0
+        namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
         targetRevision: v1.18.2
+        namespace: cert-manager
+      - name: envoy-gateway
+        repoURL: oci://docker.io/envoyproxy/gateway-helm
+        targetRevision: v1.5.0
+        namespace: envoy-gateway-system
   template:
     metadata:
       name: '{{.name}}'
@@ -32,15 +38,21 @@ spec:
         - CreateNamespace=true
         - ServerSideApply=true
       destination:
-        namespace: '{{.name}}'
+        namespace: '{{.namespace}}'
         server: https://kubernetes.default.svc
+  templatePatch: |
+    spec:
       sources:
-      - chart: '{{.chart}}'
-        repoURL: '{{.repoURL}}'
-        targetRevision: '{{.targetRevision}}'
-        helm:
-          valueFiles:
-          - $values/apps/{{.name}}/values.yaml
-      - repoURL: 'https://github.com/nlopez/k8s_home.git'
-        targetRevision: unstable
-        ref: values
+        - repoURL: '{{.repoURL}}'
+          {{- if regexMatch "^oci://" .repoURL -}}
+          path: .
+          {{- else -}}
+          chart: '{{.chart}}'
+          {{- end -}}
+          targetRevision: '{{.targetRevision}}'
+          helm:
+            valueFiles:
+            - $values/apps/{{.name}}/values.yaml
+        - repoURL: 'https://github.com/nlopez/k8s_home.git'
+          targetRevision: unstable
+          ref: values
