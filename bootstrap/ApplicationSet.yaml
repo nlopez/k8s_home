@@ -43,7 +43,7 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
