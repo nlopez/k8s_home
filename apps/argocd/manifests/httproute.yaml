@@ -7,9 +7,13 @@ spec:
   parentRefs:
   - name: internet
     namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
   hostnames:
   - c.desertbluffs.com
   rules:
   - backendRefs:
     - name: argocd-server
       port: 443
+      group: ''
+      kind: Service
