@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internet
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: internet
+  addresses:
+  - type: IPAddress
+    value: 10.43.64.20
+  listeners:
+  - name: wildcard-desertbluffs-com-https
+    protocol: HTTPS
+    hostname: "*.desertbluffs.com"
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: wildcard-desertbluffs-com-cert
+        group: ""
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: wildcard-radoncanyon-com-https
+    protocol: HTTPS
+    hostname: "*.radoncanyon.com"
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: wildcard-radoncanyon-com-cert
+        group: ""
+    allowedRoutes:
+      namespaces:
+        from: All
