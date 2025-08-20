@@ -1,8 +1,0 @@
-# yaml-language-server: $schema=https://json.schemastore.org/yamllint.json
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: "sa"
-  namespace: media
-automountServiceAccountToken: false

@@ -1,8 +1,0 @@
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  name: cloudflare-api-token
-  namespace: cert-manager
-spec:
-  itemPath: "vaults/copxopw5gkuo2m3cv7acvkrfxy/items/tgnm7sknlpnrmpu4ziup3ghgkq"
