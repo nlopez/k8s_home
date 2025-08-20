@@ -27,7 +27,7 @@ spec:
             value: "1"
       containers:
         - name: cfwarp
-          image: caomingjun/warp:2025.4.929.0-2.12.0-cbfba700b5e8c1fa13f1063333a5bd6ae372e160
+          image: caomingjun/warp:2025.5.943.0-2.12.0-ce78b84d63390ebf361d7fdfa8e875ef7e2a43d1
           imagePullPolicy: IfNotPresent
           resources:
             requests: {}
@@ -42,6 +42,9 @@ spec:
           env:
             - name: WARP_SLEEP
               value: "2"
+          volumeMounts:
+            - name: cfwarp
+              mountPath: /var/lib/cloudflare-warp
       volumes:
         - name: cfwarp
           persistentVolumeClaim:

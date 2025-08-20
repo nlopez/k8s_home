@@ -49,16 +49,16 @@ spec:
       - &pms
         name: pms
         # IMAGE=ghcr.io/linuxserver/plex; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/plex:version-1.41.9.9961-46083195d
-        # image: alpine
-        # command: ["sleep"]
-        # args: ["infinity"]
+        # image: ghcr.io/linuxserver/plex:version-1.41.9.9961-46083195d
+        image: alpine
+        command: ["sleep"]
+        args: ["infinity"]
         resources:
           limits:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "true"
+          value: "false"
         - name: DB_REPAIR_REV
           value: "e2a3d1d04b0b16e5e53931baa489fe76ac3b4129"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
@@ -81,6 +81,8 @@ spec:
         volumeMounts:
         - name: pms
           mountPath: /config
+        - name: pms-iscsi
+          mountPath: /config-iscsi
         - name: tmp
           mountPath: /tmp
         - name: media
@@ -89,18 +91,13 @@ spec:
         - name: logs
           mountPath: /logs-pms
           subPath: pms
-          # livenessProbe:
-          #   exec:
-          #     command:
-          #       - sh
-          #       - -c
-          #       - test -f /media/.anchors/dropbox
-          #   periodSeconds: 10
-          #   failureThreshold: 3
       volumes:
       - name: pms
         persistentVolumeClaim:
           claimName: pms-pv-claim
+      - name: pms-iscsi
+        persistentVolumeClaim:
+          claimName: pms-iscsi-pvc
       - name: logs
         persistentVolumeClaim:
           claimName: logs
@@ -118,3 +115,4 @@ spec:
         - sh
         - -c
         - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/${DB_REPAIR_REV:-master}/DBRepair.sh | bash -s - auto prune exit)'
+        ports: []
