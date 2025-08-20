@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/applicationset_v1alpha1.json
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrap
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: [ 'missingkey=error' ]
+  generators:
+  - list:
+      elements:
+      - name: argocd
+        repoURL: 'https://argoproj.github.io/argo-helm'
+        chart: argo-cd
+        targetRevision: 8.3.0
+  template:
+    metadata:
+      name: '{{.name}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+      destination:
+        namespace: '{{.name}}'
+        server: https://kubernetes.default.svc
+      sources:
+      - chart: '{{.chart}}'
+        repoURL: '{{.repoURL}}'
+        targetRevision: '{{.targetRevision}}'
+        helm:
+          valueFiles:
+          - $values/apps/{{.name}}/values.yaml
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        ref: values

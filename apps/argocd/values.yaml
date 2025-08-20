@@ -1,0 +1,5 @@
+global:
+  domain: c.desertbluffs.com
+configs:
+  params:
+    server.insecure: "true"
