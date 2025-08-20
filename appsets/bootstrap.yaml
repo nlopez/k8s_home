@@ -62,3 +62,6 @@ spec:
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
         ref: values
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        path: apps/{{.name}}/manifests
