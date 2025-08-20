@@ -15,6 +15,10 @@ spec:
         repoURL: 'https://argoproj.github.io/argo-helm'
         chart: argo-cd
         targetRevision: 8.3.0
+      - name: cert-manager
+        repoURL: https://charts.jetstack.io
+        chart: cert-manager
+        targetRevision: v1.18.2
   template:
     metadata:
       name: '{{.name}}'
