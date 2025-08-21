@@ -5,6 +5,7 @@ configs:
     server.insecure: "true"
 server:
   service:
+    type: LoadBalancer
+    loadBalancerClass: tailscale
     annotations:
-      tailscale.com/hostname: argocd
-      tailscale.com/expose: "true"
+      tailscale.io/hostname: argocd
