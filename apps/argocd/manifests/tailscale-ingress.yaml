@@ -10,7 +10,7 @@ spec:
     service:
       name: argocd-server
       port:
-        number: 80
+        name: http
   ingressClassName: tailscale
   tls:
   - hosts:
