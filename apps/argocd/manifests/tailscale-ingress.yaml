@@ -9,6 +9,6 @@ spec:
       port:
         name: https
   tls:
-    hosts:
+  - hosts:
     - argocd
   ingressClassName: tailscale
