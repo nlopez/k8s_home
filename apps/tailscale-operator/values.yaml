@@ -1,8 +1,6 @@
 operatorConfig:
-  defaultTags:
-  - "tag:k8s-operator"
-  - "tag:home"
-  - "tag:lga1"
   podAnnotations:
     operator.1password.io/item-path: "vaults/copxopw5gkuo2m3cv7acvkrfxy/items/dgz5karhxoosz25a6lk2ndudhi"
     operator.1password.io/item-name: "operator-oauth"
+proxyConfig:
+  defaultTags: "tag:k8s,tag:home,tag:lga1"
