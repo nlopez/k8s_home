@@ -1,11 +1,3 @@
-global:
-  domain: c.desertbluffs.com
 configs:
   params:
     server.insecure: "true"
-server:
-  service:
-    type: LoadBalancer
-    loadBalancerClass: tailscale
-    annotations:
-      tailscale.com/hostname: argocd
