@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: argocd
   annotations:
-    tailscale.com/hostname: argocd
     tailscale.com/proxy-group: ingress-proxies
 spec:
   defaultBackend:
