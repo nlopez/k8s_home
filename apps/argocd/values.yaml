@@ -7,3 +7,4 @@ server:
   service:
     annotations:
       tailscale.com/hostname: argocd
+      tailscale.com/expose: "true"
