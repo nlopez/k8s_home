@@ -3,3 +3,6 @@ global:
 configs:
   params:
     server.insecure: "true"
+service:
+  annotations:
+    tailscale.com/hostname: argocd
