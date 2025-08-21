@@ -8,4 +8,7 @@ spec:
       name: argocd-server
       port:
         name: https
+  tls:
+    hosts:
+    - argocd
   ingressClassName: tailscale
