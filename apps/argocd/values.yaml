@@ -8,4 +8,4 @@ server:
     type: LoadBalancer
     loadBalancerClass: tailscale
     annotations:
-      tailscale.io/hostname: argocd
+      tailscale.com/hostname: argocd
