@@ -30,11 +30,11 @@ spec:
         chart: tailscale-operator
         targetRevision: 1.82.0
         namespace: tailscale
-      # - name: rook-ceph
-      #   repoURL: https://charts.rook.io/release
-      #   chart: rook-ceph
-      #   targetRevision: v1.18.0
-      #   namespace: rook-ceph
+      - name: rook-ceph
+        repoURL: https://charts.rook.io/release
+        chart: rook-ceph
+        targetRevision: v1.18.0
+        namespace: rook-ceph
   template:
     metadata:
       name: '{{.name}}'
