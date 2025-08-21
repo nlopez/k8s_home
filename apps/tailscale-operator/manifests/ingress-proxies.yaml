@@ -1,11 +1,11 @@
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyGroup
-metadata:
-  name: ingress-proxies
-spec:
-  type: ingress
-  tags:
-  - "tag:k8s"
-  - "tag:home"
-  - "tag:lga1"
-  replicas: 2
+# apiVersion: tailscale.com/v1alpha1
+# kind: ProxyGroup
+# metadata:
+#   name: ingress-proxies
+# spec:
+#   type: ingress
+#   tags:
+#   - "tag:k8s"
+#   - "tag:home"
+#   - "tag:lga1"
+#   replicas: 2
