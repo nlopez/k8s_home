@@ -4,5 +4,8 @@ metadata:
   name: ingress-proxies
 spec:
   type: ingress
-  tags: "tag:k8s,tag:home,tag:lga1"
+  tags:
+  - "tag:k8s"
+  - "tag:home"
+  - "tag:lga1"
   replicas: 2
