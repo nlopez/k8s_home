@@ -40,6 +40,12 @@ spec:
         volumeMounts:
         - name: warp
           mountPath: /var/lib/warp
+        livenessProbe:
+          exec:
+            command: [ 'curl', '--socks5-hostname', '127.0.0.1:1080', 'https://cloudflare.com/cdn-cgi/trace', '--max-time', '5', '--fail' ]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
       volumes:
       - name: warp
         persistentVolumeClaim:
