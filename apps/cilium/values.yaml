@@ -38,3 +38,4 @@ hubble:
     enabled: true
   relay:
     enabled: true
+devices: "eno1" # https://github.com/tailscale/tailscale/issues/12393
