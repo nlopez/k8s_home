@@ -5,4 +5,5 @@ operatorConfig:
 proxyConfig:
   defaultTags: "tag:k8s,tag:home,tag:lga1"
 apiServerProxyConfig:
+  mode: "true"
   allowImpersonation: "true"
