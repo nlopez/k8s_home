@@ -35,6 +35,11 @@ spec:
         chart: rook-ceph
         targetRevision: v1.18.0
         namespace: rook-ceph
+      - name: cilium
+        repoURL: https://helm.cilium.io
+        chart: cilium
+        targetRevision: 1.18.1
+        namespace: kube-system
   template:
     metadata:
       name: '{{.name}}'
