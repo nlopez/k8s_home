@@ -7,7 +7,7 @@ metadata:
     tailscale.com/hostname: warp
 spec:
   type: LoadBalancer
-  ingressClass: tailscale
+  loadBalancerClass: tailscale
   selector:
     app: warp
   ports:
