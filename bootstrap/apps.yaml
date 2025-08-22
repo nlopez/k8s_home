@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/applicationset_v1alpha1.json
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  goTemplate: true
+  goTemplateOptions: [ 'missingkey=error' ]
+  generators:
+  - git:
+      repoURL: https://github.com/nlopez/k8s_home.git
+      revision: unstable
+      directories:
+      - path: apps/*
+  template:
+    metadata:
+      name: '{{.path[1]}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+      sources:
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        path: '{{path}}'
+      destination:
+        namespace: '{{.path[1]}}'
+        server: https://kubernetes.default.svc
