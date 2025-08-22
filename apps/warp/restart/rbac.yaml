@@ -1,0 +1,27 @@
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: warp-restart
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: warp-restart
+rules:
+- apiGroups: [ "apps", "extensions" ]
+  resources: [ "deployments", "statefulsets" ]
+  resourceNames: [ "warp" ]
+  verbs: [ "get", "patch", "list", "watch" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: warp-restart
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: warp-restart
+subjects:
+- kind: ServiceAccount
+  name: warp-restart

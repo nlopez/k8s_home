@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: warp-restart
+spec:
+  concurrencyPolicy: Forbid
+  timeZone: America/New_York
+  schedule: '33 5 * * *' # Restart warp every day at 5:33am NY time
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          serviceAccountName: warp-restart
+          restartPolicy: Never
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl
+            command:
+            - bash
+            - -c
+            - >-
+              kubectl rollout restart deployment/warp && kubectl rollout status deployment/warp

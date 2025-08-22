@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warp
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: warp
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: warp
+        version: v1
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: warp
+        image: caomingjun/warp:2025.5.943.0-2.12.0-ce78b84d63390ebf361d7fdfa8e875ef7e2a43d1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests: {}
+          limits: {}
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - NET_ADMIN
+            - MKNOD
+            - AUDIT_WRITE
+        env:
+        - name: WARP_SLEEP
+          value: "2"
+        volumeMounts:
+        - name: warp
+          mountPath: /var/lib/warp
+      volumes:
+      - name: warp
+        persistentVolumeClaim:
+          claimName: warp
