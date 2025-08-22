@@ -31,7 +31,7 @@ spec:
       sources:
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
-        path: '{{.path}}'
+        path: '{{.path.path}}'
       destination:
         namespace: '{{.path.basename}}'
         server: https://kubernetes.default.svc
