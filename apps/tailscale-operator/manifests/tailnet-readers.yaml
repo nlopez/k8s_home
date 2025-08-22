@@ -1,0 +1,11 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tailnet-readers
+subjects:
+- kind: Group
+  name: tailnet-readers
+roleRef:
+  kind: ClusterRole
+  name: view
