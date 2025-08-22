@@ -18,7 +18,7 @@ spec:
       - path: apps/*
   template:
     metadata:
-      name: '{{.path[1]}}'
+      name: '{{path[1]}}'
     spec:
       project: default
       syncPolicy:
@@ -33,5 +33,5 @@ spec:
         targetRevision: unstable
         path: '{{path}}'
       destination:
-        namespace: '{{.path[1]}}'
+        namespace: '{{path[1]}}'
         server: https://kubernetes.default.svc
