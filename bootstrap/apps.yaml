@@ -15,7 +15,7 @@ spec:
       repoURL: https://github.com/nlopez/k8s_home.git
       revision: unstable
       directories:
-      - path: apps/*
+      - path: apps/**/
   template:
     metadata:
       name: '{{path[1]}}'
