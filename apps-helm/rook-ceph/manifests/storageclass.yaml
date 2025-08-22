@@ -1,6 +1,5 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/ceph.rook.io/cephblockpool_v1.json
----
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
