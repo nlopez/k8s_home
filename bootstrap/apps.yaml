@@ -15,10 +15,10 @@ spec:
       repoURL: https://github.com/nlopez/k8s_home.git
       revision: unstable
       directories:
-      - path: apps/**/
+      - path: apps/*
   template:
     metadata:
-      name: '{{path[1]}}'
+      name: '{{.path.basename}}'
     spec:
       project: default
       syncPolicy:
@@ -31,7 +31,7 @@ spec:
       sources:
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
-        path: '{{path}}'
+        path: '{{.path}}'
       destination:
-        namespace: '{{path[1]}}'
+        namespace: '{{.path.basename}}'
         server: https://kubernetes.default.svc
