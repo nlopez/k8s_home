@@ -6,6 +6,8 @@ metadata:
   name: bootstrap
   namespace: argocd
 spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   goTemplate: true
   goTemplateOptions: [ 'missingkey=error' ]
   generators:
@@ -72,11 +74,11 @@ spec:
         targetRevision: '{{.targetRevision}}'
         helm:
           valueFiles:
-          - $values/apps/{{.name}}/values.yaml
+          - $values/apps-helm/{{.name}}/values.yaml
           ignoreMissingValueFiles: true
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
         ref: values
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
-        path: apps/{{.name}}/manifests
+        path: apps-helm/{{.name}}/manifests
