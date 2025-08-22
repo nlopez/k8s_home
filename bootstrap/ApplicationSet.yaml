@@ -14,7 +14,7 @@ spec:
       - name: argocd
         repoURL: 'https://argoproj.github.io/argo-helm'
         chart: argo-cd
-        targetRevision: 8.3.0
+        targetRevision: '8.3.0'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -28,7 +28,7 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: 1.86.2
+        targetRevision: '1.86.2'
         namespace: tailscale
       - name: rook-ceph
         repoURL: https://charts.rook.io/release
@@ -38,7 +38,12 @@ spec:
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: 1.18.1
+        targetRevision: '1.18.1'
+        namespace: kube-system
+      - name: metrics-server
+        repoURL: https://kubernetes-sigs.github.io/metrics-server/
+        chart: metrics-server
+        targetRevision: '3.13.0'
         namespace: kube-system
   template:
     metadata:
