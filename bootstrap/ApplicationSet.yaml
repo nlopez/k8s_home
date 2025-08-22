@@ -6,9 +6,9 @@ metadata:
   name: bootstrap
   namespace: argocd
 spec:
-  ignoreApplicationDifferences:
-  - jsonPointers:
-    - /spec/syncPolicy
+  # ignoreApplicationDifferences:
+  # - jsonPointers:
+  #   - /spec/syncPolicy
   syncPolicy:
     preserveResourcesOnDeletion: true
   goTemplate: true
