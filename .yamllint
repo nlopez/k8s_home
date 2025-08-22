@@ -1,0 +1,13 @@
+---
+rules:
+  document-start:
+    present: true
+  document-end:
+    present: false
+  indentation:
+    spaces: 2
+    indent-sequences: false
+  line-length:
+    max: 200
+  comments: disable
+  comments-indentation: disable
