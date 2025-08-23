@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toolbox
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: toolbox
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: toolbox
+        version: v1
+    spec:
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: toolbox-config
+        configMap:
+          name: toolbox-config
+          items:
+          - key: yt-dlp.conf
+            path: config
+      - name: temp
+        emptyDir: {}
+      containers:
+      - name: toolbox
+        image: docker.io/nlopez/media-toolbox:cf54e25
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests: {}
+          limits: {}
+        command: [ "sleep" ]
+        args:
+        - infinity
+        volumeMounts:
+        - name: media
+          mountPath: /media
+        - name: toolbox-config
+          mountPath: /home/user/.config/yt-dlp/config
+          subPath: config
+        - name: temp
+          mountPath: /yt-dlp-temp
+        securityContext:
+          allowPrivilegeEscalation: false
+        env:
+        - name: HISTFILE
+          value: /media/youtube/cfg/bash_history
+        - name: HISTFILESIZE
+          value: "1000000000"
+        - name: HISTSIZE
+          value: "1000000000"
+        - name: HISTCONTROL
+          value: "ignorespace;ignoredups;erasedups"
+        - name: PROMPT_COMMAND
+          value: "history -a"
+        - name: TZ
+          value: "America/New_York"
+        - name: HISTTIMEFORMAT
+          value: "%Y-%m-%dT%H:%M:%S%z "
+        - name: LANG
+          value: "en_US.UTF-8"
+        - name: LC_ALL
+          value: "en_US.UTF-8"
+        - name: TERM
+          value: "xterm-256color"
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
