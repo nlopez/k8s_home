@@ -57,7 +57,7 @@ spec:
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-        chartName: node-feature-discovery
+        chart: node-feature-discovery
         targetRevision: '0.17.3'
         namespace: node-feature-discovery
       - name: intel-device-plugins-gpu
