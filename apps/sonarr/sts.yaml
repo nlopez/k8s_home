@@ -22,10 +22,10 @@ spec:
       containers:
       - name: sonarr
         # IMAGE=ghcr.io/linuxserver/sonarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/sonarr:version-4.0.15.2941
-        # image: alpine
-        # command: ["sleep"]
-        # args: ["infinity"]
+        # image: ghcr.io/linuxserver/sonarr:version-4.0.15.2941
+        image: alpine
+        command: [ "sleep" ]
+        args: [ "infinity" ]
 
         env:
         - name: PUID
@@ -38,13 +38,12 @@ spec:
         ports:
         - name: http
           containerPort: 8989
-
-        startupProbe:
-          httpGet:
-            port: http
-            path: /
-          periodSeconds: 10
-          failureThreshold: 30
+        # startupProbe:
+        #   httpGet:
+        #     port: http
+        #     path: /
+        #   periodSeconds: 10
+        #   failureThreshold: 30
 
         volumeMounts:
         - name: sonarr
