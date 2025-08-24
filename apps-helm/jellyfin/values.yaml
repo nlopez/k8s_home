@@ -2,7 +2,21 @@ service:
   type: LoadBalancer
 
 ingress:
-  enabled: false
+  enabled: true
+  className: tailscale
+  tls:
+  - hosts:
+    - jellyfin
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jellyfin
+            port:
+              name: http
 
 persistence:
   config:
