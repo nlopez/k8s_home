@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ytpot
+spec:
+  selector:
+    app: ytpot
+  ports:
+  - name: ytpot
+    port: 1080
+    targetPort: 1080

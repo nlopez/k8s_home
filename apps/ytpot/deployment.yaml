@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ytpot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ytpot
+  template:
+    metadata:
+      labels:
+        app: ytpot
+    spec:
+      containers:
+      - name: ytpot
+        image: docker.io/brainicism/bgutil-ytdlp-pot-provider:1.2.2@sha256:99e6c198fd55f910004a344c80515905bf8368173d41435b67a0148d9cb2a5e9
