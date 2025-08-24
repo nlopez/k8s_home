@@ -1,0 +1,102 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/applicationset_v1alpha1.json
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrap
+  namespace: argocd
+spec:
+  # ignoreApplicationDifferences:
+  # - jsonPointers:
+  #   - /spec/syncPolicy
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  goTemplate: true
+  goTemplateOptions: [ 'missingkey=error' ]
+  generators:
+  - list:
+      elements:
+      - name: argocd
+        repoURL: 'https://argoproj.github.io/argo-helm'
+        chart: argo-cd
+        targetRevision: '8.3.0'
+        namespace: argocd
+      - name: cert-manager
+        repoURL: https://charts.jetstack.io
+        chart: cert-manager
+        targetRevision: v1.18.2
+        namespace: cert-manager
+      - name: envoy-gateway
+        repoURL: oci://docker.io/envoyproxy/gateway-helm
+        targetRevision: v1.5.0
+        namespace: envoy-gateway-system
+      - name: tailscale-operator
+        repoURL: https://pkgs.tailscale.com/helmcharts
+        chart: tailscale-operator
+        targetRevision: '1.86.2'
+        namespace: tailscale
+      - name: rook-ceph
+        repoURL: https://charts.rook.io/release
+        chart: rook-ceph
+        targetRevision: v1.18.0
+        namespace: rook-ceph
+      - name: cilium
+        repoURL: https://helm.cilium.io
+        chart: cilium
+        targetRevision: '1.18.1'
+        namespace: kube-system
+      - name: metrics-server
+        repoURL: https://kubernetes-sigs.github.io/metrics-server
+        chart: metrics-server
+        targetRevision: '3.13.0'
+        namespace: kube-system
+      - name: reloader
+        repoURL: https://stakater.github.io/stakater-charts
+        chart: reloader
+        targetRevision: '2.2.0'
+        namespace: reloader
+      - name: node-feature-discovery
+        repoURL:  https://kubernetes-sigs.github.io/node-feature-discovery/charts
+        chart: node-feature-discovery
+        targetRevision: '0.17.3'
+        namespace: node-feature-discovery
+      - name: intel-device-plugins-gpu
+        repoURL: https://intel.github.io/helm-charts
+        chart: intel-device-plugins-gpu
+        targetRevision: '0.32.1'
+        namespace: intel-device-plugins-gpu
+  template:
+    metadata:
+      name: '{{.name}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+      destination:
+        namespace: '{{.namespace}}'
+        server: https://kubernetes.default.svc
+  templatePatch: |
+    spec:
+      sources:
+      - repoURL: '{{.repoURL}}'
+        {{- if regexMatch "^oci://" .repoURL }}
+        path: .
+        {{- else }}
+        chart: '{{.chart}}'
+        {{- end }}
+        targetRevision: '{{.targetRevision}}'
+        helm:
+          valueFiles:
+          - $values/apps-helm/{{.name}}/values.yaml
+          ignoreMissingValueFiles: true
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        ref: values
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        path: apps-helm/{{.name}}/manifests
