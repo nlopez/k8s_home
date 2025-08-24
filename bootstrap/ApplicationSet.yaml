@@ -50,6 +50,11 @@ spec:
         chart: metrics-server
         targetRevision: '3.13.0'
         namespace: kube-system
+      - name: reloader
+        repoURL: https://stakater.github.io/stakater-charts
+        chart: reloader
+        targetRevision: '2.2.0'
+        namespace: reloader
   template:
     metadata:
       name: '{{.name}}'
