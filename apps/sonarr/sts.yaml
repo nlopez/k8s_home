@@ -59,10 +59,10 @@ spec:
       volumes:
       - name: sonarr
         persistentVolumeClaim:
-          claimName: config-sonarr
+          claimName: config
       - name: scratch
         persistentVolumeClaim:
-          claimName: scratch-sonarr
+          claimName: scratch
       - name: media
         persistentVolumeClaim:
-          claimName: media-sonarr
+          claimName: media

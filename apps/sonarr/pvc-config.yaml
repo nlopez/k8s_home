@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-sonarr
+  name: config
   labels:
     app: sonarr
 spec:
