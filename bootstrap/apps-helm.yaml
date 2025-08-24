@@ -56,7 +56,7 @@ spec:
         targetRevision: '2.2.0'
         namespace: reloader
       - name: node-feature-discovery
-        repoURL:  https://kubernetes-sigs.github.io/node-feature-discovery/charts
+        repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
         chartName: node-feature-discovery
         targetRevision: '0.17.3'
         namespace: node-feature-discovery
@@ -69,6 +69,7 @@ spec:
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
         targetRevision: '2.2.0'
+        namespace: jellyfin
   template:
     metadata:
       name: '{{.name}}'
