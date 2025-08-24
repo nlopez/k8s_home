@@ -13,12 +13,15 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/nlopez/k8s_home.git
-      revision: unstable
+      revision: media-toolbox
       directories:
       - path: apps/*
+      - path: apps/*/overlays/*
+      - path: apps/media-toolbox
+        exclude: true
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{ .path.basename }}'
     spec:
       project: default
       syncPolicy:
@@ -30,8 +33,20 @@ spec:
         - ServerSideApply=true
       sources:
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
-        targetRevision: unstable
+        targetRevision: media-toolbox
         path: '{{.path.path}}'
       destination:
         namespace: '{{.path.basename}}'
         server: https://kubernetes.default.svc
+  templatePatch: |
+    {{- $patchedName := .path.basename }}
+    {{- $patchedNamespace := .path.basename }}
+    {{- if gt (len .path.segments) 2 }}
+    {{- $patchedName = printf "%s-%s" (index .path.segments 1) .path.basename -}}
+    {{- $patchedNamespace = printf "%s" (index .path.segments 1) -}}
+    {{- end }}
+    metadata:
+      name: '{{ $patchedName }}'
+    spec:
+      destination:
+        namespace: '{{ $patchedNamespace }}'

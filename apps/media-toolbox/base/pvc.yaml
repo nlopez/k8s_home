@@ -1,0 +1,9 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media
+spec:
+  volumeName: media
+  accessModes:
+  - ReadWriteMany
