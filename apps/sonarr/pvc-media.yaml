@@ -1,0 +1,12 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media-sonarr
+spec:
+  volumeName: media-sonarr
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi

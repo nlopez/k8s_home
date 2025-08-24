@@ -1,0 +1,12 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: scratch-sonarr
+spec:
+  volumeName: scratch-sonarr
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
