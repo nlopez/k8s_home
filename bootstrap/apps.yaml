@@ -33,7 +33,7 @@ spec:
         - ServerSideApply=true
       sources:
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
-        targetRevision: media-toolbox
+        targetRevision: unstable
         path: '{{.path.path}}'
       destination:
         namespace: '{{.path.basename}}'
