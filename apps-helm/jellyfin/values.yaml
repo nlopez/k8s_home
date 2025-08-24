@@ -2,12 +2,7 @@ service:
   type: LoadBalancer
 
 ingress:
-  enabled: true
-  className: tailscale
-  tls:
-  - hosts:
-    - jellyfin
-  hosts: {}
+  enabled: false
 
 persistence:
   config:
