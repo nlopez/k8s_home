@@ -13,7 +13,7 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/nlopez/k8s_home.git
-      revision: media-toolbox
+      revision: unstable
       directories:
       - path: apps/*
       - path: apps/*/overlays/*
