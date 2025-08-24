@@ -6,6 +6,8 @@ metadata:
   labels:
     name: media
 spec:
+  capacity:
+    storage: 1Pi
   accessModes:
   - ReadWriteMany
   nfs:
@@ -23,4 +25,3 @@ spec:
   - nofail
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
-  capacity: 1Pi

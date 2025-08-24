@@ -7,3 +7,6 @@ spec:
   volumeName: media
   accessModes:
   - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
