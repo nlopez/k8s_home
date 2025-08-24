@@ -8,7 +8,7 @@ ingress:
   - hosts:
     - jellyfin
   hosts:
-  - host: jellyfin
+  - host: jellyfin.macaroni-pirate.ts.net
     paths:
     - path: /
       pathType: Prefix
