@@ -65,6 +65,10 @@ spec:
         chart: intel-device-plugins-gpu
         targetRevision: '0.32.1'
         namespace: intel-device-plugins-gpu
+      - name: jellyfin
+        repoURL: https://jellyfin.github.io/jellyfin-helm
+        chart: jellyfin
+        targetRevision: '2.2.0'
   template:
     metadata:
       name: '{{.name}}'

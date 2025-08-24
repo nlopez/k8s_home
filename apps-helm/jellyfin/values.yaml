@@ -1,0 +1,19 @@
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: true
+  className: tailscale
+  tls:
+  - hosts:
+    - jellyfin
+
+persistence:
+  config:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    storageClass: rook-ceph-block
+  media:
+    enabled: true
+    existingClaim: media-jellyfin
