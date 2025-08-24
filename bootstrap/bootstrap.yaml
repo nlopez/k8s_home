@@ -46,7 +46,7 @@ spec:
         targetRevision: '1.18.1'
         namespace: kube-system
       - name: metrics-server
-        repoURL: https://kubernetes-sigs.github.io/metrics-server/
+        repoURL: https://kubernetes-sigs.github.io/metrics-server
         chart: metrics-server
         targetRevision: '3.13.0'
         namespace: kube-system
@@ -56,7 +56,7 @@ spec:
         targetRevision: '2.2.0'
         namespace: reloader
       - name: intel-device-plugins-gpu
-        repoURL: https://intel.github.io/intel-device-plugins-for-kubernetes
+        repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
         targetRevision: '0.32.1'
         namespace: intel-device-plugins-gpu
