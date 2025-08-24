@@ -1,17 +1,10 @@
 service:
-  type: LoadBalancer
+  type: ClusterIP
+  port: 80
+  portName: http
 
 ingress:
-  enabled: true
-  className: tailscale
-  tls:
-  - hosts:
-    - jellyfin
-  hosts:
-  - host: jellyfin.macaroni-pirate.ts.net
-    paths:
-    - path: /
-      pathType: Prefix
+  enabled: false
 
 persistence:
   config:
