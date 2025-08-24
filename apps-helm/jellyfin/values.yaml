@@ -15,3 +15,7 @@ persistence:
   media:
     enabled: true
     existingClaim: media-jellyfin
+
+resources:
+  limits:
+    gpu.intel.com/i915: 1
