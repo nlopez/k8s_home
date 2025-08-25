@@ -22,6 +22,3 @@ resources:
 
 deploymentStrategy:
   type: Recreate
-
-livenessProbe: {}
-readinessProbe: {}
