@@ -19,3 +19,6 @@ persistence:
 resources:
   limits:
     gpu.intel.com/i915: 1
+
+deploymentStrategy:
+  type: Recreate
