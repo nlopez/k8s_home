@@ -1,0 +1,39 @@
+---
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: default-dns-ndots
+spec:
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ "apps" ]
+      apiVersions: [ "v1" ]
+      resources: [ "deployments", "statefulsets", "daemonsets" ]
+      operations: [ "CREATE", "UPDATE" ]
+  reinvocationPolicy: IfNeeded
+  mutations:
+  - patchType: "JSONPatch"
+    jsonPatch:
+      expression: >
+        [
+          JSONPatch{
+            op: "add",
+            path: "/spec/template/spec/dnsConfig",
+            value: {
+              "options": [
+                {
+                  "name": "ndots",
+                  "value": "1"
+                }
+              ]
+             }
+          }
+        ]
+---
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: default-dns-ndots
+spec:
+  policyName: default-dns-ndots
+  matchResources: {}
