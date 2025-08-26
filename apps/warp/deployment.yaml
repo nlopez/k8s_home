@@ -48,8 +48,17 @@ spec:
             - 'curl --max-time 5 --fail --socks5-hostname 127.0.0.1:1080 https://cloudflare.com/cdn-cgi/trace | egrep -q "^warp=on$"'
           initialDelaySeconds: 10
           periodSeconds: 60
-
       volumes:
       - name: warp
         persistentVolumeClaim:
           claimName: warp
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - warp
+            topologyKey: kubernetes.io/hostname
