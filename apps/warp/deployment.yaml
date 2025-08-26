@@ -4,7 +4,6 @@ kind: Deployment
 metadata:
   name: warp
 spec:
-  replicas: 3
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -52,13 +51,3 @@ spec:
       - name: warp
         persistentVolumeClaim:
           claimName: warp
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - warp
-            topologyKey: kubernetes.io/hostname
