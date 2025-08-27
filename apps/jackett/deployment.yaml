@@ -42,16 +42,10 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 20
         volumeMounts:
-        - name: jackett-iscsi
+        - name: jackett
           subPath: config
-          mountPath: /config-iscsi
-        - name: jackett-rook
-          subPath: config
-          mountPath: /config-rook
+          mountPath: /config
       volumes:
-      - name: jackett-iscsi
-        persistentVolumeClaim:
-          claimName: jackett-iscsi-pvc
-      - name: jackett-rook
+      - name: jackett
         persistentVolumeClaim:
           claimName: jackett
