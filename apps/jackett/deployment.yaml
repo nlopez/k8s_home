@@ -45,4 +45,4 @@ spec:
       volumes:
       - name: jackett
         persistentVolumeClaim:
-          claimName: jackett
+          claimName: jackett-iscsi-pvc
