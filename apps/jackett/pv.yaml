@@ -16,5 +16,3 @@ spec:
   mountOptions:
   - noatime
   persistentVolumeReclaimPolicy: Retain
-  claimRef:
-    name: jackett-iscsi-pvc
