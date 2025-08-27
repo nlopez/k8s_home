@@ -17,7 +17,10 @@ spec:
       containers:
       - name: jackett
         # IMAGE=ghcr.io/linuxserver/jackett; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/jackett:version-v0.22.1857
+        # image: ghcr.io/linuxserver/jackett:version-v0.22.1857
+        image: alpine
+        command: [ "sleep" ]
+        args: [ "infinity" ]
         env:
         - name: PUID
           value: "1001"
@@ -39,10 +42,16 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 20
         volumeMounts:
-        - name: jackett
+        - name: jackett-iscsi
           subPath: config
-          mountPath: /config
+          mountPath: /config-iscsi
+        - name: jackett-rook
+          subPath: config
+          mountPath: /config-rook
       volumes:
-      - name: jackett
+      - name: jackett-iscsi
         persistentVolumeClaim:
           claimName: jackett-iscsi-pvc
+      - name: jackett-rook
+        persistentVolumeClaim:
+          claimName: jackett
