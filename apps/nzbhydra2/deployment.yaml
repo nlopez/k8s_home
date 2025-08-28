@@ -17,24 +17,18 @@ spec:
         app: nzbhydra2
     spec:
       volumes:
-      - name: nzbhydra2-config
-        persistentVolumeClaim:
-          claimName: nzbhydra2-iscsi-pvc
       - name: nzbhydra2
         persistentVolumeClaim:
           claimName: nzbhydra2
       containers:
       - name: nzbhydra2
         # IMAGE=ghcr.io/linuxserver/nzbhydra2; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        # image: ghcr.io/linuxserver/nzbhydra2:version-v7.15.3
-        image: alpine
-        command: [ "sleep" ]
-        args: [ "infinity" ]
+        image: ghcr.io/linuxserver/nzbhydra2:version-v7.16.0
+        # image: alpine
+        # command: [ "sleep" ]
+        # args: [ "infinity" ]
         volumeMounts:
-        - name: nzbhydra2-config
-          subPath: config
-          mountPath: /config-iscsi
-        - name: nzbhydra2-config
+        - name: nzbhydra2
           subPath: config
           mountPath: /config
         env:
@@ -47,15 +41,15 @@ spec:
         ports:
         - containerPort: 5076
           name: http
-        # livenessProbe:
-        #   httpGet:
-        #     port: http
-        #     path: /internalapi/control/ping
-        #   periodSeconds: 10
-        #   failureThreshold: 3
-        # startupProbe:
-        #   httpGet:
-        #     port: http
-        #     path: /internalapi/control/ping
-        #   periodSeconds: 10
-        #   failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            port: http
+            path: /internalapi/control/ping
+          periodSeconds: 10
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            port: http
+            path: /internalapi/control/ping
+          periodSeconds: 10
+          failureThreshold: 30
