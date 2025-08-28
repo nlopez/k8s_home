@@ -17,5 +17,3 @@ spec:
   mountOptions:
   - noatime
   persistentVolumeReclaimPolicy: Retain
-  claimRef:
-    name: nzbhydra2-iscsi-pvc
