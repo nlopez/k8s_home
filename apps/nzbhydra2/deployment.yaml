@@ -28,7 +28,7 @@ spec:
         # command: [ "sleep" ]
         # args: [ "infinity" ]
         volumeMounts:
-        - name: nzbhydra2-config
+        - name: nzbhydra2
           subPath: config
           mountPath: /config
         env:
