@@ -7,7 +7,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: RollingUpdatez
+    type: Recreate
   selector:
     matchLabels:
       app: nzbhydra2
