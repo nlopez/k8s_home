@@ -3,9 +3,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: hydra2-iscsi-pvc
+  name: nzbhydra2-iscsi-pvc
 spec:
-  volumeName: hydra2-iscsi-pv
+  volumeName: nzbhydra2-iscsi-pv
   resources:
     requests:
       storage: 2G
