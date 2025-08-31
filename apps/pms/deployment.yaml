@@ -53,7 +53,7 @@ spec:
           value: "docker" # don't auto update
         ports:
         - name: https
-          containerPort: https
+          containerPort: 32400
         volumeMounts:
         - name: pms
           mountPath: /config
@@ -67,7 +67,7 @@ spec:
       volumes:
       - name: pms
         persistentVolumeClaim:
-          claimName: pms-pv-claim
+          claimName: pms
       - name: pms-iscsi
         persistentVolumeClaim:
           claimName: pms-iscsi-pvc
