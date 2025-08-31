@@ -33,7 +33,7 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: '1.86.2'
+        targetRevision: '1.86.5'
         namespace: tailscale
       - name: rook-ceph
         repoURL: https://charts.rook.io/release
