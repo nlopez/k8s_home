@@ -10,7 +10,7 @@ spec:
   ingressClassName: tailscale
   tls:
   - hosts:
-    - jellyfin
+    - bustling-ghost
   defaultBackend:
     service:
       name: jellyfin
