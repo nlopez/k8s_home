@@ -4,6 +4,9 @@ operatorConfig:
     operator.1password.io/item-path: "vaults/copxopw5gkuo2m3cv7acvkrfxy/items/dgz5karhxoosz25a6lk2ndudhi"
     operator.1password.io/item-name: "operator-oauth"
   logging: info
+  image:
+    repository: ghcr.io/tailscale/k8s-operator
+    pullPolicy: IfNotPresent
 proxyConfig:
   defaultTags: "tag:k8s,tag:home,tag:lga1"
 apiServerProxyConfig:
