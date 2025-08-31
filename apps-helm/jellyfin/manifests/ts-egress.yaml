@@ -10,6 +10,6 @@ spec:
   externalName: unused
   type: ExternalName
   ports:
-  - port: 443
+  - port: 8096
     protocol: TCP
     name: https
