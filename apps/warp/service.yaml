@@ -5,6 +5,8 @@ metadata:
   name: warp
   annotations:
     tailscale.com/hostname: warp
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
