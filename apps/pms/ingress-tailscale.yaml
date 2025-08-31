@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pms-tailscale
+  annotations:
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+spec:
+  tls:
+  - hosts:
+    - quizzical-queen
+  defaultBackend:
+    service:
+      name: pms
+      port:
+        name: https
+  ingressClassName: tailscale

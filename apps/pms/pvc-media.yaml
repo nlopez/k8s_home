@@ -1,0 +1,12 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media
+spec:
+  volumeName: media-pms
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
