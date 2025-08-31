@@ -25,16 +25,16 @@ spec:
       - &pms
         name: pms
         # IMAGE=lscr.io/linuxserver/plex; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        # image: lscr.io/linuxserver/plex:version-1.41.9.9961-46083195d
-        image: docker.io/alpine:latest
-        command: [ "sleep" ]
-        args: [ "infinity" ]
+        image: lscr.io/linuxserver/plex:version-1.41.9.9961-46083195d
+        # image: docker.io/alpine:latest
+        # command: [ "sleep" ]
+        # args: [ "infinity" ]
         resources:
           limits:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "false"
+          value: "true"
         - name: DB_REPAIR_REV
           value: "dea8a805ce3033411ddd9871105310e2cfab4bf2"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
@@ -55,10 +55,8 @@ spec:
         - name: https
           containerPort: 32400
         volumeMounts:
-        - name: pms
-          mountPath: /config-rook
         - name: pms-iscsi
-          mountPath: /config-iscsi
+          mountPath: /config
         - name: tmp
           mountPath: /tmp
         - name: media
@@ -66,9 +64,6 @@ spec:
           readOnly: false
       volumes:
       - name: pms
-        persistentVolumeClaim:
-          claimName: pms
-      - name: pms-iscsi
         persistentVolumeClaim:
           claimName: pms-iscsi-pvc
       - name: media
