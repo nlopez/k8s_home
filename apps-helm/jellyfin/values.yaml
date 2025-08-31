@@ -2,6 +2,9 @@ service:
   type: ClusterIP
   port: 80
   portName: http
+  annotations:
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 
 ingress:
   enabled: false

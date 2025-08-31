@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   name: pms-tailscale
   annotations:
+    tailscale.com/proxy-group: ingress-proxies
     tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:
