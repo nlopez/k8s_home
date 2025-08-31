@@ -55,7 +55,7 @@ spec:
         - name: https
           containerPort: 32400
         volumeMounts:
-        - name: pms-iscsi
+        - name: pms
           mountPath: /config
         - name: tmp
           mountPath: /tmp
