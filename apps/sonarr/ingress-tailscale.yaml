@@ -3,10 +3,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sonarr
+  annotations:
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:
   - hosts:
-    - sonarr
+    - majestic-fear
   defaultBackend:
     service:
       name: sonarr
