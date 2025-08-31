@@ -3,8 +3,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyfin
-  # annotations:
-  #   tailscale.com/proxy-group: ingress-proxies
+  annotations:
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   ingressClassName: tailscale
   tls:
