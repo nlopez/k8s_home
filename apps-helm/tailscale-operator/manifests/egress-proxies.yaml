@@ -1,12 +1,12 @@
 ---
-# apiVersion: tailscale.com/v1alpha1
-# kind: ProxyGroup
-# metadata:
-#   name: egress-proxies
-# spec:
-#   type: egress
-#   tags:
-#   - "tag:k8s"
-#   - "tag:home"
-#   - "tag:lga1"
-#   replicas: 2
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyGroup
+metadata:
+  name: egress-proxies
+spec:
+  type: egress
+  tags:
+  - "tag:k8s"
+  - "tag:home"
+  - "tag:lga1"
+  replicas: 2
