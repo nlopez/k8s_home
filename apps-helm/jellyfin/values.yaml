@@ -2,6 +2,8 @@ service:
   type: ClusterIP
   port: 80
   portName: http
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: "bustling-ghost.radoncanyon.com"
 
 ingress:
   enabled: false
