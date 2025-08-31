@@ -26,7 +26,7 @@ spec:
         name: pms
         # IMAGE=ghcr.io/linuxserver/plex; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
         # image: ghcr.io/linuxserver/plex:version-1.41.9.9961-46083195d
-        image: alpine
+        image: ghcr.io/linuxserver/alpine
         command: [ "sleep" ]
         args: [ "infinity" ]
         resources:
@@ -36,7 +36,7 @@ spec:
         - name: DO_DB_REPAIR
           value: "false"
         - name: DB_REPAIR_REV
-          value: "e2a3d1d04b0b16e5e53931baa489fe76ac3b4129"
+          value: "dea8a805ce3033411ddd9871105310e2cfab4bf2"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: "false"
         - name: PLEX_UID
