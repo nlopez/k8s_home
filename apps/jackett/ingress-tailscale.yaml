@@ -3,6 +3,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jackett-tailscale
+  annotations:
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:
   - hosts:
