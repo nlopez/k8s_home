@@ -32,5 +32,5 @@ data:
     ts.net {
       errors
       cache 30
-      forward . dns://nameserver.tailscale.svc.cluster.local
+      forward . 10.43.35.181
     }
