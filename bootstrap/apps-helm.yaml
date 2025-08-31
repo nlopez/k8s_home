@@ -70,6 +70,11 @@ spec:
         chart: jellyfin
         targetRevision: '2.2.0'
         namespace: jellyfin
+      - name: external-dns
+        repoURL: https://kubernetes-sigs.github.io/external-dns
+        chart: external-dns
+        targetRevision: '1.17.0'
+        namespace: external-dns
   template:
     metadata:
       name: '{{.name}}'
