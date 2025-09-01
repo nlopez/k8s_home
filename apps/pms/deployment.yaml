@@ -25,7 +25,7 @@ spec:
       - &pms
         name: pms
         # IMAGE=lscr.io/linuxserver/plex; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: lscr.io/linuxserver/plex:version-1.41.9.9961-46083195d
+        image: lscr.io/linuxserver/plex:version-1.42.1.10060-4e8b05daf
         # image: docker.io/alpine:latest
         # command: [ "sleep" ]
         # args: [ "infinity" ]
@@ -34,7 +34,7 @@ spec:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "true"
+          value: "false"
         - name: DB_REPAIR_REV
           value: "dea8a805ce3033411ddd9871105310e2cfab4bf2"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
