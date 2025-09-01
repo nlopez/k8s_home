@@ -34,7 +34,7 @@ spec:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "true"
+          value: "false"
         - name: DB_REPAIR_REV
           value: "dea8a805ce3033411ddd9871105310e2cfab4bf2"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
@@ -79,5 +79,5 @@ spec:
         command:
         - sh
         - -c
-        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/${DB_REPAIR_REV:-master}/DBRepair.sh | bash -s - auto prune exit)'
+        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl --silent --show-error https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/${DB_REPAIR_REV:-master}/DBRepair.sh | bash -s - auto prune exit)'
         ports: []
