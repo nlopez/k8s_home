@@ -34,7 +34,7 @@ spec:
             gpu.intel.com/i915: "1"
         env:
         - name: DO_DB_REPAIR
-          value: "false"
+          value: "true"
         - name: DB_REPAIR_REV
           value: "dea8a805ce3033411ddd9871105310e2cfab4bf2"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
