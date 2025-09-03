@@ -13,7 +13,7 @@ ingress:
 persistence:
   config:
     enabled: true
-    existingClaim: config-iscsi
+    existingClaim: config
   media:
     enabled: true
     existingClaim: media

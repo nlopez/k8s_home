@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-iscsi
+  name: config
 spec:
   volumeName: config-jellyfin
   resources:
