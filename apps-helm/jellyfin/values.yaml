@@ -44,8 +44,10 @@ image:
   tag: latest
 
 livenessProbe:
-  exec: true
+  exec:
+    command: [ "true" ]
 readinessProbe:
-  exec: true
+  exec:
+    command: [ "true" ]
 
 replicaCount: 1
