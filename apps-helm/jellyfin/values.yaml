@@ -43,7 +43,7 @@ image:
   repository: docker.io/alpine
   tag: latest
 
-livenessProbe: 'null'
-readinessProbe: 'null'
+livenessProbe: {}
+readinessProbe: {}
 
 replicaCount: 1
