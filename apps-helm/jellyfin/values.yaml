@@ -28,7 +28,7 @@ deploymentStrategy:
 volumes:
 - name: config
   persistentVolumeClaim:
-  claimName: config
+    claimName: config
 
 volumeMounts:
 - name: config
