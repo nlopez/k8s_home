@@ -1,3 +1,5 @@
+replicaCount: 1
+
 service:
   type: ClusterIP
   port: 80
@@ -11,9 +13,7 @@ ingress:
 persistence:
   config:
     enabled: true
-    accessMode: ReadWriteOnce
-    size: 50Gi
-    storageClass: rook-ceph-block
+    existingClaim: config-iscsi
   media:
     enabled: true
     existingClaim: media
@@ -25,31 +25,23 @@ resources:
 deploymentStrategy:
   type: Recreate
 
-volumes:
-- name: config-iscsi
-  persistentVolumeClaim:
-    claimName: config-iscsi
+volumes: []
+volumeMounts: []
 
-volumeMounts:
-- name: config-iscsi
-  mountPath: /config-iscsi
+# jellyfin:
+#   args:
+#   - sleep
+#   - infinity
 
-jellyfin:
-  args:
-  - sleep
-  - infinity
+# image:
+#   repository: docker.io/alpine
+#   tag: latest
 
-image:
-  repository: docker.io/alpine
-  tag: latest
-
-livenessProbe:
-  initialDelaySeconds: 999999999
-  tcpSocket:
-    port: http
-readinessProbe:
-  initialDelaySeconds: 999999999
-  tcpSocket:
-    port: http
-
-replicaCount: 1
+# livenessProbe:
+#   initialDelaySeconds: 999999999
+#   tcpSocket:
+#     port: http
+# readinessProbe:
+#   initialDelaySeconds: 999999999
+#   tcpSocket:
+#     port: http
