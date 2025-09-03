@@ -45,4 +45,4 @@ image:
 livenessProbe: {}
 readinessProbe: {}
 
-replicaCount: 0
+replicaCount: 1
