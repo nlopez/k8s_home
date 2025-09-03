@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: media-jellyfin
+  name: media
 spec:
   volumeName: media-jellyfin
   accessModes:

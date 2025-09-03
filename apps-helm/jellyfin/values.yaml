@@ -16,7 +16,7 @@ persistence:
     storageClass: rook-ceph-block
   media:
     enabled: true
-    existingClaim: media-jellyfin
+    existingClaim: media
 
 resources:
   limits:
@@ -26,10 +26,10 @@ deploymentStrategy:
   type: Recreate
 
 volumes:
-- name: jellyfin
+- name: config
   persistentVolumeClaim:
-  claimName: jellyfin-iscsi-pvc
+  claimName: config
 
 volumeMounts:
-- name: jellyfin
+- name: config
   mountPath: /config-iscsi
