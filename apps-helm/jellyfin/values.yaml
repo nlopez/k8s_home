@@ -26,10 +26,18 @@ deploymentStrategy:
   type: Recreate
 
 volumes:
-- name: config
+- name: config-iscsi
   persistentVolumeClaim:
-    claimName: config
+    claimName: config-iscsi
 
 volumeMounts:
-- name: config
+- name: config-iscsi
   mountPath: /config-iscsi
+
+jellyfin:
+  command: [ "sleep" ]
+  args: [ "infinity" ]
+
+image:
+  repository: docker.io/alpine
+  tag: latest
