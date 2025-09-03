@@ -35,9 +35,8 @@ volumeMounts:
   mountPath: /config-iscsi
 
 jellyfin:
-  command:
-  - sleep
   args:
+  - sleep
   - infinity
 
 image:
