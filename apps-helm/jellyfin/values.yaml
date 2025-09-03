@@ -43,13 +43,7 @@ image:
   repository: docker.io/alpine
   tag: latest
 
-livenessProbe:
-  tcpSocket: {}
-  exec:
-    command: [ "true" ]
-readinessProbe:
-  tcpSocket: {}
-  exec:
-    command: [ "true" ]
+livenessProbe: {}
+readinessProbe: {}
 
 replicaCount: 1
