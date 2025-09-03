@@ -44,9 +44,11 @@ image:
   tag: latest
 
 livenessProbe:
+  tcpSocket: {}
   exec:
     command: [ "true" ]
 readinessProbe:
+  tcpSocket: {}
   exec:
     command: [ "true" ]
 
