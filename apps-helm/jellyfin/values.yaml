@@ -43,7 +43,13 @@ image:
   repository: docker.io/alpine
   tag: latest
 
-livenessProbe: {}
-readinessProbe: {}
+livenessProbe:
+  initialDelaySeconds: 999999999
+  tcpSocket:
+    port: http
+readinessProbe:
+  initialDelaySeconds: 999999999
+  tcpSocket:
+    port: http
 
 replicaCount: 1
