@@ -41,3 +41,6 @@ jellyfin:
 image:
   repository: docker.io/alpine
   tag: latest
+
+livenessProbe: {}
+readinessProbe: {}
