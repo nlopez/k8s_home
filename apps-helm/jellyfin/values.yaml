@@ -35,8 +35,10 @@ volumeMounts:
   mountPath: /config-iscsi
 
 jellyfin:
-  command: [ "sleep" ]
-  args: [ "infinity" ]
+  command:
+  - sleep
+  args:
+  - infinity
 
 image:
   repository: docker.io/alpine
