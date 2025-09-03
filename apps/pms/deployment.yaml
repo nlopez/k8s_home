@@ -55,17 +55,16 @@ spec:
         - name: https
           containerPort: 32400
         volumeMounts:
-        - name: pms
+        - name: config
           mountPath: /config
-        - name: tmp
-          mountPath: /tmp
         - name: media
           mountPath: /media
-          readOnly: false
+        - name: tmp
+          mountPath: /tmp
       volumes:
-      - name: pms
+      - name: config
         persistentVolumeClaim:
-          claimName: pms-iscsi-pvc
+          claimName: config
       - name: media
         persistentVolumeClaim:
           claimName: media
