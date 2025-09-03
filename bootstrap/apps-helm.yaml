@@ -68,7 +68,7 @@ spec:
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
-        targetRevision: '2.2.0'
+        targetRevision: '2.3.0'
         namespace: jellyfin
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
