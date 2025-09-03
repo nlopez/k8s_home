@@ -43,7 +43,9 @@ image:
   repository: docker.io/alpine
   tag: latest
 
-livenessProbe: null
-readinessProbe: null
+livenessProbe:
+  exec: true
+readinessProbe:
+  exec: true
 
 replicaCount: 1
