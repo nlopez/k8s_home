@@ -24,3 +24,12 @@ resources:
 
 deploymentStrategy:
   type: Recreate
+
+volumes:
+- name: jellyfin
+  persistentVolumeClaim:
+  claimName: jellyfin-iscsi-pvc
+
+volumeMounts:
+- name: jellyfin
+  mountPath: /config-iscsi

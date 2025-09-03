@@ -1,4 +1,16 @@
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: media-jellyfin
+spec:
+  volumeName: media-jellyfin
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Pi
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
