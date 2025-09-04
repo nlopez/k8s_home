@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config
+  name: config-iscsi
 spec:
   volumeName: config-sonarr-iscsi
   resources:
