@@ -20,17 +20,22 @@ spec:
       - name: nzbhydra2
         persistentVolumeClaim:
           claimName: nzbhydra2
+      - name: config
+        persistentVolumeClaim:
+          claimName: config-nzbhydra2
       containers:
       - name: nzbhydra2
         # IMAGE=ghcr.io/linuxserver/nzbhydra2; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/nzbhydra2:version-v7.16.0
-        # image: alpine
-        # command: [ "sleep" ]
-        # args: [ "infinity" ]
+        # image: ghcr.io/linuxserver/nzbhydra2:version-v7.16.0
+        image: alpine
+        command: [ "sleep" ]
+        args: [ "infinity" ]
         volumeMounts:
         - name: nzbhydra2
           subPath: config
           mountPath: /config
+        - name: config
+          mountPath: /config-iscsi
         env:
         - name: PUID
           value: "1001"
@@ -41,15 +46,15 @@ spec:
         ports:
         - containerPort: 5076
           name: http
-        livenessProbe:
-          httpGet:
-            port: http
-            path: /internalapi/control/ping
-          periodSeconds: 10
-          failureThreshold: 3
-        startupProbe:
-          httpGet:
-            port: http
-            path: /internalapi/control/ping
-          periodSeconds: 10
-          failureThreshold: 30
+        # livenessProbe:
+        #   httpGet:
+        #     port: http
+        #     path: /internalapi/control/ping
+        #   periodSeconds: 10
+        #   failureThreshold: 3
+        # startupProbe:
+        #   httpGet:
+        #     port: http
+        #     path: /internalapi/control/ping
+        #   periodSeconds: 10
+        #   failureThreshold: 30
