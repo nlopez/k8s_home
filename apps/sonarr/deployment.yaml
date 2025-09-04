@@ -63,7 +63,7 @@ spec:
           claimName: config
       - name: config-iscsi
         persistentVolumeClaim:
-          claimName: config-sonarr-iscsi
+          claimName: config-iscsi
       - name: scratch
         persistentVolumeClaim:
           claimName: scratch
