@@ -22,6 +22,9 @@ spec:
       - kind: Secret
         name: wildcard-desertbluffs-com-cert
         group: ""
+      - kind: Secret
+        name: wildcard-desertbluffs-com-cert-ecdsa
+        group: ""
     allowedRoutes:
       namespaces:
         from: All
