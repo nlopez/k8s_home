@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shaarli
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  serviceName: shaarli
+  selector:
+    matchLabels:
+      app: shaarli
+  template:
+    metadata:
+      labels:
+        app: shaarli
+    spec:
+      volumes:
+      - name: shaarli
+        iscsi:
+          iqn: iqn.2014-09.com.radoncanyon:nas1:shaarli
+          targetPortal: 192.168.222.149
+          lun: 1
+          fsType: ext4
+      containers:
+      - name: shaarli
+        # IMAGE=ghcr.io/shaarli/shaarli; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
+        image: ghcr.io/shaarli/shaarli:v0.13.0
+        volumeMounts:
+        - mountPath: /var/www/shaarli/data
+          name: shaarli
+          subPath: data
+        - mountPath: /var/www/shaarli/cache
+          name: shaarli
+          subPath: cache
+        ports:
+        - containerPort: 80
+          name: shaarli
