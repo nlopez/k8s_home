@@ -25,7 +25,7 @@ spec:
       containers:
       - name: shaarli
         # IMAGE=ghcr.io/shaarli/shaarli; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/shaarli/shaarli:v0.13.0
+        image: ghcr.io/shaarli/shaarli:v0.15.0
         volumeMounts:
         - mountPath: /var/www/shaarli/data
           name: shaarli
@@ -36,6 +36,3 @@ spec:
         ports:
         - containerPort: 80
           name: shaarli
-        env:
-        - name: SHAARLI_VIRTUAL_HOST
-          value: shaarli.desertbluffs.com
