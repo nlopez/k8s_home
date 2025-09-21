@@ -8,7 +8,6 @@ spec:
   replicas: 1
   strategy:
     type: Recreate
-  serviceName: shaarli
   selector:
     matchLabels:
       app: shaarli
