@@ -32,6 +32,20 @@ spec:
         resources:
           limits:
             gpu.intel.com/i915: "1"
+        livenessProbe:
+          httpGet:
+            port: https
+            path: /identity
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            port: https
+            path: /identity
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
         env:
         - name: DO_DB_REPAIR
           value: "false"
