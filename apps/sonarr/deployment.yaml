@@ -45,13 +45,6 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 5
           failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            port: http
-            path: /ping
-          initialDelaySeconds: 30
-          periodSeconds: 5
-          failureThreshold: 3
 
         volumeMounts:
         - name: config

@@ -47,10 +47,3 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 5
           failureThreshold: 3
-        startupProbe:
-          httpGet:
-            port: http
-            path: /actuator/health/ping
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          failureThreshold: 30
