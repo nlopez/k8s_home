@@ -36,15 +36,15 @@ spec:
           httpGet:
             port: https
             path: /identity
-          initialDelaySeconds: 120
-          periodSeconds: 30
+          initialDelaySeconds: 30
+          periodSeconds: 5
           failureThreshold: 3
         readinessProbe:
           httpGet:
             port: https
             path: /identity
           initialDelaySeconds: 30
-          periodSeconds: 10
+          periodSeconds: 5
           failureThreshold: 3
         env:
         - name: DO_DB_REPAIR

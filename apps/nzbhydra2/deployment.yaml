@@ -43,12 +43,14 @@ spec:
         livenessProbe:
           httpGet:
             port: http
-            path: /internalapi/control/ping
-          periodSeconds: 10
+            path: /actuator/health/ping
+          initialDelaySeconds: 30
+          periodSeconds: 5
           failureThreshold: 3
         startupProbe:
           httpGet:
             port: http
-            path: /internalapi/control/ping
-          periodSeconds: 10
+            path: /actuator/health/ping
+          initialDelaySeconds: 10
+          periodSeconds: 5
           failureThreshold: 30

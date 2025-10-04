@@ -38,12 +38,20 @@ spec:
         ports:
         - name: http
           containerPort: 8989
-        startupProbe:
+        livenessProbe:
           httpGet:
             port: http
-            path: /
-          periodSeconds: 10
-          failureThreshold: 30
+            path: /ping
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            port: http
+            path: /ping
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 3
 
         volumeMounts:
         - name: config

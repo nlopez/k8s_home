@@ -34,13 +34,15 @@ spec:
         readinessProbe:
           tcpSocket:
             port: http
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          initialDelaySeconds: 30
+          periodSeconds: 5
         livenessProbe:
-          tcpSocket:
+          httpGet:
             port: http
-          initialDelaySeconds: 15
-          periodSeconds: 20
+            path: /health
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 3
         volumeMounts:
         - name: config
           mountPath: /config
