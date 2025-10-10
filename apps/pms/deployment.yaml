@@ -36,7 +36,7 @@ spec:
           httpGet:
             port: https
             path: /identity
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 5
           failureThreshold: 3
         env:
