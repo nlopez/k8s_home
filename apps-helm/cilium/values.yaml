@@ -36,4 +36,4 @@ hubble:
     enabled: true
   relay:
     enabled: true
-MTU: 9000
+MTU: 1500
