@@ -19,6 +19,9 @@ bpf:
   lbExternalClusterIP: true
   hostLegacyRouting: false
   tproxy: true
+loadBalancer:
+  protocolDifferentiation:
+    enabled: true
 ipMasqAgent:
   enabled: true
   config:
