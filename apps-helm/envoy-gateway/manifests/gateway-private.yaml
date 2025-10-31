@@ -12,6 +12,13 @@ spec:
   - type: IPAddress
     value: 10.43.64.10
   listeners:
+  - name: wildcard-desertbluffs-com-http
+    protocol: HTTP
+    hostname: "*.desertbluffs.com"
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: wildcard-desertbluffs-com-https
     protocol: HTTPS
     hostname: "*.desertbluffs.com"
@@ -28,6 +35,20 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: wildcard-desertbluffs-com-quic
+    protocol: UDP
+    hostname: "*.desertbluffs.com"
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: wildcard-radoncanyon-com-http
+    protocol: HTTP
+    hostname: "*.radoncanyon.com"
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: wildcard-radoncanyon-com-https
     protocol: HTTPS
     hostname: "*.radoncanyon.com"
@@ -38,6 +59,13 @@ spec:
       - kind: Secret
         name: wildcard-radoncanyon-com-cert
         group: ""
+    allowedRoutes:
+      namespaces:
+        from: All
+  - name: wildcard-radoncanyon-com-quic
+    protocol: UDP
+    hostname: "*.radoncanyon.com"
+    port: 443
     allowedRoutes:
       namespaces:
         from: All
