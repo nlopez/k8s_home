@@ -35,7 +35,7 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: wildcard-desertbluffs-com-quic
+  - name: quic
     protocol: UDP
     port: 443
     allowedRoutes:
@@ -58,12 +58,6 @@ spec:
       - kind: Secret
         name: wildcard-radoncanyon-com-cert
         group: ""
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: wildcard-radoncanyon-com-quic
-    protocol: UDP
-    port: 443
     allowedRoutes:
       namespaces:
         from: All
