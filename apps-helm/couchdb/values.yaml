@@ -25,7 +25,7 @@ persistentVolume:
 
 ingress:
   enabled: true
-  ingressClassName: tailscale
+  className: tailscale
   hosts:
   - eldest-microchip
   tls: []
