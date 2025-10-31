@@ -1,0 +1,30 @@
+clusterSize: 1
+
+persistentVolume:
+  enabled: true
+  existingClaims:
+  - persistentVolumeName: couchdb
+    volumeName: couchdb
+    claimName: couchdb
+    volumeSource:
+      iscsi:
+        targetPortal: 192.168.222.149
+        iqn: iqn.2014-09.com.radoncanyon:nas1:couchdb
+        lun: 1
+        fsType: ext4
+      mountOptions:
+      - noatime
+  storageClass: "-"
+  accessModes:
+  - ReadWriteOnce
+  size: 10Gi
+
+ingress:
+  enabled: true
+  ingressClassName: tailscale
+  hosts:
+  - eldest-microchip
+  tls: []
+  annotations:
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
