@@ -1,8 +1,21 @@
 clusterSize: 1
 
+createAdminSecret: false
+extraSecretName: onepassword-couchdb
+
 couchdbConfig:
   couchdb:
     uuid: f0a91555a3fc467e96110077c6dce1d1
+
+autoSetup:
+  enabled: false
+  image:
+    repository: curlimages/curl
+    tag: latest
+    pullPolicy: Always
+  defaultDatabases:
+  - _global_changes
+  - _users
 
 persistentVolume:
   enabled: true
