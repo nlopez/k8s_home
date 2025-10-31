@@ -3,7 +3,18 @@ kind: ClientTrafficPolicy
 metadata:
   name: enable-http3-policy
 spec:
-  http3: {}
+  http3:
+    quicConfigs:
+    - certificates:
+      - kind: Secret
+        name: wildcard-desertbluffs-com-cert
+        group: ""
+      - kind: Secret
+        name: wildcard-desertbluffs-com-cert-ecdsa
+        group: ""
+      - kind: Secret
+        name: wildcard-radoncanyon-com-cert
+        group: ""
   targetRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

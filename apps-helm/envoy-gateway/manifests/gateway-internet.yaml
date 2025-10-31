@@ -38,18 +38,6 @@ spec:
   - name: quic
     protocol: UDP
     port: 443
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: wildcard-desertbluffs-com-cert
-        group: ""
-      - kind: Secret
-        name: wildcard-desertbluffs-com-cert-ecdsa
-        group: ""
-      - kind: Secret
-        name: wildcard-radoncanyon-com-cert
-        group: ""
     allowedRoutes:
       namespaces:
         from: All
