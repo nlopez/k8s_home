@@ -1,5 +1,9 @@
 clusterSize: 1
 
+couchdbConfig:
+  couchdb:
+    uuid: f0a91555a3fc467e96110077c6dce1d1
+
 persistentVolume:
   enabled: true
   existingClaims:
