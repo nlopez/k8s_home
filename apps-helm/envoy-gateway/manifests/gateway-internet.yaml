@@ -37,7 +37,6 @@ spec:
         from: All
   - name: wildcard-desertbluffs-com-quic
     protocol: UDP
-    hostname: "*.desertbluffs.com"
     port: 443
     allowedRoutes:
       namespaces:
@@ -64,7 +63,6 @@ spec:
         from: All
   - name: wildcard-radoncanyon-com-quic
     protocol: UDP
-    hostname: "*.radoncanyon.com"
     port: 443
     allowedRoutes:
       namespaces:
