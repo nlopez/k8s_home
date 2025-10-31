@@ -12,13 +12,6 @@ spec:
   - type: IPAddress
     value: 10.43.64.10
   listeners:
-  - name: wildcard-desertbluffs-com-http
-    protocol: HTTP
-    hostname: "*.desertbluffs.com"
-    port: 80
-    allowedRoutes:
-      namespaces:
-        from: All
   - name: wildcard-desertbluffs-com-https
     protocol: HTTPS
     hostname: "*.desertbluffs.com"
@@ -38,13 +31,6 @@ spec:
   - name: quic
     protocol: UDP
     port: 443
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: wildcard-radoncanyon-com-http
-    protocol: HTTP
-    hostname: "*.radoncanyon.com"
-    port: 80
     allowedRoutes:
       namespaces:
         from: All
