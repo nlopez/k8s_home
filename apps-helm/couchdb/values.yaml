@@ -7,9 +7,9 @@ couchdbConfig:
 persistentVolume:
   enabled: true
   existingClaims:
-  - persistentVolumeName: couchdb
-    volumeName: couchdb
-    claimName: couchdb
+  - persistentVolumeName: database-storage
+    volumeName: database-storage
+    claimName: database-storage
     volumeSource:
       iscsi:
         targetPortal: 192.168.222.149
