@@ -27,8 +27,10 @@ ingress:
   enabled: true
   className: tailscale
   hosts:
-  - eldest-microchip
-  tls: []
+  - eldest-microchip.macaroni-pirate.ts.net
+  tls:
+  - hosts:
+    - eldest-microchip
   annotations:
     tailscale.com/proxy-group: ingress-proxies
     tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
