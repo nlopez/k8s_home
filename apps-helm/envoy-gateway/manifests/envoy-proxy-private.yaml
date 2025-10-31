@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/envoyproxy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: private
+  namespace: envoy-gateway-system
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        type: LoadBalancer
+        allocateLoadBalancerNodePorts: false
+      envoyDeployment:
+        container:
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
