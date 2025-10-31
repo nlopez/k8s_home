@@ -8,8 +8,9 @@ couchdbConfig:
     uuid: f0a91555a3fc467e96110077c6dce1d1
     chttpd:
       enable_cors: true
+      require_valid_user: true
     cors:
-      origins: https://sofa.desertbluffs.com
+      origins: "*"
       credentials: false
 
 autoSetup:
