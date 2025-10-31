@@ -6,6 +6,11 @@ extraSecretName: onepassword-couchdb
 couchdbConfig:
   couchdb:
     uuid: f0a91555a3fc467e96110077c6dce1d1
+    chttpd:
+      enable_cors: true
+    cors:
+      origins: https://sofa.desertbluffs.com
+      credentials: false
 
 autoSetup:
   enabled: false
