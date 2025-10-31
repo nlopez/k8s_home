@@ -6,12 +6,16 @@ extraSecretName: onepassword-couchdb
 couchdbConfig:
   couchdb:
     uuid: f0a91555a3fc467e96110077c6dce1d1
-    chttpd:
-      enable_cors: true
-      require_valid_user: true
-    cors:
-      origins: "*"
-      credentials: false
+    max_document_size: 50000000
+  httpd:
+    WWW-Authenticate: Basic realm="couchdb"
+  chttpd:
+    enable_cors: true
+    require_valid_user: true
+    max_http_request_size: 4294967296
+  cors:
+    origins: "https://eldest-microchip.macaroni-pirate.ts.net,https://sofa.desertbluffs.com,https://sofa.radoncanyon.com,app://obsidian.md,http://localhost,capacitor://localhost"
+    credentials: true
 
 autoSetup:
   enabled: false
