@@ -28,12 +28,6 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: quic
-    protocol: UDP
-    port: 443
-    allowedRoutes:
-      namespaces:
-        from: All
   - name: wildcard-radoncanyon-com-https
     protocol: HTTPS
     hostname: "*.radoncanyon.com"
