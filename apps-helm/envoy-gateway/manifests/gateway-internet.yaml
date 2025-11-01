@@ -28,34 +28,8 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: wildcard-desertbluffs-com-quic
-    protocol: QUIC
-    hostname: "*.desertbluffs.com"
-    port: 443
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: wildcard-desertbluffs-com-cert-ecdsa
-        group: ""
-    allowedRoutes:
-      namespaces:
-        from: All
   - name: wildcard-radoncanyon-com-https
     protocol: HTTPS
-    hostname: "*.radoncanyon.com"
-    port: 443
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: wildcard-radoncanyon-com-cert
-        group: ""
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: wildcard-radoncanyon-com-quic
-    protocol: QUIC
     hostname: "*.radoncanyon.com"
     port: 443
     tls:
