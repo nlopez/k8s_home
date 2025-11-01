@@ -2,7 +2,9 @@
 # https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml.tmpl
 k8sServiceHost: "192.168.222.245"
 k8sServicePort: "6443"
-kubeProxyReplacement: "true"
+kubeProxyReplacement: true
+installNoConntrackIptablesRules: true
+bpfClockProbe: true
 bgpControlPlane:
   enabled: true
 ipam:
@@ -13,12 +15,28 @@ ipam:
 routingMode: "native"
 autoDirectNodeRoutes: true
 directRoutingSkipUnreachable: true
+ipv4:
+  enabled: true
+enableIPv4BIGTCP: true
+ipv6:
+  enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
 bpf:
+  dataPathMode: netkit
   masquerade: true
   lbExternalClusterIP: true
   hostLegacyRouting: false
   tproxy: true
+  distributedLRU:
+    enabled: true
+  mapDynamicSizeRatio: 0.08
+  events:
+    monitorInterval: "10s"
+    default:
+      rateLimit: 10000
+      burstLimit: 50000
+socketLB:
+  enabled: true
 ipMasqAgent:
   enabled: true
   config:
@@ -36,6 +54,7 @@ hubble:
     enabled: true
   relay:
     enabled: true
+  eventQueueSize: 32768
 MTU: 1500
 loadBalancer:
   mode: dsr
