@@ -25,7 +25,7 @@ for csr in $(k get csr --sort-by=.metadata.creationTimestamp -o name); do kubect
 helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium --version 1.18.1 --namespace kube-system --values apps-helm/cilium/values.yaml
 cilium status --wait
-kubectl apply -Rf apps-helm/cilium/manifests
+kubectl apply --server-side -Rf apps-helm/cilium/manifests
 ```
 
 ### Wait for coredns/control plane running
@@ -36,7 +36,7 @@ kubectl get pod --all-namespaces -owide --watch
 ### ArgoCD
 ```bash
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 argocd login --core
 argocd admin initial-password -n argocd
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
@@ -54,7 +54,7 @@ helm install --create-namespace --namespace 1password connect 1password/connect 
 
 ### Bootstrap Argo AppSets
 ```bash
-kubectl apply -Rf bootstrap
+kubectl apply --server-side -Rf bootstrap
 ```
 
 ## Thanks
