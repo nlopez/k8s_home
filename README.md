@@ -52,5 +52,10 @@ op read 'op://bamv726zv6zbcfke3cnbwjtnuu/asl5wh3w3nu2edr6pkj5ntylvu/1password-cr
 helm install --create-namespace --namespace 1password connect 1password/connect --set-file connect.credentials=1password-credentials.json --set operator.create=true --set operator.token.value=$(op item get yju2wqlsz3uep7mvzivfrs3fvm --fields=token --reveal)
 ```
 
+### Bootstrap Argo AppSets
+```bash
+kubectl apply -Rf bootstrap
+```
+
 ## Thanks
 *  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state). Particularly: iscsi, [flux](https://github.com/weaveworks/flux), and [sealed secrets](https://github.com/bitnami-labs/sealed-secrets).
