@@ -5,7 +5,7 @@ A collection of Kubernetes objects for my home setup
 ### kubeadm
 ```bash
 kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-proxy
-# run control plane join command printed by kubeadm on additional masters
+# run control plane join command printed by kubeadm on additional nodes
 ```
 
 ### Untaint master/control-plane
@@ -18,6 +18,7 @@ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium --version 1.18.1 --namespace kube-system --values apps-helm/cilium/values.yaml
 cilium status --wait
+kubectl apply -Rf apps-helm/cilium/manifests
 ```
 
 ### Wait for coredns/control plane running
@@ -31,9 +32,10 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 argocd login --core
 argocd admin initial-password -n argocd
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 export ARGOCD_SVC_IP="$(kubectl get svc -n argocd -l app.kubernetes.io/name=argocd-server -o jsonpath='{.items[*].spec.clusterIP}')"
 argocd login "$ARGOCD_SVC_IP" --insecure --username admin
-
+argocd account update-password
 ```
 
 ### 1Password Connect
