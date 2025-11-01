@@ -48,6 +48,7 @@ argocd account update-password
 ### 1Password Connect
 ```bash
 helm repo add 1password https://1password.github.io/connect-helm-charts/
+op read 'op://bamv726zv6zbcfke3cnbwjtnuu/asl5wh3w3nu2edr6pkj5ntylvu/1password-credentials.json' > 1password-credentials.json
 helm install --create-namespace --namespace 1password connect 1password/connect --set-file connect.credentials=1password-credentials.json --set operator.create=true --set operator.token.value=$(op item get yju2wqlsz3uep7mvzivfrs3fvm --fields=token --reveal)
 ```
 
