@@ -59,3 +59,5 @@ hubble:
     enabled: true
   eventQueueSize: 32768
 MTU: 1500
+endpointRoutes:
+  enabled: true
