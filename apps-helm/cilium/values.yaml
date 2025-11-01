@@ -37,3 +37,8 @@ hubble:
   relay:
     enabled: true
 MTU: 1500
+loadBalancer:
+  mode: dsr
+  algorithm: maglev
+  acceleration: native
+  dsr: native
