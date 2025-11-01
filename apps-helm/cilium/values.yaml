@@ -35,6 +35,15 @@ bpf:
     default:
       rateLimit: 10000
       burstLimit: 50000
+  disableExternalIPMitigation: true
+  lbAlgorithmAnnotation: true
+  lbModeAnnotation: true
+loadBalancer:
+  mode: hybrid
+  algorithm: maglev
+  acceleration: best-effort
+  dsr: native
+  dsrDispatch: opt
 socketLB:
   enabled: true
 ipMasqAgent:
@@ -56,8 +65,3 @@ hubble:
     enabled: true
   eventQueueSize: 32768
 MTU: 1500
-loadBalancer:
-  mode: dsr
-  algorithm: maglev
-  acceleration: best-effort
-  dsr: native
