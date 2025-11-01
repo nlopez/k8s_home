@@ -22,7 +22,7 @@ ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
 bpf:
-  dataPathMode: netkit
+  datapathMode: netkit
   masquerade: true
   lbExternalClusterIP: true
   hostLegacyRouting: false
