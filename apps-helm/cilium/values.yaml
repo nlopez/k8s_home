@@ -58,4 +58,4 @@ hubble:
   relay:
     enabled: true
   eventQueueSize: 32768
-MTU: 1500
+MTU: 1480
