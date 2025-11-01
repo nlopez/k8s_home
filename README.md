@@ -4,20 +4,19 @@ A collection of Kubernetes objects for my home setup
 ## Notes
 ### kubeadm
 ```bash
-kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-proxy --cri-socket unix:///var/run/containerd/containerd.sock
+kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-proxy
 # run control plane join command printed by kubeadm on additional masters
 ```
 
 ### Untaint master/control-plane
 ```bash
-kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
 
 ### CNI: Cilium
 ```bash
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium --version 1.18.1 --namespace kube-system
+helm install cilium cilium/cilium --version 1.18.1 --namespace kube-system --values apps-helm/cilium/values.yaml
 cilium status --wait
 ```
 
