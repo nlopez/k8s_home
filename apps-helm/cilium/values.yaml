@@ -36,14 +36,8 @@ bpf:
       rateLimit: 10000
       burstLimit: 50000
   disableExternalIPMitigation: true
-  lbAlgorithmAnnotation: true
-  lbModeAnnotation: true
 loadBalancer:
-  mode: hybrid
-  algorithm: maglev
-  acceleration: best-effort
-  dsr: native
-  dsrDispatch: opt
+  mode: snat
 socketLB:
   enabled: true
 ipMasqAgent:
