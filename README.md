@@ -4,7 +4,7 @@ A collection of Kubernetes objects for my home setup
 ## Notes
 ### kubeadm
 ```bash
-kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-proxy --cri-socket unix:///var/run/crio/crio.sock
+kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-proxy --cri-socket unix:///var/run/containerd/containerd.sock
 # run control plane join command printed by kubeadm on additional masters
 ```
 
