@@ -35,11 +35,6 @@ spec:
         chart: tailscale-operator
         targetRevision: '1.86.5'
         namespace: tailscale
-      - name: rook-ceph
-        repoURL: https://charts.rook.io/release
-        chart: rook-ceph
-        targetRevision: v1.18.0
-        namespace: rook-ceph
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
@@ -65,11 +60,6 @@ spec:
         chart: intel-device-plugins-gpu
         targetRevision: '0.32.1'
         namespace: intel-device-plugins-gpu
-      - name: jellyfin
-        repoURL: https://jellyfin.github.io/jellyfin-helm
-        chart: jellyfin
-        targetRevision: '2.3.0'
-        namespace: jellyfin
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
