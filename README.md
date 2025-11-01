@@ -13,6 +13,13 @@ kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
 
+### Approve CSRs
+This is [necessary](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416) because we're using `serverTLSBootstrap: true` in kubeadm.
+
+```bash
+for csr in $(k get csr --sort-by=.metadata.creationTimestamp -o name); do kubectl certificate approve $csr; done
+```
+
 ### CNI: Cilium
 ```bash
 helm repo add cilium https://helm.cilium.io/
