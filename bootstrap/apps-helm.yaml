@@ -19,7 +19,7 @@ spec:
       - name: argocd
         repoURL: 'https://argoproj.github.io/argo-helm'
         chart: argo-cd
-        targetRevision: '8.3.0'
+        targetRevision: '9.0.5'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
