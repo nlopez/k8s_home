@@ -1,7 +1,7 @@
 ---
 configs:
   params:
-    server.insecure: "true"
+    "server.insecure": true
 applicationSet:
   extraArgs:
   - --enable-new-git-file-globbing # https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git-File-Globbing/
