@@ -6,6 +6,7 @@ metadata:
   name: internet
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/target: 'lga1.desertbluffs.com'
 spec:
   gatewayClassName: internet
   addresses:
