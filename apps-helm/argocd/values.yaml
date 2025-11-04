@@ -5,8 +5,6 @@ global:
 configs:
   params:
     server.insecure: true
-  secret:
-    githubSecret: $github-secret:password
 
 server:
   ingress:
