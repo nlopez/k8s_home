@@ -34,7 +34,8 @@ server:
     # -- Additional HTTPRoute labels
     labels: {}
     # -- Additional HTTPRoute annotations
-    annotations: {}
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: c.desertbluffs.com,argocd.desertbluffs.com
     # -- Gateway API parentRefs for the HTTPRoute
     ## Must reference an existing Gateway
     # @default -- `[]` (See [values.yaml])
@@ -45,6 +46,7 @@ server:
       kind: Gateway
     hostnames:
     - c.desertbluffs.com
+    - argocd.desertbluffs.com
     rules:
     - matches:
       - path:
