@@ -26,6 +26,6 @@ sources:
 domainFilters:
 - desertbluffs.com
 - radoncanyon.com
-extraArgs: []
-# - --cloudflare-record-comment=managed by external-dns
+extraArgs:
+- --cloudflare-record-comment=managed by external-dns
 logLevel: debug
