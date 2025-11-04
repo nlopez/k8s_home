@@ -63,7 +63,7 @@ spec:
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
-        targetRevision: '1.17.0'
+        targetRevision: '1.19.0'
         namespace: external-dns
       - name: couchdb
         repoURL: https://apache.github.io/couchdb-helm
