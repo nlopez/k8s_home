@@ -12,7 +12,9 @@ env:
       name: txt-encrypt-aes-key
       key: aes_key
 - name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
-  value: "true"
+  value: "false"
+- name: EXTERNAL_DNS_POLICY
+  value: upsert-only
 sources:
 - service
 - ingress
