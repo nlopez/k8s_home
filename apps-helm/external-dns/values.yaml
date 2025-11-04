@@ -26,4 +26,5 @@ domainFilters:
 - radoncanyon.com
 extraArgs:
 - --cloudflare-record-comment=managed by external-dns
+- --min-ttl=1s
 logLevel: debug
