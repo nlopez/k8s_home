@@ -6,15 +6,15 @@ env:
     secretKeyRef:
       name: cloudflare-api-token
       key: api-token
-- name: EXTERNAL_DNS_TXT_ENCRYPT_AES_KEY
-  valueFrom:
-    secretKeyRef:
-      name: txt-encrypt-aes-key
-      key: aes_key
-- name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
-  value: "false"
-- name: EXTERNAL_DNS_POLICY
-  value: sync
+# - name: EXTERNAL_DNS_TXT_ENCRYPT_AES_KEY
+#   valueFrom:
+#     secretKeyRef:
+#       name: txt-encrypt-aes-key
+#       key: aes_key
+# - name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
+#   value: "false"
+# - name: EXTERNAL_DNS_POLICY
+#   value: sync
 sources:
 - service
 - ingress
@@ -26,6 +26,6 @@ sources:
 domainFilters:
 - desertbluffs.com
 - radoncanyon.com
-extraArgs:
-- --cloudflare-record-comment=managed by external-dns
+extraArgs: []
+# - --cloudflare-record-comment=managed by external-dns
 logLevel: debug
