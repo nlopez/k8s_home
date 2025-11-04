@@ -16,3 +16,11 @@ sources:
 - gateway-udproute
 extraArgs:
 - --txt-new-format-only
+extraVolumes:
+- name: txt-encrypt-aes-key
+  secret:
+    secretName: txt-encrypt-aes-key
+extraVolumeMounts:
+- name: txt-encrypt-aes-key
+  mountPath: /etc/external-dns/txt-encrypt-aes-key
+  readOnly: true
