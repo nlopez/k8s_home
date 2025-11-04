@@ -35,8 +35,8 @@ kubectl get pod --all-namespaces -owide --watch
 
 ### ArgoCD
 ```bash
-kubectl create namespace argocd
-kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+helm repo add argo https://argoproj.github.io/argo-helm
+helm install --create-namespace --namespace argocd --version 9.0.1 argocd argo/argo-cd --values apps-helm/argocd/values.yaml
 argocd login --core
 argocd admin initial-password -n argocd
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
