@@ -13,10 +13,6 @@ env:
       key: aes_key
 - name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
   value: "true"
-- name: EXTERNAL_DNS_LOG_LEVEL
-  value: debug
-- name: CLOUDFLARE_RECORD_COMMENT
-  value: "external-dns managed"
 sources:
 - service
 - ingress
@@ -25,3 +21,9 @@ sources:
 - gateway-tlsroute
 - gateway-tcproute
 - gateway-udproute
+domainFilters:
+- desertbluffs.com
+- radoncanyon.com
+extraArgs:
+- --cloudflare-record-comment=managed by external-dns
+logLevel: debug
