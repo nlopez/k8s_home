@@ -13,6 +13,8 @@ env:
       key: aes_key
 - name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
   value: "true"
+- name: EXTERNAL_DNS_LOG_LEVEL
+  value: debug
 sources:
 - service
 - ingress
