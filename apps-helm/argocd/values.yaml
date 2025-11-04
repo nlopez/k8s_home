@@ -1,1 +1,30 @@
 ---
+global:
+  domain: argocd.macaroni-pirate-ts.net
+
+configs:
+  params:
+    server.insecure: true
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: tailscale
+    annotations:
+      tailscale.com/proxy-group: ingress-proxies
+      tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+      tailscale.com/hostname: argocd
+    tls: false
+    extraRules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: '{{ include "argo-cd.server.fullname" . }}'
+              port:
+                name: '{{ .Values.server.service.servicePortHttpName }}'
+    extraTls:
+    - hosts:
+      - argocd
