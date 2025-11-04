@@ -1,3 +1,5 @@
+image:
+  tag: v0.19.0
 provider:
   name: cloudflare
 env:
@@ -26,6 +28,7 @@ sources:
 domainFilters:
 - desertbluffs.com
 - radoncanyon.com
-extraArgs:
-- --cloudflare-record-comment=managed by external-dns
+extraArgs: []
+# Causes extraneous record updates
+# - --cloudflare-record-comment=managed by external-dns
 logLevel: debug
