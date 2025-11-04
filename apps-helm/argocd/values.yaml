@@ -28,3 +28,25 @@ server:
     extraTls:
     - hosts:
       - argocd
+  httproute:
+    # -- Enable HTTPRoute resource for Argo CD server (Gateway API)
+    enabled: true
+    # -- Additional HTTPRoute labels
+    labels: {}
+    # -- Additional HTTPRoute annotations
+    annotations: {}
+    # -- Gateway API parentRefs for the HTTPRoute
+    ## Must reference an existing Gateway
+    # @default -- `[]` (See [values.yaml])
+    parentRefs:
+    - name: internet
+      namespace: envoy-gateway-system
+      group: gateway.networking.k8s.io
+      kind: Gateway
+    hostnames:
+    - c.desertbluffs.com
+    rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
