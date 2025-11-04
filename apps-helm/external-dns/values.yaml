@@ -6,11 +6,13 @@ env:
     secretKeyRef:
       name: cloudflare-api-token
       key: api-token
-- name: TXT_ENCRYPT_AES_KEY
+- name: EXTERNAL_DNS_TXT_ENCRYPT_AES_KEY
   valueFrom:
     secretKeyRef:
       name: txt-encrypt-aes-key
       key: aes_key
+- name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
+  value: "true"
 sources:
 - service
 - ingress
@@ -20,14 +22,4 @@ sources:
 - gateway-tcproute
 - gateway-udproute
 extraArgs:
-- --txt-encrypt-enabled
-- --txt-encrypt-aes-key=$(TXT_ENCRYPT_AES_KEY)
-extraVolumes:
-- name: txt-encrypt-aes-key
-  secret:
-    secretName: txt-encrypt-aes-key
-extraVolumeMounts:
-- name: txt-encrypt-aes-key
-  mountPath: /etc/external-dns/txt-encrypt-aes-key
-  readOnly: true
-logLevel: debug
+- --cloudflare-record-comment=""
