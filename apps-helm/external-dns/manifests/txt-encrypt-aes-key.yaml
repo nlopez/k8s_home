@@ -1,0 +1,8 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: txt-encrypt-aes-key
+spec:
+  itemPath: "vaults/copxopw5gkuo2m3cv7acvkrfxy/items/4yzhtyjetip4rlrwi3ayls2xte"
