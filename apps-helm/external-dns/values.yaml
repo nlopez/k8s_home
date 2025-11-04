@@ -6,3 +6,11 @@ env:
     secretKeyRef:
       name: cloudflare-api-token
       key: api-token
+sources:
+- service
+- ingress
+- gateway-httproute
+- gateway-grpcroute
+- gateway-tlsroute
+- gateway-tcproute
+- gateway-udproute
