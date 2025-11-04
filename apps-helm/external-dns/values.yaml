@@ -15,6 +15,8 @@ env:
   value: "true"
 - name: EXTERNAL_DNS_LOG_LEVEL
   value: debug
+- name: CLOUDFLARE_RECORD_COMMENT
+  value: "external-dns managed"
 sources:
 - service
 - ingress
@@ -23,5 +25,3 @@ sources:
 - gateway-tlsroute
 - gateway-tcproute
 - gateway-udproute
-extraArgs:
-- --cloudflare-record-comment=""
