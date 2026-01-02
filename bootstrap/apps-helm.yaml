@@ -33,7 +33,7 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: '1.86.5'
+        targetRevision: '1.92.4'
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
