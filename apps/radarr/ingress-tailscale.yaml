@@ -9,7 +9,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - scenic-rotunda
+    - contagious-blues
   defaultBackend:
     service:
       name: radarr
