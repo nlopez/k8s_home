@@ -22,7 +22,7 @@ spec:
       containers:
       - name: sonarr
         # IMAGE=ghcr.io/linuxserver/sonarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/sonarr:version-4.0.15.2941
+        image: ghcr.io/linuxserver/sonarr:version-4.0.16.2944
         # image: alpine
         # command: [ "sleep" ]
         # args: [ "infinity" ]

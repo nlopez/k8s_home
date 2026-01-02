@@ -23,7 +23,7 @@ spec:
       containers:
       - name: nzbhydra2
         # IMAGE=ghcr.io/linuxserver/nzbhydra2; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/nzbhydra2:version-v7.19.2
+        image: ghcr.io/linuxserver/nzbhydra2:version-v8.1.2
         # image: alpine
         # command: [ "sleep" ]
         # args: [ "infinity" ]
