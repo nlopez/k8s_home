@@ -70,6 +70,11 @@ spec:
         chart: couchdb
         targetRevision: '4.6.2'
         namespace: couchdb
+      - name: jellyfin
+        repoURL: https://jellyfin.github.io/jellyfin-helm
+        chart: jellyfin
+        targetRevision: '2.3.0'
+        namespace: jellyfin
   template:
     metadata:
       name: '{{.name}}'
