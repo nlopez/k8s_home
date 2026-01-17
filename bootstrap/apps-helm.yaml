@@ -73,7 +73,7 @@ spec:
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
-        targetRevision: '2.3.0'
+        targetRevision: '2.7.0'
         namespace: jellyfin
   template:
     metadata:
