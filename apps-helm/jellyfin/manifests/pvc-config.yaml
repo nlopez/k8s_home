@@ -5,7 +5,7 @@ metadata:
   name: config-jellyfin
 spec:
   capacity:
-    storage: 100Gi
+    storage: 200Gi
   accessModes:
   - ReadWriteOnce
   iscsi:
@@ -25,6 +25,6 @@ spec:
   volumeName: config-jellyfin
   resources:
     requests:
-      storage: 100Gi
+      storage: 200Gi
   accessModes:
   - ReadWriteOnce
