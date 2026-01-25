@@ -25,7 +25,7 @@ spec:
       containers:
       - name: shaarli
         # IMAGE=ghcr.io/shaarli/shaarli; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/shaarli/shaarli:v0.15.0
+        image: ghcr.io/shaarli/shaarli:v0.16.1
         volumeMounts:
         - mountPath: /var/www/shaarli/data
           name: shaarli
