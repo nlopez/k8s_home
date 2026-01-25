@@ -28,20 +28,20 @@ deploymentStrategy:
 volumes: []
 volumeMounts: []
 
-# jellyfin:
-#   args:
-#   - sleep
-#   - infinity
+jellyfin:
+  args:
+  - sleep
+  - infinity
 
-# image:
-#   repository: docker.io/alpine
-#   tag: latest
+image:
+  repository: docker.io/alpine
+  tag: latest
 
-# livenessProbe:
-#   initialDelaySeconds: 999999999
-#   tcpSocket:
-#     port: http
-# readinessProbe:
-#   initialDelaySeconds: 999999999
-#   tcpSocket:
-#     port: http
+livenessProbe:
+  initialDelaySeconds: 999999999
+  tcpSocket:
+    port: http
+readinessProbe:
+  initialDelaySeconds: 999999999
+  tcpSocket:
+    port: http
