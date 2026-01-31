@@ -25,8 +25,13 @@ resources:
 deploymentStrategy:
   type: Recreate
 
-volumes: []
-volumeMounts: []
+volumes:
+  - name: cache
+    emptyDir:
+      medium: Memory
+volumeMounts:
+  - name: cache
+    mountPath: /cache
 
 # Uncomment for debugging start
 #
