@@ -82,13 +82,6 @@ machine-learning:
           env:
             TRANSFORMERS_CACHE: /cache
             HF_XET_CACHE: /cache/huggingface-x-cache
-      initContainers:
-        01-download-models:
-          enabled: true
-          image:
-            repository: ghcr.io/immich-app/immich-machine-learning
-            pullPolicy: IfNotPresent
-          command: [/bin/sh, -c, "python3 -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer(\"clip-ViT-B-32\").save(\"/cache/clip-vit-b-32\")' 2>&1 | grep -v \"^Some weights\""]
   persistence:
     cache:
       enabled: true
