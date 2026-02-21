@@ -37,6 +37,8 @@ spec:
 # Reference: https://github.com/immich-app/immich-charts#prerequisites
 # This uses the tensorchord/cloudnative-vectorchord image which includes
 # the required vchord and earthdistance extensions for Immich
+# Setup follows the "without superuser permission" pattern:
+# https://docs.immich.app/administration/postgres-standalone
 
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
@@ -54,24 +56,16 @@ spec:
   storage:
     size: 20Gi
     pvcTemplate:
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 20Gi
-        volumeName: immich-database
+      metadata: {}
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   bootstrap:
     initdb:
       postInitApplicationSQL:
-        # Create extensions required by Immich
-        - CREATE EXTENSION vchord CASCADE;
-        - CREATE EXTENSION earthdistance CASCADE;
-        - CREATE EXTENSION cube CASCADE;
-  managed:
-    roles:
-      - name: immich
-        createUser: true
-        passwordSecret:
-          name: onepassword-immich-database
+        # Create the immich database (non-superuser setup per Immich docs)
+        - CREATE DATABASE immich;
+        - |
+          BEGIN;
+          ALTER DATABASE immich OWNER TO postgres;
+          CREATE EXTENSION vchord CASCADE;
+          CREATE EXTENSION earthdistance CASCADE;
+          COMMIT;

@@ -21,7 +21,7 @@ controllers:
               name: onepassword-immich-database
               key: password
           DB_DATABASE_NAME: immich
-          REDIS_HOSTNAME: immich-redis-master.immich.svc.cluster.local
+          REDIS_HOSTNAME: immich-valkey.immich.svc.cluster.local
           REDIS_PORT: "6379"
 
 # Immich-specific configuration
