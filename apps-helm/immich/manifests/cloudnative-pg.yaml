@@ -19,20 +19,6 @@ spec:
   persistentVolumeReclaimPolicy: Retain
 
 ---
-# PVC for PostgreSQL cluster
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: immich-database
-spec:
-  accessModes:
-    - ReadWriteOnce
-  volumeName: immich-database
-  resources:
-    requests:
-      storage: 20Gi
-
----
 # PostgreSQL cluster for Immich using cloudnative-pg
 # Reference: https://github.com/immich-app/immich-charts#prerequisites
 # This uses the tensorchord/cloudnative-vectorchord image which includes
@@ -56,7 +42,8 @@ spec:
   storage:
     size: 20Gi
     pvcTemplate:
-      metadata: {}
+      spec:
+        volumeName: immich-database
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   bootstrap:
     initdb:
