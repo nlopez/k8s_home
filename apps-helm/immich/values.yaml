@@ -9,7 +9,6 @@ controllers:
     containers:
       main:
         image:
-          repository: ghcr.io/immich-app/immich-server
           tag: v1.123.1  # Update to match your desired version
           pullPolicy: IfNotPresent
         env:
@@ -28,6 +27,9 @@ controllers:
 # Immich-specific configuration
 immich:
   configuration: {}
+  persistence:
+    library:
+      existingClaim: immich-library
 
 # Main immich server
 server:
@@ -38,7 +40,6 @@ server:
         main:
           image:
             repository: ghcr.io/immich-app/immich-server
-            pullPolicy: IfNotPresent
   ingress:
     main:
       enabled: true
@@ -52,11 +53,6 @@ server:
               service:
                 identifier: main
       tls: []
-  persistence:
-    library:
-      enabled: true
-      existingClaim: immich-library
-      accessMode: ReadWriteOnce
 
 # Microservices component
 microservices:
@@ -67,7 +63,6 @@ microservices:
         main:
           image:
             repository: ghcr.io/immich-app/immich-microservices
-            pullPolicy: IfNotPresent
 
 # Machine learning component
 machine-learning:
@@ -78,21 +73,23 @@ machine-learning:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
-            pullPolicy: IfNotPresent
           env:
             TRANSFORMERS_CACHE: /cache
-            HF_XET_CACHE: /cache/huggingface-x-cache
+            HF_XET_CACHE: /cache/huggingface-xet
+            MPLCONFIGDIR: /cache/matplotlib-config
   persistence:
     cache:
       enabled: true
+      type: persistentVolumeClaim
       existingClaim: immich-ml-cache
+      size: 50Gi
       accessMode: ReadWriteOnce
 
 # PostgreSQL is NOT embedded - uses external cloudnative-pg
 postgresql:
   enabled: false
 
-# Valkey (Redis) for caching
+# Valkey (Redis replacement) for caching
 valkey:
   enabled: true
   controllers:
@@ -101,12 +98,11 @@ valkey:
         main:
           image:
             repository: docker.io/valkey/valkey
-            tag: 8.0-alpine
-            pullPolicy: IfNotPresent
+            tag: 9.0-alpine
   persistence:
     data:
       enabled: true
-      size: 5Gi
-      existingClaim: immich-redis
-      accessMode: ReadWriteOnce
       type: persistentVolumeClaim
+      existingClaim: immich-redis
+      size: 5Gi
+      accessMode: ReadWriteOnce
