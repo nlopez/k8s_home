@@ -1,97 +1,119 @@
 ---
 # immich Helm chart values
-# Official chart: https://helm.immich.app/
-# Reference: https://github.com/immich-app/immich-charts/blob/main/README.md
+# Official chart: https://github.com/immich-app/immich-charts
+# This chart uses the bjw-s common library
 
-image:
-  tag: v1.123.1  # Update this to the latest version as needed
+# Shared configuration for all controllers
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: ghcr.io/immich-app/immich-server
+          tag: v1.123.1  # Update to match your desired version
+          pullPolicy: IfNotPresent
+        env:
+          # PostgreSQL configuration - uses external cloudnative-pg instance
+          DB_HOSTNAME: immich-database-rw.immich.svc.cluster.local
+          DB_PORT: "5432"
+          DB_USERNAME: immich
+          DB_PASSWORD:
+            secretKeyRef:
+              name: onepassword-immich-database
+              key: password
+          DB_DATABASE_NAME: immich
+          REDIS_HOSTNAME: immich-redis-master.immich.svc.cluster.local
+          REDIS_PORT: "6379"
 
-env:
-  # PostgreSQL configuration - uses external cloudnative-pg instance
-  DB_HOSTNAME: immich-database-rw.immich.svc.cluster.local
-  DB_PORT: "5432"
-  DB_USERNAME: immich
-  DB_PASSWORD: # Password is synced from 1Password via OnePasswordItem
-    secretKeyRef:
-      name: onepassword-immich-database
-      key: password
-  DB_DATABASE_NAME: immich
-
-  # Redis configuration
-  REDIS_HOSTNAME: immich-redis-master.immich.svc.cluster.local
-  REDIS_PORT: "6379"
-
+# Immich-specific configuration
 immich:
-  # Note: Do NOT set environment variables here as they override the global env
-  # Use the global env section above instead
+  configuration: {}
 
+# Main immich server
 server:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
-
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
+  ingress:
+    main:
+      enabled: true
+      className: envoy
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: immich.desertbluffs.com
+      hosts:
+        - host: immich.desertbluffs.com
+          paths:
+            - path: /
+              service:
+                identifier: main
+      tls: []
   persistence:
     library:
       enabled: true
-      # NOTE: You must create this PVC separately before installing this chart
       existingClaim: immich-library
+      accessMode: ReadWriteOnce
 
+# Microservices component
 microservices:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-microservices
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-microservices
+            pullPolicy: IfNotPresent
 
-machinelearning:
+# Machine learning component
+machine-learning:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
+          env:
+            TRANSFORMERS_CACHE: /cache
+            HF_XET_CACHE: /cache/huggingface-x-cache
+      initContainers:
+        01-download-models:
+          enabled: true
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
+          command: [/bin/sh, -c, "python3 -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer(\"clip-ViT-B-32\").save(\"/cache/clip-vit-b-32\")' 2>&1 | grep -v \"^Some weights\""]
   persistence:
     cache:
       enabled: true
       existingClaim: immich-ml-cache
+      accessMode: ReadWriteOnce
 
-# PostgreSQL is NOT embedded - use external cloudnative-pg instance
-# See manifests/cloudnative-pg.yaml for the recommended PostgreSQL setup
+# PostgreSQL is NOT embedded - uses external cloudnative-pg
 postgresql:
   enabled: false
 
-# Redis configuration - uses iSCSI volume
-redis:
+# Valkey (Redis) for caching
+valkey:
   enabled: true
-  auth:
-    enabled: false
-  master:
-    persistence:
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: docker.io/valkey/valkey
+            tag: 8.0-alpine
+            pullPolicy: IfNotPresent
+  persistence:
+    data:
       enabled: true
       size: 5Gi
       existingClaim: immich-redis
-
-# Ingress configuration
-ingress:
-  enabled: true
-  className: envoy
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: immich.desertbluffs.com
-  hosts:
-    - host: immich.desertbluffs.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
-
-# HTTPRoute for Gateway API (if using Envoy Gateway)
-# Uncomment to enable
-# httproute:
-#   enabled: true
-#   annotations:
-#     external-dns.alpha.kubernetes.io/hostname: immich.desertbluffs.com
-#   parentRefs:
-#     - name: internet
-#       namespace: envoy-gateway-system
-#       group: gateway.networking.k8s.io
-#       kind: Gateway
-#   hostnames:
-#     - immich.desertbluffs.com
+      accessMode: ReadWriteOnce
+      type: persistentVolumeClaim
