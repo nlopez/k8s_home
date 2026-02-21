@@ -85,10 +85,6 @@ machine-learning:
       size: 50Gi
       accessMode: ReadWriteOnce
 
-# PostgreSQL is NOT embedded - uses external cloudnative-pg
-postgresql:
-  enabled: false
-
 # Valkey (Redis replacement) for caching
 valkey:
   enabled: true
