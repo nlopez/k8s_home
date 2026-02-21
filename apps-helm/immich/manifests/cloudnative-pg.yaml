@@ -42,8 +42,11 @@ spec:
   storage:
     size: 20Gi
     pvcTemplate:
-      spec:
-        volumeName: immich-database
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   bootstrap:
     initdb:
