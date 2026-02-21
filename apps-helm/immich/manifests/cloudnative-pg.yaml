@@ -19,6 +19,20 @@ spec:
   persistentVolumeReclaimPolicy: Retain
 
 ---
+# PVC for PostgreSQL cluster
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeName: immich-database
+  resources:
+    requests:
+      storage: 20Gi
+
+---
 # PostgreSQL cluster for Immich using cloudnative-pg
 # Reference: https://github.com/immich-app/immich-charts#prerequisites
 # This uses the tensorchord/cloudnative-vectorchord image which includes
@@ -34,14 +48,12 @@ spec:
   postgresql:
     parameters:
       shared_preload_libraries: "vchord.so"
-      # Immich recommends these settings
       work_mem: "256MB"
       maintenance_work_mem: "1GB"
       effective_cache_size: "4GB"
   storage:
     size: 20Gi
-    volumeClaimTemplate:
-      metadata: {}
+    pvcTemplate:
       spec:
         accessModes:
           - ReadWriteOnce
@@ -57,11 +69,9 @@ spec:
         - CREATE EXTENSION vchord CASCADE;
         - CREATE EXTENSION earthdistance CASCADE;
         - CREATE EXTENSION cube CASCADE;
-  # Create the immich application user and database
   managed:
     roles:
       - name: immich
-        ensureUser: true
-        # Use password from 1Password secret
+        createUser: true
         passwordSecret:
           name: onepassword-immich-database
