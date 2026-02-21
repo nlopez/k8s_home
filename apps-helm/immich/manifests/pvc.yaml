@@ -1,38 +1,17 @@
 ---
-# Persistent Volumes and Claims for Immich using iSCSI
-# These must be created before the Immich Helm chart is installed
-
-# Main library volume - stores all photos and videos
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: immich-library
-spec:
-  capacity:
-    storage: 200Gi
-  accessModes:
-    - ReadWriteOnce
-  iscsi:
-    targetPortal: 192.168.222.149
-    iqn: iqn.2014-09.com.radoncanyon:nas1:immich-library
-    lun: 0
-    fsType: ext4
-  mountOptions:
-    - noatime
-  persistentVolumeReclaimPolicy: Retain
-
----
+# Immich library using shared NFS media volume
+# References the existing media NFS PV with immich subfolder
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: immich-library
 spec:
-  volumeName: immich-library
+  volumeName: media
   resources:
     requests:
-      storage: 200Gi
+      storage: 1Pi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
 
 ---
 # Machine Learning cache volume
