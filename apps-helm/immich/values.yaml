@@ -29,7 +29,7 @@ immich:
   configuration: {}
   persistence:
     library:
-      existingClaim: immich-library
+      existingClaim: immich-library-nfs
       subPath: immich
 
 # Main immich server
