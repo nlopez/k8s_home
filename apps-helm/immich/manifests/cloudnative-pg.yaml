@@ -35,6 +35,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   postgresql:
     parameters:
+      shared_preload_libraries: 'vchord.so'
       work_mem: "256MB"
       maintenance_work_mem: "1GB"
       effective_cache_size: "4GB"
