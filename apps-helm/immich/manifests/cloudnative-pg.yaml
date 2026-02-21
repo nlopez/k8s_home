@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: immich-database
+  name: immich-database-1
 spec:
   capacity:
     storage: 20Gi
@@ -46,6 +46,7 @@ spec:
       resources:
         requests:
           storage: 20Gi
+      volumeName: immich-database-1
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   bootstrap:
     initdb:
