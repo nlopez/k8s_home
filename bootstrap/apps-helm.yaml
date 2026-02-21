@@ -81,9 +81,9 @@ spec:
         targetRevision: '0.21.6'
         namespace: cnpg-system
       - name: immich
-        repoURL: https://helm.immich.app
+        repoURL: oci://ghcr.io/immich-app/immich-charts
         chart: immich
-        targetRevision: '0.10.0'
+        targetRevision: '0.10.3'
         namespace: immich
   template:
     metadata:
