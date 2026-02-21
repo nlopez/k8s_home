@@ -75,6 +75,16 @@ spec:
         chart: jellyfin
         targetRevision: '2.7.0'
         namespace: jellyfin
+      - name: cloudnative-pg
+        repoURL: https://cloudnative-pg.github.io/charts
+        chart: cloudnative-pg
+        targetRevision: '0.21.6'
+        namespace: cnpg-system
+      - name: immich
+        repoURL: https://helm.immich.app
+        chart: immich
+        targetRevision: '0.10.0'
+        namespace: immich
   template:
     metadata:
       name: '{{.name}}'

@@ -1,0 +1,67 @@
+---
+# PostgreSQL database volume using iSCSI
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-database
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: 192.168.222.149
+    iqn: iqn.2014-09.com.radoncanyon:nas1:immich-database
+    lun: 0
+    fsType: ext4
+  mountOptions:
+    - noatime
+  persistentVolumeReclaimPolicy: Retain
+
+---
+# PostgreSQL cluster for Immich using cloudnative-pg
+# Reference: https://github.com/immich-app/immich-charts#prerequisites
+# This uses the tensorchord/cloudnative-vectorchord image which includes
+# the required vchord and earthdistance extensions for Immich
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-database
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  postgresql:
+    parameters:
+      shared_preload_libraries: "vchord.so"
+      # Immich recommends these settings
+      work_mem: "256MB"
+      maintenance_work_mem: "1GB"
+      effective_cache_size: "4GB"
+  storage:
+    size: 20Gi
+    volumeClaimTemplate:
+      metadata: {}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20Gi
+        volumeName: immich-database
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  bootstrap:
+    initdb:
+      postInitApplicationSQL:
+        # Create extensions required by Immich
+        - CREATE EXTENSION vchord CASCADE;
+        - CREATE EXTENSION earthdistance CASCADE;
+        - CREATE EXTENSION cube CASCADE;
+  # Create the immich application user and database
+  managed:
+    roles:
+      - name: immich
+        ensureUser: true
+        # Use password from 1Password secret
+        passwordSecret:
+          name: onepassword-immich-database

@@ -1,0 +1,32 @@
+---
+# Redis persistence volume using iSCSI
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-redis
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: 192.168.222.149
+    iqn: iqn.2014-09.com.radoncanyon:nas1:immich-redis
+    lun: 0
+    fsType: ext4
+  mountOptions:
+    - noatime
+  persistentVolumeReclaimPolicy: Retain
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-redis
+spec:
+  volumeName: immich-redis
+  resources:
+    requests:
+      storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
