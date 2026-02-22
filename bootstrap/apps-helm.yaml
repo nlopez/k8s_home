@@ -6,9 +6,9 @@ metadata:
   name: bootstrap
   namespace: argocd
 spec:
-  # ignoreApplicationDifferences:
-  # - jsonPointers:
-  #   - /spec/syncPolicy
+  ignoreApplicationDifferences:
+  - jsonPointers:
+    - /spec/syncPolicy
   syncPolicy:
     preserveResourcesOnDeletion: true
   goTemplate: true
@@ -84,15 +84,18 @@ spec:
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
         targetRevision: '0.10.3'
         namespace: immich
+        disableAutoSync: true
   template:
     metadata:
       name: '{{.name}}'
     spec:
       project: default
       syncPolicy:
+        {{- if not .disableAutoSync }}
         automated:
           prune: true
           selfHeal: true
+        {{- end }}
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
