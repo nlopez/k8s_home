@@ -14,7 +14,6 @@ spec:
           containers:
           - name: init
             image: boredazfcuk/icloudpd:1.0.1329_22-02-2026
-            command: [ "sleep", "infinity" ]
             env:
             - name: TZ
               value: "America/New_York"
