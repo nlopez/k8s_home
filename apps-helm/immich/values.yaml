@@ -63,6 +63,14 @@ microservices:
         main:
           image:
             repository: ghcr.io/immich-app/immich-microservices
+          resources:
+            requests:
+              gpu.intel.com/i915: 1
+            limits:
+              gpu.intel.com/i915: 1
+          env:
+            # GPU settings for video processing
+            IMMICH_FFMPEG_HWACCEL: qsv
 
 # Machine learning component
 machine-learning:
