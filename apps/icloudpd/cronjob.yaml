@@ -1,0 +1,45 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: icloudpd-sync
+spec:
+  # Run daily at 2 AM
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: default
+          containers:
+          - name: icloudpd
+            # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
+            image: boredazfcuk/icloudpd:v2024.02.16
+            env:
+            - name: TZ
+              value: "America/New_York"
+
+            volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /home/user
+              subPath: iCloud
+
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "100m"
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+
+          volumes:
+          - name: config
+            persistentVolumeClaim:
+              claimName: config
+          - name: media
+            persistentVolumeClaim:
+              claimName: media
+
+          restartPolicy: OnFailure
