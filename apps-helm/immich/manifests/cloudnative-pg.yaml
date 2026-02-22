@@ -43,6 +43,10 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
   bootstrap:
     initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: onepassword-immich-database
       postInitApplicationSQL:
       # Commands based on: https://immich.app/docs/administration/postgres-standalone/#without-superuser-permission
       - CREATE EXTENSION vchord CASCADE;
