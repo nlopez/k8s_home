@@ -22,8 +22,7 @@ spec:
             - name: config
               mountPath: /config
             - name: media
-              mountPath: /home/user
-              subPath: iCloud
+              mountPath: /home/user/iCloud
 
           volumes:
           - name: config

@@ -30,7 +30,7 @@ Create the mandatory `.mounted` failsafe file in the download path:
 kubectl run icloudpd-init \
   --image=busybox:latest \
   --stdin --tty --rm \
-  --overrides='{"spec":{"volumes":[{"name":"media","persistentVolumeClaim":{"claimName":"media"}}],"containers":[{"name":"init","image":"busybox:latest","volumeMounts":[{"name":"media","mountPath":"/home/user","subPath":"iCloud"}],"command":["touch","/home/user/iCloud/.mounted"]}]}}' \
+  --overrides='{"spec":{"volumes":[{"name":"media","persistentVolumeClaim":{"claimName":"media"}}],"containers":[{"name":"init","image":"busybox:latest","volumeMounts":[{"name":"media","mountPath":"/home/user/iCloud"}],"command":["touch","/home/user/iCloud/.mounted"]}]}}' \
   -- touch /home/user/iCloud/.mounted
 ```
 
