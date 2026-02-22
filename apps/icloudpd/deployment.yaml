@@ -34,6 +34,7 @@ spec:
           mountPath: /config
         - name: media
           mountPath: /home/user/iCloud
+          subPath: icloud
 
         resources:
           requests:

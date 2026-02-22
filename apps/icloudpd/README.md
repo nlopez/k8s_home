@@ -10,7 +10,7 @@ icloudpd downloads photos and videos from iCloud to your media NFS share at `/ho
 
 - **Interactive Setup**: You must run the interactive initialization process to set up authentication and generate the MFA cookie
 - **Configuration File**: icloudpd.conf is created during initialization using `sync-icloud.sh --Initialise`
-- **Single Pass Mode**: For cronjobs, enable `single_pass=true` in your config during initialization
+- **Continuous Sync**: The singleton deployment runs continuously; keep `single_pass` unset or false and use `download_interval` to control frequency
 - **Failsafe Mount Check**: A `.mounted` file is required in `/home/user/iCloud/.mounted` to prevent accidental syncs
 
 ## Setup Instructions
@@ -36,21 +36,15 @@ kubectl run icloudpd-init \
 
 Or manually: `kubectl exec -it <pod> -- touch /home/user/iCloud/.mounted`
 
-### 2. Deploy the Initialization CronJob
+### 2. Deploy the Singleton Pod
 
-Deploy the on-demand initialization cronjob (it will never run on its own schedule):
+Deploy the icloudpd deployment:
 
 ```bash
-kubectl apply -f cronjob-init.yaml
+kubectl apply -f deployment.yaml
 ```
 
 ### 3. Run Initial Authentication & Configuration (MFA Setup)
-
-Trigger the initialization job on demand:
-
-```bash
-kubectl create job --from=cronjob/icloudpd-init-ondemand icloudpd-init-$(date +%s)
-```
 
 Watch the pod startup:
 
@@ -61,7 +55,7 @@ kubectl get pods -w
 Once the pod is running, attach to it interactively:
 
 ```bash
-kubectl exec -it <icloudpd-init-pod-name> -- /bin/sh
+kubectl exec -it <icloudpd-pod-name> -- /bin/sh
 ```
 
 Inside the pod, run the initialization script:
@@ -78,15 +72,7 @@ This interactive process will:
 5. Create `/config/icloudpd.conf` with default settings
 6. Generate and store the MFA cookie in `/config/your-email@icloud.com`
 
-Once complete, optionally edit `/config/icloudpd.conf` if you need to customize settings (e.g., enable `single_pass=true` for cronjob mode).
-
-### 4. Deploy Automated Sync
-
-After initial setup is complete, deploy the scheduled sync:
-
-```bash
-kubectl apply -f cronjob.yaml
-```
+Once complete, optionally edit `/config/icloudpd.conf` if you need to customize settings.
 
 ## Updating the Container Image
 
@@ -99,9 +85,9 @@ To update to a newer version:
 IMAGE=boredazfcuk/icloudpd
 skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n10
 
-# Update the image tag in cronjob.yaml
+# Update the image tag in deployment.yaml
 # Then reapply:
-kubectl apply -f cronjob.yaml
+kubectl apply -f deployment.yaml
 ```
 
 ## Configuration
@@ -119,10 +105,8 @@ kubectl exec -it <pod-name> -- sh
 # Edit the configuration
 vi /config/icloudpd.conf
 
-# For deployment: restart the pod to apply changes
-kubectl delete pod icloudpd-<hash>
-
-# For cronjob: changes apply at next scheduled run
+# Restart the pod to apply changes
+kubectl rollout restart deployment/icloudpd
 ```
 
 ### Key Configuration Items
@@ -131,7 +115,7 @@ kubectl delete pod icloudpd-<hash>
 - **user**: Container user name (default: user)
 - **download_path**: Where to save photos (default: `/home/user/iCloud`)
 - **download_interval**: Seconds between syncs - 21600 (6hrs), 43200 (12hrs), 86400 (24hrs) etc.
-- **single_pass**: Set to `true` for cronjobs (exit after one sync)
+- **single_pass**: Keep `false` for the deployment (default)
 - **folder_structure**: Date-based organization `{:%Y/%m/%d}` (default) or `none` for flat structure
 - **photo_size**: Image sizes to download - `original`, `medium`, `thumb`, `adjusted`, `alternative` or any combination
 - **skip_videos**: Set to `true` to skip video downloads
@@ -189,7 +173,4 @@ skip_check=true
 
 ### DNS/Network Issues
 
-Ensure your cluster can reach iCloud servers (icloud.com, api-edge.icloud.com, etc.).
-```
-
-Then update the `deployment.yaml` or `cronjob.yaml` and reapply.
+Ensure your cluster can reach iCloud servers (icloud.com, api-edge.icloud.com, etc.). If you change network or image settings, reapply the deployment manifest.
