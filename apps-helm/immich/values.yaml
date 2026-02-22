@@ -42,6 +42,14 @@ server:
         main:
           image:
             repository: ghcr.io/immich-app/immich-server
+          resources:
+            requests:
+              gpu.intel.com/i915: 1
+            limits:
+              gpu.intel.com/i915: 1
+          env:
+            # GPU settings for thumbnail generation
+            IMMICH_FFMPEG_HWACCEL: qsv
   ingress:
     main:
       enabled: false
