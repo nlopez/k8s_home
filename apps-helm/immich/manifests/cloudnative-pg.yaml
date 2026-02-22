@@ -36,6 +36,7 @@ spec:
     pvcTemplate:
       accessModes:
       - ReadWriteOnce
+      storageClassName: ""
       resources:
         requests:
           storage: 20Gi
