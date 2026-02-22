@@ -8,23 +8,19 @@ spec:
   capacity:
     storage: 20Gi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   iscsi:
     targetPortal: 192.168.222.149
     iqn: iqn.2014-09.com.radoncanyon:nas1:immich-database
     lun: 0
     fsType: ext4
   mountOptions:
-    - noatime
+  - noatime
   persistentVolumeReclaimPolicy: Retain
-
 ---
 # PostgreSQL cluster for Immich using cloudnative-pg
 # Reference: https://github.com/immich-app/immich-charts#prerequisites
-# This uses the tensorchord/cloudnative-vectorchord image which includes
-# the required vchord and earthdistance extensions for Immich
-# Setup follows the "without superuser permission" pattern:
-# https://docs.immich.app/administration/postgres-standalone
+# https://github.com/immich-app/immich-charts/blob/main/local/cloudnative-pg.yaml
 
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
@@ -32,18 +28,14 @@ metadata:
   name: immich-database
 spec:
   instances: 1
-  primaryUpdateStrategy: unsupervised
   postgresql:
-    parameters:
-      shared_preload_libraries: 'vchord.so'
-      work_mem: "256MB"
-      maintenance_work_mem: "1GB"
-      effective_cache_size: "4GB"
+    shared_preload_libraries:
+    - 'vchord.so'
   storage:
     size: 20Gi
     pvcTemplate:
       accessModes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       resources:
         requests:
           storage: 20Gi
@@ -51,11 +43,6 @@ spec:
   bootstrap:
     initdb:
       postInitApplicationSQL:
-        # Create the immich database (non-superuser setup per Immich docs)
-        - CREATE DATABASE immich;
-        - |
-          BEGIN;
-          ALTER DATABASE immich OWNER TO postgres;
-          CREATE EXTENSION vchord CASCADE;
-          CREATE EXTENSION earthdistance CASCADE;
-          COMMIT;
+      # Commands based on: https://immich.app/docs/administration/postgres-standalone/#without-superuser-permission
+      - CREATE EXTENSION vchord CASCADE;
+      - CREATE EXTENSION earthdistance CASCADE;
