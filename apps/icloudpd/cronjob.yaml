@@ -13,8 +13,8 @@ spec:
           serviceAccountName: default
           containers:
           - name: icloudpd
-            # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-            image: boredazfcuk/icloudpd:v2024.02.16
+            # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
+            image: boredazfcuk/icloudpd:1.0.1329_22-02-2026
             env:
             - name: TZ
               value: "America/New_York"
