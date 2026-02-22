@@ -17,7 +17,7 @@ spec:
   rules:
   - backendRefs:
     - name: immich-server
-      port: 80
+      port: 2283
       group: ''
       kind: Service
       weight: 1

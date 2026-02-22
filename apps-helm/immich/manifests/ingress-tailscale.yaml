@@ -14,5 +14,5 @@ spec:
     service:
       name: immich-server
       port:
-        number: 80
+        number: 2283
   ingressClassName: tailscale
