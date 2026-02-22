@@ -37,6 +37,7 @@ server:
   enabled: true
   controllers:
     main:
+      replicas: 2
       containers:
         main:
           image:
