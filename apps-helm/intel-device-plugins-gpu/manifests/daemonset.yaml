@@ -17,6 +17,7 @@ spec:
       containers:
       - args:
         - -enable-monitoring
+        - -shared-dev-num=3
         - -v=2
         env:
         - name: NODE_NAME
@@ -27,6 +28,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
+        - name: DEVICE_LIST_STRATEGY
+          value: envvar
         image: intel/intel-gpu-plugin:0.32.1
         imagePullPolicy: IfNotPresent
         name: intel-gpu-plugin
