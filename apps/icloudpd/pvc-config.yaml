@@ -11,7 +11,7 @@ spec:
   iscsi:
     targetPortal: 192.168.222.149
     iqn: iqn.2014-09.com.radoncanyon:nas1:icloudpd
-    lun: 1
+    lun: 0
     fsType: ext4
   mountOptions:
   - noatime
