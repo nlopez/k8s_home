@@ -10,12 +10,29 @@ spec:
       apiVersions: [ "v1" ]
       resources: [ "deployments", "statefulsets", "daemonsets" ]
       operations: [ "CREATE", "UPDATE" ]
+    - apiGroups: [ "batch" ]
+      apiVersions: [ "v1" ]
+      resources: [ "cronjobs", "jobs" ]
+      operations: [ "CREATE", "UPDATE" ]
   reinvocationPolicy: IfNeeded
   mutations:
   - patchType: "JSONPatch"
     jsonPatch:
       expression: >
-        [
+        object.kind == "CronJob" ? [
+          JSONPatch{
+            op: "add",
+            path: "/spec/jobTemplate/spec/template/spec/dnsConfig",
+            value: {
+              "options": [
+                {
+                  "name": "ndots",
+                  "value": "1"
+                }
+              ]
+             }
+          }
+        ] : [
           JSONPatch{
             op: "add",
             path: "/spec/template/spec/dnsConfig",
