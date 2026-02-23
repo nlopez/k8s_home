@@ -1,6 +1,6 @@
 ---
 # Immich library using shared NFS media volume
-# Points to the NFS media share with immich subfolder
+# Points directly to /mnt/etank/media/immich on the NFS share
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -9,22 +9,21 @@ spec:
   capacity:
     storage: 1Pi
   accessModes:
-    - ReadWriteMany
+  - ReadWriteMany
   nfs:
     server: 192.168.222.114
-    path: "/mnt/etank/media"
+    path: "/mnt/etank/media/immich"
   mountOptions:
-    - nfsvers=4.1
-    - rsize=1048576
-    - wsize=1048576
-    - hard
-    - timeo=600
-    - retrans=2
-    - noresvport
-    - _netdev
-    - nofail
+  - nfsvers=4.1
+  - rsize=1048576
+  - wsize=1048576
+  - hard
+  - timeo=600
+  - retrans=2
+  - noresvport
+  - _netdev
+  - nofail
   persistentVolumeReclaimPolicy: Retain
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -36,8 +35,7 @@ spec:
     requests:
       storage: 1Pi
   accessModes:
-    - ReadWriteMany
-
+  - ReadWriteMany
 ---
 # Machine Learning cache volume
 apiVersion: v1
@@ -48,16 +46,15 @@ spec:
   capacity:
     storage: 50Gi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   iscsi:
     targetPortal: 192.168.222.149
     iqn: iqn.2014-09.com.radoncanyon:nas1:immich-ml-cache
     lun: 0
     fsType: ext4
   mountOptions:
-    - noatime
+  - noatime
   persistentVolumeReclaimPolicy: Retain
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -69,4 +66,4 @@ spec:
     requests:
       storage: 50Gi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
