@@ -84,6 +84,7 @@ spec:
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
         targetRevision: '0.10.3'
         namespace: immich
+        syncPolicy: manual
   template:
     metadata:
       name: '{{.name}}'
@@ -100,6 +101,31 @@ spec:
         namespace: '{{.namespace}}'
         server: https://kubernetes.default.svc
   templatePatch: |
+    {{- if eq .syncPolicy "manual" }}
+    spec:
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+      sources:
+      - repoURL: '{{.repoURL}}'
+        {{- if regexMatch "^oci://" .repoURL }}
+        path: .
+        {{- else }}
+        chart: '{{.chart}}'
+        {{- end }}
+        targetRevision: '{{.targetRevision}}'
+        helm:
+          valueFiles:
+          - $values/apps-helm/{{.name}}/values.yaml
+          ignoreMissingValueFiles: true
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        ref: values
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        path: apps-helm/{{.name}}/manifests
+    {{- else }}
     spec:
       sources:
       - repoURL: '{{.repoURL}}'
@@ -119,3 +145,4 @@ spec:
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
         targetRevision: unstable
         path: apps-helm/{{.name}}/manifests
+    {{- end }}
