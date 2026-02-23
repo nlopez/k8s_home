@@ -49,6 +49,13 @@ server:
           env:
             # GPU settings for thumbnail generation
             IMMICH_FFMPEG_HWACCEL: qsv
+  persistence:
+    icloud:
+      enabled: true
+      type: persistentVolumeClaim
+      existingClaim: immich-icloud-nfs
+      mountPath: /media/icloud
+      readOnly: true
   ingress:
     main:
       enabled: false
