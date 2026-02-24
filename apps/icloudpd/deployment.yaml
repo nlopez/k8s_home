@@ -23,8 +23,8 @@ spec:
       serviceAccountName: default
       containers:
       - name: icloudpd
-        # IMAGE=nlopez/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
-        image: nlopez/icloudpd:latest
+        # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
+        image: boredazfcuk/icloudpd:latest
         imagePullPolicy: Always
         env:
         - name: TZ
