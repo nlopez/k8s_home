@@ -65,11 +65,6 @@ spec:
         chart: external-dns
         targetRevision: '1.19.0'
         namespace: external-dns
-      - name: couchdb
-        repoURL: https://apache.github.io/couchdb-helm
-        chart: couchdb
-        targetRevision: '4.6.2'
-        namespace: couchdb
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
