@@ -18,19 +18,3 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: envoy-gateway-admin-internet
-  namespace: envoy-gateway-system
-spec:
-  type: ClusterIP
-  selector:
-    gateway.envoyproxy.io/owning-gateway-name: internet
-    gateway.envoyproxy.io/owning-gateway-namespace: envoy-gateway-system
-  ports:
-  - name: admin
-    port: 15000
-    targetPort: 15000
-    protocol: TCP
