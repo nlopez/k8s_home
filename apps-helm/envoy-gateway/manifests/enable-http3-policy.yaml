@@ -1,13 +1,31 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
-  name: enable-http3-policy
+  name: enable-http3-desertbluffs
 spec:
   http3: {}
   targetRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
     name: internet
+    sectionName: wildcard-desertbluffs-com-https
   - group: gateway.networking.k8s.io
     kind: Gateway
     name: private
+    sectionName: wildcard-desertbluffs-com-https
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: enable-http3-radoncanyon
+spec:
+  http3: {}
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: internet
+    sectionName: wildcard-radoncanyon-com-https
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: private
+    sectionName: wildcard-radoncanyon-com-https
