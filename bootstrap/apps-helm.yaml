@@ -28,7 +28,7 @@ spec:
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: oci://docker.io/envoyproxy/gateway-helm
-        targetRevision: v1.6.4
+        targetRevision: v1.7.0
         namespace: envoy-gateway-system
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
