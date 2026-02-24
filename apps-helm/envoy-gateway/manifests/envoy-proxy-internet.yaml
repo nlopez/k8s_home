@@ -6,7 +6,6 @@ metadata:
   name: internet
   namespace: envoy-gateway-system
 spec:
-  filterOrder: Default
   provider:
     type: Kubernetes
     kubernetes:
