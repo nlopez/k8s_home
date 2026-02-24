@@ -55,7 +55,7 @@ server:
       type: persistentVolumeClaim
       existingClaim: immich-icloud-nfs
       mountPath: /media/icloud
-      readOnly: true
+      readOnly: false
   ingress:
     main:
       enabled: false
