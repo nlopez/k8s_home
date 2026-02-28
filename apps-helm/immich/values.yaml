@@ -24,14 +24,33 @@ controllers:
           REDIS_HOSTNAME: immich-valkey.immich.svc.cluster.local
           REDIS_PORT: "6379"
 
-# Immich-specific configuration
 immich:
   configuration: {}
   persistence:
+    # Main data store for all photos shared between different components.
     library:
+      enabled: true
       existingClaim: immich-library-nfs
 
-# Main immich server
+# Dependencies
+
+valkey:
+  enabled: true
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: docker.io/valkey/valkey
+            tag: 9.0-alpine
+  persistence:
+    data:
+      enabled: true
+      existingClaim: immich-redis
+      accessMode: ReadWriteOnce
+
+# Immich components
+
 server:
   enabled: true
   controllers:
@@ -52,9 +71,7 @@ server:
   persistence:
     icloud:
       enabled: true
-      type: persistentVolumeClaim
       existingClaim: immich-icloud-nfs
-      mountPath: /media/icloud
       readOnly: true
   ingress:
     main:
@@ -94,25 +111,5 @@ machine-learning:
   persistence:
     cache:
       enabled: true
-      type: persistentVolumeClaim
       existingClaim: immich-ml-cache
-      size: 50Gi
-      accessMode: ReadWriteOnce
-
-# Valkey (Redis replacement) for caching
-valkey:
-  enabled: true
-  controllers:
-    main:
-      containers:
-        main:
-          image:
-            repository: docker.io/valkey/valkey
-            tag: 9.0-alpine
-  persistence:
-    data:
-      enabled: true
-      type: persistentVolumeClaim
-      existingClaim: immich-redis
-      size: 5Gi
       accessMode: ReadWriteOnce
