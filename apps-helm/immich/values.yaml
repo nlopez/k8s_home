@@ -72,7 +72,11 @@ server:
     icloud:
       enabled: true
       existingClaim: immich-icloud-nfs
-      readOnly: true
+      advancedMounts:
+        main:
+          main:
+          - path: /icloud
+            readOnly: true
 
 # Machine learning component
 machine-learning:
@@ -91,8 +95,18 @@ machine-learning:
   persistence:
     cache:
       enabled: true
+      type: persistentVolumeClaim
       existingClaim: immich-ml-cache
+      advancedMounts:
+        main:
+          main:
+          - path: /cache
+            readOnly: false
     icloud:
       enabled: true
       existingClaim: immich-icloud-nfs
-      readOnly: true
+      advancedMounts:
+        main:
+          main:
+          - path: /icloud
+            readOnly: true
