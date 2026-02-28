@@ -47,7 +47,6 @@ valkey:
     data:
       enabled: true
       existingClaim: immich-redis
-      accessMode: ReadWriteOnce
 
 # Immich components
 
@@ -93,7 +92,6 @@ machine-learning:
     cache:
       enabled: true
       existingClaim: immich-ml-cache
-      accessMode: ReadWriteMany
     icloud:
       enabled: true
       existingClaim: immich-icloud-nfs
