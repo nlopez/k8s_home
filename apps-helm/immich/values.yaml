@@ -60,6 +60,7 @@ server:
         main:
           image:
             repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
           resources:
             requests:
               gpu.intel.com/i915: 1
@@ -73,27 +74,6 @@ server:
       enabled: true
       existingClaim: immich-icloud-nfs
       readOnly: true
-  ingress:
-    main:
-      enabled: false
-
-# Microservices component
-microservices:
-  enabled: true
-  controllers:
-    main:
-      containers:
-        main:
-          image:
-            repository: ghcr.io/immich-app/immich-microservices
-          resources:
-            requests:
-              gpu.intel.com/i915: 1
-            limits:
-              gpu.intel.com/i915: 1
-          env:
-            # GPU settings for video processing
-            IMMICH_FFMPEG_HWACCEL: qsv
 
 # Machine learning component
 machine-learning:
@@ -104,6 +84,7 @@ machine-learning:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
           env:
             TRANSFORMERS_CACHE: /cache
             HF_XET_CACHE: /cache/huggingface-xet
@@ -112,4 +93,8 @@ machine-learning:
     cache:
       enabled: true
       existingClaim: immich-ml-cache
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
+    icloud:
+      enabled: true
+      existingClaim: immich-icloud-nfs
+      readOnly: true
