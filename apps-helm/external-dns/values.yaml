@@ -25,9 +25,6 @@ sources:
 - gateway-tlsroute
 - gateway-tcproute
 - gateway-udproute
-domainFilters:
-- desertbluffs.com
-- radoncanyon.com
 extraArgs: []
 # Causes extraneous record updates
 # - --cloudflare-record-comment=managed by external-dns
