@@ -53,6 +53,11 @@ bandwidthManager:
 vlanBypass: 0
 hubble:
   enabled: true
+  tls:
+    enabled: true
+    auto:
+      enabled: true
+      method: cronJob
   ui:
     enabled: true
   relay:
