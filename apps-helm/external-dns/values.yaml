@@ -20,6 +20,7 @@ env:
 sources:
 - service
 - ingress
+- crd
 - gateway-httproute
 - gateway-grpcroute
 - gateway-tlsroute
