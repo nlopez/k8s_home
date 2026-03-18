@@ -79,6 +79,10 @@ spec:
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
         targetRevision: '0.10.3'
         namespace: immich
+      - name: spegel
+        repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
+        targetRevision: '0.6.0'
+        namespace: spegel
   template:
     metadata:
       name: '{{.name}}'
