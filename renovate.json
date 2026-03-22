@@ -5,7 +5,10 @@
   ],
   "dependencyDashboard": true,
   "enabledManagers": [
-    "regex"
+    "regex",
+    "kubernetes",
+    "helm-values",
+    "github-actions"
   ],
   "regexManagers": [
     {
@@ -39,6 +42,21 @@
         "bootstrap/apps-helm.yaml"
       ],
       "groupName": "helm chart updates"
+    },
+    {
+      "description": "Group container image updates from manifests and Helm values",
+      "matchManagers": [
+        "kubernetes",
+        "helm-values"
+      ],
+      "groupName": "container image updates"
+    },
+    {
+      "description": "Group GitHub Actions updates",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "github actions updates"
     }
   ]
 }
