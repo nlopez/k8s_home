@@ -65,9 +65,6 @@ spec:
               initImage:
                 description: InitImage is a container image with tools (e.g., GPU NFD source hook) installed on each node.
                 type: string
-              bypathMode:
-                description: BypathMode controls how GPU resources are grouped by PCI path.
-                type: string
               logLevel:
                 description: LogLevel sets the plugin's log level.
                 minimum: 0

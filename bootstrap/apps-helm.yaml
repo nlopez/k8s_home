@@ -18,26 +18,26 @@ spec:
       - name: argocd
         repoURL: 'https://argoproj.github.io/argo-helm'
         chart: argo-cd
-        targetRevision: '9.0.5'
+        targetRevision: '9.4.15'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.18.2
+        targetRevision: v1.20.0
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: oci://docker.io/envoyproxy/gateway-helm
-        targetRevision: v1.7.0
+        targetRevision: 1.7.1
         namespace: envoy-gateway-system
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: '1.92.4'
+        targetRevision: '1.94.2'
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: '1.18.7'
+        targetRevision: '1.19.1'
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
@@ -47,22 +47,22 @@ spec:
       - name: reloader
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: '2.2.0'
+        targetRevision: '2.2.9'
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
         chart: node-feature-discovery
-        targetRevision: '0.17.3'
+        targetRevision: '0.18.3'
         namespace: node-feature-discovery
       - name: intel-device-plugins-gpu
         repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
-        targetRevision: '0.32.1'
+        targetRevision: '0.35.0'
         namespace: intel-device-plugins-gpu
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
-        targetRevision: '1.19.0'
+        targetRevision: '1.20.0'
         namespace: external-dns
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
@@ -72,7 +72,7 @@ spec:
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: '0.21.6'
+        targetRevision: '0.27.1'
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
