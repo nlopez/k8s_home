@@ -52,6 +52,29 @@
       "groupName": "container image updates"
     },
     {
+      "description": "Use loose versioning for linuxserver images which use version-X.Y.Z tag format",
+      "matchPackageNames": [
+        "ghcr.io/linuxserver/**",
+        "lscr.io/linuxserver/**"
+      ],
+      "versioning": "loose"
+    },
+    {
+      "description": "Use calver versioning for media-toolbox which uses YYYY.M.D.HHmmss tags",
+      "matchPackageNames": [
+        "docker.io/nlopez/media-toolbox"
+      ],
+      "versioning": "calver"
+    },
+    {
+      "description": "Ignore untagged or latest-pinned images that cannot meaningfully be updated",
+      "matchPackageNames": [
+        "bitnami/kubectl"
+      ],
+      "enabled": false
+    },
+
+    {
       "description": "Group GitHub Actions updates",
       "matchManagers": [
         "github-actions"
