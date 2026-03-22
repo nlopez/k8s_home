@@ -25,7 +25,7 @@ bpf:
   masquerade: true
   lbExternalClusterIP: true
   hostLegacyRouting: false
-  tproxy: true
+  tproxy: false
   distributedLRU:
     enabled: true
   mapDynamicSizeRatio: 0.08
