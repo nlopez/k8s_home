@@ -4,7 +4,7 @@ connect:
     argocd.argoproj.io/sync-options: Replace=true
   # Keep credentials in an out-of-git secret named op-credentials.
   credentialsName: op-credentials
-  credentialsKey: 1password-credentials.json
+  credentialsKey: password
 operator:
   create: true
   annotations:
