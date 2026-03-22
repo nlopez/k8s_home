@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: ytpot
-        image: docker.io/brainicism/bgutil-ytdlp-pot-provider:1.3.1@sha256:1fd724c0a987a1eaa7e0875667a55770f954d8634fdbba96d858072f4a655afe
+        image: docker.io/brainicism/bgutil-ytdlp-pot-provider:1.3.1@sha256:1aaa43a0ca72dfca6a6d2129a0fb4a23465c25adb1b043f8aff829a20825646b
