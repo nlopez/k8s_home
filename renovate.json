@@ -33,6 +33,16 @@
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver-coerced"
+    },
+    {
+      "description": "Update container image tags in non-Helm app manifests",
+      "managerFilePatterns": [
+        "/^apps\\/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?m)^\\s*image:\\s*(?<depName>[^:@\\s]+(?:/[^:@\\s]+)*)(?::(?<currentValue>[^@\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\\s*$"
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "packageRules": [
@@ -52,6 +62,16 @@
       "groupName": "container image updates"
     },
     {
+      "description": "Group container image updates from non-Helm app manifests",
+      "matchManagers": [
+        "regex"
+      ],
+      "matchFileNames": [
+        "apps/**"
+      ],
+      "groupName": "container image updates"
+    },
+    {
       "description": "Use loose versioning for linuxserver images which use version-X.Y.Z tag format",
       "matchPackageNames": [
         "ghcr.io/linuxserver/**",
@@ -65,6 +85,17 @@
         "docker.io/nlopez/media-toolbox"
       ],
       "versioning": "calver"
+    },
+    {
+      "description": "Use loose versioning for app images with non-semver tags",
+      "matchPackageNames": [
+        "boredazfcuk/icloudpd",
+        "docker.io/brainicism/bgutil-ytdlp-pot-provider",
+        "caomingjun/warp",
+        "ghcr.io/shaarli/shaarli",
+        "registry.k8s.io/sig-storage/snapshot-controller"
+      ],
+      "versioning": "loose"
     },
     {
       "description": "Ignore untagged or latest-pinned images that cannot meaningfully be updated",
