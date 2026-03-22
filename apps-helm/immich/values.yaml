@@ -1,8 +1,6 @@
----
 # immich Helm chart values
 # Official chart: https://github.com/immich-app/immich-charts
 # This chart uses the bjw-s common library
-
 # Shared configuration for all controllers
 controllers:
   main:
@@ -23,7 +21,6 @@ controllers:
           DB_DATABASE_NAME: immich
           REDIS_HOSTNAME: immich-valkey.immich.svc.cluster.local
           REDIS_PORT: "6379"
-
 immich:
   configuration: {}
   persistence:
@@ -31,9 +28,7 @@ immich:
     library:
       enabled: true
       existingClaim: immich-library-nfs
-
 # Dependencies
-
 valkey:
   enabled: true
   controllers:
@@ -47,9 +42,7 @@ valkey:
     data:
       enabled: true
       existingClaim: immich-redis
-
 # Immich components
-
 server:
   enabled: true
   controllers:
@@ -77,7 +70,6 @@ server:
           main:
           - path: /icloud
             readOnly: true
-
 # Machine learning component
 machine-learning:
   enabled: true

@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/applicationset_v1alpha1.json
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -12,7 +11,7 @@ spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
   goTemplate: true
-  goTemplateOptions: [ 'missingkey=error' ]
+  goTemplateOptions: ['missingkey=error']
   generators:
   - list:
       elements:
@@ -103,7 +102,7 @@ spec:
       destination:
         namespace: '{{.namespace}}'
         server: https://kubernetes.default.svc
-  templatePatch: |
+  templatePatch: |-
     spec:
       sources:
       - repoURL: '{{.repoURL}}'

@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,14 +28,12 @@ spec:
         env:
         - name: TZ
           value: "America/New_York"
-
         volumeMounts:
         - name: config
           mountPath: /config
         - name: media
           mountPath: /home/user/iCloud
           subPath: icloud
-
         resources:
           requests:
             memory: "256Mi"
@@ -44,7 +41,6 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-
       volumes:
       - name: config
         persistentVolumeClaim:

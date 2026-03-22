@@ -1,15 +1,12 @@
 replicaCount: 1
-
 service:
   type: ClusterIP
   port: 80
   portName: http
   annotations:
     external-dns.alpha.kubernetes.io/hostname: "bustling-ghost.radoncanyon.com"
-
 ingress:
   enabled: false
-
 persistence:
   config:
     enabled: true
@@ -17,21 +14,18 @@ persistence:
   media:
     enabled: true
     existingClaim: media
-
 resources:
   limits:
     gpu.intel.com/i915: 1
-
 deploymentStrategy:
   type: Recreate
-
 volumes:
-  - name: cache
-    emptyDir:
-      medium: Memory
+- name: cache
+  emptyDir:
+    medium: Memory
 volumeMounts:
-  - name: cache
-    mountPath: /cache
+- name: cache
+  mountPath: /cache
 
 # Uncomment for debugging start
 #

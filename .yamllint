@@ -1,9 +1,0 @@
----
-rules:
-  indentation:
-    spaces: 2
-    indent-sequences: false
-  line-length:
-    max: 200
-  comments: disable
-  comments-indentation: disable

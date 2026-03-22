@@ -1,4 +1,3 @@
----
 operatorConfig:
   podAnnotations:
     operator.1password.io/item-path: "vaults/copxopw5gkuo2m3cv7acvkrfxy/items/dgz5karhxoosz25a6lk2ndudhi"

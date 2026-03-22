@@ -1,11 +1,8 @@
----
 global:
   domain: argocd.macaroni-pirate-ts.net
-
 configs:
   params:
     server.insecure: true
-
 server:
   ingress:
     enabled: true

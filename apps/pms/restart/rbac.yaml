@@ -1,4 +1,3 @@
----
 kind: ServiceAccount
 apiVersion: v1
 metadata:
@@ -9,10 +8,10 @@ kind: Role
 metadata:
   name: pms-restart
 rules:
-- apiGroups: [ "apps", "extensions" ]
-  resources: [ "deployments", "statefulsets" ]
-  resourceNames: [ "pms" ]
-  verbs: [ "get", "patch", "list", "watch" ]
+- apiGroups: ["apps", "extensions"]
+  resources: ["deployments", "statefulsets"]
+  resourceNames: ["pms"]
+  verbs: ["get", "patch", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

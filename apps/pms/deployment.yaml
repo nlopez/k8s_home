@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -85,5 +84,6 @@ spec:
         command:
         - sh
         - -c
-        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl --silent --show-error https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/${DB_REPAIR_REV:-master}/DBRepair.sh | bash -s - auto prune exit)'
+        - '[ "${DO_DB_REPAIR:-false}" = "false" ] && exit 0 || (curl --silent --show-error https://raw.githubusercontent.com/ChuckPa/PlexDBRepair/${DB_REPAIR_REV:-master}/DBRepair.sh | bash -s - auto prune
+          exit)'
         ports: []
