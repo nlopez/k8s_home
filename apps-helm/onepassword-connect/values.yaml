@@ -1,0 +1,18 @@
+---
+connect:
+  create: true
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
+  # Keep credentials in an out-of-git secret named op-credentials.
+  credentialsName: op-credentials
+  credentialsKey: 1password-credentials.json
+
+operator:
+  create: true
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
+  authMethod: connect
+  # Keep token in an out-of-git secret named onepassword-token.
+  token:
+    name: onepassword-token
+    key: token

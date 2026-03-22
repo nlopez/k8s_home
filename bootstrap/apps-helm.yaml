@@ -83,6 +83,11 @@ spec:
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
         targetRevision: '0.6.0'
         namespace: spegel
+      - name: onepassword-connect
+        repoURL: https://1password.github.io/connect-helm-charts
+        chart: connect
+        targetRevision: '2.4.0'
+        namespace: 1password
   template:
     metadata:
       name: '{{.name}}'

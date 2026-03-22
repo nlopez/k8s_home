@@ -47,9 +47,11 @@ argocd account update-password
 
 ### 1Password Connect
 ```bash
-helm repo add 1password https://1password.github.io/connect-helm-charts/
+kubectl create namespace 1password --dry-run=client -o yaml | kubectl apply -f -
 op read 'op://bamv726zv6zbcfke3cnbwjtnuu/asl5wh3w3nu2edr6pkj5ntylvu/1password-credentials.json' > 1password-credentials.json
-helm install --create-namespace --namespace 1password connect 1password/connect --set-file connect.credentials=1password-credentials.json --set operator.create=true --set operator.token.value=$(op item get yju2wqlsz3uep7mvzivfrs3fvm --fields=token --reveal)
+kubectl create secret generic op-credentials -n 1password --from-file=1password-credentials.json --dry-run=client -o yaml | kubectl apply -f -
+kubectl create secret generic onepassword-token -n 1password --from-literal=token="$(op item get yju2wqlsz3uep7mvzivfrs3fvm --fields=token --reveal)" --dry-run=client -o yaml | kubectl apply -f -
+argocd app sync onepassword-connect
 ```
 
 ### Bootstrap Argo AppSets
@@ -58,4 +60,4 @@ kubectl apply --server-side -Rf bootstrap
 ```
 
 ## Thanks
-*  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state). Particularly: iscsi, [flux](https://github.com/weaveworks/flux), and [sealed secrets](https://github.com/bitnami-labs/sealed-secrets).
+*  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state).
