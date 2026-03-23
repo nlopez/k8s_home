@@ -13,7 +13,7 @@
   "regexManagers": [
     {
       "description": "Update Helm chart versions in bootstrap ApplicationSet list entries",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^bootstrap\\/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
@@ -25,7 +25,7 @@
     },
     {
       "description": "Update OCI-hosted Helm chart versions in bootstrap ApplicationSet list entries",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^bootstrap\\/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
@@ -36,7 +36,7 @@
     },
     {
       "description": "Update container image tags in non-Helm app manifests",
-      "managerFilePatterns": [
+      "fileMatch": [
         "/^apps\\/.+\\.ya?ml$/"
       ],
       "matchStrings": [
