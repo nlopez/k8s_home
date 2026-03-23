@@ -1,9 +1,12 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
-  name: enable-http3
+  name: tls-session-resumption
 spec:
-  http3: {}
+  tls:
+    session:
+      resumption:
+        stateless: {}
   targetSelectors:
   - group: gateway.networking.k8s.io
     kind: Gateway
