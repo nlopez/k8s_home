@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-radoncanyon-com-cert-rsa
+spec:
+  secretName: wildcard-radoncanyon-com-cert-rsa
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  dnsNames:
+  - '*.radoncanyon.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-radoncanyon-com-cert-ecdsa
+spec:
+  secretName: wildcard-radoncanyon-com-cert-ecdsa
+  isCA: false
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+  - '*.radoncanyon.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

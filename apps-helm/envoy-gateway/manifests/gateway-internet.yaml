@@ -4,7 +4,6 @@ kind: Gateway
 metadata:
   name: internet
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     external-dns.alpha.kubernetes.io/target: 'lga1.desertbluffs.com'
 spec:
   gatewayClassName: internet
@@ -20,7 +19,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-desertbluffs-com-cert
+        name: wildcard-desertbluffs-com-cert-rsa
         group: ""
       - kind: Secret
         name: wildcard-desertbluffs-com-cert-ecdsa
@@ -36,7 +35,10 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-radoncanyon-com-cert
+        name: wildcard-radoncanyon-com-cert-rsa
+        group: ""
+      - kind: Secret
+        name: wildcard-radoncanyon-com-cert-ecdsa
         group: ""
     allowedRoutes:
       namespaces:

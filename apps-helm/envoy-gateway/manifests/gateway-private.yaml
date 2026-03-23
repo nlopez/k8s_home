@@ -3,8 +3,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: private
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: private
   addresses:
@@ -19,7 +17,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-desertbluffs-com-cert
+        name: wildcard-desertbluffs-com-cert-rsa
         group: ""
       - kind: Secret
         name: wildcard-desertbluffs-com-cert-ecdsa
@@ -35,7 +33,10 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-radoncanyon-com-cert
+        name: wildcard-radoncanyon-com-cert-rsa
+        group: ""
+      - kind: Secret
+        name: wildcard-radoncanyon-com-cert-ecdsa
         group: ""
     allowedRoutes:
       namespaces:

@@ -2,6 +2,22 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  name: wildcard-desertbluffs-com-cert-rsa
+spec:
+  secretName: wildcard-desertbluffs-com-cert-rsa
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  dnsNames:
+  - '*.desertbluffs.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
   name: wildcard-desertbluffs-com-cert-ecdsa
 spec:
   secretName: wildcard-desertbluffs-com-cert-ecdsa
