@@ -7,7 +7,8 @@ controllers:
     containers:
       main:
         image:
-          tag: v2.5.6 # Latest stable release
+          repository: ghcr.io/immich-app/immich-server
+          tag: v2.6.1
           pullPolicy: IfNotPresent
         env:
           # PostgreSQL configuration - uses external cloudnative-pg instance
