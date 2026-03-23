@@ -5,39 +5,41 @@
   ],
   "dependencyDashboard": true,
   "enabledManagers": [
-    "regex",
-    "kubernetes",
+    "custom.regex",
     "helm-values",
     "github-actions"
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "description": "Update Helm chart versions in bootstrap ApplicationSet list entries",
+      "customType": "regex",
+      "description": "Update Helm chart versions in bootstrap ApplicationSet list entries (HTTPS)",
       "fileMatch": [
-        "/^bootstrap\\/apps-helm\\.yaml$/"
+        "bootstrap/apps-helm.yaml"
       ],
       "matchStrings": [
-        "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\\\"]?(?<registryUrl>https?:\\/\\/[^\\s'\\\"]+)['\\\"]?\\s*\\n\\s*chart:\\s*['\\\"]?(?<depName>[^\\s'\\\"]+)['\\\"]?\\s*\\n\\s*targetRevision:\\s*['\\\"]?(?<currentValue>[^\\s'\\\"]+)['\\\"]?"
+        "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\"]?(?<registryUrl>https?://[^\\s'\"]+)['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
       ],
       "datasourceTemplate": "helm",
       "registryUrlTemplate": "{{{registryUrl}}}",
       "versioningTemplate": "semver-coerced"
     },
     {
+      "customType": "regex",
       "description": "Update OCI-hosted Helm chart versions in bootstrap ApplicationSet list entries",
       "fileMatch": [
-        "/^bootstrap\\/apps-helm\\.yaml$/"
+        "bootstrap/apps-helm.yaml"
       ],
       "matchStrings": [
-        "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\\\"]?oci:\\/\\/(?<depName>[^\\s'\\\"]+)['\\\"]?\\s*\\n\\s*targetRevision:\\s*['\\\"]?(?<currentValue>[^\\s'\\\"]+)['\\\"]?"
+        "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\"]?oci://(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver-coerced"
     },
     {
-      "description": "Update container image tags in non-Helm app manifests",
+      "customType": "regex",
+      "description": "Update container images in Kubernetes manifests",
       "fileMatch": [
-        "/^apps\\/.+\\.ya?ml$/"
+        "apps/.+\\.ya?ml$"
       ],
       "matchStrings": [
         "(?m)^\\s*image:\\s*(?<depName>[^:@\\s]+(?:/[^:@\\s]+)*)(?::(?<currentValue>[^@\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\\s*$"
