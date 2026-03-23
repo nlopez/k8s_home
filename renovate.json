@@ -56,17 +56,16 @@
       "groupName": "helm chart updates"
     },
     {
-      "description": "Group container image updates from manifests and Helm values",
+      "description": "Group container image updates from Helm values",
       "matchManagers": [
-        "kubernetes",
         "helm-values"
       ],
       "groupName": "container image updates"
     },
     {
-      "description": "Group container image updates from non-Helm app manifests",
+      "description": "Group container image updates from Kubernetes manifests",
       "matchManagers": [
-        "regex"
+        "custom.regex"
       ],
       "matchFileNames": [
         "apps/**"

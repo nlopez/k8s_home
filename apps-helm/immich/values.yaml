@@ -53,6 +53,7 @@ server:
         main:
           image:
             repository: ghcr.io/immich-app/immich-server
+            tag: v2.6.1
             pullPolicy: IfNotPresent
           resources:
             requests:
@@ -80,6 +81,7 @@ machine-learning:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
+            tag: v2.6.1
             pullPolicy: IfNotPresent
           env:
             TRANSFORMERS_CACHE: /cache
