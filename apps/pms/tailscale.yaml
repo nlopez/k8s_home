@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ts-ingress
+  annotations:
+    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+spec:
+  tls:
+  - hosts:
+    - quizzical-queen
+  defaultBackend:
+    service:
+      name: pms
+      port:
+        number: 32400
+  ingressClassName: tailscale
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: "quizzical-queen.macaroni-pirate.ts.net"
+    tailscale.com/proxy-group: egress-proxies
+  name: ts-egress
+spec:
+  externalName: placeholder # any value - will be overwritten by the operator
+  type: ExternalName
+  ports:
+  - port: 32400
+    protocol: TCP
+    name: https # ignored
