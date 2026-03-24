@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: nzbhydra2-tailscale
   annotations:
-    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/proxy-group: heimdall
     tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:

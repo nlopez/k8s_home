@@ -3,12 +3,12 @@ kind: Ingress
 metadata:
   name: ts-ingress
   annotations:
-    tailscale.com/proxy-group: ingress-proxies
+    tailscale.com/proxy-group: heimdall
     tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 spec:
   tls:
   - hosts:
-    - quizzical-queen
+    - quizzical-queen.macaroni-pirate.ts.net
   defaultBackend:
     service:
       name: pms
@@ -21,7 +21,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: "quizzical-queen.macaroni-pirate.ts.net"
-    tailscale.com/proxy-group: egress-proxies
+    tailscale.com/proxy-group: mercury
   name: ts-egress
 spec:
   externalName: placeholder # any value - will be overwritten by the operator
