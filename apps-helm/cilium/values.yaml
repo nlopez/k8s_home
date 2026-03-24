@@ -14,6 +14,9 @@ ipam:
 routingMode: "native"
 # autoDirectNodeRoutes: true
 # directRoutingSkipUnreachable: true
+loadBalancer:
+  mode: dsr
+  dsrDispatch: opt
 ipv4:
   enabled: true
 ipv6:
@@ -53,3 +56,5 @@ MTU: 1500
 endpointRoutes:
   enabled: true
 devices: eno+
+enableIPv4BIGTCP: true
+enableIPv6BIGTCP: false
