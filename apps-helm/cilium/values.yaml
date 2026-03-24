@@ -12,11 +12,11 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["10.43.16.0/20"]
     clusterPoolIPv4MaskSize: 24
 routingMode: "native"
-autoDirectNodeRoutes: false
-directRoutingSkipUnreachable: false
+autoDirectNodeRoutes: true
+directRoutingSkipUnreachable: true
 ipv4:
   enabled: true
-enableIPv4BIGTCP: true
+enableIPv4BIGTCP: false
 ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
@@ -35,17 +35,20 @@ bpf:
       rateLimit: 10000
       burstLimit: 50000
   disableExternalIPMitigation: true
+  lbAlgorithmAnnotation: true
 loadBalancer:
-  mode: snat
+  mode: dsr
+  algorithm: maglev
 socketLB:
   enabled: true
+  hostNamespaceOnly: true
 ipMasqAgent:
   enabled: true
-  config:
-    nonMasqueradeCIDRs:
-    - 10.0.0.0/8
-    masqLinkLocal: false
-    masqLinkLocalIPv6: false
+  # config:
+  # nonMasqueradeCIDRs:
+  # - 10.0.0.0/8
+  # masqLinkLocal: false
+  # masqLinkLocalIPv6: false
 bandwidthManager:
   enabled: true
   bbr: true
@@ -65,3 +68,4 @@ hubble:
 MTU: 1500
 endpointRoutes:
   enabled: true
+devices: eno+
