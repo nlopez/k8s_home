@@ -12,8 +12,8 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["10.43.16.0/20"]
     clusterPoolIPv4MaskSize: 24
 routingMode: "native"
-autoDirectNodeRoutes: true
-directRoutingSkipUnreachable: true
+autoDirectNodeRoutes: false
+directRoutingSkipUnreachable: false
 ipv4:
   enabled: true
 enableIPv4BIGTCP: true

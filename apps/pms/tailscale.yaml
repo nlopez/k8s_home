@@ -29,4 +29,7 @@ spec:
   ports:
   - port: 32400
     protocol: TCP
-    name: https # ignored
+    name: https-32400 # ignored
+  - port: 443
+    protocol: TCP
+    name: https-443 # ignored
