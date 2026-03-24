@@ -1,7 +1,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyGroup
 metadata:
-  name: kube-apiserver-proxies-2
+  name: charon
 spec:
   type: kube-apiserver
   replicas: 2

@@ -1,7 +1,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyGroup
 metadata:
-  name: ingress-proxies
+  name: heimdall
 spec:
   type: ingress
   tags:
