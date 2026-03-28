@@ -12,31 +12,44 @@ ipam:
     clusterPoolIPv4PodCIDRList: ["10.43.16.0/20"]
     clusterPoolIPv4MaskSize: 24
 routingMode: "native"
-loadBalancer:
-  mode: dsr
-  dsrDispatch: opt
+autoDirectNodeRoutes: true
+directRoutingSkipUnreachable: true
 ipv4:
   enabled: true
+enableIPv4BIGTCP: true
 ipv6:
   enabled: false
-ipv4NativeRoutingCIDR: "10.43.0.0/20"
+ipv4NativeRoutingCIDR: "10.43.0.0/16"
 bpf:
   datapathMode: netkit
   masquerade: true
   lbExternalClusterIP: true
+  hostLegacyRouting: false
+  tproxy: false
+  distributedLRU:
+    enabled: true
+  mapDynamicSizeRatio: 0.08
   events:
     monitorInterval: "10s"
     default:
       rateLimit: 10000
       burstLimit: 50000
-  lbAlgorithmAnnotation: true
+  disableExternalIPMitigation: true
+loadBalancer:
+  mode: snat
+socketLB:
+  enabled: true
 ipMasqAgent:
   enabled: true
-  # config:
-  # nonMasqueradeCIDRs:
-  # - 10.0.0.0/8
-  # masqLinkLocal: false
-  # masqLinkLocalIPv6: false
+  config:
+    nonMasqueradeCIDRs:
+    - 10.0.0.0/8
+    masqLinkLocal: false
+    masqLinkLocalIPv6: false
+bandwidthManager:
+  enabled: true
+  bbr: true
+vlanBypass: 0
 hubble:
   enabled: true
   tls:
@@ -52,5 +65,3 @@ hubble:
 MTU: 1500
 endpointRoutes:
   enabled: true
-enableIPv4BIGTCP: true
-enableIPv6BIGTCP: false
