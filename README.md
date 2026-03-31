@@ -5,7 +5,7 @@ A collection of Kubernetes objects for my home setup
 ### kubeadm
 
 ```bash
-sudo kubeadm init --config kubeadm-init.conf --upload-certs --skip-phases=addon/kube-proxy
+sudo sudo kubeadm init --config kubeadm-init.conf --upload-certs
 ```
 
 Run the control plane join command on additional nodes.
