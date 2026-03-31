@@ -19,13 +19,13 @@ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 This is [necessary](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416) because we're using `serverTLSBootstrap: true` in kubeadm.
 
 ```bash
-for csr in $(k get csr --sort-by=.metadata.creationTimestamp -o name); do kubectl certificate approve $csr; done
+for csr in $(kubectl get csr --sort-by=.metadata.creationTimestamp -o name); do kubectl certificate approve $csr; done
 ```
 
 ### CNI: Cilium
 ```bash
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium --version 1.18.1 --namespace kube-system --values apps-helm/cilium/values.yaml
+helm install cilium cilium/cilium --version 1.19.2 --namespace kube-system --values apps-helm/cilium/values.yaml
 cilium status --wait
 kubectl apply --server-side -Rf apps-helm/cilium/manifests
 ```
