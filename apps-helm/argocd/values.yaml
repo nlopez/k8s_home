@@ -6,6 +6,7 @@ configs:
 server:
   ingress:
     enabled: true
+    hostname: ""
     ingressClassName: tailscale
     annotations:
       tailscale.com/proxy-group: heimdall
