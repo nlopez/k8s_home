@@ -11,96 +11,96 @@ spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
   goTemplate: true
-  goTemplateOptions: ['missingkey=error']
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - list:
       elements:
       - name: argocd
-        repoURL: 'https://argoproj.github.io/argo-helm'
+        repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.4.16'
+        targetRevision: "9.4.16"
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
         targetRevision: v1.20.0
         namespace: cert-manager
-      - name: envoy-gateway
-        repoURL: oci://docker.io/envoyproxy/gateway-helm
-        targetRevision: 1.7.1
-        namespace: envoy-gateway-system
+      # - name: envoy-gateway
+      #   repoURL: oci://docker.io/envoyproxy/gateway-helm
+      #   targetRevision: 1.7.1
+      #   namespace: envoy-gateway-system
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: '1.94.2'
+        targetRevision: "1.94.2"
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: '1.19.2'
+        targetRevision: "1.19.2"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
         chart: metrics-server
-        targetRevision: '3.13.0'
+        targetRevision: "3.13.0"
         namespace: kube-system
       - name: reloader
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: '2.2.9'
+        targetRevision: "2.2.9"
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
         chart: node-feature-discovery
-        targetRevision: '0.18.3'
+        targetRevision: "0.18.3"
         namespace: node-feature-discovery
       - name: intel-device-plugins-gpu
         repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
-        targetRevision: '0.35.0'
+        targetRevision: "0.35.0"
         namespace: intel-device-plugins-gpu
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
-        targetRevision: '1.20.0'
+        targetRevision: "1.20.0"
         namespace: external-dns
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
-        targetRevision: '2.7.0'
+        targetRevision: "2.7.0"
         namespace: jellyfin
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: '0.27.1'
+        targetRevision: "0.27.1"
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: '0.10.3'
+        targetRevision: "0.10.3"
         namespace: immich
       - name: spegel
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
-        targetRevision: '0.6.0'
+        targetRevision: "0.6.0"
         namespace: spegel
       - name: onepassword-connect
         repoURL: https://1password.github.io/connect-helm-charts
         chart: connect
-        targetRevision: '2.4.1'
+        targetRevision: "2.4.1"
         namespace: 1password
   template:
     metadata:
-      name: '{{.name}}'
+      name: "{{.name}}"
     spec:
       project: default
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
       destination:
-        namespace: '{{.namespace}}'
+        namespace: "{{.namespace}}"
         server: https://kubernetes.default.svc
   templatePatch: |-
     spec:

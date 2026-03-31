@@ -8,7 +8,7 @@ spec:
   syncPolicy:
     preserveResourcesOnDeletion: true
   goTemplate: true
-  goTemplateOptions: ['missingkey=error']
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: https://github.com/nlopez/k8s_home.git
@@ -20,22 +20,22 @@ spec:
         exclude: true
   template:
     metadata:
-      name: '{{ .path.basename }}'
+      name: "{{ .path.basename }}"
     spec:
       project: default
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
       sources:
-      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+      - repoURL: "https://github.com/nlopez/k8s_home.git"
         targetRevision: unstable
-        path: '{{.path.path}}'
+        path: "{{.path.path}}"
       destination:
-        namespace: '{{.path.basename}}'
+        namespace: "{{.path.basename}}"
         server: https://kubernetes.default.svc
   templatePatch: |-
     {{- $patchedName := .path.basename }}
