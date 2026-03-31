@@ -20,7 +20,7 @@ spec:
       expression: |-
         object.kind == "CronJob" ? [
           JSONPatch{
-            op: "add",
+            op: has(object.spec.jobTemplate.spec.template.spec.dnsConfig) ? "replace" : "add",
             path: "/spec/jobTemplate/spec/template/spec/dnsConfig",
             value: {
               "options": [
@@ -33,7 +33,7 @@ spec:
           }
         ] : [
           JSONPatch{
-            op: "add",
+            op: has(object.spec.template.spec.dnsConfig) ? "replace" : "add",
             path: "/spec/template/spec/dnsConfig",
             value: {
               "options": [
