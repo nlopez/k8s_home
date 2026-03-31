@@ -76,7 +76,7 @@ spec:
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: '0.11.0'
+        targetRevision: '0.11.1'
         namespace: immich
       - name: spegel
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
