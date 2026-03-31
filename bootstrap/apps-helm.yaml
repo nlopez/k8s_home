@@ -18,12 +18,12 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: "9.4.16"
+        targetRevision: '9.4.17'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.20.0
+        targetRevision: v1.20.1
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: oci://docker.io/envoyproxy/gateway-helm
@@ -76,7 +76,7 @@ spec:
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: "0.10.3"
+        targetRevision: '0.11.0'
         namespace: immich
       - name: spegel
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
