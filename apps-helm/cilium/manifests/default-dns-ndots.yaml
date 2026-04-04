@@ -5,6 +5,10 @@ metadata:
 spec:
   matchConstraints:
     resourceRules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      resources: ["pods"]
+      operations: ["CREATE"]
     - apiGroups: ["apps"]
       apiVersions: ["v1"]
       resources: ["deployments", "statefulsets", "daemonsets"]
@@ -18,7 +22,20 @@ spec:
   - patchType: "JSONPatch"
     jsonPatch:
       expression: |-
-        object.kind == "CronJob" ? [
+        object.kind == "Pod" ? [
+          JSONPatch{
+            op: has(object.spec.dnsConfig) ? "replace" : "add",
+            path: "/spec/dnsConfig",
+            value: {
+              "options": [
+                {
+                  "name": "ndots",
+                  "value": "1"
+                }
+              ]
+             }
+          }
+        ] : object.kind == "CronJob" ? [
           JSONPatch{
             op: has(object.spec.jobTemplate.spec.template.spec.dnsConfig) ? "replace" : "add",
             path: "/spec/jobTemplate/spec/template/spec/dnsConfig",
