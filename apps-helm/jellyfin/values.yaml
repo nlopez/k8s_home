@@ -14,18 +14,15 @@ persistence:
   media:
     enabled: true
     existingClaim: media
+  cache:
+    enabled: true
+    emptyDir:
+      medium: Memory
 resources:
   limits:
     gpu.intel.com/i915: 1
 deploymentStrategy:
   type: Recreate
-volumes:
-- name: cache
-  emptyDir:
-    medium: Memory
-volumeMounts:
-- name: cache
-  mountPath: /cache
 
 # Uncomment for debugging start
 #
