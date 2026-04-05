@@ -21,7 +21,7 @@ spec:
       containers:
       - name: radarr
         # IMAGE=ghcr.io/linuxserver/radarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -F 'version-6' |sort -V  | tail -n1
-        image: ghcr.io/linuxserver/radarr:version-6.0.4.10291
+        image: ghcr.io/linuxserver/radarr:version-6.1.1.10360
         # image: alpine
         # command: [ "sleep" ]
         # args: [ "infinity" ]

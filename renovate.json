@@ -73,11 +73,12 @@
       "groupName": "container image updates"
     },
     {
-      "description": "Use loose versioning for linuxserver images which use version-X.Y.Z tag format",
+      "description": "Use loose versioning for linuxserver images which use version-X.Y.Z or version-vX.Y.Z tag format",
       "matchPackageNames": [
         "ghcr.io/linuxserver/**",
         "lscr.io/linuxserver/**"
       ],
+      "extractVersion": "^version-v?(?<version>.+)$",
       "versioning": "loose"
     },
     {
