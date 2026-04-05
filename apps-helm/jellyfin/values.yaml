@@ -14,10 +14,6 @@ persistence:
   media:
     enabled: true
     existingClaim: media
-  cache:
-    enabled: true
-    emptyDir:
-      medium: Memory
 resources:
   limits:
     gpu.intel.com/i915: 1
