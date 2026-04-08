@@ -18,7 +18,7 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.4.17'
+        targetRevision: '9.5.0'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -33,7 +33,7 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: "1.94.2"
+        targetRevision: "1.96.5"
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
@@ -68,7 +68,7 @@ spec:
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
-        targetRevision: "3.0.0"
+        targetRevision: "3.2.0"
         namespace: jellyfin
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
