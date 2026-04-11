@@ -13,8 +13,8 @@
     {
       "customType": "regex",
       "description": "Update Helm chart versions in bootstrap ApplicationSet list entries (HTTPS)",
-      "fileMatch": [
-        "bootstrap/apps-helm.yaml"
+      "managerFilePatterns": [
+        "/bootstrap/apps-helm.yaml/"
       ],
       "matchStrings": [
         "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\"]?(?<registryUrl>https?://[^\\s'\"]+)['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
@@ -26,8 +26,8 @@
     {
       "customType": "regex",
       "description": "Update OCI-hosted Helm chart versions in bootstrap ApplicationSet list entries",
-      "fileMatch": [
-        "bootstrap/apps-helm.yaml"
+      "managerFilePatterns": [
+        "/bootstrap/apps-helm.yaml/"
       ],
       "matchStrings": [
         "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\"]?oci://(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
@@ -38,8 +38,8 @@
     {
       "customType": "regex",
       "description": "Update container images in Kubernetes manifests",
-      "fileMatch": [
-        "apps/.+\\.ya?ml$"
+      "managerFilePatterns": [
+        "/apps/.+\\.ya?ml$/"
       ],
       "matchStrings": [
         "(?m)^\\s*image:\\s*(?<depName>[^:@\\s]+(?:/[^:@\\s]+)*)(?::(?<currentValue>[^@\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\\s*$"
