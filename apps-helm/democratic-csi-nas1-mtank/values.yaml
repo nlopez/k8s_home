@@ -1,0 +1,16 @@
+csiDriver:
+  name: "org.democratic-csi.nas1-mtank-iscsi"
+driver:
+  existingConfigSecret: democratic-csi-nas1-mtank-driver-config
+  config:
+    driver: freenas-api-iscsi
+storageClasses:
+- name: nas1-mtank-iscsi
+  defaultClass: false
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+  parameters:
+    fsType: ext4
+  mountOptions:
+  - noatime

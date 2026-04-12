@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
+# 1Password item should have a field named "driver-config-file.yaml" with the following content:
+#
+# driver: freenas-api-iscsi
+# httpConnection:
+#   protocol: https
+#   host: nas1.lga1.radoncanyon.com
+#   port: 443
+#   apiKey: <truenas-api-key>
+#   allowInsecure: false
+# zfs:
+#   datasetParentName: mtank/k8s/vols
+#   detachedSnapshotsDatasetParentName: mtank/k8s/snaps
+#   zvolCompression: ""
+#   zvolDedup: ""
+#   zvolEnableReservation: false
+#   zvolBlocksize: ""
+# iscsi:
+#   targetPortal: "nas1.lga1.radoncanyon.com:3260"
+#   targetPortals: []
+#   interface: ""
+#   namePrefix: csi-
+#   nameSuffix: "-nas1-mtank"
+#   targetGroups:
+#     - targetGroupPortalGroup: 1
+#       targetGroupInitiatorGroup: 1
+#       targetGroupAuthType: None
+#   extentInsecureTpc: true
+#   extentXenCompat: false
+#   extentDisablePhysicalBlocksize: true
+#   extentBlocksize: 512
+#   extentRpm: "SSD"
+#   extentAvailThreshold: 0
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: democratic-csi-nas1-mtank-driver-config
+spec:
+  itemPath: "vaults/k8s_home/items/democratic-csi-nas1-mtank-driver-config"

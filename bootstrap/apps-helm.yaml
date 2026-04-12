@@ -88,6 +88,11 @@ spec:
         chart: connect
         targetRevision: "2.4.1"
         namespace: 1password
+      - name: democratic-csi-nas1-mtank
+        repoURL: https://democratic-csi.github.io/charts
+        chart: democratic-csi
+        targetRevision: "0.15.1"
+        namespace: democratic-csi-nas1-mtank
   template:
     metadata:
       name: "{{.name}}"
