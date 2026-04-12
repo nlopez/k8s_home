@@ -5,6 +5,7 @@ resources:
 - deployment.yaml
 - pv.yaml
 - pvc.yaml
+- pvc-test-nas1-mtank.yaml
 configMapGenerator:
 - files:
   - yt-dlp.conf

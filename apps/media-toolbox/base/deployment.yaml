@@ -32,6 +32,9 @@ spec:
           items:
           - key: yt-dlp.conf
             path: config
+      - name: test-nas1-mtank
+        persistentVolumeClaim:
+          claimName: test-nas1-mtank
       - name: temp
         emptyDir: {}
       containers:
@@ -50,6 +53,8 @@ spec:
         - name: toolbox-config
           mountPath: /home/user/.config/yt-dlp/config
           subPath: config
+        - name: test-nas1-mtank
+          mountPath: /mnt/test-nas1-mtank
         - name: temp
           mountPath: /yt-dlp-temp
         securityContext:
