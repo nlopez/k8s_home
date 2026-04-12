@@ -1,0 +1,39 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyPatchPolicy
+metadata:
+  name: h2-websockets-internet
+  namespace: envoy-gateway-system
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: internet
+    namespace: envoy-gateway-system
+  type: JSONPatch
+  jsonPatches:
+  - type: "type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager"
+    operation:
+      op: merge
+      value:
+        http2_protocol_options:
+          allow_connect: true
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyPatchPolicy
+metadata:
+  name: h2-websockets-private
+  namespace: envoy-gateway-system
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: private
+    namespace: envoy-gateway-system
+  type: JSONPatch
+  jsonPatches:
+  - type: "type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager"
+    operation:
+      op: merge
+      value:
+        http2_protocol_options:
+          allow_connect: true
