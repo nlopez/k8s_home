@@ -16,7 +16,7 @@ spec:
       containers:
       - name: jackett
         # IMAGE=ghcr.io/linuxserver/jackett; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/jackett:version-v0.22.2349
+        image: ghcr.io/linuxserver/jackett:version-v0.24.1564
         # image: alpine
         # command: [ "sleep" ]
         # args: [ "infinity" ]
