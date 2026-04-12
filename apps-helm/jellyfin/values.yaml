@@ -10,7 +10,7 @@ ingress:
 persistence:
   config:
     enabled: true
-    existingClaim: config
+    existingClaim: config-nas1-mtank
   media:
     enabled: true
     existingClaim: media
@@ -31,11 +31,14 @@ deploymentStrategy:
 #   repository: docker.io/alpine
 #   tag: latest
 
+# startupProbe: null
 # livenessProbe:
+#   httpGet: null
 #   initialDelaySeconds: 999999999
 #   tcpSocket:
 #     port: http
 # readinessProbe:
+#   httpGet: null
 #   initialDelaySeconds: 999999999
 #   tcpSocket:
 #     port: http

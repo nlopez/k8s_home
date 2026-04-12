@@ -40,9 +40,9 @@ spec:
           failureThreshold: 3
         env:
         - name: DO_DB_REPAIR
-          value: "false"
+          value: "true"
         - name: DB_REPAIR_REV
-          value: "dea8a805ce3033411ddd9871105310e2cfab4bf2"
+          value: "8fc8df3a2f057d2d962429ff11f2750bc3464f79"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
           value: "false"
         - name: PLEX_UID
@@ -70,7 +70,7 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: config
+          claimName: config-nas1-mtank
       - name: media
         persistentVolumeClaim:
           claimName: media
