@@ -3,7 +3,6 @@
   "extends": [
     "config:recommended"
   ],
-  "dependencyDashboard": true,
   "enabledManagers": [
     "custom.regex",
     "helm-values",
@@ -49,6 +48,14 @@
   ],
   "packageRules": [
     {
+      "description": "Group container image updates",
+      "matchManagers": [
+        "helm-values",
+        "custom.regex"
+      ],
+      "groupName": "container image updates"
+    },
+    {
       "description": "Group Helm chart updates from bootstrap/apps-helm.yaml",
       "matchFileNames": [
         "bootstrap/apps-helm.yaml"
@@ -56,44 +63,19 @@
       "groupName": "helm chart updates"
     },
     {
-      "description": "Group container image updates from Helm values",
-      "matchManagers": [
-        "helm-values"
-      ],
-      "groupName": "container image updates"
-    },
-    {
-      "description": "Group container image updates from Kubernetes manifests",
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "apps/**"
-      ],
-      "groupName": "container image updates"
-    },
-    {
-      "description": "Use loose versioning for linuxserver images which use version-X.Y.Z or version-vX.Y.Z tag format",
+      "description": "Use regex versioning for linuxserver images which use version-X.Y.Z or version-vX.Y.Z tag format",
       "matchPackageNames": [
-        "ghcr.io/linuxserver/**",
-        "lscr.io/linuxserver/**"
+        "ghcr.io/linuxserver/**"
       ],
-      "extractVersion": "^version-v?(?<version>.+)$",
-      "versioning": "loose"
-    },
-    {
-      "description": "Use calver versioning for media-toolbox which uses YYYY.M.D.HHmmss tags",
-      "matchPackageNames": [
-        "docker.io/nlopez/media-toolbox"
-      ],
-      "versioning": "calver"
+      "versioning": "regex:^version-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(\\.(?<build>\\d+))?(-.*)?$"
     },
     {
       "description": "Use loose versioning for app images with non-semver tags",
       "matchPackageNames": [
         "boredazfcuk/icloudpd",
-        "docker.io/brainicism/bgutil-ytdlp-pot-provider",
         "caomingjun/warp",
+        "docker.io/brainicism/bgutil-ytdlp-pot-provider",
+        "docker.io/nlopez/media-toolbox",
         "ghcr.io/shaarli/shaarli",
         "registry.k8s.io/sig-storage/snapshot-controller"
       ],
@@ -106,7 +88,6 @@
       ],
       "enabled": false
     },
-
     {
       "description": "Group GitHub Actions updates",
       "matchManagers": [

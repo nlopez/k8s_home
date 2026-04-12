@@ -60,5 +60,28 @@ kubectl create secret generic onepassword-token -n 1password --from-literal=toke
 kubectl apply --server-side -Rf bootstrap
 ```
 
+### Renovate
+
+Run renovate locally against the working tree (no GitHub token required):
+
+```bash
+docker run --rm \
+  -v $(pwd):/usr/src/app \
+  -e RENOVATE_PLATFORM=local \
+  -e LOG_LEVEL=debug \
+  ghcr.io/renovatebot/renovate \
+  --dry-run=full
+```
+
+To open actual PRs on GitHub, set `RENOVATE_TOKEN` to a GitHub PAT with `repo` scope and drop `--dry-run=full`:
+
+```bash
+RENOVATE_TOKEN=<github-pat> docker run --rm \
+  -e RENOVATE_TOKEN \
+  -e LOG_LEVEL=debug \
+  ghcr.io/renovatebot/renovate \
+  nlopez/k8s_home
+```
+
 ## Thanks
 *  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state).
