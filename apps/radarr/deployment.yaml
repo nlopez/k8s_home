@@ -20,19 +20,37 @@ spec:
     spec:
       containers:
       - name: radarr
-        image: alpine:latest
-        command: ["sleep"]
-        args: ["infinity"]
+        # IMAGE=ghcr.io/linuxserver/radarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -F 'version-6' |sort -V  | tail -n1
+        image: ghcr.io/linuxserver/radarr:version-6.1.1.10360
+        env:
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        - name: TZ
+          value: "America/New_York"
+        - name: DOTNET_SYSTEM_NET_DISABLEIPV6
+          value: "1"
+        ports:
+        - name: http
+          containerPort: 7878
+        livenessProbe:
+          httpGet:
+            port: http
+            path: /ping
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          failureThreshold: 3
         volumeMounts:
         - name: config
           mountPath: /config
-        - name: config-nas1-mtank
-          mountPath: /config-new
+        - name: media
+          mountPath: /media
+        - name: scratch
+          mountPath: /downloads
+          subPath: downloads
       volumes:
       - name: config
-        persistentVolumeClaim:
-          claimName: config
-      - name: config-nas1-mtank
         persistentVolumeClaim:
           claimName: config-nas1-mtank
       - name: scratch
