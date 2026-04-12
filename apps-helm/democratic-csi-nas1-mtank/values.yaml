@@ -4,6 +4,9 @@ driver:
   existingConfigSecret: democratic-csi-nas1-mtank-driver-config
   config:
     driver: freenas-api-iscsi
+controller:
+  externalSnapshotter:
+    enabled: true
 storageClasses:
 - name: nas1-mtank-iscsi
   defaultClass: false
@@ -14,3 +17,6 @@ storageClasses:
     fsType: ext4
   mountOptions:
   - noatime
+volumeSnapshotClasses:
+- name: nas1-mtank-iscsi
+  deletionPolicy: Delete
