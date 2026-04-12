@@ -20,43 +20,21 @@ spec:
     spec:
       containers:
       - name: sonarr
-        # IMAGE=ghcr.io/linuxserver/sonarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/sonarr:version-4.0.17.2952
-        # image: alpine
-        # command: [ "sleep" ]
-        # args: [ "infinity" ]
-
-        env:
-        - name: PUID
-          value: "1001"
-        - name: PGID
-          value: "1001"
-        - name: TZ
-          value: "America/New_York"
-        - name: DOTNET_SYSTEM_NET_DISABLEIPV6
-          value: "1"
-        ports:
-        - name: http
-          containerPort: 8989
-        livenessProbe:
-          httpGet:
-            port: http
-            path: /ping
-          initialDelaySeconds: 60
-          periodSeconds: 5
-          failureThreshold: 3
+        image: alpine:latest
+        command: ["sleep"]
+        args: ["infinity"]
         volumeMounts:
         - name: config
           mountPath: /config
-        - name: media
-          mountPath: /media
-        - name: scratch
-          mountPath: /downloads
-          subPath: downloads
+        - name: config-nas1-mtank
+          mountPath: /config-new
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: config
+      - name: config-nas1-mtank
+        persistentVolumeClaim:
+          claimName: config-nas1-mtank
       - name: scratch
         persistentVolumeClaim:
           claimName: scratch
