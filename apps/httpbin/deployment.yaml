@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: httpbin
-        image: ghcr.io/mccutchen/go-httpbin:2.21
+        image: ghcr.io/mccutchen/go-httpbin:2.22
         ports:
         - name: http
           containerPort: 8080
