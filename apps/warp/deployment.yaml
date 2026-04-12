@@ -19,22 +19,36 @@ spec:
       restartPolicy: Always
       containers:
       - name: warp
-        image: alpine:latest
+        image: caomingjun/warp:2026.3.846.0-2.12.0-bf3508b88dc075e973e8b09d078c897a414d84e8
         imagePullPolicy: IfNotPresent
         resources:
           requests: {}
           limits: {}
-        command: ["sleep"]
-        args: ["infinity"]
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - NET_ADMIN
+            - MKNOD
+            - AUDIT_WRITE
+        env:
+        - name: WARP_SLEEP
+          value: "2"
+        ports:
+        - containerPort: 1080
+          protocol: TCP
         volumeMounts:
         - name: warp
-          mountPath: /var/lib/warp
-        - name: warp-nas1-mtank
-          mountPath: /var/lib/warp-new
+          mountPath: /var/lib/cloudflare-warp
+        livenessProbe:
+          exec:
+            command:
+            - bash
+            - -c
+            - 'curl --max-time 5 --fail --socks5-hostname 127.0.0.1:1080 https://cloudflare.com/cdn-cgi/trace | grep -qE "warp=(plus|on)" || exit 1'
+          initialDelaySeconds: 10
+          periodSeconds: 60
       volumes:
       - name: warp
-        persistentVolumeClaim:
-          claimName: warp
-      - name: warp-nas1-mtank
         persistentVolumeClaim:
           claimName: warp-nas1-mtank
