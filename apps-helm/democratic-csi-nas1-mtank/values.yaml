@@ -17,7 +17,3 @@ storageClasses:
     fsType: ext4
   mountOptions:
   - noatime
-volumeSnapshotClasses:
-- name: nas1-mtank-iscsi
-  deletionPolicy: Delete
-  parameters: {}
