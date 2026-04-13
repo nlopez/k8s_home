@@ -10,7 +10,7 @@ ingress:
 persistence:
   config:
     enabled: true
-    existingClaim: config
+    existingClaim: config-nas1-mtank
   media:
     enabled: true
     existingClaim: media
@@ -19,38 +19,3 @@ resources:
     gpu.intel.com/i915: 1
 deploymentStrategy:
   type: Recreate
-image:
-  repository: docker.io/alpine
-  tag: latest
-jellyfin:
-  args:
-  - sleep
-  - infinity
-startupProbe: null
-livenessProbe:
-  httpGet: null
-  initialDelaySeconds: 999999999
-  tcpSocket:
-    port: http
-readinessProbe:
-  httpGet: null
-  initialDelaySeconds: 999999999
-  tcpSocket:
-    port: http
-volumes:
-- name: config-nas1-mtank
-  persistentVolumeClaim:
-    claimName: config-nas1-mtank
-volumeMounts:
-- name: config-nas1-mtank
-  mountPath: /config-new
-
-# Uncomment for normal operation
-#
-# image: {}
-# jellyfin: {}
-# startupProbe: {}
-# livenessProbe: {}
-# readinessProbe: {}
-# volumes: []
-# volumeMounts: []
