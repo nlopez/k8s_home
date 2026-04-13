@@ -20,3 +20,4 @@ storageClasses:
 volumeSnapshotClasses:
 - name: nas1-mtank-iscsi
   deletionPolicy: Delete
+  parameters: {}
