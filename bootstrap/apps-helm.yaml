@@ -23,7 +23,7 @@ spec:
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.20.1
+        targetRevision: v1.20.2
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: registry-1.docker.io
