@@ -37,11 +37,11 @@ readinessProbe:
   initialDelaySeconds: 999999999
   tcpSocket:
     port: http
-extraVolumes:
+volumes:
 - name: config-nas1-mtank
   persistentVolumeClaim:
     claimName: config-nas1-mtank
-extraVolumeMounts:
+volumeMounts:
 - name: config-nas1-mtank
   mountPath: /config-new
 
@@ -52,5 +52,5 @@ extraVolumeMounts:
 # startupProbe: {}
 # livenessProbe: {}
 # readinessProbe: {}
-# extraVolumes: []
-# extraVolumeMounts: []
+# volumes: []
+# volumeMounts: []
