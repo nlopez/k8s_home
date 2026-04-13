@@ -40,7 +40,7 @@ spec:
           failureThreshold: 3
         env:
         - name: DO_DB_REPAIR
-          value: "true"
+          value: "false"
         - name: DB_REPAIR_REV
           value: "8fc8df3a2f057d2d962429ff11f2750bc3464f79"
         - name: CHANGE_CONFIG_DIR_OWNERSHIP
