@@ -18,7 +18,7 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.5.0'
+        targetRevision: '9.5.1'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -38,7 +38,7 @@ spec:
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.19.2"
+        targetRevision: "1.19.3"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
@@ -48,7 +48,7 @@ spec:
       - name: reloader
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: "2.2.10"
+        targetRevision: "2.2.11"
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
