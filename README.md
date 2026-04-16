@@ -1,5 +1,5 @@
 # k8s
-A collection of Kubernetes objects for my home setup
+Kubernetes gitops for my personal infra
 
 ## Notes
 ### kubeadm
