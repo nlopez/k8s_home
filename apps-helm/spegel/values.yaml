@@ -2,4 +2,4 @@
 ## https://github.com/spegel-org/spegel
 image:
   repository: ghcr.io/spegel-org/spegel
-  tag: v0.6.0
+  tag: v0.7.0
