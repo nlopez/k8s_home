@@ -3,6 +3,10 @@
   "extends": [
     "config:recommended"
   ],
+  "timezone": "America/New_York",
+  "schedule": [
+    "* 8 * * 1"
+  ],
   "enabledManagers": [
     "custom.regex",
     "helm-values",
