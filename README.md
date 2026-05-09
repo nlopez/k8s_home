@@ -5,7 +5,7 @@ Kubernetes gitops for my personal infra
 ### kubeadm
 
 ```bash
-sudo sudo kubeadm init --config kubeadm-init.conf --upload-certs
+sudo kubeadm init --config kubeadm-init.conf --upload-certs
 ```
 
 Run the control plane join command on additional nodes.
