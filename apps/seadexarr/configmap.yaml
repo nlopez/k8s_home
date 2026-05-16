@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seadexarr-config
+data:
+  config.yml: |-
+    # Parameters for Sonarr
+    sonarr_url: http://sonarr.sonarr.svc.cluster.local
+    sonarr_api_key: __SONARR_API_KEY__
+    sonarr_ignore_unmonitored: false
+    ignore_movies_in_radarr: false
+
+    # Parameters for Radarr (not in use)
+    radarr_url:
+    radarr_api_key:
+
+    # qBittorrent parameters (not in use)
+    qbit_info:
+      host: __QBIT_HOST__
+      username: __QBIT_USERNAME__
+      password: __QBIT_PASSWORD__
+
+    # Categories for added torrents
+    sonarr_torrent_category:
+    radarr_torrent_category:
+    torrent_tags:
+
+    # Ignore SeaDex update times?
+    ignore_seadex_update_times: false
+
+    # Do you want to filter purely by torrent hash?
+    use_torrent_hash_to_filter: false
+
+    # Maximum number of torrents to add in one run
+    max_torrents_to_add:
+
+    # Discord webhook URL
+    discord_url: __DISCORD_URL__
+
+    # SeaDex filters
+    public_only: true
+    prefer_dual_audio: true
+    want_best: true
+    ignore_tags:
+    trackers:
+
+    # Advanced settings
+    sleep_time: 2
+    cache_time: 1
+    interactive: false
+    anime_mappings:
+    anidb_mappings:
+    anibridge_mappings:
+    log_level: "INFO"

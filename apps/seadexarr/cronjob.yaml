@@ -1,0 +1,88 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: seadexarr
+spec:
+  concurrencyPolicy: Forbid
+  timeZone: America/New_York
+  schedule: '0 */6 * * *'
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 3600
+      template:
+        spec:
+          restartPolicy: Never
+          initContainers:
+          - name: config-init
+            # IMAGE=ghcr.io/bbtufty/seadexarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -E '^v[0-9]' | sort -V | tail -n1
+            image: ghcr.io/bbtufty/seadexarr:v0.9.0
+            imagePullPolicy: Always
+            command:
+            - sh
+            - -c
+            - >-
+              sed "s|__SONARR_API_KEY__|${SONARR_API_KEY}|g; s|__DISCORD_URL__|${DISCORD_URL}|g; s|__QBIT_HOST__|${QBIT_HOST}|g; s|__QBIT_USERNAME__|${QBIT_USERNAME}|g; s|__QBIT_PASSWORD__|${QBIT_PASSWORD}|g"
+              /config-template/config.yml > /config/config.yml
+            env:
+            - name: SONARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-api-key
+                  key: SONARR_API_KEY
+            - name: DISCORD_URL
+              valueFrom:
+                secretKeyRef:
+                  name: discord-webhook
+                  key: url
+            - name: QBIT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: host
+            - name: QBIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: username
+            - name: QBIT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent
+                  key: password
+            volumeMounts:
+            - name: config-template
+              mountPath: /config-template
+            - name: config
+              mountPath: /config
+          containers:
+          - name: seadexarr
+            image: ghcr.io/bbtufty/seadexarr:v0.9.0
+            imagePullPolicy: Always
+            env:
+            - name: CONFIG_DIR
+              value: /config
+            - name: TZ
+              value: America/New_York
+            command:
+            - seadexarr
+            - run
+            - single
+            - --sonarr
+            volumeMounts:
+            - name: config
+              mountPath: /config
+            resources:
+              requests:
+                memory: 256Mi
+                cpu: 100m
+              limits:
+                memory: 512Mi
+                cpu: 500m
+          volumes:
+          - name: config-template
+            configMap:
+              name: seadexarr-config
+          - name: config
+            persistentVolumeClaim:
+              claimName: config
