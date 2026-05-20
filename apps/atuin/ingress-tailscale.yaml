@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: atuin-tailscale
+  annotations:
+    tailscale.com/proxy-group: heimdall
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+spec:
+  tls:
+  - hosts:
+    - atuin
+  defaultBackend:
+    service:
+      name: atuin
+      port:
+        name: http
+  ingressClassName: tailscale
