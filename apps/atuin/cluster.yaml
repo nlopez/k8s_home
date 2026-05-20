@@ -1,0 +1,21 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: atuin-database
+spec:
+  instances: 1
+  storage:
+    size: 5Gi
+    pvcTemplate:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: nas1-mtank-iscsi
+      resources:
+        requests:
+          storage: 5Gi
+  bootstrap:
+    initdb:
+      database: atuin
+      owner: atuin
+      secret:
+        name: onepassword-atuin-database

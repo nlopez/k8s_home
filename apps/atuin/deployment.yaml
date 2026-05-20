@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atuin
+spec:
+  selector:
+    matchLabels:
+      app: atuin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: atuin
+    spec:
+      containers:
+      - name: atuin
+        image: ghcr.io/atuinsh/atuin:v18.6.1
+        args:
+        - server
+        - start
+        env:
+        - name: ATUIN_HOST
+          value: "0.0.0.0"
+        - name: ATUIN_PORT
+          value: "8888"
+        - name: ATUIN_OPEN_REGISTRATION
+          value: "false"
+        - name: ATUIN_PATH
+          value: /data
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-atuin-database
+              key: password
+        - name: ATUIN_DB_URI
+          value: "postgresql://atuin:$(DB_PASSWORD)@atuin-database-rw.atuin.svc.cluster.local/atuin"
+        ports:
+        - name: http
+          containerPort: 8888
+        livenessProbe:
+          tcpSocket:
+            port: 8888
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
