@@ -25,7 +25,9 @@ spec:
         - name: ATUIN_PORT
           value: "8888"
         - name: ATUIN_OPEN_REGISTRATION
-          value: "false"
+          value: "true"
+        - name: RUST_LOG
+          value: debug
         - name: ATUIN_PATH
           value: /data
         - name: DB_PASSWORD
