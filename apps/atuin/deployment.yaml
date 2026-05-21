@@ -16,9 +16,7 @@ spec:
       containers:
       - name: atuin
         image: ghcr.io/atuinsh/atuin:v18.6.1
-        args:
-        - server
-        - start
+        command: ["/bin/sh", "-c", "export ATUIN_DB_URI=\"postgresql://atuin:${DB_PASSWORD}@atuin-database-rw.atuin.svc.cluster.local/atuin\" && exec atuin server start --host 0.0.0.0 --port 8888"]
         env:
         - name: ATUIN_HOST
           value: "0.0.0.0"
@@ -35,8 +33,7 @@ spec:
             secretKeyRef:
               name: onepassword-atuin-database
               key: password
-        - name: ATUIN_DB_URI
-          value: "postgresql://atuin:$(DB_PASSWORD)@atuin-database-rw.atuin.svc.cluster.local/atuin"
+
         ports:
         - name: http
           containerPort: 8888
