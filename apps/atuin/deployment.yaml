@@ -26,8 +26,6 @@ spec:
           value: "true"
         - name: RUST_LOG
           value: debug
-        - name: ATUIN_PATH
-          value: /data
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
