@@ -18,7 +18,7 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.5.4'
+        targetRevision: '9.5.14'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -38,7 +38,7 @@ spec:
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.19.3"
+        targetRevision: "1.19.4"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
@@ -63,7 +63,7 @@ spec:
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
-        targetRevision: "1.20.0"
+        targetRevision: "1.21.1"
         namespace: external-dns
       - name: jellyfin
         repoURL: https://jellyfin.github.io/jellyfin-helm
@@ -73,7 +73,7 @@ spec:
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: "0.28.0"
+        targetRevision: "0.28.2"
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
