@@ -23,7 +23,7 @@ spec:
       containers:
       - name: icloudpd
         # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
-        image: boredazfcuk/icloudpd:1.0.1366_23-04-2026
+        image: boredazfcuk/icloudpd:1.0.1368_04-05-2026
         imagePullPolicy: Always
         env:
         - name: TZ
