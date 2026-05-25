@@ -31,7 +31,6 @@ spec:
             secretKeyRef:
               name: onepassword-atuin-database
               key: password
-
         ports:
         - name: http
           containerPort: 8888
