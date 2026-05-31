@@ -20,10 +20,6 @@ spec:
         version: v1
     spec:
       serviceAccountName: default
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
       containers:
       - name: icloudpd
         # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
