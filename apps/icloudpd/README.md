@@ -8,6 +8,8 @@ icloudpd downloads photos and videos from iCloud to your media NFS share at `/ho
 
 ## Important Notes
 
+- **User/Group ID**: The container runs as UID/GID 1001 to match the NFS share ownership (`1001:1001`). This is consistent with other media apps in the cluster.
+- **Existing Files**: If you have previously downloaded files with `1000:1000` ownership, fix them: `chown -R 1001:1001 /mnt/etank/media/icloud`
 - **Interactive Setup**: You must run the interactive initialization process to set up authentication and generate the MFA cookie
 - **Configuration File**: icloudpd.conf is created during initialization using `sync-icloud.sh --Initialise`
 - **Continuous Sync**: The singleton deployment runs continuously; keep `single_pass` unset or false and use `download_interval` to control frequency
