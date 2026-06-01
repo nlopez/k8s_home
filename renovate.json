@@ -81,6 +81,7 @@
         "caomingjun/warp",
         "docker.io/brainicism/bgutil-ytdlp-pot-provider",
         "docker.io/nlopez/media-toolbox",
+        "ghcr.io/nlopez/media-toolbox",
         "ghcr.io/shaarli/shaarli",
         "registry.k8s.io/sig-storage/snapshot-controller"
       ],
