@@ -106,8 +106,8 @@ spec:
   accessModes:
   - ReadOnlyMany
 ---
-# PhotoSync media volume (read-only)
-# Points to /mnt/etank/media/photosync on the NFS share
+# PhotoSync media volume (read-write)
+# Points to /mnt/etank/media/PhotoSync on the NFS share
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -116,7 +116,7 @@ spec:
   capacity:
     storage: 1Pi
   accessModes:
-  - ReadOnlyMany
+  - ReadWriteMany
   nfs:
     server: 192.168.222.114
     path: "/mnt/etank/media/PhotoSync"
@@ -130,7 +130,6 @@ spec:
   - noresvport
   - _netdev
   - nofail
-  - ro
   persistentVolumeReclaimPolicy: Retain
 ---
 apiVersion: v1
@@ -143,4 +142,4 @@ spec:
     requests:
       storage: 1Pi
   accessModes:
-  - ReadOnlyMany
+  - ReadWriteMany

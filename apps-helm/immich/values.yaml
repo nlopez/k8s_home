@@ -79,7 +79,6 @@ server:
         main:
           main:
           - path: /PhotoSync
-            readOnly: true
 # Machine learning component
 machine-learning:
   enabled: true
@@ -120,4 +119,3 @@ machine-learning:
         main:
           main:
           - path: /PhotoSync
-            readOnly: true
