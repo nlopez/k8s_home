@@ -119,7 +119,7 @@ spec:
   - ReadOnlyMany
   nfs:
     server: 192.168.222.114
-    path: "/mnt/etank/media/photosync"
+    path: "/mnt/etank/media/PhotoSync"
   mountOptions:
   - nfsvers=4.1
   - rsize=1048576
