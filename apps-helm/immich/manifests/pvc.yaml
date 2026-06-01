@@ -105,3 +105,42 @@ spec:
       storage: 1Pi
   accessModes:
   - ReadOnlyMany
+---
+# PhotoSync media volume (read-only)
+# Points to /mnt/etank/media/photosync on the NFS share
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-photosync-nfs
+spec:
+  capacity:
+    storage: 1Pi
+  accessModes:
+  - ReadOnlyMany
+  nfs:
+    server: 192.168.222.114
+    path: "/mnt/etank/media/photosync"
+  mountOptions:
+  - nfsvers=4.1
+  - rsize=1048576
+  - wsize=1048576
+  - hard
+  - timeo=600
+  - retrans=2
+  - noresvport
+  - _netdev
+  - nofail
+  - ro
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-photosync-nfs
+spec:
+  volumeName: immich-photosync-nfs
+  resources:
+    requests:
+      storage: 1Pi
+  accessModes:
+  - ReadOnlyMany
