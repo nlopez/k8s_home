@@ -1,0 +1,14 @@
+# GitHub Actions Runner Controller (ARC) — runner scale set values (unstable)
+githubConfigUrl: "https://github.com/nlopez/k8s_home"
+githubConfigSecret: arc-github-app-secret
+runnerGroup: "default"
+minRunners: 0
+maxRunners: 4
+ephemeral: true
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "2000m"
+    memory: "2Gi"
