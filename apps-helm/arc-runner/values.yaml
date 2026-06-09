@@ -1,4 +1,9 @@
 # GitHub Actions Runner Controller (ARC) — runner scale set values (unstable)
+# Explicitly set controller service account to bypass Helm chart's label-based
+# discovery (which fails during Argo CD comparison before the controller deploys)
+controllerServiceAccount:
+  namespace: actions-runner-controller
+  name: arc-gha-rs-controller
 githubConfigUrl: "https://github.com/nlopez/k8s_home"
 githubConfigSecret: arc-github-app-secret
 runnerGroup: "default"
