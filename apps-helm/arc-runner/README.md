@@ -74,7 +74,9 @@ unstable/                         # Active branch
 ├── apps-helm/
 │   ├── arc-controller/
 │   │   ├── values.yaml           # Controller Helm values
-│   │   └── manifests/            # Placeholder for Argo multi-source
+│   │   └── manifests/
+│   │       ├── clusterrole.yaml              # Cross-namespace secret access
+│   │       └── clusterrolebinding.yaml       # Binds ClusterRole to SA
 │   └── arc-runner/
 │       ├── values.yaml           # Runner scale set Helm values
 │       └── manifests/
@@ -207,3 +209,19 @@ controllerServiceAccount:
 ```
 
 This bypasses the Helm chart's label-based service account discovery.
+
+### Controller can't read secrets in runner namespace
+
+The `gha-runner-scale-set-controller` Helm chart creates a ClusterRole with
+limited permissions (list/watch only for core resources). When the controller
+and runner scale sets are in separate namespaces, the controller needs
+additional permissions to read GitHub App secrets from the runner namespace.
+
+This is resolved by the `clusterrole.yaml` and `clusterrolebinding.yaml` in
+`unstable/apps-helm/arc-controller/manifests/`. These provide the controller
+with `get`, `list`, `create`, `delete` permissions for secrets across
+namespaces.
+
+See also:
+- https://github.com/actions/actions-runner-controller/discussions/3160
+- https://github.com/actions/actions-runner-controller/discussions/3197
