@@ -1,0 +1,44 @@
+# Additional ClusterRole for ARC controller to manage runner scale sets in arc-runners namespace.
+#
+# The gha-runner-scale-set-controller Helm chart creates a ClusterRole with limited permissions
+# (list/watch only for core resources). However, when the controller and runner scale sets are
+# deployed in separate namespaces (controller in actions-runner-controller, runners in arc-runners),
+# the controller needs additional permissions to:
+#   - Read GitHub App secrets from the runner namespace
+#   - Create pods, roles, rolebindings, and serviceaccounts in the runner namespace
+#
+# This ClusterRole is manually created because the Helm chart doesn't support cross-namespace
+# deployment out of the box. This is a known issue:
+#   https://github.com/actions/actions-runner-controller/discussions/3160
+#   https://github.com/actions/actions-runner-controller/discussions/3197
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: arc-controller-gha-rs-controller-manager
+  labels:
+    app.kubernetes.io/component: manager
+    app.kubernetes.io/managed-by: kustomize
+rules:
+# Permissions for managing resources in the runner namespace
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "create", "delete"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+- apiGroups: [""]
+  resources: ["pods/log"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "create", "delete"]
+- apiGroups: [""]
+  resources: ["serviceaccounts"]
+  verbs: ["get", "list", "create", "delete"]
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["get", "list", "create", "delete"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["roles", "rolebindings"]
+  verbs: ["get", "list", "create", "delete", "patch", "update"]
