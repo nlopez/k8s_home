@@ -1,0 +1,18 @@
+# ClusterRoleBinding to grant the controller manager permissions to manage
+# resources in the runner namespace. See clusterrole.yaml for details.
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: arc-controller-gha-rs-controller-manager
+  labels:
+    app.kubernetes.io/component: manager
+    app.kubernetes.io/managed-by: kustomize
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: arc-controller-gha-rs-controller-manager
+subjects:
+- kind: ServiceAccount
+  name: arc-controller-gha-rs-controller
+  namespace: actions-runner-controller
