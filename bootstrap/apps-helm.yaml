@@ -117,6 +117,9 @@ spec:
         namespace: "{{.namespace}}"
         server: https://kubernetes.default.svc
   templatePatch: |-
+    metadata:
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ if eq .name "arc-controller" }}0{{ else if eq .name "arc-runner" }}1{{ else }}2{{ end }}'
     spec:
       sources:
       - repoURL: '{{.repoURL}}'
