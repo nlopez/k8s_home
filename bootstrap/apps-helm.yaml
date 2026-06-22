@@ -18,7 +18,7 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.5.15'
+        targetRevision: '9.5.21'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -33,7 +33,7 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: "1.98.3"
+        targetRevision: "1.98.4"
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
@@ -43,12 +43,12 @@ spec:
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
         chart: metrics-server
-        targetRevision: "3.13.0"
+        targetRevision: "3.13.1"
         namespace: kube-system
       - name: reloader
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: "2.2.11"
+        targetRevision: "2.2.12"
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
@@ -58,7 +58,7 @@ spec:
       - name: intel-device-plugins-gpu
         repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
-        targetRevision: "0.35.0"
+        targetRevision: "0.36.0"
         namespace: intel-device-plugins-gpu
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
@@ -73,7 +73,7 @@ spec:
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: "0.28.2"
+        targetRevision: "0.28.3"
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
