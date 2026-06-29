@@ -18,7 +18,7 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.5.21'
+        targetRevision: '9.5.22'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -38,7 +38,7 @@ spec:
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.19.4"
+        targetRevision: "1.19.5"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
