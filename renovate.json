@@ -10,7 +10,6 @@
   "minimumReleaseAge": "10 days",
   "enabledManagers": [
     "custom.regex",
-    "docker",
     "helm-values",
     "github-actions"
   ],
