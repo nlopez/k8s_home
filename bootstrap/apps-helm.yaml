@@ -18,12 +18,12 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.5.22'
+        targetRevision: '9.7.1'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.20.2
+        targetRevision: v1.20.3
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: registry-1.docker.io
