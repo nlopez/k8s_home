@@ -20,8 +20,8 @@ spec:
     spec:
       containers:
       - name: sonarr
-        # IMAGE=ghcr.io/linuxserver/sonarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -F 'version-6' |sort -V | tail -n1
-        image: ghcr.io/linuxserver/sonarr:version-4.0.17.2952
+        # IMAGE=ghcr.io/linuxserver/sonarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -F 'version-4' | sort -V | tail -n1 >&2 | tee | pbcopy
+        image: ghcr.io/linuxserver/sonarr:version-4.0.19.2979
         env:
         - name: PUID
           value: "1001"
