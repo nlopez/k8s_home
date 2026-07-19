@@ -1,0 +1,14 @@
+# Dynamically provisioned via democratic-csi (freenas-api-iscsi)
+# Volume created on TrueNAS at mtank/k8s/vols/palworld-config
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: palworld-config
+  namespace: palworld
+spec:
+  storageClassName: nas1-mtank-iscsi
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
