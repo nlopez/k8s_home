@@ -6,7 +6,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/proxy-group: heimdall
-    tailscale.com/hostname: brave-flamingo.macaroni-pirate.ts.net
+    tailscale.com/hostname: brave-flamingo
 spec:
   selector:
     app: palworld
