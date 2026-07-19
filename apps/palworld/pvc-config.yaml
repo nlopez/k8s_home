@@ -3,8 +3,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: palworld-config
-  namespace: palworld
+  name: config
 spec:
   storageClassName: nas1-mtank-iscsi
   accessModes:
