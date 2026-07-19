@@ -13,7 +13,7 @@ data:
   PGID: "1000"
   MULTITHREADING: "false"
   COMMUNITY: "false"
-  SERVER_NAME: "Desert Bluffs"
+  SERVER_NAME: "Brave Flamingo"
   SERVER_DESCRIPTION: "Home Kubernetes Palworld Server"
   UPDATE_ON_BOOT: "true"
   RCON_ENABLED: "false"
