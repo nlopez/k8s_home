@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: palworld
   namespace: palworld
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/proxy-group: heimdall
 spec:
   selector:
     app: palworld
