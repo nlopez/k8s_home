@@ -69,4 +69,4 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: palworld-config
+          claimName: config
