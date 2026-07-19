@@ -1,0 +1,11 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: heimdall-direct
+spec:
+  staticEndpoints:
+    nodePort:
+      ports:
+      - "31667-31680"
+      selector:
+        kubernetes.io/os: linux

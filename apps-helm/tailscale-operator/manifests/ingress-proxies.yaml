@@ -4,6 +4,7 @@ metadata:
   name: heimdall
 spec:
   type: ingress
+  proxyClass: heimdall-direct
   tags:
   - "tag:k8s"
   - "tag:home"
