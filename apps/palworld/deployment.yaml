@@ -65,6 +65,7 @@ spec:
             command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
           initialDelaySeconds: 120
           periodSeconds: 20
+      terminationGracePeriodSeconds: 30
       volumes:
       - name: config
         persistentVolumeClaim:
