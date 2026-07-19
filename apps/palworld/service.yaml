@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: palworld
+spec:
+  selector:
+    app: palworld
+  ports:
+  - name: game
+    port: 8211
+    protocol: UDP
+    targetPort: game
+  - name: query
+    port: 27015
+    protocol: UDP
+    targetPort: query
+  - name: rest-api
+    port: 8212
+    protocol: TCP
+    targetPort: rest-api

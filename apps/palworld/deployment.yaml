@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: palworld
+spec:
+  serviceName: palworld
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palworld
+  template:
+    metadata:
+      labels:
+        app: palworld
+    spec:
+      containers:
+      - name: palworld
+        image: thijsvanloef/palworld-server-docker:latest
+        envFrom:
+        - configMapRef:
+            name: palworld-config
+        env:
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-secrets
+              key: adminPassword
+        - name: SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-secrets
+              key: serverPassword
+        ports:
+        - name: game
+          containerPort: 8211
+          protocol: UDP
+        - name: query
+          containerPort: 27015
+          protocol: UDP
+        - name: rest-api
+          containerPort: 8212
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "2"
+            memory: "6Gi"
+          limits:
+            cpu: "8"
+            memory: "16Gi"
+        volumeMounts:
+        - name: config
+          mountPath: /palworld
+        startupProbe:
+          exec:
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+          failureThreshold: 120
+          periodSeconds: 5
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+          initialDelaySeconds: 120
+          periodSeconds: 20
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: config

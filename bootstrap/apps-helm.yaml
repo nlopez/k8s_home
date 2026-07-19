@@ -18,12 +18,12 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '10.0.0'
+        targetRevision: '9.5.15'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.20.3
+        targetRevision: v1.20.2
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: registry-1.docker.io
@@ -33,22 +33,22 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: "1.98.4"
+        targetRevision: "1.98.3"
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.19.5"
+        targetRevision: "1.19.4"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
         chart: metrics-server
-        targetRevision: "3.13.1"
+        targetRevision: "3.13.0"
         namespace: kube-system
       - name: reloader
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: "2.2.12"
+        targetRevision: "2.2.11"
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
@@ -58,7 +58,7 @@ spec:
       - name: intel-device-plugins-gpu
         repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
-        targetRevision: "0.36.0"
+        targetRevision: "0.35.0"
         namespace: intel-device-plugins-gpu
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
@@ -73,7 +73,7 @@ spec:
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: "0.28.3"
+        targetRevision: "0.28.2"
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
@@ -93,14 +93,6 @@ spec:
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-mtank
-      - name: arc-controller
-        repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
-        targetRevision: "0.14.2"
-        namespace: actions-runner-controller
-      - name: arc-runner
-        repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
-        targetRevision: "0.14.2"
-        namespace: arc-runners
   template:
     metadata:
       name: "{{.name}}"
@@ -117,9 +109,6 @@ spec:
         namespace: "{{.namespace}}"
         server: https://kubernetes.default.svc
   templatePatch: |-
-    metadata:
-      annotations:
-        argocd.argoproj.io/sync-wave: '{{ if eq .name "arc-controller" }}0{{ else if eq .name "arc-runner" }}1{{ else }}2{{ end }}'
     spec:
       sources:
       - repoURL: '{{.repoURL}}'
