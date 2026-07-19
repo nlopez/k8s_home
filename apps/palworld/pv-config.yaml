@@ -1,3 +1,5 @@
+# Palworld config volume
+# iSCSI target on NAS1
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -19,8 +21,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config
-  namespace: palworld
+  name: palworld-config
 spec:
   volumeName: palworld-config
   resources:
