@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: palworld-tailscale
+  namespace: palworld
   annotations:
     tailscale.com/proxy-group: heimdall
     tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
