@@ -27,7 +27,7 @@ metadata:
   labels:
     app: palworld-editor
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: palworld-editor
