@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
+# Enables hybrid post-quantum key exchange (ML-KEM-1024 / CRYSTALS-Kyber)
+# alongside traditional ECDH curves for TLS 1.3 downstream listeners.
+# Non-PQ clients use X25519/P-256; PQ-aware clients perform hybrid key exchange.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: quantum-ciphers
+spec:
+  targetSelectors:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+  tls:
+    # ECDH curves — hybrid PQ mode: traditional + post-quantum key exchange
+    # X25519 and P-256 serve as fallback for non-PQ clients.
+    # mlkem1024 (ML-KEM-1024 / CRYSTALS-Kyber) enables PQ hybrid key agreement.
+    ecdhCurves:
+    - X25519
+    - P-256
+    - mlkem1024
