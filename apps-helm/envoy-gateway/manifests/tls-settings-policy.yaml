@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
+# Unified ClientTrafficPolicy covering all gateways (internet + private).
+# Merges: session resumption, HTTP/3, and hybrid post-quantum TLS curves.
+# Replaces: tls-session-resumption, enable-http3, quantum-ciphers
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: tls-settings
+spec:
+  targetSelectors:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+  tls:
+    # TLS session resumption (stateless + stateful)
+    session:
+      resumption:
+        stateless: {}
+        stateful: {}
+    # Hybrid post-quantum ECDH: traditional + ML-KEM-1024 (Crystals-Kyber)
+    ecdhCurves:
+    - X25519
+    - P-256
+    - mlkem1024
+  # HTTP/3 (UDP QUIC) — only applies where listeners support it
+  http3: {}
