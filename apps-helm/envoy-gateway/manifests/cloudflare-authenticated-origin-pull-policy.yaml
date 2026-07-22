@@ -11,6 +11,11 @@ spec:
       - kind: ConfigMap
         name: cloudflare-origin-pull-ca
         group: ""
+    # Hybrid post-quantum ECDH: traditional + ML-KEM-1024 (Crystals-Kyber)
+    ecdhCurves:
+    - X25519
+    - P-256
+    - mlkem1024
   targetRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
