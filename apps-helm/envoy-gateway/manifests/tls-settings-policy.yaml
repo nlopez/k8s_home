@@ -1,7 +1,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
 # Unified ClientTrafficPolicy covering all gateways (internet + private).
-# Merges: session resumption, HTTP/3, and hybrid post-quantum TLS curves.
-# Replaces: tls-session-resumption, enable-http3, quantum-ciphers
+# Merges: session resumption, HTTP/3, post-quantum TLS curves, and Cloudflare
+#         authenticated-origin-pull (AOP) client certificate validation.
+# Replaces: tls-session-resumption, enable-http3, quantum-ciphers,
+#           cloudflare-authenticated-origin-pull-policy
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
@@ -22,5 +24,13 @@ spec:
     - X25519MLKEM768
     - X25519
     - P-256
+    # Cloudflare Authenticated-Origin-Pull (AOP) — validates client certs signed
+    # by the CF origin-pull CA. Kept optional so non-Cloudflare clients work too.
+    clientValidation:
+      optional: true
+      caCertificateRefs:
+      - kind: ConfigMap
+        name: cloudflare-origin-pull-ca
+        group: ""
   # HTTP/3 (UDP QUIC) — only applies where listeners support it
   http3: {}
