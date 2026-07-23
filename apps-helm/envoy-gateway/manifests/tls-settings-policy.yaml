@@ -16,10 +16,10 @@ spec:
       resumption:
         stateless: {}
         stateful: {}
-    # Hybrid post-quantum ECDH: traditional + ML-KEM-1024 (Crystals-Kyber)
+    # Hybrid post-quantum ECDH: traditional + X25519MLKEM768
     ecdhCurves:
+    - X25519MLKEM768
     - X25519
     - P-256
-    - mlkem1024
   # HTTP/3 (UDP QUIC) — only applies where listeners support it
   http3: {}
