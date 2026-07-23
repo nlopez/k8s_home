@@ -13,3 +13,6 @@ spec:
   - backendRefs:
     - name: palworld
       port: 8211
+      group: ""
+      kind: Service
+      weight: 1
