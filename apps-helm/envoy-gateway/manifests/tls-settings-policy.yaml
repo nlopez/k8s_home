@@ -6,6 +6,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
   name: tls-settings
+  namespace: envoy-gateway-system
 spec:
   targetSelectors:
   - group: gateway.networking.k8s.io
