@@ -93,6 +93,13 @@ spec:
                 description: LogLevel sets the plugin's log level.
                 minimum: 0
                 type: integer
+              monitoringMode:
+                description: >-
+                  MonitoringMode sets the monitoring mode for the GPU device plugin. 'single' enables monitoring for single devices, 'all' enables monitoring for all devices.
+                enum:
+                - single
+                - all
+                type: string
               nodeSelector:
                 additionalProperties:
                   type: string
