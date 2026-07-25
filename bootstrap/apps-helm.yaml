@@ -18,7 +18,7 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '10.1.3'
+        targetRevision: '10.2.1'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
@@ -38,7 +38,7 @@ spec:
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.19.5"
+        targetRevision: "1.19.6"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
@@ -77,11 +77,11 @@ spec:
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: '0.11.1'
+        targetRevision: '0.13.1'
         namespace: immich
       - name: spegel
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
-        targetRevision: "0.7.0"
+        targetRevision: "0.7.4"
         namespace: spegel
       - name: onepassword-connect
         repoURL: https://1password.github.io/connect-helm-charts
