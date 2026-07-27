@@ -93,6 +93,11 @@ spec:
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-mtank
+      - name: democratic-csi-nas1-mtank-nfs
+        repoURL: https://democratic-csi.github.io/charts
+        chart: democratic-csi
+        targetRevision: "0.15.1"
+        namespace: democratic-csi-nas1-mtank
   template:
     metadata:
       name: "{{.name}}"

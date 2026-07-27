@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
+# 1Password item: democratic-csi-nas1-mtank-nfs-driver-config
+# Contains NFS driver config (truenas-api-nfs) for democratic-csi
+# Shares API key with the iSCSI config (same nas1 TrueNAS)
+#
+# The NFS driver creates ZFS datasets under mtank/k8s/vols
+# and exports them via NFS for Kubernetes PVs.
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: democratic-csi-nas1-mtank-nfs-driver-config
+  namespace: democratic-csi-nas1-mtank
+spec:
+  itemPath: "vaults/k8s_home/items/democratic-csi-nas1-mtank-nfs-driver-config"

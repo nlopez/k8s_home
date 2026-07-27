@@ -1,0 +1,26 @@
+csiDriver:
+  name: "org.democratic-csi.nas1-mtank-nfs"
+driver:
+  existingConfigSecret: democratic-csi-nas1-mtank-nfs-driver-config
+  config:
+    driver: freenas-api-nfs
+controller:
+  externalSnapshotter:
+    enabled: true
+storageClasses:
+- name: nas1-mtank-nfs
+  defaultClass: false
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+  parameters:
+    fsType: nfs
+  mountOptions:
+  - nfsvers=4.1
+  - rsize=1048576
+  - wsize=1048576
+  - hard
+  - timeo=600
+  - retrans=2
+  - noresvport
+  - nofail
