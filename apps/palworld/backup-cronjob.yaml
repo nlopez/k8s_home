@@ -61,7 +61,7 @@ spec:
               POD_LABEL="app=palworld"
               CONTAINER_NAME="palworld"
               SAVE_PATH="/palworld/Pal/Saved"
-              ENDPOINT="https://s3.sfo3.digitaloceanspaces.com"
+              ENDPOINT="https://sfo3.digitaloceanspaces.com"
               BUCKET="distracted-gibbon"
 
               # ---- Step 1: Find the palworld pod ----
