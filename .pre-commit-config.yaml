@@ -11,7 +11,7 @@ repos:
   rev: v0.21.0
   hooks:
   - id: yamlfmt
-- repo: https://github.com/jmlrt/check-yamlschema
-  rev: v0.0.6
+- repo: https://github.com/nlopez/check-yamlschema
+  rev: v0.0.7-fix
   hooks:
   - id: check-yamlschema
