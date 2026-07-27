@@ -47,10 +47,11 @@ spec:
 
               # ---- Pre-flight: install restic if not present ----
               # bitnami/kubectl has no restic; download it once (cached in emptyDir)
+              RESTIC_VERSION="0.19.1"
               RESTIC_BIN="/restic/bin/restic"
               if [ ! -f "$RESTIC_BIN" ]; then
-                echo "Installing restic (first run only)..."
-                curl -sL "https://github.com/restic/restic/releases/latest/download/restic_linux_amd64.bz2" \
+                echo "Installing restic ${RESTIC_VERSION} (first run only)..."
+                curl -sL "https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_linux_amd64.bz2" \
                   | bzip2 -dc > "$RESTIC_BIN"
                 chmod +x "$RESTIC_BIN"
               fi
