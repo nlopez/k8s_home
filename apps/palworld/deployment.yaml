@@ -57,6 +57,8 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /palworld
+        - name: savegames
+          mountPath: /palworld/Pal/Saved/SaveGames
         startupProbe:
           exec:
             command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
@@ -77,3 +79,6 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: config
+      - name: savegames
+        persistentVolumeClaim:
+          claimName: savegames

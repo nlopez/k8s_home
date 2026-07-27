@@ -1,0 +1,14 @@
+# Dynamically provisioned via democratic-csi (freenas-api-nfs)
+# Volume created on TrueNAS at mtank/k8s/vols/palworld-savegames
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: savegames
+  namespace: palworld
+spec:
+  storageClassName: nas1-mtank-nfs
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
