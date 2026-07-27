@@ -38,7 +38,7 @@ spec:
           serviceAccountName: palworld-backup
           containers:
           - name: backup
-            image: alpine/k8s:latest
+            image: alpine/k8s:1.36.2
             command:
             - /bin/bash
             - -c
