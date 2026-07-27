@@ -50,8 +50,8 @@ spec:
               RESTIC_BIN="/restic/bin/restic"
               if [ ! -f "$RESTIC_BIN" ]; then
                 echo "Installing restic (first run only)..."
-                curl -sL "https://github.com/restic/restic/releases/latest/download/restic_linux_amd64.tar.gz" \
-                  | tar xz -C /restic/bin
+                curl -sL "https://github.com/restic/restic/releases/latest/download/restic_linux_amd64.bz2" \
+                  | bzip2 -dc > "$RESTIC_BIN"
                 chmod +x "$RESTIC_BIN"
               fi
 
