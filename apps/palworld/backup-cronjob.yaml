@@ -13,8 +13,8 @@
 #
 # Zero downtime: the palworld server keeps running throughout.
 #
-# Note: bitnami/kubectl base image has no curl or restic — restic is
-# downloaded on first run, and wget is used for Discord webhooks.
+# Note: bitnami/kubectl has no restic — it is downloaded on first run via curl
+# and cached in an emptyDir volume. curl is used for Discord webhooks.
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -47,11 +47,12 @@ spec:
 
               # ---- Pre-flight: install restic if not present ----
               # bitnami/kubectl has no restic; download it once (cached in emptyDir)
-              if [ ! -f /usr/local/bin/restic ]; then
+              RESTIC_BIN="/restic/bin/restic"
+              if [ ! -f "$RESTIC_BIN" ]; then
                 echo "Installing restic (first run only)..."
-                wget -qO- "https://github.com/restic/restic/releases/latest/download/restic_linux_amd64.bz2" \
-                  | bunzip2 -c > /usr/local/bin/restic
-                chmod +x /usr/local/bin/restic
+                curl -sL "https://github.com/restic/restic/releases/latest/download/restic_linux_amd64.tar.gz" \
+                  | tar xz -C /restic/bin
+                chmod +x "$RESTIC_BIN"
               fi
 
               # ---- Configuration ----
@@ -85,7 +86,7 @@ spec:
               if [ -z "$POD" ]; then
                 echo "ERROR: No palworld pod found in $NAMESPACE namespace"
                 if [ -n "${DISCORD_WEBHOOK_URL:-}" ]; then
-                  wget -qO- --post-data="$DISCORD_JSON_ERROR" \
+                  curl -sL --data "$DISCORD_JSON_ERROR" \
                     --header="Content-Type: application/json" \
                     "${DISCORD_WEBHOOK_URL}" || true
                 fi
@@ -122,11 +123,11 @@ spec:
               export RESTIC_PASSWORD
 
               # Initialize repository on first run
-              restic init 2>/dev/null || true
+              "$RESTIC_BIN" init 2>/dev/null || true
 
               # Backup the archive
               echo "Uploading to DigitalOcean Spaces with restic..."
-              restic backup "$ARCHIVE" \
+              "$RESTIC_BIN" backup "$ARCHIVE" \
                 --tag "palworld" \
                 --tag "backup-$(date +%Y%m%d-%H%M%S)"
 
@@ -134,7 +135,7 @@ spec:
 
               # ---- Step 5: Prune old backups ----
               echo "Pruning old backups (keeping 30 days)..."
-              restic forget --keep-daily 30 --prune 2>/dev/null || true
+              "$RESTIC_BIN" forget --keep-daily 30 --prune 2>/dev/null || true
 
               # ---- Step 6: Cleanup ----
               rm -f "$ARCHIVE"
@@ -169,7 +170,7 @@ spec:
 
               if [ -n "${DISCORD_WEBHOOK_URL:-}" ]; then
                 echo "Sending Discord notification..."
-                wget -qO- --post-data="$DISCORD_JSON_SUCCESS" \
+                curl -sL --data "$DISCORD_JSON_SUCCESS" \
                   --header="Content-Type: application/json" \
                   "${DISCORD_WEBHOOK_URL}" || true
               fi
@@ -201,6 +202,11 @@ spec:
                   name: palworld-backup-secrets
                   key: discord-webhook-url
                   optional: true
+            volumeMounts:
+            - name: restic
+              mountPath: /restic/bin
+            - name: tmp
+              mountPath: /tmp
             resources:
               requests:
                 memory: 128Mi
@@ -209,6 +215,9 @@ spec:
                 memory: 512Mi
                 cpu: 500m
           volumes:
+          - name: restic
+            emptyDir:
+              sizeLimit: 50Mi
           - name: tmp
             emptyDir:
               sizeLimit: 2Gi
