@@ -68,6 +68,7 @@ spec:
               POD=$(kubectl get pods -n "$NAMESPACE" -l "$POD_LABEL" \
                     -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
 
+              DISCORD_TIME=$(echo "<t:$(date +%s):f>")
               DISCORD_JSON_ERROR=$(cat <<ENDJSON
                 {
                   "embeds": [{
@@ -76,7 +77,7 @@ spec:
                     "fields": [
                       {"name": "Status", "value": "ERROR", "inline": true},
                       {"name": "Error", "value": "Palworld pod not found", "inline": false},
-                      {"name": "Time", "value": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "inline": true}
+                      {"name": "Time", "value": "${DISCORD_TIME}", "inline": true}
                     ],
                     "footer": {"text": "Palworld K8s Backup"}
                   }]
@@ -128,11 +129,41 @@ spec:
 
               # Backup the archive
               echo "Uploading to DigitalOcean Spaces with restic..."
-              "$RESTIC_BIN" backup "$ARCHIVE" \
+              RESTIC_OUTPUT=$("$RESTIC_BIN" backup "$ARCHIVE" \
                 --tag "palworld" \
-                --tag "backup-$(date +%Y%m%d-%H%M%S)"
-
+                --tag "backup-$(date +%Y%m%d-%H%M%S)" 2>&1)
               RESTIC_EXIT=$?
+
+              # ---- Step 4b: Compute delta vs previous snapshot ----
+              DELTA_STR="—"
+              if [ $RESTIC_EXIT -eq 0 ]; then
+                CURRENT_BYTES=$(echo "$RESTIC_OUTPUT" | \
+                  sed -n 's/.*"total_bytes_processed":[[:space:]]*\([0-9][0-9]*\).*/\1/p' | tail -1)
+                if [ -n "$CURRENT_BYTES" ]; then
+                  PREV_BYTES=$(echo "$("$RESTIC_BIN" snapshots --json 2>/dev/null)" | \
+                    sed -n 's/.*"total_bytes_processed":[[:space:]]*\([0-9][0-9]*\).*/\1/p' | \
+                    tail -2 | head -1)
+                  if [ -n "$PREV_BYTES" ]; then
+                    DELTA=$((CURRENT_BYTES - PREV_BYTES))
+                    if [ $DELTA -ge 0 ]; then
+                      DELTA_SIGN="+"
+                      DELTA_ABS=$DELTA
+                    else
+                      DELTA_SIGN="-"
+                      DELTA_ABS=$((-DELTA))
+                    fi
+                    if [ $DELTA_ABS -ge 1048576 ]; then
+                      DELTA_MB=$(echo "$DELTA_ABS" | awk '{printf "%.1f", $1/1048576}')
+                      DELTA_STR="${DELTA_SIGN}${DELTA_MB} MB"
+                    elif [ $DELTA_ABS -ge 1024 ]; then
+                      DELTA_KB=$((DELTA_ABS / 1024))
+                      DELTA_STR="${DELTA_SIGN}${DELTA_KB} KB"
+                    else
+                      DELTA_STR="${DELTA_SIGN}${DELTA_ABS} bytes"
+                    fi
+                  fi
+                fi
+              fi
 
               # ---- Step 5: Prune old backups ----
               echo "Pruning old backups (keeping 30 days)..."
@@ -159,8 +190,9 @@ spec:
                     "color": ${DISCORD_COLOR},
                     "fields": [
                       {"name": "Status", "value": "${DISCORD_STATUS}", "inline": true},
-                      {"name": "Time", "value": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "inline": true},
+                      {"name": "Time", "value": "${DISCORD_TIME}", "inline": true},
                       {"name": "Archive Size", "value": "${ARCHIVE_SIZE}", "inline": true},
+                      {"name": "Delta", "value": "${DELTA_STR}", "inline": true},
                       {"name": "Retained", "value": "30 days", "inline": true}
                     ],
                     "footer": {"text": "Palworld K8s Backup"}
