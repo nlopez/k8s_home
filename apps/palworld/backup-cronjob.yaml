@@ -13,7 +13,7 @@
 #
 # Zero downtime: the palworld server keeps running throughout.
 #
-# Note: bitnami/kubectl has no restic — it is downloaded on first run via curl
+# Note: alpine/k8s has kubectl + curl + bzip2. restic is downloaded on first run
 # and cached in an emptyDir volume. curl is used for Discord webhooks.
 apiVersion: batch/v1
 kind: CronJob
@@ -38,7 +38,7 @@ spec:
           serviceAccountName: palworld-backup
           containers:
           - name: backup
-            image: bitnami/kubectl:latest
+            image: alpine/k8s:latest
             command:
             - /bin/bash
             - -c
