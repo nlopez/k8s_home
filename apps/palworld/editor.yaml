@@ -50,6 +50,8 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /palworld
+        - name: savegames
+          mountPath: /palworld/Pal/Saved/SaveGames
         securityContext:
           runAsUser: 1000
           runAsGroup: 1000
@@ -59,3 +61,6 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: config
+      - name: savegames
+        persistentVolumeClaim:
+          claimName: savegames
