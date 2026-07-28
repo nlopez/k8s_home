@@ -120,6 +120,7 @@ spec:
 
               echo "Backing up to DigitalOcean Spaces with restic..."
               RESTIC_OUTPUT=$("$RESTIC_BIN" backup "$SAVE_PATH" \
+                --json \
                 --tag "palworld" \
                 --tag "backup-$(date +%Y%m%d-%H%M%S)" 2>&1)
               RESTIC_EXIT=$?
