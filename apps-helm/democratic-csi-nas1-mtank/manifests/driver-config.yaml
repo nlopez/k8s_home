@@ -36,4 +36,4 @@ kind: OnePasswordItem
 metadata:
   name: democratic-csi-nas1-mtank-driver-config
 spec:
-  itemPath: "vaults/k8s_home/items/democratic-csi-nas1-mtank-driver-config"
+  itemPath: "vaults/k8s_home/items/vqmbdak4ibx3lkp4zdw5q6js2i"
