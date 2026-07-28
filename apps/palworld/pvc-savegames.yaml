@@ -8,7 +8,7 @@ metadata:
 spec:
   storageClassName: nas1-mtank-nfs
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 50Gi
