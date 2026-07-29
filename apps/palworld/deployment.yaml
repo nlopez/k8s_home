@@ -22,13 +22,11 @@ spec:
     spec:
       containers:
       - name: palworld
-        image: ghcr.io/nlopez/palworld-server-docker@sha256:197e4f79ab3a1381dcd3ab53ee11bd0059625228c1fd1cec13bf56763582b55e
+        image: thijsvanloef/palworld-server-docker:latest
         envFrom:
         - configMapRef:
             name: palworld-config
         env:
-        - name: INSTALL_UE4SS_EXPERIMENTAL
-          value: "true"
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -63,17 +61,17 @@ spec:
           mountPath: /palworld/Pal/Saved/SaveGames
         startupProbe:
           exec:
-            command: ["sh", "-c", "pgrep -f PalServer-Win64-Shipping >/dev/null"]
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
           failureThreshold: 120
           periodSeconds: 5
         readinessProbe:
           exec:
-            command: ["sh", "-c", "pgrep -f PalServer-Win64-Shipping >/dev/null"]
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
           initialDelaySeconds: 60
           periodSeconds: 10
         livenessProbe:
           exec:
-            command: ["sh", "-c", "pgrep -f PalServer-Win64-Shipping >/dev/null"]
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
           initialDelaySeconds: 120
           periodSeconds: 20
       terminationGracePeriodSeconds: 30
