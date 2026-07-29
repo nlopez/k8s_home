@@ -63,17 +63,17 @@ spec:
           mountPath: /palworld/Pal/Saved/SaveGames
         startupProbe:
           exec:
-            command: ["sh", "-c", "pgrep PalServer-Win64-Shipping >/dev/null"]
+            command: ["sh", "-c", "pgrep -f PalServer-Win64-Shipping >/dev/null"]
           failureThreshold: 120
           periodSeconds: 5
         readinessProbe:
           exec:
-            command: ["sh", "-c", "pgrep PalServer-Win64-Shipping >/dev/null"]
+            command: ["sh", "-c", "pgrep -f PalServer-Win64-Shipping >/dev/null"]
           initialDelaySeconds: 60
           periodSeconds: 10
         livenessProbe:
           exec:
-            command: ["sh", "-c", "pgrep PalServer-Win64-Shipping >/dev/null"]
+            command: ["sh", "-c", "pgrep -f PalServer-Win64-Shipping >/dev/null"]
           initialDelaySeconds: 120
           periodSeconds: 20
       terminationGracePeriodSeconds: 30
