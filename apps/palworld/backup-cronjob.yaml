@@ -80,7 +80,7 @@ spec:
                       {"name": "Error", "value": "Palworld pod not found", "inline": false},
                       {"name": "Time", "value": "${DISCORD_TIME}", "inline": true}
                     ],
-                    "footer": {"text": "Palworld K8s Backup"}
+                    "footer": {"text": "Palworld K8s Backup", "icon_url": "https://cdn2.steamgriddb.com/icon/9ce60c64ac4510df68537de96631261f/32/256x256.png"}
                   }]
                 }
               ENDJSON
@@ -186,7 +186,7 @@ spec:
                       {"name": "Delta", "value": "${DELTA_STR}", "inline": true},
                       {"name": "Retained", "value": "30 days", "inline": true}
                     ],
-                    "footer": {"text": "Palworld K8s Backup"}
+                    "footer": {"text": "Palworld K8s Backup", "icon_url": "https://cdn2.steamgriddb.com/icon/9ce60c64ac4510df68537de96631261f/32/256x256.png"}
                   }]
                 }
               ENDJSON

@@ -32,7 +32,7 @@ spec:
           serviceAccountName: palworld-restart
           containers:
           - name: restart
-            image: bitnami/kubectl:1.32
+            image: alpine/k8s:1.36.2
             command:
             - /bin/bash
             - -c
@@ -43,7 +43,7 @@ spec:
               DEPLOYMENT="palworld"
               CONTAINER_NAME="palworld"
 
-              DISCORD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+              DISCORD_TIME=$(echo "<t:$(date +%s):f>")
 
               # ---- Step 1: Find the palworld pod ----
               POD=$(kubectl get pods -n "$NAMESPACE" -l "app=$DEPLOYMENT" \
@@ -64,7 +64,7 @@ spec:
                       {\"name\": \"Time\", \"value\": \"${DISCORD_TIME}\", \"inline\": true},
                       {\"name\": \"Details\", \"value\": \"${details}\", \"inline\": false}
                     ],
-                    \"footer\": {\"text\": \"Palworld K8s Restart\"}
+                    \"footer\": {\"text\": \"Palworld K8s Restart\", \"icon_url\": \"https://cdn2.steamgriddb.com/icon/9ce60c64ac4510df68537de96631261f/32/256x256.png\"}
                   }]
                 }"
 
@@ -152,9 +152,12 @@ rules:
 - apiGroups: [""]
   resources: ["pods"]
   verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
 - apiGroups: ["apps"]
   resources: ["deployments"]
-  verbs: ["get", "patch", "update"]
+  verbs: ["get", "list", "watch", "patch", "update"]
 - apiGroups: ["apps"]
   resources: ["deployments/status"]
   verbs: ["get"]
