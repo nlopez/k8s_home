@@ -8,7 +8,6 @@ metadata:
 spec:
   schedule: "0 * * * *"
   template:
-    name: palworld-hourly
     includedNamespaces:
     - palworld
     storageLocation: default
