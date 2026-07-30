@@ -13,7 +13,4 @@ spec:
     storageLocation: default
     ttl: 24h
     includeClusterResources: false
-    orphansInclude:
-      resources:
-      - persistentvolumeclaim
   paused: false
