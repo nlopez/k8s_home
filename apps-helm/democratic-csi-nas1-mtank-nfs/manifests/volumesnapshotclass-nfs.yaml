@@ -1,9 +1,0 @@
-# VolumeSnapshotClass for democratic-csi NFS driver
-# Enables ZFS snapshots on TrueNAS for NFS volumes
-apiVersion: snapshot.storage.k8s.io/v1
-kind: VolumeSnapshotClass
-metadata:
-  name: nas1-mtank-nfs
-driver: org.democratic-csi.nas1-mtank-nfs
-deletionPolicy: Delete
-parameters: {}

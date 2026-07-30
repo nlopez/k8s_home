@@ -27,3 +27,4 @@ storageClasses:
   volumeSnapshotClasses:
   - name: nas1-mtank-nfs
     deletionPolicy: Delete
+    sourceVolumeMode: Filesystem

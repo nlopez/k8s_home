@@ -1,0 +1,9 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: palworld-saves-snapshot-fresh
+  namespace: palworld
+spec:
+  volumeSnapshotClassName: nas1-mtank-nfs
+  source:
+    persistentVolumeClaimName: savegames

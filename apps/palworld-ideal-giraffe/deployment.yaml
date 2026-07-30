@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld
+  namespace: palworld-ideal-giraffe
+  labels:
+    app: palworld
+    version: proton
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: palworld
+      version: proton
+  template:
+    metadata:
+      labels:
+        app: palworld
+        version: proton
+    spec:
+      containers:
+      - name: palworld
+        image: ghcr.io/adam2893/palworld-proton-server:latest
+        envFrom:
+        - configMapRef:
+            name: palworld-config
+        env:
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-secrets
+              key: adminPassword
+        - name: SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-secrets
+              key: serverPassword
+        ports:
+        - name: game
+          containerPort: 8211
+          protocol: UDP
+        - name: query
+          containerPort: 27015
+          protocol: UDP
+        - name: rcon
+          containerPort: 25575
+          protocol: TCP
+        - name: rest-api
+          containerPort: 8212
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "2"
+            memory: "6Gi"
+          limits:
+            cpu: "8"
+            memory: "16Gi"
+        volumeMounts:
+        - name: game-data
+          mountPath: /palworld
+        - name: saves
+          mountPath: /palworld/Pal/Saved/SaveGames
+        - name: mods
+          mountPath: /mods
+        startupProbe:
+          exec:
+            command: ["sh", "-c", "pgrep -f 'PalServer-Win64' >/dev/null"]
+          failureThreshold: 120
+          periodSeconds: 5
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep -f 'PalServer-Win64' >/dev/null"]
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep -f 'PalServer-Win64' >/dev/null"]
+          initialDelaySeconds: 120
+          periodSeconds: 20
+        securityContext:
+          seccompProfile:
+            type: Unconfined
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: game-data
+        persistentVolumeClaim:
+          claimName: game-data
+      - name: saves
+        persistentVolumeClaim:
+          claimName: saves
+      - name: mods
+        emptyDir: {}
