@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: palworld
-        image: thijsvanloef/palworld-server-docker:latest
+        image: thijsvanloef/palworld-server-docker@sha256:401d3eb5c053bcd72949e1ede8c4e38be5e5ad66be7272ac37940706df0aeb2f
         envFrom:
         - configMapRef:
             name: palworld-config
