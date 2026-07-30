@@ -1,20 +1,18 @@
-# Hourly FSB backup of the palworld namespace
-# Retains the last 24 hourly backups
+# Daily FSB backup of the palworld namespace
+# Retains the last 30 daily backups
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
-  name: palworld-hourly
+  name: palworld-daily
   namespace: velero
-  annotations:
-    argocd.argoproj.io/sync-wave: '3'
 spec:
-  schedule: "0 * * * *"
+  schedule: "0 0 * * *"
   template:
-    name: palworld-hourly
+    name: palworld-daily
     includedNamespaces:
     - palworld
     storageLocation: default
-    ttl: 24h
+    ttl: 720h
     includeClusterResources: false
     orphansInclude:
       resources:
