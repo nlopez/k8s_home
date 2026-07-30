@@ -1,0 +1,16 @@
+# Every 10-minute FSB backup of the palworld namespace
+# Retains the last 24 hourly backups (144 backups over 24h)
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: palworld-10min
+  namespace: velero
+spec:
+  schedule: "*/10 * * * *"
+  template:
+    includedNamespaces:
+    - palworld
+    storageLocation: default
+    ttl: 24h
+    includeClusterResources: false
+  paused: false
