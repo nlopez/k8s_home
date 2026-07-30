@@ -99,7 +99,7 @@ spec:
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-mtank
       - name: velero
-        repoURL: https://charts.velero.io
+        repoURL: https://vmware-tanzu.github.io/helm-charts
         chart: velero
         targetRevision: '12.1.0'
         namespace: velero
