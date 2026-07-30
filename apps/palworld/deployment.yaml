@@ -19,6 +19,9 @@ spec:
       labels:
         app: palworld
         version: v1
+      annotations:
+        # Exclude config volume from Velero FSB (20Gi, changes infrequently)
+        backup.velero.io/backup-volumes-excludes: config
     spec:
       containers:
       - name: palworld

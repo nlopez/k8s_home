@@ -19,6 +19,9 @@ spec:
       labels:
         app: palworld
         version: proton
+      annotations:
+        # Exclude game-data volume from Velero FSB (~12-15GB, game binaries, never changes)
+        backup.velero.io/backup-volumes-excludes: game-data
     spec:
       containers:
       - name: palworld
