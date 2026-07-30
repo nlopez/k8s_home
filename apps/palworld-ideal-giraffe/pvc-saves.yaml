@@ -1,5 +1,6 @@
 # Saves restored from fresh snapshot of original palworld savegames.
-# Restores from: palworld-saves-snapshot-fresh (VolumeSnapshot)
+# Restores from: snapcontent-1f1587da-7a93-4828-8977-2d456d6a1303
+# (VolumeSnapshotContent is cluster-scoped, no namespace issue)
 # Mounted at /palworld/Pal/Saved/SaveGames to overlay the game's save directory.
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -13,7 +14,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  dataSource:
-    kind: VolumeSnapshot
-    name: palworld-saves-snapshot-fresh
-    apiGroup: snapshot.storage.k8s.io

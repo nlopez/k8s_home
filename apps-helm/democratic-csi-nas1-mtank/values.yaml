@@ -7,13 +7,8 @@ driver:
 controller:
   externalSnapshotter:
     enabled: true
-
-# VolumeSnapshotClass for iSCSI driver
-# democratic-csi's Helm chart renders this from templates/snapshot-classes.yaml
-volumeSnapshotClasses:
-- name: nas1-mtank-iscsi
-  deletionPolicy: Delete
-  parameters: {}
+# VolumeSnapshotClass is managed via standalone manifest in manifests/
+# (Helm chart v0.15.1 renders empty parameters as null, which K8s rejects)
 storageClasses:
 - name: nas1-mtank-iscsi
   defaultClass: false
