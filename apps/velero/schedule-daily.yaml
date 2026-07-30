@@ -5,6 +5,8 @@ kind: Schedule
 metadata:
   name: palworld-daily
   namespace: velero
+  annotations:
+    argocd.argoproj.io/sync-wave: '3'
 spec:
   schedule: "0 0 * * *"
   template:
