@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: palworld
-        image: ghcr.io/nlopez/palworld-server-docker@sha256:197e4f79ab3a1381dcd3ab53ee11bd0059625228c1fd1cec13bf56763582b55e
+        image: ghcr.io/nlopez/palworld-server-docker@sha256:c9b9a139d4d83b623a8684083843cc812770cea185e69f311d05acfb6cbdeac0
         envFrom:
         - configMapRef:
             name: palworld-config
