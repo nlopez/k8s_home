@@ -1,0 +1,48 @@
+# Velero — File System Backup for k8s_home
+# S3 backend: DigitalOcean Spaces (sfo3)
+# Target namespace: palworld (FSB only, no CSI snapshots)
+# ---- Image ----
+image:
+  repository: docker.io/velero/velero
+  tag: v1.18.1
+# ---- Backup Storage Location (S3 / DigitalOcean Spaces) ----
+configuration:
+  backupStorageLocation:
+  - name: default
+    provider: aws
+    bucket: k8s-velero-backups-cowardly-tiger
+    config:
+      region: sfo3
+      s3ForcePathStyle: true
+      s3Url: https://sfo3.digitaloceanspaces.com
+    accessMode: ReadWrite
+  # Volume snapshot location (required by Velero, not used for FSB)
+  volumeSnapshotLocation:
+  - name: default
+    provider: aws
+    config:
+      region: sfo3
+      s3ForcePathStyle: true
+      s3Url: https://sfo3.digitaloceanspaces.com
+  # Enable file system backup by default
+  defaultVolumesToFsBackup: true
+  # Garbage collection frequency
+  garbageCollectionFrequency: 1h
+# ---- Credentials ----
+credentials:
+  useSecret: true
+  name: credentials-velero
+# ---- Node Agent (FSB) ----
+deployNodeAgent: true
+nodeAgent:
+  resources: {}
+# ---- Init container for AWS plugin ----
+initContainers:
+- name: velero-plugin-for-aws
+  image: velero/velero-plugin-for-aws:v1.13.1
+  volumeMounts:
+  - mountPath: /target
+    name: plugins
+# ---- Metrics ----
+metrics:
+  enabled: false

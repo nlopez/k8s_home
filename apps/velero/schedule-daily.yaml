@@ -1,0 +1,20 @@
+# Daily FSB backup of the palworld namespace
+# Retains the last 30 daily backups
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: palworld-daily
+  namespace: velero
+spec:
+  schedule: "0 0 * * *"
+  template:
+    name: palworld-daily
+    includedNamespaces:
+    - palworld
+    storageLocation: default
+    ttl: 720h
+    includeClusterResources: false
+    orphansInclude:
+      resources:
+      - persistentvolumeclaim
+  paused: false
