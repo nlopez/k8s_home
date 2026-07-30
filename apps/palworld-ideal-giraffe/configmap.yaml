@@ -5,8 +5,8 @@ metadata:
   namespace: palworld-ideal-giraffe
 data:
   TZ: "UTC"
-  SERVER_NAME: "Brave Flamingo"
-  SERVER_DESCRIPTION: "🦩"
+  SERVER_NAME: "Ideal Giraffe"
+  SERVER_DESCRIPTION: "🦒"
   SERVER_PASSWORD: ""
   ADMIN_PASSWORD: ""
   MAX_PLAYERS: "16"
