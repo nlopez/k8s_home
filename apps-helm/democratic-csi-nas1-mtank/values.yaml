@@ -7,13 +7,12 @@ driver:
 controller:
   externalSnapshotter:
     enabled: true
+
 # VolumeSnapshotClass for iSCSI driver
-# Matches the standalone manifest at manifests/volume-snapshot-class.yaml
-# democratic-csi recommends defining these in values for Helm-managed lifecycle
+# democratic-csi's Helm chart renders this from templates/snapshot-classes.yaml
 volumeSnapshotClasses:
 - name: nas1-mtank-iscsi
   deletionPolicy: Delete
-  sourceVolumeMode: Filesystem
   parameters: {}
 storageClasses:
 - name: nas1-mtank-iscsi

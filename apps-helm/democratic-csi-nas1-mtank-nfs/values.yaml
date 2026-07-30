@@ -7,6 +7,12 @@ driver:
 controller:
   externalSnapshotter:
     enabled: true
+
+# VolumeSnapshotClass for NFS driver
+volumeSnapshotClasses:
+- name: nas1-mtank-nfs
+  deletionPolicy: Delete
+
 storageClasses:
 - name: nas1-mtank-nfs
   defaultClass: false
@@ -24,7 +30,3 @@ storageClasses:
   - retrans=2
   - noresvport
   - nofail
-  volumeSnapshotClasses:
-  - name: nas1-mtank-nfs
-    deletionPolicy: Delete
-    sourceVolumeMode: Filesystem
