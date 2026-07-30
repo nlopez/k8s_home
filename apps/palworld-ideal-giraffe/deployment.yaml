@@ -42,7 +42,7 @@ spec:
               key: serverPassword
         ports:
         - name: game
-          containerPort: 8211
+          containerPort: 9211
           protocol: UDP
         - name: query
           containerPort: 27015

@@ -12,7 +12,7 @@ spec:
     app: palworld
   ports:
   - name: game
-    port: 8212
+    port: 9211
     protocol: UDP
     targetPort: game
   - name: query

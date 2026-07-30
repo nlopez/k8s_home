@@ -12,7 +12,7 @@ spec:
   rules:
   - backendRefs:
     - name: palworld
-      port: 8212
+      port: 9211
       group: ""
       kind: Service
       weight: 1
