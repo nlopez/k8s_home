@@ -18,7 +18,7 @@ data:
   UPDATE_ON_BOOT: "true"
   RCON_ENABLED: "false"
   RCON_PORT: "25575"
-  USE_BACKUP_SAVE_DATA: "false"
+  USE_BACKUP_SAVE_DATA: "true"
   BACKUP_ENABLED: "false"
   DELETE_OLD_BACKUPS: "false"
   OLD_BACKUP_DAYS: "30"
