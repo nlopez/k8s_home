@@ -22,7 +22,7 @@ data:
   DIFFICULTY: "None"
   DEATH_PENALTY: "Item"
   ENABLE_INVADER_ENEMY: "false"
-  MULTITHREADING: "true"
+  MULTITHREADING: "false"
   ENABLE_UE4SS: "true"
   ALWAYS_UPDATE_ON_START: "false"
   ## Gameplay rates
