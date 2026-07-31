@@ -15,6 +15,11 @@
 #   zvolDedup: ""
 #   zvolEnableReservation: false
 #   zvolBlocksize: ""
+#   # Human-readable ZFS user properties — visible via `zfs get all <dataset>` and TrueNAS API.
+#   # Set at provision time; existing volumes are unaffected.
+#   datasetProperties:
+#     "org.democratic-csi:pvc-namespace": "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}"
+#     "org.democratic-csi:pvc-name": "{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
 # iscsi:
 #   targetPortal: "nas1.lga1.radoncanyon.com:3260"
 #   targetPortals: []

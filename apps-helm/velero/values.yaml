@@ -1,6 +1,6 @@
-# Velero — File System Backup for k8s_home
+# Velero — k8s_home backups
 # S3 backend: DigitalOcean Spaces (sfo3)
-# Target namespace: palworld (FSB only, no CSI snapshots)
+# Target namespace: palworld; volumes use CSI/ZFS snapshots, not FSB
 # ---- Image ----
 image:
   repository: docker.io/velero/velero
@@ -16,7 +16,7 @@ configuration:
       s3ForcePathStyle: true
       s3Url: https://sfo3.digitaloceanspaces.com
     accessMode: ReadWrite
-  # Volume snapshot location (required by Velero, not used for FSB)
+  # Volume snapshot location (required by Velero for CSI snapshot tracking)
   volumeSnapshotLocation:
   - name: default
     provider: aws
@@ -24,15 +24,17 @@ configuration:
       region: sfo3
       s3ForcePathStyle: true
       s3Url: https://sfo3.digitaloceanspaces.com
-  # Enable file system backup by default
-  defaultVolumesToFsBackup: true
+  # Do not default to FSB; volumes use CSI snapshots where a labeled
+  # VolumeSnapshotClass exists. FSB can still be opted in per-pod via
+  # backup.velero.io/backup-volumes annotation if ever needed.
+  defaultVolumesToFsBackup: false
   # Garbage collection frequency
   garbageCollectionFrequency: 1h
 # ---- Credentials ----
 credentials:
   useSecret: true
   name: credentials-velero
-# ---- Node Agent (FSB) ----
+# ---- Node Agent (required for FSB if ever re-enabled per-pod) ----
 deployNodeAgent: true
 nodeAgent:
   resources: {}

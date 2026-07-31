@@ -19,10 +19,6 @@ spec:
       labels:
         app: palworld
         version: v1
-      annotations:
-        # Exclude both volumes from FSB; savegames is backed up via CSI/ZFS snapshots
-        # (democratic-csi NFS driver), config is excluded entirely (20Gi, low churn).
-        backup.velero.io/backup-volumes-excludes: config,savegames
     spec:
       containers:
       - name: palworld
