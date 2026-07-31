@@ -1,0 +1,22 @@
+# Palworld Save Games SMB Service
+#
+# Exposes the Samba SMB share (port 445) over Tailscale.
+# Accessible at smb://palworld-saves.tailscale/savegames
+apiVersion: v1
+kind: Service
+metadata:
+  name: palworld-smb
+  namespace: palworld
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: palworld-saves
+    tailscale.com/proxy-group: heimdall
+spec:
+  type: ClusterIP
+  selector:
+    app: palworld-smb
+  ports:
+  - name: smb
+    port: 445
+    targetPort: 445
+    protocol: TCP

@@ -1,0 +1,55 @@
+# Palworld Save Games SMB Share
+#
+# Serves the savegames volume read-only via SMB/CIFS over Tailscale.
+# Accessible at smb://palworld-saves.tailscale/savegames
+#
+# To add more shares:
+#   1. Add SHARE_NAME_N / SHARE_PATH_N / RW_N to configmap-smb-shares.yaml
+#   2. Add a volume + volumeMount for the new share's path
+#   3. Restart the deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld-smb
+  namespace: palworld
+  labels:
+    app: palworld-smb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palworld-smb
+  template:
+    metadata:
+      labels:
+        app: palworld-smb
+    spec:
+      containers:
+      - name: samba
+        image: dockurr/samba@sha256:9e4dd0594f2f023c48b752519be2846ae193e75b7ef462c037435eac4b835dc2
+        envFrom:
+        - configMapRef:
+            name: palworld-smb-shares
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "32Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+        volumeMounts:
+        # Share 1: savegames
+        - name: savegames
+          mountPath: /share
+          # Example share 2 (uncomment to add):
+          # - name: config-share
+          #   mountPath: /config
+      volumes:
+      # Share 1: savegames
+      - name: savegames
+        persistentVolumeClaim:
+          claimName: savegames
+          # Example share 2 (uncomment to add):
+          # - name: config-share
+          #   persistentVolumeClaim:
+          #     claimName: config

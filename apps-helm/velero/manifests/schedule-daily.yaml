@@ -10,7 +10,7 @@
 #   pre — rest-cli save: flush game state to disk before the ZFS snapshot.
 #          onError:Fail so a failed save aborts the backup entirely.
 #
-# Server restart is handled separately by apps/palworld/restart-cronjob.yaml.
+# Server restart is handled separately by apps/palworld/cronjobs/restart-cronjob.yaml.
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
