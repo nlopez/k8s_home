@@ -9,6 +9,7 @@ spec:
     kind: Gateway
     name: internet
     namespace: envoy-gateway-system
+    listenerName: palworld-ideal-giraffe-udp
   rules:
   - backendRefs:
     - name: palworld
