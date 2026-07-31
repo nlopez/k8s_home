@@ -49,9 +49,3 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: palworld-ideal-giraffe-udp
-    protocol: UDP
-    port: 9211
-    allowedRoutes:
-      namespaces:
-        from: All

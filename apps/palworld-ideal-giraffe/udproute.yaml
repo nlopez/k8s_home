@@ -7,9 +7,7 @@ spec:
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
-    name: internet
-    namespace: envoy-gateway-system
-    listenerName: palworld-ideal-giraffe-udp
+    name: palworld-ideal-giraffe
   rules:
   - backendRefs:
     - name: palworld
