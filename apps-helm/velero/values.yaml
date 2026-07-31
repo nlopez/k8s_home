@@ -28,6 +28,8 @@ configuration:
   # VolumeSnapshotClass exists. FSB can still be opted in per-pod via
   # backup.velero.io/backup-volumes annotation if ever needed.
   defaultVolumesToFsBackup: false
+  # Enable CSI snapshot support (required for PVC CSI snapshots)
+  features: EnableCSI
   # Garbage collection frequency
   garbageCollectionFrequency: 1h
 # ---- Credentials ----
