@@ -4,8 +4,10 @@
 # sends Discord embedded notifications when any resource transitions to a
 # terminal phase: Completed, PartiallyFailed, or Failed.
 #
-# State is persisted in a ConfigMap so each lifecycle event is notified
-# exactly once — no time-window edge cases or duplicate alerts.
+# Only backups that complete after the notifier first starts are notified.
+# activeSince is set to the current time on the first run (or if the
+# ConfigMap is wiped), and used as a permanent cutoff. To reset the cutoff
+# after a redeploy, delete the ConfigMap and let it recreate.
 #
 # The Discord webhook URL is read from the same 1Password item as the
 # Velero S3/DigitalOcean credentials. The OnePasswordItem operator
@@ -55,9 +57,13 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ---
 # ---- State ConfigMap ----
-# Stores a JSON object mapping resource names to their last-notified phase.
-#   { "palworld-daily-20250115": "Completed", "restore/myrestore": "Failed" }
-# Managed exclusively by the CronJob; do not edit manually.
+# Two keys, both managed exclusively by the CronJob:
+#   activeSince  ISO8601 UTC timestamp. Set to now on the first run (empty
+#                value). Only backups whose completionTimestamp is at or
+#                after this value are ever notified. Delete this ConfigMap
+#                to reset the cutoff (e.g. after a redeploy).
+#   state        JSON map of resource name → last-notified phase, used to
+#                deduplicate repeat notifications for the same terminal state.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -67,6 +73,7 @@ metadata:
     app: velero
     component: discord-notifier
 data:
+  activeSince: ""
   state: "{}"
 ---
 # ---- Notifier CronJob ----
@@ -172,10 +179,18 @@ spec:
               }
 
               # ---- Load persisted state ----
-              STATE=$(kubectl get cm "$STATE_CM" -n "$NAMESPACE" \
-                        -o jsonpath='{.data.state}' 2>/dev/null || echo '{}')
-              [ -z "$STATE" ] && STATE='{}'
+              CM=$(kubectl get cm "$STATE_CM" -n "$NAMESPACE" -o json 2>/dev/null || echo '{}')
+              STATE=$(echo "$CM" | jq -r '.data.state // "{}"')
+              [ -z "$STATE" ] || [ "$STATE" = 'null' ] && STATE='{}'
+              ACTIVE_SINCE=$(echo "$CM" | jq -r '.data.activeSince // ""')
               NEW_STATE='{}'
+
+              # Set activeSince on the first run (or if the ConfigMap was wiped).
+              # All subsequent runs reuse this value as the notification cutoff.
+              if [ -z "$ACTIVE_SINCE" ]; then
+                ACTIVE_SINCE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+                echo "activeSince initialised to ${ACTIVE_SINCE}"
+              fi
 
               # ---- Process Backups ----
               BACKUPS=$(kubectl get backups.velero.io -n "$NAMESPACE" -o json)
@@ -192,13 +207,13 @@ spec:
                       jq --arg k "$name" --arg v "$phase" '. + {($k): $v}')
 
                     old=$(echo "$STATE" | jq -r --arg k "$name" '.[$k] // empty')
-                    if [ "$old" != "$phase" ]; then
+                    completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
+                    if [ "$old" != "$phase" ] && [ "$completed" '>' "$ACTIVE_SINCE" ]; then
                       schedule=$(echo "$item" | jq -r \
                         '.metadata.labels["velero.io/schedule-name"] // "manual"')
                       warnings=$(echo "$item"  | jq -r '.status.warnings          // 0')
                       errors=$(echo "$item"    | jq -r '.status.errors             // 0')
                       started=$(echo "$item"   | jq -r '.status.startTimestamp     // "N/A"')
-                      completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
                       send_discord "Backup" "$name" "$phase" "$schedule" \
                                    "$warnings" "$errors" "$started" "$completed"
                     fi
@@ -223,11 +238,11 @@ spec:
                       jq --arg k "$key" --arg v "$phase" '. + {($k): $v}')
 
                     old=$(echo "$STATE" | jq -r --arg k "$key" '.[$k] // empty')
-                    if [ "$old" != "$phase" ]; then
+                    completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
+                    if [ "$old" != "$phase" ] && [ "$completed" '>' "$ACTIVE_SINCE" ]; then
                       warnings=$(echo "$item"  | jq -r '.status.warnings          // 0')
                       errors=$(echo "$item"    | jq -r '.status.errors             // 0')
                       started=$(echo "$item"   | jq -r '.status.startTimestamp     // "N/A"')
-                      completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
                       send_discord "Restore" "$name" "$phase" "manual" \
                                    "$warnings" "$errors" "$started" "$completed"
                     fi
@@ -239,8 +254,8 @@ spec:
               # jq -Rs '.' wraps the JSON string in a JSON string literal, safe for --patch
               STATE_JSON=$(echo "$NEW_STATE" | jq -c '.' | jq -Rs '.')
               kubectl patch cm "$STATE_CM" -n "$NAMESPACE" --type=merge \
-                --patch "{\"data\":{\"state\":${STATE_JSON}}}" \
-                && echo "State saved ($(echo "$NEW_STATE" | jq 'length') entries)" \
+                --patch "{\"data\":{\"activeSince\":\"${ACTIVE_SINCE}\",\"state\":${STATE_JSON}}}" \
+                && echo "State saved — activeSince=${ACTIVE_SINCE} entries=$(echo "$NEW_STATE" | jq 'length')" \
                 || echo "WARN: Failed to save state to ConfigMap"
             env:
             - name: DISCORD_WEBHOOK_URL
