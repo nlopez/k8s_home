@@ -1,0 +1,257 @@
+# Velero Discord Notifier
+#
+# Watches Velero Backup and Restore custom resources every 5 minutes and
+# sends Discord embedded notifications when any resource transitions to a
+# terminal phase: Completed, PartiallyFailed, or Failed.
+#
+# State is persisted in a ConfigMap so each lifecycle event is notified
+# exactly once — no time-window edge cases or duplicate alerts.
+#
+# The Discord webhook URL is read from the same 1Password item as the
+# Velero S3/DigitalOcean credentials. The OnePasswordItem operator
+# syncs every field, so the `discord-webhook` key is already present in
+# the credentials-velero Secret with no additional manifests needed.
+# ---- RBAC ----
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: velero-discord-notifier
+  namespace: velero
+  labels:
+    app: velero
+    component: discord-notifier
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: velero-discord-notifier
+  namespace: velero
+  labels:
+    app: velero
+    component: discord-notifier
+rules:
+- apiGroups: ["velero.io"]
+  resources: ["backups", "restores"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: velero-discord-notifier
+  namespace: velero
+  labels:
+    app: velero
+    component: discord-notifier
+subjects:
+- kind: ServiceAccount
+  name: velero-discord-notifier
+  namespace: velero
+roleRef:
+  kind: Role
+  name: velero-discord-notifier
+  apiGroup: rbac.authorization.k8s.io
+---
+# ---- State ConfigMap ----
+# Stores a JSON object mapping resource names to their last-notified phase.
+#   { "palworld-daily-20250115": "Completed", "restore/myrestore": "Failed" }
+# Managed exclusively by the CronJob; do not edit manually.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-notifier-state
+  namespace: velero
+  labels:
+    app: velero
+    component: discord-notifier
+data:
+  state: "{}"
+---
+# ---- Notifier CronJob ----
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: velero-discord-notifier
+  namespace: velero
+  labels:
+    app: velero
+    component: discord-notifier
+spec:
+  schedule: "*/5 * * * *"
+  timeZone: UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 120
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: velero-discord-notifier
+          containers:
+          - name: notifier
+            image: alpine/k8s:1.36.2
+            command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              NAMESPACE="velero"
+              STATE_CM="velero-notifier-state"
+              WEBHOOK="${DISCORD_WEBHOOK_URL:-}"
+
+              # ---- fmt_ts: ISO8601 → Discord relative timestamp <t:EPOCH:R> ----
+              fmt_ts() {
+                local ts="$1"
+                if [ -z "$ts" ] || [ "$ts" = "N/A" ] || [ "$ts" = "null" ]; then
+                  echo "N/A"
+                  return
+                fi
+                # Normalise "2006-01-02T15:04:05Z" → "2006-01-02 15:04:05"
+                local normalized
+                normalized=$(echo "$ts" | sed 's/T/ /; s/Z//')
+                local epoch
+                epoch=$(date -u -d "$normalized" +%s 2>/dev/null) || { echo "$ts"; return; }
+                echo "<t:${epoch}:R>"
+              }
+
+              # ---- send_discord ----
+              send_discord() {
+                local kind="$1" name="$2" phase="$3" schedule="$4" \
+                      warnings="$5" errors="$6" started="$7" completed="$8"
+
+                if [ -z "$WEBHOOK" ]; then
+                  echo "No DISCORD_WEBHOOK_URL — skipping notification for ${name}"
+                  return 0
+                fi
+
+                local color emoji
+                case "$phase" in
+                  Completed)       color=5763713;  emoji="✅" ;;
+                  PartiallyFailed) color=16776960; emoji="⚠️" ;;
+                  Failed)          color=16711680; emoji="❌" ;;
+                  *)               color=9807270;  emoji="ℹ️" ;;
+                esac
+
+                local payload
+                payload=$(jq -n \
+                  --arg title     "Velero ${kind} ${emoji}" \
+                  --argjson color "$color" \
+                  --arg name      "$name" \
+                  --arg phase     "$phase" \
+                  --arg schedule  "$schedule" \
+                  --arg started   "$(fmt_ts "$started")" \
+                  --arg completed "$(fmt_ts "$completed")" \
+                  --arg warnings  "$warnings" \
+                  --arg errors    "$errors" \
+                  '{
+                    embeds: [{
+                      title: $title,
+                      color: $color,
+                      fields: [
+                        {name: "Name",      value: $name,      inline: false},
+                        {name: "Status",    value: $phase,     inline: true},
+                        {name: "Schedule",  value: $schedule,  inline: true},
+                        {name: "Started",   value: $started,   inline: true},
+                        {name: "Completed", value: $completed, inline: true},
+                        {name: "Warnings",  value: $warnings,  inline: true},
+                        {name: "Errors",    value: $errors,    inline: true}
+                      ],
+                      footer: {text: "Velero · k8s_home"}
+                    }]
+                  }')
+
+                curl -sf -H "Content-Type: application/json" \
+                  -d "$payload" "$WEBHOOK" \
+                  && echo "Notified Discord: ${kind} ${name} → ${phase}" \
+                  || echo "WARN: Discord notification failed for ${name}"
+              }
+
+              # ---- Load persisted state ----
+              STATE=$(kubectl get cm "$STATE_CM" -n "$NAMESPACE" \
+                        -o jsonpath='{.data.state}' 2>/dev/null || echo '{}')
+              [ -z "$STATE" ] && STATE='{}'
+              NEW_STATE='{}'
+
+              # ---- Process Backups ----
+              BACKUPS=$(kubectl get backups.velero.io -n "$NAMESPACE" -o json)
+
+              while IFS= read -r item; do
+                name=$(echo "$item"  | jq -r '.metadata.name')
+                phase=$(echo "$item" | jq -r '.status.phase // empty')
+
+                [ -z "$phase" ] && continue
+
+                case "$phase" in
+                  Completed|PartiallyFailed|Failed)
+                    NEW_STATE=$(echo "$NEW_STATE" | \
+                      jq --arg k "$name" --arg v "$phase" '. + {($k): $v}')
+
+                    old=$(echo "$STATE" | jq -r --arg k "$name" '.[$k] // empty')
+                    if [ "$old" != "$phase" ]; then
+                      schedule=$(echo "$item" | jq -r \
+                        '.metadata.labels["velero.io/schedule-name"] // "manual"')
+                      warnings=$(echo "$item"  | jq -r '.status.warnings          // 0')
+                      errors=$(echo "$item"    | jq -r '.status.errors             // 0')
+                      started=$(echo "$item"   | jq -r '.status.startTimestamp     // "N/A"')
+                      completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
+                      send_discord "Backup" "$name" "$phase" "$schedule" \
+                                   "$warnings" "$errors" "$started" "$completed"
+                    fi
+                    ;;
+                esac
+              done < <(echo "$BACKUPS" | jq -c '.items[]')
+
+              # ---- Process Restores ----
+              RESTORES=$(kubectl get restores.velero.io -n "$NAMESPACE" -o json \
+                           2>/dev/null || echo '{"items":[]}')
+
+              while IFS= read -r item; do
+                name=$(echo "$item"  | jq -r '.metadata.name')
+                phase=$(echo "$item" | jq -r '.status.phase // empty')
+
+                [ -z "$phase" ] && continue
+
+                case "$phase" in
+                  Completed|PartiallyFailed|Failed)
+                    key="restore/${name}"
+                    NEW_STATE=$(echo "$NEW_STATE" | \
+                      jq --arg k "$key" --arg v "$phase" '. + {($k): $v}')
+
+                    old=$(echo "$STATE" | jq -r --arg k "$key" '.[$k] // empty')
+                    if [ "$old" != "$phase" ]; then
+                      warnings=$(echo "$item"  | jq -r '.status.warnings          // 0')
+                      errors=$(echo "$item"    | jq -r '.status.errors             // 0')
+                      started=$(echo "$item"   | jq -r '.status.startTimestamp     // "N/A"')
+                      completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
+                      send_discord "Restore" "$name" "$phase" "manual" \
+                                   "$warnings" "$errors" "$started" "$completed"
+                    fi
+                    ;;
+                esac
+              done < <(echo "$RESTORES" | jq -c '.items[]')
+
+              # ---- Persist updated state ----
+              # jq -Rs '.' wraps the JSON string in a JSON string literal, safe for --patch
+              STATE_JSON=$(echo "$NEW_STATE" | jq -c '.' | jq -Rs '.')
+              kubectl patch cm "$STATE_CM" -n "$NAMESPACE" --type=merge \
+                --patch "{\"data\":{\"state\":${STATE_JSON}}}" \
+                && echo "State saved ($(echo "$NEW_STATE" | jq 'length') entries)" \
+                || echo "WARN: Failed to save state to ConfigMap"
+            env:
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: credentials-velero
+                  key: discord-webhook
+            resources:
+              requests:
+                cpu: 50m
+                memory: 64Mi
+              limits:
+                cpu: 200m
+                memory: 128Mi
