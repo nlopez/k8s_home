@@ -26,10 +26,11 @@ metadata:
     component: backup
 spec:
   schedule: "*/30 * * * *"
+  suspend: true
   timeZone: UTC
   concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 5
-  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
   jobTemplate:
     spec:
       activeDeadlineSeconds: 1800 # 30 min max per job
