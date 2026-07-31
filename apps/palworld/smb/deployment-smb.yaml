@@ -3,9 +3,11 @@
 # Serves the savegames volume read-only via SMB/CIFS over Tailscale.
 # Accessible at smb://palworld-saves.tailscale/savegames
 #
+# Guest (anonymous) access enabled via custom smb.conf.
+#
 # To add more shares:
-#   1. Add SHARE_NAME_N / SHARE_PATH_N / RW_N to configmap-smb-shares.yaml
-#   2. Add a volume + volumeMount for the new share's path
+#   1. Add a PVC + volumeMount for the new share's path
+#   2. Add a [section] block to configmap-smb.conf.yaml
 #   3. Restart the deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -38,18 +40,19 @@ spec:
             cpu: "100m"
             memory: "128Mi"
         volumeMounts:
-        # Share 1: savegames
+        # Share data
         - name: savegames
           mountPath: /share
-          # Example share 2 (uncomment to add):
-          # - name: config-share
-          #   mountPath: /config
+        # Custom smb.conf (overrides dockurr/samba default)
+        - name: smb-conf
+          mountPath: /etc/samba/smb.conf
+          subPath: smb.conf
       volumes:
-      # Share 1: savegames
+      # Share data
       - name: savegames
         persistentVolumeClaim:
           claimName: savegames
-          # Example share 2 (uncomment to add):
-          # - name: config-share
-          #   persistentVolumeClaim:
-          #     claimName: config
+      # Custom smb.conf
+      - name: smb-conf
+        configMap:
+          name: palworld-smb-conf

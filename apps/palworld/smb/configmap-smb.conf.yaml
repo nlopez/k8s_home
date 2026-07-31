@@ -1,0 +1,48 @@
+# Custom Samba configuration for palworld-saves
+#
+# Enables guest (anonymous) access so clients can connect without
+# credentials. The [global] section disables Apple-specific VFS modules
+# that aren't needed for save game files.
+#
+# To add more shares, add additional [section] blocks below with
+# path = /<mount-path> and the appropriate read-only settings.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: palworld-smb-conf
+  namespace: palworld
+data:
+  smb.conf: |-
+    [global]
+        server string = Palworld Saves
+        security = user
+        server min protocol = SMB2
+
+        # Guest access — allow anonymous connections
+        map to guest = bad user
+        guest ok = yes
+        guest account = nobody
+
+        # Disable printing
+        load printers = no
+        printing = bsd
+        printcap name = /dev/null
+        disable spoolss = yes
+
+        # General settings
+        host msdfs = no
+        wide links = yes
+        follow symlinks = yes
+        unix extensions = no
+        ea support = yes
+        mangled names = no
+        dos charset = CP850
+        unix charset = UTF-8
+
+    [savegames]
+        path = /share
+        comment = Palworld Save Games
+        browseable = yes
+        read only = yes
+        guest ok = yes
+        writable = no

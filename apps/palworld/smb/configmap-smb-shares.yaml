@@ -1,24 +1,21 @@
 # SMB share definitions for palworld-saves
 #
-# Each share uses numbered env-var keys matching dockurr/samba's expected
-# environment variables (SHARE_NAME_N, SHARE_PATH_N, RW_N).
-# To add more shares, add share_N_* keys here and a volumeMount in the
-# deployment (see share_1_* comments in deployment-smb.yaml).
+# dockurr/samba env vars:
+#   NAME  — share display name
+#   RW    — "false" for read-only, "true" for read-write
+#   UID   — container user ID
+#   GID   — container group ID
 #
-# Global settings: GUEST=yes allows anonymous access. UID/GID match the
-# game server's PUID/PGID so file permissions stay consistent.
+# Guest access is enabled via the custom smb.conf (smb.conf.yaml).
+# To add more shares, mount additional volumes and override smb.conf
+# with a multi-share config (see comments in smb.conf.yaml).
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: palworld-smb-shares
   namespace: palworld
 data:
-  # --- Share 1: Palworld save games (read-only) ---
-  # To add more shares, add SHARE_NAME_2 / SHARE_PATH_2 / RW_2, etc.
-  SHARE_NAME_1: savegames
-  SHARE_PATH_1: /share
-  RW_1: "false"
-  # --- Global settings ---
-  GUEST: "yes"
+  NAME: savegames
+  RW: "false"
   UID: "1000"
   GID: "1000"
