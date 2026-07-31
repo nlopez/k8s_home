@@ -2,10 +2,15 @@
 # Standalone manifest because democratic-csi Helm chart v0.15.1 has a template bug:
 # empty parameters map renders as `parameters: null` instead of `parameters: {}`,
 # which Kubernetes rejects. This manifest overrides/fills in the correct value.
+#
+# velero.io/csi-volumesnapshot-class label: tells Velero to use this class when
+# taking CSI snapshots of NFS-backed PVCs (e.g. palworld/savegames).
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshotClass
 metadata:
   name: nas1-mtank-nfs
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
 driver: org.democratic-csi.nas1-mtank-nfs
 deletionPolicy: Delete
 parameters: {}

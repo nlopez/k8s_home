@@ -1,4 +1,6 @@
-# Hourly FSB backup of the palworld namespace
+# Hourly backup of the palworld namespace
+# savegames PVC: CSI/ZFS snapshot via democratic-csi NFS driver
+# config PVC: excluded (manifests only)
 # Retains the last 24 hourly backups
 apiVersion: velero.io/v1
 kind: Schedule
