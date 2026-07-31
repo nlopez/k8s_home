@@ -1,16 +1,52 @@
 # Daily FSB backup of the palworld namespace
-# Retains the last 30 daily backups
+# Retains the last 30 daily backups (720h TTL)
+#
+# Fires at 6:15 AM EST (11:15 UTC). Velero Schedule has no timeZone field,
+# so this drifts to 7:15 AM EDT during summer — accepted for a home cluster.
+#
+# Hooks (run inside the palworld container via pod exec):
+#   pre  — rest-cli save: flush game state to disk before FSB reads the PVC.
+#           onError:Fail so a failed save aborts the backup and skips shutdown.
+#   post — rest-cli shutdown: graceful server exit after the backup completes.
+#           Uses a 5-minute countdown to ensure FSB finishes before the process
+#           exits. The Deployment controller restarts the pod automatically.
+#           onError:Continue so a failed shutdown doesn't mark the backup failed.
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
   name: palworld-daily
   namespace: velero
 spec:
-  schedule: "0 0 * * *"
+  schedule: "15 11 * * *"
   template:
     includedNamespaces:
     - palworld
     storageLocation: default
     ttl: 720h
     includeClusterResources: false
+    hooks:
+      resources:
+      - name: palworld-save-and-restart
+        includedNamespaces:
+        - palworld
+        labelSelector:
+          matchLabels:
+            app: palworld
+        pre:
+        - exec:
+            container: palworld
+            command:
+            - rest-cli
+            - save
+            onError: Fail
+            timeout: 60s
+        post:
+        - exec:
+            container: palworld
+            command:
+            - /bin/sh
+            - -c
+            - "rest-cli shutdown 5 'Daily backup complete — restarting'"
+            onError: Continue
+            timeout: 30s
   paused: false

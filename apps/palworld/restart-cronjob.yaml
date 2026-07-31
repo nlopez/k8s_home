@@ -20,6 +20,7 @@ metadata:
 spec:
   schedule: "15 6 * * *"
   timeZone: America/New_York
+  suspend: true
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
