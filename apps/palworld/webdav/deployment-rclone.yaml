@@ -31,9 +31,10 @@ spec:
         - |
           exec rclone serve webdav /srv \
             --addr=:5572 \
-            --log-level=DEBUG \
+            --log-level=INFO \
             --log-file=stdout \
             --read-only \
+            --local-links \
             --etag-hash auto \
             --user="${RCLONE_USER}" \
             --pass="${RCLONE_PASS}" \
