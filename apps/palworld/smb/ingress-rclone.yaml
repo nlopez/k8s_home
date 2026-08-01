@@ -1,0 +1,21 @@
+# Palworld Save Games WebDAV Ingress
+#
+# Tailscale ingress with HTTPS for the rclone WebDAV server.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: palworld-webdav
+  namespace: palworld
+  annotations:
+    tailscale.com/proxy-group: heimdall
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+spec:
+  ingressClassName: tailscale
+  tls:
+  - hosts:
+    - savegames
+  defaultBackend:
+    service:
+      name: palworld-webdav
+      port:
+        name: https
