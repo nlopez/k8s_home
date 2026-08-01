@@ -18,4 +18,4 @@ spec:
     service:
       name: palworld-webdav
       port:
-        name: https
+        name: http

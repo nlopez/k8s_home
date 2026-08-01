@@ -12,7 +12,7 @@ spec:
   selector:
     app: palworld-webdav
   ports:
-  - name: https
-    port: 443
+  - name: http
+    port: 5572
     targetPort: 5572
     protocol: TCP
