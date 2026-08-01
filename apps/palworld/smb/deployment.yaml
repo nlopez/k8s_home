@@ -31,12 +31,12 @@ spec:
         - name: USER
           valueFrom:
             secretKeyRef:
-              name: palworld-webdav-credentials
+              name: palworld-smb-credentials
               key: username
         - name: PASS
           valueFrom:
             secretKeyRef:
-              name: palworld-webdav-credentials
+              name: palworld-smb-credentials
               key: password
         - name: RW
           value: "false"
