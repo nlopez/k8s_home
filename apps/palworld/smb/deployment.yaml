@@ -5,6 +5,7 @@
 #
 # Requires authentication — username/password from 1Password item
 # "Palworld WebDAV" (vault: Automation). Read-only access only.
+# Windows 10 compatible: map to guest = never (prevents silent guest auth failures)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,8 +27,6 @@ spec:
       - name: samba
         image: dockurr/samba@sha256:9e4dd0594f2f023c48b752519be2846ae193e75b7ef462c037435eac4b835dc2
         env:
-        - name: NAME
-          value: "saves"
         - name: USER
           valueFrom:
             secretKeyRef:
@@ -38,8 +37,6 @@ spec:
             secretKeyRef:
               name: palworld-smb-credentials
               key: password
-        - name: RW
-          value: "false"
         ports:
         - name: smb
           containerPort: 445
@@ -54,7 +51,14 @@ spec:
         volumeMounts:
         - name: savegames
           mountPath: /storage
+        - name: config
+          mountPath: /etc/samba/smb.conf
+          subPath: smb.conf
+          readOnly: true
       volumes:
       - name: savegames
         persistentVolumeClaim:
           claimName: savegames
+      - name: config
+        configMap:
+          name: palworld-smb-config
