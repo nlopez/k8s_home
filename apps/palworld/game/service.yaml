@@ -8,6 +8,7 @@ metadata:
     tailscale.com/proxy-group: heimdall
     tailscale.com/hostname: brave-flamingo
 spec:
+  type: LoadBalancer
   selector:
     app: palworld
   ports:
