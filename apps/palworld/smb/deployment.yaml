@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: samba
-        image: dockurr/samba@sha256:0028f63bb29394365ec920d94bb1ec89e0195fb440e6c7164028940de8e31f92
+        image: dockurr/samba@sha256:9e4dd0594f2f023c48b752519be2846ae193e75b7ef462c037435eac4b835dc2
         env:
         - name: NAME
           value: "saves"
