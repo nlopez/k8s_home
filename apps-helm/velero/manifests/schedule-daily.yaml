@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/velero.io/schedule_v1.json
 # Daily backup of the palworld namespace
 # savegames PVC: CSI/ZFS snapshot via democratic-csi NFS driver
 # config PVC: excluded (manifests only)

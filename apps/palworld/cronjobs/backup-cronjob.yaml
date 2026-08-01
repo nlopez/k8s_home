@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/cronjob-batch-v1.json
 # Palworld game data backup CronJob
 #
 # Periodically backs up /palworld/Pal/Saved/SaveGames to DigitalOcean Spaces (sfo3)

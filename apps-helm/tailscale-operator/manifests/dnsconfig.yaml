@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/tailscale.com/dnsconfig_v1alpha1.json
 apiVersion: tailscale.com/v1alpha1
 kind: DNSConfig
 metadata:

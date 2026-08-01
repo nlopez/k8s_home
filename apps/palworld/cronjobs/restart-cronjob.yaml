@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/cronjob-batch-v1.json
 # Palworld server restart CronJob
 #
 # Restarts the Palworld server daily at 6:15 AM New York time.

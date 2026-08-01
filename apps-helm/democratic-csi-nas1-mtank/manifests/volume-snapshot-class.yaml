@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/snapshot.storage.k8s.io/volumesnapshotclass_v1.json
 # VolumeSnapshotClass for democratic-csi iSCSI driver
 # Standalone manifest because democratic-csi Helm chart v0.15.1 has a template bug:
 # empty parameters map renders as `parameters: null` instead of `parameters: {}`,
