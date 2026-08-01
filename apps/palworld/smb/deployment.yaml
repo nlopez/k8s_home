@@ -1,0 +1,60 @@
+# Palworld Save Games SMB Share
+#
+# Serves the savegames volume read-only via SMB (Samba) over Tailscale.
+# Accessible at \\brave-flamingo-saves.<tailnet>.ts.net\saves
+#
+# Requires authentication — username/password from 1Password item
+# "Palworld WebDAV" (vault: Automation). Read-only access only.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld-smb
+  namespace: palworld
+  labels:
+    app: palworld-smb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palworld-smb
+  template:
+    metadata:
+      labels:
+        app: palworld-smb
+    spec:
+      containers:
+      - name: samba
+        image: dockurr/samba@sha256:0028f63bb29394365ec920d94bb1ec89e0195fb440e6c7164028940de8e31f92
+        env:
+        - name: NAME
+          value: "saves"
+        - name: USER
+          valueFrom:
+            secretKeyRef:
+              name: palworld-webdav-credentials
+              key: username
+        - name: PASS
+          valueFrom:
+            secretKeyRef:
+              name: palworld-webdav-credentials
+              key: password
+        - name: RW
+          value: "false"
+        ports:
+        - name: smb
+          containerPort: 445
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "32Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+        volumeMounts:
+        - name: savegames
+          mountPath: /storage
+      volumes:
+      - name: savegames
+        persistentVolumeClaim:
+          claimName: savegames

@@ -1,0 +1,22 @@
+# Palworld Save Games SMB Service
+#
+# Exposes the Samba server (port 445) over Tailscale as a Layer 3 Ingress.
+# Accessible at \\brave-flamingo-saves.<tailnet>.ts.net\saves
+apiVersion: v1
+kind: Service
+metadata:
+  name: palworld-smb
+  namespace: palworld
+  annotations:
+    tailscale.com/proxy-group: heimdall
+    tailscale.com/hostname: brave-flamingo-saves
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app: palworld-smb
+  ports:
+  - name: smb
+    port: 445
+    targetPort: 445
+    protocol: TCP
