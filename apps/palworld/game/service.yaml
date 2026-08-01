@@ -4,11 +4,11 @@ metadata:
   name: palworld
   namespace: palworld
   annotations:
-    tailscale.com/expose: "true"
     tailscale.com/proxy-group: heimdall
     tailscale.com/hostname: brave-flamingo
 spec:
   type: LoadBalancer
+  loadBalancerClass: tailscale
   selector:
     app: palworld
   ports:
