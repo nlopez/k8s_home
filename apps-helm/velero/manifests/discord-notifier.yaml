@@ -76,7 +76,6 @@ metadata:
 data:
   activeSince: ""
   state: "{}"
-  sizes: "{}"
 ---
 # ---- Notifier CronJob ----
 apiVersion: batch/v1
@@ -128,81 +127,23 @@ spec:
                 echo "<t:${epoch}:R>"
               }
 
-              # ---- format_bytes: bytes → human-readable (B, KiB, MiB, GiB) ----
-              format_bytes() {
-                local bytes="$1"
-                if [ -z "$bytes" ] || ! [[ "$bytes" =~ ^[0-9]+$ ]]; then
-                  echo "N/A"
-                  return
-                fi
-                if [ "$bytes" -lt 1024 ]; then
-                  echo "${bytes} B"
-                elif [ "$bytes" -lt 1048576 ]; then
-                  echo "$(jq -n "($bytes / 1024 * 10 | floor) / 10") KiB"
-                elif [ "$bytes" -lt 1073741824 ]; then
-                  echo "$(jq -n "($bytes / 1048576 * 10 | floor) / 10") MiB"
-                else
-                  echo "$(jq -n "($bytes / 1073741824 * 10 | floor) / 10") GiB"
-                fi
-              }
-
-              # ---- get_backup_size: sum totalBytes from PodVolumeBackups for a backup ----
-              get_backup_size() {
-                local backup_name="$1"
-                local pvs
-                pvs=$(kubectl get podvolumebackups.velero.io -n "$NAMESPACE" \
-                      -l "velero.io/backup-name=${backup_name}" -o json 2>/dev/null || echo '{"items":[]}')
-                echo "$pvs" | jq '[.items[].status.progress.totalBytes // 0] | add // 0'
-              }
-
-              # ---- compute_duration: started + completed → human-readable duration ----
-              compute_duration() {
-                local started="$1" completed="$2"
-                if [ -z "$started" ] || [ "$started" = "N/A" ] || [ -z "$completed" ] || [ "$completed" = "N/A" ]; then
-                  echo "N/A"
-                  return
-                fi
-                local start_epoch end_epoch
-                start_epoch=$(date -u -d "$(echo "$started" | sed 's/T/ /; s/Z//')" +%s 2>/dev/null) || { echo "N/A"; return; }
-                end_epoch=$(date -u -d "$(echo "$completed" | sed 's/T/ /; s/Z//')" +%s 2>/dev/null) || { echo "N/A"; return; }
-                local diff=$((end_epoch - start_epoch))
-                if [ "$diff" -lt 0 ]; then
-                  echo "~0s"
-                  return
-                fi
-                if [ "$diff" -lt 60 ]; then
-                  echo "~${diff}s"
-                elif [ "$diff" -lt 3600 ]; then
-                  local mins=$((diff / 60))
-                  local secs=$((diff % 60))
-                  echo "~${mins}m ${secs}s"
-                else
-                  local hours=$((diff / 3600))
-                  local mins=$(( (diff % 3600) / 60 ))
-                  echo "~${hours}h ${mins}m"
-                fi
-              }
-
               # ---- send_discord ----
               send_discord() {
                 local kind="$1" name="$2" phase="$3" schedule="$4" \
-                      warnings="$5" errors="$6" started="$7" completed="$8" \
-                      size="${9:-N/A}" delta="${10:-N/A}"
+                      warnings="$5" errors="$6" started="$7" completed="$8"
 
                 if [ -z "$WEBHOOK" ]; then
                   echo "No DISCORD_WEBHOOK_URL — skipping notification for ${name}"
                   return 0
                 fi
 
-                local color emoji dur
+                local color emoji
                 case "$phase" in
                   Completed)       color=5763713;  emoji="✅" ;;
                   PartiallyFailed) color=16776960; emoji="⚠️" ;;
                   Failed)          color=16711680; emoji="❌" ;;
                   *)               color=9807270;  emoji="ℹ️" ;;
                 esac
-
-                dur="$(compute_duration "$started" "$completed")"
 
                 local payload
                 payload=$(jq -n \
@@ -213,9 +154,8 @@ spec:
                   --arg schedule  "$schedule" \
                   --arg warnings  "$warnings" \
                   --arg errors    "$errors" \
-                  --arg size      "$size" \
-                  --arg delta     "$delta" \
-                  --arg dur       "$dur" \
+                  --arg started   "$started" \
+                  --arg completed "$completed" \
                   --arg emoji     "$emoji" \
                   '{
                     embeds: [{
@@ -223,9 +163,12 @@ spec:
                       color: $color,
                       fields: [
                         {name: "Name",         value: $name,         inline: false},
-                        {name: "\($emoji) \($phase)", value: "\($schedule) · \($dur)", inline: true},
-                        {name: "\($size)", value: "\($delta)", inline: true},
-                        {name: "\($warnings) warnings", value: "\($errors) errors", inline: true}
+                        {name: "Status",       value: $phase,        inline: false},
+                        {name: "Schedule",     value: $schedule,     inline: false},
+                        {name: "Started",      value: $started,      inline: false},
+                        {name: "Completed",    value: $completed,    inline: false},
+                        {name: "Warnings",     value: $warnings,     inline: true},
+                        {name: "Errors",       value: $errors,       inline: true}
                       ],
                       footer: {text: "Velero · k8s_home"}
                     }]
@@ -241,11 +184,8 @@ spec:
               CM=$(kubectl get cm "$STATE_CM" -n "$NAMESPACE" -o json 2>/dev/null || echo '{}')
               STATE=$(echo "$CM" | jq -r '.data.state // "{}"')
               [ -z "$STATE" ] || [ "$STATE" = 'null' ] && STATE='{}'
-              SIZES=$(echo "$CM" | jq -r '.data.sizes // "{}"')
-              [ -z "$SIZES" ] || [ "$SIZES" = 'null' ] && SIZES='{}'
               ACTIVE_SINCE=$(echo "$CM" | jq -r '.data.activeSince // ""')
               NEW_STATE='{}'
-              NEW_SIZES='{}'
 
               # Set activeSince on the first run (or if the ConfigMap was wiped).
               # All subsequent runs reuse this value as the notification cutoff.
@@ -276,36 +216,10 @@ spec:
                       warnings=$(echo "$item"  | jq -r '.status.warnings          // 0')
                       errors=$(echo "$item"    | jq -r '.status.errors             // 0')
                       started=$(echo "$item"   | jq -r '.status.startTimestamp     // "N/A"')
-
-                      # Extract backup size from PodVolumeBackups
-                      backup_size_bytes=$(get_backup_size "$name")
-                      backup_size_human=$(format_bytes "$backup_size_bytes")
-
-                      # Look up previous size for this schedule
-                      prev_size_bytes=$(echo "$SIZES" | jq -r --arg k "$schedule" '.[$k] // 0')
-
-                      # Calculate delta
-                      if [ "$prev_size_bytes" -gt 0 ] 2>/dev/null; then
-                        delta_bytes=$((backup_size_bytes - prev_size_bytes))
-                        if [ "$delta_bytes" -gt 0 ]; then
-                          delta_human="📈 +$(format_bytes $delta_bytes) (↑)"
-                        elif [ "$delta_bytes" -lt 0 ]; then
-                          abs_delta=$(( -delta_bytes ))
-                          delta_human="📉 -$(format_bytes $abs_delta) (↓)"
-                        else
-                          delta_human="— 0 B (—)"
-                        fi
-                      else
-                        delta_human="— no previous size"
-                      fi
-
-                      # Update sizes map
-                      NEW_SIZES=$(echo "$NEW_SIZES" | \
-                        jq --arg k "$schedule" --argjson v "$backup_size_bytes" '. + {($k): $v}')
+                      completed=$(echo "$item" | jq -r '.status.completionTimestamp // "N/A"')
 
                       send_discord "Backup" "$name" "$phase" "$schedule" \
-                                   "$warnings" "$errors" "$started" "$completed" \
-                                   "$backup_size_human" "$delta_human"
+                                   "$warnings" "$errors" "$started" "$completed"
                     fi
                     ;;
                 esac
@@ -334,8 +248,7 @@ spec:
                       errors=$(echo "$item"    | jq -r '.status.errors             // 0')
                       started=$(echo "$item"   | jq -r '.status.startTimestamp     // "N/A"')
                       send_discord "Restore" "$name" "$phase" "manual" \
-                                   "$warnings" "$errors" "$started" "$completed" \
-                                   "N/A" "N/A"
+                                   "$warnings" "$errors" "$started" "$completed"
                     fi
                     ;;
                 esac
@@ -346,9 +259,8 @@ spec:
               CLEAN_STATE=$(echo "$NEW_STATE" | jq 'to_entries | sort_by(.key) | .[-100:] | from_entries')
               # jq -Rs '.' wraps the JSON string in a JSON string literal, safe for --patch
               STATE_JSON=$(echo "$CLEAN_STATE" | jq -c '.' | jq -Rs '.')
-              SIZES_JSON=$(echo "$NEW_SIZES" | jq -c '.' | jq -Rs '.')
               kubectl patch cm "$STATE_CM" -n "$NAMESPACE" --type=merge \
-                --patch "{\"data\":{\"activeSince\":\"${ACTIVE_SINCE}\",\"state\":${STATE_JSON},\"sizes\":${SIZES_JSON}}}" \
+                --patch "{\"data\":{\"activeSince\":\"${ACTIVE_SINCE}\",\"state\":${STATE_JSON}}}" \
                 && echo "State saved — activeSince=${ACTIVE_SINCE} entries=$(echo "$CLEAN_STATE" | jq 'length')" \
                 || echo "WARN: Failed to save state to ConfigMap"
             env:
