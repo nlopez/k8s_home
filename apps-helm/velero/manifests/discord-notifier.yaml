@@ -73,6 +73,17 @@ metadata:
   labels:
     app: velero
     component: discord-notifier
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    argocd.argoproj.io/managed-by: 'cronjob'
+    # ArgoCD must not overwrite the notifier's runtime state.
+    # These fields are managed exclusively by the cronjob; the
+    # manifest defaults are only a bootstrap seed.
+    argocd.argoproj.io/ignore-differences: |
+      jsonPointers:
+      - /data/activeSince
+      - /data/state
 data:
   activeSince: ""
   state: "{}"
