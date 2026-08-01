@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: couchdb
-        image: couchdb:4
+        image: couchdb:3.5.2.1
         env:
         - name: COUCHDB_USER
           valueFrom:
