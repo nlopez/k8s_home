@@ -34,6 +34,7 @@ spec:
             --log-level=INFO \
             --log-file=stdout \
             --read-only \
+            --etag-hash auto \
             --user="${RCLONE_USER}" \
             --pass="${RCLONE_PASS}" \
             --header "Access-Control-Allow-Origin:*" \
