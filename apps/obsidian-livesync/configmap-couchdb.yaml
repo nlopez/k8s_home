@@ -1,5 +1,6 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/k8s-json-schema/master/master-standalone-strict/configmap-v1.json
-# CouchDB local.ini with CORS configuration for Obsidian LiveSync
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+# CouchDB local.ini with CORS configuration
+# Used by init container to populate the PVC-mounted local.d directory
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,7 +9,7 @@ metadata:
   labels:
     app: obsidian-livesync
 data:
-  local.ini: |-
+  local.ini: |
     [couchdb]
     single_node=true
     max_document_size=50000000
