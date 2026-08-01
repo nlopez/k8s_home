@@ -13,7 +13,7 @@ spec:
   ingressClassName: tailscale
   tls:
   - hosts:
-    - savegames
+    - brave-flamingo-saves
   defaultBackend:
     service:
       name: palworld-webdav

@@ -7,9 +7,6 @@ kind: Service
 metadata:
   name: palworld-webdav
   namespace: palworld
-  annotations:
-    tailscale.com/proxy-group: heimdall
-    tailscale.com/hostname: savegames
 spec:
   type: ClusterIP
   selector:
