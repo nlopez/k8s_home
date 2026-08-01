@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/k8s-json-schema/master/master-standalone-strict/ingress-networking-v1.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: obsidian-livesync-tailscale
+  namespace: obsidian-livesync
+  annotations:
+    tailscale.com/proxy-group: heimdall
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+spec:
+  tls:
+  - hosts:
+    - obsidian-livesync
+  defaultBackend:
+    service:
+      name: couchdb
+      port:
+        number: 5984
+  ingressClassName: tailscale

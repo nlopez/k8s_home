@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/velero.io/schedule_v1.json
+# Daily backup of the obsidian-livesync namespace
+# CouchDB PVC: CSI/ZFS snapshot via democratic-csi iSCSI driver
+# Retains the last 30 daily backups (720h TTL)
+#
+# Fires at 6:15 AM EST (11:15 UTC). Velero Schedule has no timeZone field,
+# so this drifts to 7:15 AM EDT during summer — accepted for a home cluster.
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: obsidian-livesync-daily
+  namespace: velero
+spec:
+  schedule: "15 11 * * *"
+  template:
+    includedNamespaces:
+    - obsidian-livesync
+    includeClusterResources: true
+    storageLocation: default
+    ttl: 720h
+    snapshotVolumes: true
+  paused: false

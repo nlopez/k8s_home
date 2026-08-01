@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/k8s-json-schema/master/master-standalone-strict/persistentvolumeclaim-v1.json
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: obsidian-livesync-data
+  namespace: obsidian-livesync
+spec:
+  storageClassName: nas1-mtank-iscsi
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/k8s-json-schema/master/master-standalone-strict/configmap-v1.json
+# CouchDB local.ini with CORS configuration for Obsidian LiveSync
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: couchdb-config
+  namespace: obsidian-livesync
+  labels:
+    app: obsidian-livesync
+data:
+  local.ini: |-
+    [couchdb]
+    single_node=true
+    max_document_size=50000000
+
+    [chttpd]
+    require_valid_user = true
+    max_http_request_size = 4294967296
+
+    [chttpd_auth]
+    require_valid_user = true
+    authentication_redirect = /_utils/session.html
+
+    [httpd]
+    WWW-Authenticate = basic realm=couchdb
+    enable_cors = true
+
+    [cors]
+    origins = app://obsidian.md,capacitor://localhost,https://sunny-glacier.desertbluffs.com
+    credentials = true
+    headers = accept, authorization, content-type, origin, referer, x-couchdb-weight, x-couchdb-client-count, x-couchdb-failover-target, x-couch-cluster-config
+    methods = GET, POST, PUT, DELETE, OPTIONS

@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/k8s-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: couchdb
+  namespace: obsidian-livesync
+  labels:
+    app: obsidian-livesync
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: obsidian-livesync
+  template:
+    metadata:
+      labels:
+        app: obsidian-livesync
+    spec:
+      containers:
+      - name: couchdb
+        image: couchdb:4
+        env:
+        - name: COUCHDB_USER
+          valueFrom:
+            secretKeyRef:
+              name: obsidian-livesync-couchdb
+              key: COUCHDB_USER
+        - name: COUCHDB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: obsidian-livesync-couchdb
+              key: COUCHDB_PASSWORD
+        ports:
+        - name: http
+          containerPort: 5984
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /opt/couchdb/data
+        - name: config
+          mountPath: /opt/couchdb/etc/local.d
+          readOnly: true
+        livenessProbe:
+          tcpSocket:
+            port: 5984
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          tcpSocket:
+            port: 5984
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: obsidian-livesync-data
+      - name: config
+        configMap:
+          name: couchdb-config
