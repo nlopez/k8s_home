@@ -3,7 +3,8 @@
 # Serves the savegames volume read-only via SMB/CIFS over Tailscale.
 # Accessible at smb://palworld-saves.tailscale/savegames
 #
-# Guest (anonymous) access enabled via custom smb.conf.
+# Requires authentication — username/password from 1Password item
+# "Palworld SMB" (vault: Automation). Read-only access only.
 #
 # To add more shares:
 #   1. Add a PVC + volumeMount for the new share's path
@@ -32,6 +33,17 @@ spec:
         envFrom:
         - configMapRef:
             name: palworld-smb-shares
+        env:
+        - name: USER
+          valueFrom:
+            secretKeyRef:
+              name: palworld-smb-credentials
+              key: username
+        - name: PASS
+          valueFrom:
+            secretKeyRef:
+              name: palworld-smb-credentials
+              key: password
         resources:
           requests:
             cpu: "10m"
