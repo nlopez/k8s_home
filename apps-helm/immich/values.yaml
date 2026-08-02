@@ -27,7 +27,6 @@ immich:
   persistence:
     # Main data store for all photos shared between different components.
     library:
-      enabled: true
       existingClaim: immich-library-nfs
 # Dependencies
 valkey:
@@ -42,7 +41,9 @@ valkey:
   persistence:
     data:
       enabled: true
-      existingClaim: immich-redis
+      type: persistentVolumeClaim
+      size: 1Gi
+      accessMode: ReadWriteOnce
 # Immich components
 server:
   enabled: true
