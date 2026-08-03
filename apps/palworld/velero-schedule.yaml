@@ -52,6 +52,7 @@ spec:
 ---
 # Daily backup of the palworld namespace
 # Retains the last 30 daily backups (720h TTL)
+# ZFS snapshot via democratic-csi NFS driver, moved to S3 (DO Spaces)
 #
 # Fires at 6:15 AM EST (11:15 UTC). Velero Schedule has no timeZone field,
 # so this drifts to 7:15 AM EDT during summer — accepted for a home cluster.
@@ -71,8 +72,9 @@ spec:
     - palworld
     storageLocation: default
     ttl: 720h
-    includeClusterResources: false
+    includeClusterResources: true
     snapshotVolumes: true
+    snapshotMoveData: true
     hooks:
       resources:
       - name: palworld-save-and-restart
