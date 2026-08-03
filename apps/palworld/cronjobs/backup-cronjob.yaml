@@ -1,0 +1,299 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/cronjob-batch-v1.json
+# Palworld game data backup CronJob
+#
+# Periodically backs up /palworld/Pal/Saved/SaveGames to DigitalOcean Spaces (sfo3)
+# using restic with encryption. Runs every 30 minutes, retains 30 days.
+#
+# Flow:
+#   1. kubectl exec into running palworld pod to trigger a REST API save
+#   2. Wait briefly for save to complete
+#   3. restic backs up the save directory directly (no tarball)
+#   4. restic uploads to s3 (sfo3/distracted-gibbon)
+#   5. Prune old backups (>30 days)
+#   6. Send Discord notification
+#
+# Zero downtime: the palworld server keeps running throughout.
+# The savegames PVC is mounted read-only into the backup container.
+#
+# Note: alpine/k8s has kubectl + curl + bzip2. restic is downloaded on first run
+# and cached in an emptyDir volume. curl is used for Discord webhooks.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: palworld-backup
+  namespace: palworld
+  labels:
+    app: palworld
+    component: backup
+spec:
+  schedule: "*/30 * * * *"
+  suspend: true
+  timeZone: UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 1800 # 30 min max per job
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: palworld-backup
+          containers:
+          - name: backup
+            image: alpine/k8s:1.36.2
+            command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              # ---- Pre-flight: install restic if not present ----
+              # bitnami/kubectl has no restic; download it once (cached in emptyDir)
+              RESTIC_VERSION="0.19.1"
+              RESTIC_BIN="/restic/bin/restic"
+              if [ ! -f "$RESTIC_BIN" ]; then
+                echo "Installing restic ${RESTIC_VERSION} (first run only)..."
+                curl -sL "https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_linux_amd64.bz2" \
+                  | bzip2 -dc > "$RESTIC_BIN"
+                chmod +x "$RESTIC_BIN"
+              fi
+
+              # ---- Configuration ----
+              NAMESPACE="palworld"
+              POD_LABEL="app=palworld"
+              CONTAINER_NAME="palworld"
+              SAVE_PATH="/palworld/Pal/Saved/SaveGames"
+              ENDPOINT="https://sfo3.digitaloceanspaces.com"
+              BUCKET="distracted-gibbon"
+
+              # ---- Step 1: Find the palworld pod ----
+              POD=$(kubectl get pods -n "$NAMESPACE" -l "$POD_LABEL" \
+                    -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+
+              DISCORD_TIME=$(echo "<t:$(date +%s):f>")
+              DISCORD_JSON_ERROR=$(cat <<ENDJSON
+                {
+                  "embeds": [{
+                    "title": "Palworld Backup \u2717",
+                    "color": 16711680,
+                    "fields": [
+                      {"name": "Status", "value": "ERROR", "inline": true},
+                      {"name": "Error", "value": "Palworld pod not found", "inline": false},
+                      {"name": "Time", "value": "${DISCORD_TIME}", "inline": true}
+                    ],
+                    "footer": {"text": "Palworld K8s Backup", "icon_url": "https://cdn2.steamgriddb.com/icon/9ce60c64ac4510df68537de96631261f/32/256x256.png"}
+                  }]
+                }
+              ENDJSON
+              )
+
+              if [ -z "$POD" ]; then
+                echo "ERROR: No palworld pod found in $NAMESPACE namespace"
+                if [ -n "${DISCORD_WEBHOOK_URL:-}" ]; then
+                  curl -sL --data "$DISCORD_JSON_ERROR" \
+                    --header="Content-Type: application/json" \
+                    "${DISCORD_WEBHOOK_URL}" || true
+                fi
+                exit 1
+              fi
+
+              echo "Found pod: $POD"
+
+              # ---- Step 2: Trigger a save via REST API ----
+              # Use rest-cli (built into the palworld container) to save the world
+              echo "Triggering save via REST API..."
+              kubectl exec "$POD" -n "$NAMESPACE" -c "$CONTAINER_NAME" \
+                -- rest-cli save >/dev/null 2>&1 || true
+
+              # Brief pause for the save to complete (autosave span is 30s by default)
+              echo "Waiting for save to complete..."
+              sleep 45
+
+              # ---- Step 3: Backup with restic (direct, no tarball) ----
+              export AWS_ACCESS_KEY_ID
+              export AWS_SECRET_ACCESS_KEY
+              export AWS_ENDPOINT_URL="$ENDPOINT"
+              export RESTIC_REPOSITORY="s3:${ENDPOINT}/${BUCKET}"
+              export RESTIC_PASSWORD
+
+              # Initialize repository on first run
+              "$RESTIC_BIN" init 2>/dev/null || true
+
+              echo "Backing up to DigitalOcean Spaces with restic..."
+              RESTIC_OUTPUT=$("$RESTIC_BIN" backup "$SAVE_PATH" \
+                --json \
+                --tag "palworld" \
+                --tag "backup-$(date +%Y%m%d-%H%M%S)" 2>&1)
+              RESTIC_EXIT=$?
+
+              # ---- Step 4: Compute delta vs previous snapshot ----
+              DELTA_STR="—"
+              if [ $RESTIC_EXIT -eq 0 ]; then
+                CURRENT_BYTES=$(echo "$RESTIC_OUTPUT" | \
+                  sed -n 's/.*"total_bytes_processed":[[:space:]]*\([0-9][0-9]*\).*/\1/p' | tail -1)
+                if [ -n "$CURRENT_BYTES" ]; then
+                  PREV_BYTES=$(echo "$RESTIC_OUTPUT" | \
+                    sed -n 's/.*"total_bytes_processed":[[:space:]]*\([0-9][0-9]*\).*/\1/p' | \
+                    tail -1)
+                  # Use snapshots to get the second-most recent total_bytes_processed
+                  PREV_BYTES=$(echo "$("$RESTIC_BIN" snapshots --json 2>/dev/null)" | \
+                    grep -o '"total_bytes_processed":[0-9]*' | \
+                    tail -2 | head -1 | cut -d: -f2)
+                  if [ -n "$PREV_BYTES" ] && [ "$PREV_BYTES" != "$CURRENT_BYTES" ]; then
+                    DELTA=$((CURRENT_BYTES - PREV_BYTES))
+                    if [ $DELTA -ge 0 ]; then
+                      DELTA_SIGN="+"
+                      DELTA_ABS=$DELTA
+                    else
+                      DELTA_SIGN="-"
+                      DELTA_ABS=$(( -DELTA ))
+                    fi
+                    if [ $DELTA_ABS -ge 1048576 ]; then
+                      DELTA_MB=$(echo "$DELTA_ABS" | awk '{printf "%.1f", $1/1048576}')
+                      DELTA_STR="${DELTA_SIGN}${DELTA_MB} MB"
+                    elif [ $DELTA_ABS -ge 1024 ]; then
+                      DELTA_KB=$(( DELTA_ABS / 1024 ))
+                      DELTA_STR="${DELTA_SIGN}${DELTA_KB} KB"
+                    else
+                      DELTA_STR="${DELTA_SIGN}${DELTA_ABS} bytes"
+                    fi
+                  fi
+                fi
+              fi
+
+              # ---- Step 5: Prune old backups ----
+              echo "Pruning old backups (keeping 30 days)..."
+              "$RESTIC_BIN" forget --keep-daily 30 --prune 2>/dev/null || true
+
+              # ---- Step 6: Discord notification ----
+              if [ $RESTIC_EXIT -eq 0 ]; then
+                DISCORD_STATUS="SUCCESS"
+                DISCORD_COLOR=5763713  # Green
+                DISCORD_TITLE="Palworld Backup \u2713"
+              else
+                DISCORD_STATUS="ERROR"
+                DISCORD_COLOR=16711680  # Red
+                DISCORD_TITLE="Palworld Backup \u2717"
+              fi
+
+              DISCORD_JSON_SUCCESS=$(cat <<ENDJSON
+                {
+                  "embeds": [{
+                    "title": "${DISCORD_TITLE}",
+                    "color": ${DISCORD_COLOR},
+                    "fields": [
+                      {"name": "Status", "value": "${DISCORD_STATUS}", "inline": true},
+                      {"name": "Time", "value": "${DISCORD_TIME}", "inline": true},
+                      {"name": "Delta", "value": "${DELTA_STR}", "inline": true},
+                      {"name": "Retained", "value": "30 days", "inline": true}
+                    ],
+                    "footer": {"text": "Palworld K8s Backup", "icon_url": "https://cdn2.steamgriddb.com/icon/9ce60c64ac4510df68537de96631261f/32/256x256.png"}
+                  }]
+                }
+              ENDJSON
+              )
+
+              if [ -n "${DISCORD_WEBHOOK_URL:-}" ]; then
+                echo "Sending Discord notification..."
+                curl -sL --data "$DISCORD_JSON_SUCCESS" \
+                  --header="Content-Type: application/json" \
+                  "${DISCORD_WEBHOOK_URL}" || true
+              fi
+
+              echo "Backup job completed (exit: $RESTIC_EXIT)"
+              exit $RESTIC_EXIT
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: palworld-backup-secrets
+                  key: s3-access-key
+                  optional: true
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: palworld-backup-secrets
+                  key: s3-secret-key
+                  optional: true
+            - name: RESTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: palworld-backup-secrets
+                  key: restic-password
+                  optional: true
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: palworld-backup-secrets
+                  key: discord-webhook-url
+                  optional: true
+            volumeMounts:
+            - name: restic
+              mountPath: /restic/bin
+            - name: savegames
+              mountPath: /palworld/Pal/Saved/SaveGames
+              readOnly: true
+            resources:
+              requests:
+                memory: 128Mi
+                cpu: 100m
+              limits:
+                memory: 1Gi
+                cpu: 500m
+          volumes:
+          - name: restic
+            emptyDir:
+              sizeLimit: 50Mi
+          - name: savegames
+            persistentVolumeClaim:
+              claimName: savegames
+---
+# ServiceAccount for the backup CronJob
+# Needs permissions to read pods and exec into them
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: palworld-backup
+  namespace: palworld
+  labels:
+    app: palworld
+    component: backup
+---
+# Role to allow reading pods and exec'ing into them
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: palworld
+  name: palworld-backup-role
+  labels:
+    app: palworld
+    component: backup
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+- apiGroups: [""]
+  resources: ["pods/log"]
+  verbs: ["get"]
+---
+# Bind the Role to the ServiceAccount
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: palworld
+  name: palworld-backup-binding
+  labels:
+    app: palworld
+    component: backup
+subjects:
+- kind: ServiceAccount
+  name: palworld-backup
+  namespace: palworld
+roleRef:
+  kind: Role
+  name: palworld-backup-role
+  apiGroup: rbac.authorization.k8s.io

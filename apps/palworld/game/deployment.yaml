@@ -1,21 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: palworld
+  namespace: palworld
+  labels:
+    app: palworld
+    version: v1
 spec:
-  serviceName: palworld
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: palworld
+      version: v1
   template:
     metadata:
       labels:
         app: palworld
+        version: v1
     spec:
       containers:
       - name: palworld
-        image: thijsvanloef/palworld-server-docker:latest
+        image: thijsvanloef/palworld-server-docker@sha256:401d3eb5c053bcd72949e1ede8c4e38be5e5ad66be7272ac37940706df0aeb2f
         envFrom:
         - configMapRef:
             name: palworld-config
@@ -50,6 +58,8 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /palworld
+        - name: savegames
+          mountPath: /palworld/Pal/Saved/SaveGames
         startupProbe:
           exec:
             command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
@@ -65,7 +75,11 @@ spec:
             command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
           initialDelaySeconds: 120
           periodSeconds: 20
+      terminationGracePeriodSeconds: 30
       volumes:
       - name: config
         persistentVolumeClaim:
           claimName: config
+      - name: savegames
+        persistentVolumeClaim:
+          claimName: savegames

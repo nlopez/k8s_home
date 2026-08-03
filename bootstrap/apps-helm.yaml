@@ -18,12 +18,12 @@ spec:
       - name: argocd
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '9.5.15'
+        targetRevision: '10.2.1'
         namespace: argocd
       - name: cert-manager
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.20.2
+        targetRevision: v1.21.0
         namespace: cert-manager
       - name: envoy-gateway
         repoURL: registry-1.docker.io
@@ -33,32 +33,32 @@ spec:
       - name: tailscale-operator
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: "1.98.3"
+        targetRevision: "1.98.9"
         namespace: tailscale
       - name: cilium
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.19.4"
+        targetRevision: "1.19.6"
         namespace: kube-system
       - name: metrics-server
         repoURL: https://kubernetes-sigs.github.io/metrics-server
         chart: metrics-server
-        targetRevision: "3.13.0"
+        targetRevision: "3.13.1"
         namespace: kube-system
       - name: reloader
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: "2.2.11"
+        targetRevision: "2.2.14"
         namespace: reloader
       - name: node-feature-discovery
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
         chart: node-feature-discovery
-        targetRevision: "0.18.3"
+        targetRevision: "0.19.0"
         namespace: node-feature-discovery
       - name: intel-device-plugins-gpu
         repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
-        targetRevision: "0.35.0"
+        targetRevision: "0.36.0"
         namespace: intel-device-plugins-gpu
       - name: external-dns
         repoURL: https://kubernetes-sigs.github.io/external-dns
@@ -73,15 +73,15 @@ spec:
       - name: cloudnative-pg
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: "0.28.2"
+        targetRevision: "0.29.0"
         namespace: cnpg-system
       - name: immich
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: '0.11.1'
+        targetRevision: '0.13.1'
         namespace: immich
       - name: spegel
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
-        targetRevision: "0.7.0"
+        targetRevision: "0.7.4"
         namespace: spegel
       - name: onepassword-connect
         repoURL: https://1password.github.io/connect-helm-charts
@@ -93,6 +93,16 @@ spec:
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-mtank
+      - name: democratic-csi-nas1-mtank-nfs
+        repoURL: https://democratic-csi.github.io/charts
+        chart: democratic-csi
+        targetRevision: "0.15.1"
+        namespace: democratic-csi-nas1-mtank
+      - name: velero
+        repoURL: https://vmware-tanzu.github.io/helm-charts
+        chart: velero
+        targetRevision: '12.1.0'
+        namespace: velero
   template:
     metadata:
       name: "{{.name}}"
@@ -100,7 +110,7 @@ spec:
       project: default
       syncPolicy:
         automated:
-          prune: false
+          prune: true
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
@@ -109,6 +119,9 @@ spec:
         namespace: "{{.namespace}}"
         server: https://kubernetes.default.svc
   templatePatch: |-
+    metadata:
+      annotations:
+        argocd.argoproj.io/sync-wave: '2'
     spec:
       sources:
       - repoURL: '{{.repoURL}}'

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,8 +21,8 @@ spec:
     spec:
       containers:
       - name: radarr
-        # IMAGE=ghcr.io/linuxserver/radarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -F 'version-6' |sort -V  | tail -n1
-        image: ghcr.io/linuxserver/radarr:version-6.1.1.10360
+        # IMAGE=ghcr.io/linuxserver/radarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -F 'version-6' | sort -V  | tail -n1 | tee >&2 | pbcopy
+        image: ghcr.io/linuxserver/radarr:version-6.2.1.10461
         env:
         - name: PUID
           value: "1001"

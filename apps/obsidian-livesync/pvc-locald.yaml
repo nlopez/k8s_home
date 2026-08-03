@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/persistentvolumeclaim-v1.json
+# PVC for CouchDB /opt/couchdb/etc/local.d
+# Mounted by both init container (to write config) and couchdb container (to read config + runtime writes)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: obsidian-livesync-locald
+  namespace: obsidian-livesync
+spec:
+  storageClassName: nas1-mtank-iscsi
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

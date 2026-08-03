@@ -1,9 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/tailscale.com/proxygroup_v1alpha1.json
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyGroup
 metadata:
   name: heimdall
 spec:
   type: ingress
+  proxyClass: heimdall-direct
   tags:
   - "tag:k8s"
   - "tag:home"

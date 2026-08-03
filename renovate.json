@@ -48,7 +48,9 @@
       "matchStrings": [
         "(?m)^\\s*image:\\s*(?<depName>[^:@\\s]+(?:/[^:@\\s]+)*)(?::(?<currentValue>[^@\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\\s*$"
       ],
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "regex:(?P<major>\\d+)(?:\\.(?P<minor>\\d+))?(?:\\.(?P<patch>\\d+))?([-.].*)?$",
+      "extractVersionTemplate": "^(?:version-v?|v)?(.*)$"
     }
   ],
   "packageRules": [

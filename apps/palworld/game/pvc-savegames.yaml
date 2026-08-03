@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/persistentvolumeclaim-v1.json
+# Dynamically provisioned via democratic-csi (freenas-api-nfs)
+# Dataset created on TrueNAS under mtank/k8s/vols/<pvc-uuid> (UUID assigned at provision time)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: savegames
+  namespace: palworld
+spec:
+  storageClassName: nas1-mtank-nfs
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
