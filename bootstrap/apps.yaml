@@ -16,8 +16,6 @@ spec:
       directories:
       - path: apps/*
       - path: apps/*/overlays/*
-      - path: apps/media-toolbox
-        exclude: true
   template:
     metadata:
       name: "{{ .path.basename }}"
