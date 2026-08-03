@@ -2,10 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: savegames
+  name: data
   namespace: palworld
 spec:
-  storageClassName: nas1-mtank-nfs
+  storageClassName: nas1-mtank-iscsi
   resources:
     requests:
-      storage: 1Gi
+      storage: 20Gi
+  accessModes:
+  - ReadWriteOnce
