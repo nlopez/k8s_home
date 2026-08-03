@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: toolbox-config
+data:
+  yt-dlp.conf: |-
+    --audio-multistreams
+    --video-multistreams
+    --format-sort "fps,res,vcodec:vp9"
+    --format "(bv*+ba[acodec=opus]+ba[acodec^=mp4a]/bv*+ba/b)[format_id!*=-drc][protocol=sabr]"
+    --merge-output-format mkv
+    --remux-video mkv
+    --proxy "socks5://warp.warp.svc.cluster.local:1080"
+    --extractor-args "youtubepot-bgutilhttp:base_url=http://ytpot.ytpot.svc.cluster.local"
+    --extractor-args "youtube:player_client=default"
+
+    --output "%(channel,uploader)s_[%(channel_id)s]/%(release_timestamp>%Y,timestamp>%Y)s/%(release_timestamp>%m,timestamp>%m)s/%(release_timestamp>%Y-%m-%d--%H-%M,timestamp>%Y-%m-%d--%H-%M)s_%(title)s_[%(id)s].%(ext)s"
+    --paths "temp:/yt-dlp-temp"
+    --paths /media/youtube/out
+    --restrict-filenames
+    --clean-info-json
+    --no-mtime
+
+    --cache-dir /media/youtube/cache
+    --no-part
+    --verbose
+
+    --sleep-subtitles 5
+    --sleep-requests 0.75
+    --sleep-interval 10
+    --max-sleep-interval 20
+
+    --alias audio      "-f ba --no-write-playlist-metafiles --extract-audio --write-thumbnail --convert-thumbnails 'webp>png' --write-info-json --embed-metadata --parse-metadata '%(release_timestamp>%Y%-m-%d,timestamp>%Y-%m-%d)s:%(meta_date)s' --parse-metadata ' ASMR: %(meta_genre)s' --parse-metadata '%(uploader)s:%(meta_artist)s' --parse-metadata '%(meta_artist)s:%(meta_album_artist)s' --parse-metadata '%(title)s:%(meta_album)s' --parse-metadata '%(webpage_url)s:%(meta_comment)s'"
+    --alias opus       "--format 'ba[acodec=opus][format_id!*=-drc]' --extract-audio --download-archive /media/youtube/cfg/download-archive/opus.txt"
+    --alias aac        "--format 'ba[acodec^=mp4a][format_id!*=-drc]' --extract-audio --download-archive /media/youtube/cfg/download-archive/aac.txt"
+
+    --alias autosubs   "--write-subs --write-auto-subs --sub-lang en --no-download --download-archive /media/youtube/cfg/download-archive/autosubs.txt"
+    --alias livechat   "--write-subs --sub-lang live_chat --no-download --ignore-no-formats-error --download-archive /media/youtube/cfg/download-archive/livechat.txt"
+
+    --alias comments   "--write-comments --write-info-json --no-download"
+    --alias thumbnail  "--write-thumbnail --convert-thumbnails 'webp>png' --no-download"
+
+    --alias metadata   "--write-thumbnail --convert-thumbnails 'webp>png' --write-info-json --embed-chapters --embed-metadata --embed-info-json --embed-thumbnail"
+    --alias video      "--metadata --write-subs --write-auto-subs --write-comments --download-archive /media/youtube/cfg/download-archive/default.txt"
+
+    --alias force      "--force-overwrites --no-download-archive"
