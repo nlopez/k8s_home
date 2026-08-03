@@ -28,7 +28,7 @@ metadata:
   labels:
     app: palworld-editor
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: palworld-editor
@@ -49,7 +49,7 @@ spec:
             cpu: "100m"
             memory: "64Mi"
         volumeMounts:
-        - name: config
+        - name: data
           mountPath: /palworld
         - name: savegames
           mountPath: /palworld/Pal/Saved/SaveGames
@@ -59,9 +59,9 @@ spec:
       securityContext:
         fsGroup: 1000
       volumes:
-      - name: config
+      - name: data
         persistentVolumeClaim:
-          claimName: config
+          claimName: data
       - name: savegames
         persistentVolumeClaim:
           claimName: savegames
