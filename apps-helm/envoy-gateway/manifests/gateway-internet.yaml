@@ -43,9 +43,3 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: palworld-game-udp
-    protocol: UDP
-    port: 8211
-    allowedRoutes:
-      namespaces:
-        from: All

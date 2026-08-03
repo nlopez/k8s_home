@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/ingress-networking-v1.json
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

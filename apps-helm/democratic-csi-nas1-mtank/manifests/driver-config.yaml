@@ -15,11 +15,6 @@
 #   zvolDedup: ""
 #   zvolEnableReservation: false
 #   zvolBlocksize: ""
-#   # Human-readable ZFS user properties — visible via `zfs get all <dataset>` and TrueNAS API.
-#   # Set at provision time; existing volumes are unaffected.
-#   datasetProperties:
-#     "org.democratic-csi:pvc-namespace": "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}"
-#     "org.democratic-csi:pvc-name": "{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
 # iscsi:
 #   targetPortal: "nas1.lga1.radoncanyon.com:3260"
 #   targetPortals: []
@@ -41,4 +36,4 @@ kind: OnePasswordItem
 metadata:
   name: democratic-csi-nas1-mtank-driver-config
 spec:
-  itemPath: "vaults/k8s_home/items/vqmbdak4ibx3lkp4zdw5q6js2i"
+  itemPath: "vaults/k8s_home/items/democratic-csi-nas1-mtank-driver-config"

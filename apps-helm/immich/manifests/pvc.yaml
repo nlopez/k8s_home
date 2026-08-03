@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/persistentvolume-v1.json
 # Immich library using shared NFS media volume
 # Points directly to /mnt/etank/media/immich on the NFS share
 apiVersion: v1

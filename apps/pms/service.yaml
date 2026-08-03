@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/service-v1.json
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,7 +7,6 @@ metadata:
     version: v1
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.43.64.1
   selector:
     app: pms
     version: v1

@@ -17,13 +17,14 @@ configuration:
       s3Url: https://sfo3.digitaloceanspaces.com
     accessMode: ReadWrite
   # Volume snapshot location (required by Velero for CSI snapshot tracking)
+  # Only region/profile/credentialsFile/enableSharedConfig are valid keys for
+  # the AWS volume snapshotter. s3ForcePathStyle and s3Url are for the backup
+  # storage plugin only — do not put them here.
   volumeSnapshotLocation:
   - name: default
     provider: aws
     config:
       region: sfo3
-      s3ForcePathStyle: true
-      s3Url: https://sfo3.digitaloceanspaces.com
   # Do not default to FSB; volumes use CSI snapshots where a labeled
   # VolumeSnapshotClass exists. FSB can still be opted in per-pod via
   # backup.velero.io/backup-volumes annotation if ever needed.

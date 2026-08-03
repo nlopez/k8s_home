@@ -1,15 +1,8 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/service-v1.json
 apiVersion: v1
 kind: Service
 metadata:
   name: palworld
-  namespace: palworld
-  annotations:
-    tailscale.com/proxy-group: heimdall
-    tailscale.com/hostname: brave-flamingo
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
   selector:
     app: palworld
   ports:

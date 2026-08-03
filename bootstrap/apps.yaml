@@ -25,7 +25,7 @@ spec:
       project: default
       syncPolicy:
         automated:
-          prune: true
+          prune: false
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
@@ -34,8 +34,6 @@ spec:
       - repoURL: "https://github.com/nlopez/k8s_home.git"
         targetRevision: unstable
         path: "{{.path.path}}"
-        directory:
-          recurse: true
       destination:
         namespace: "{{.path.basename}}"
         server: https://kubernetes.default.svc

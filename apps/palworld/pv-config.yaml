@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: config-jellyfin
+  name: palworld-config
 spec:
   capacity:
-    storage: 200Gi
+    storage: 20Gi
   accessModes:
   - ReadWriteOnce
   iscsi:
     targetPortal: 192.168.222.149
-    iqn: iqn.2014-09.com.radoncanyon:nas1:jellyfin
-    lun: 0
+    iqn: iqn.2014-09.com.radoncanyon:nas1:palworld
+    lun: 99
     fsType: ext4
   mountOptions:
   - noatime
@@ -20,10 +20,11 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: config
+  namespace: palworld
 spec:
-  volumeName: config-jellyfin
+  volumeName: palworld-config
   resources:
     requests:
-      storage: 200Gi
+      storage: 20Gi
   accessModes:
   - ReadWriteOnce

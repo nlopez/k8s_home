@@ -21,8 +21,8 @@ spec:
           claimName: config
       containers:
       - name: nzbhydra2
-        # IMAGE=ghcr.io/linuxserver/nzbhydra2; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1 | tee >&2 | pbcopy
-        image: ghcr.io/linuxserver/nzbhydra2:version-v8.9.0
+        # IMAGE=ghcr.io/linuxserver/nzbhydra2; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
+        image: ghcr.io/linuxserver/nzbhydra2:version-v8.8.0
         # image: alpine
         # command: [ "sleep" ]
         # args: [ "infinity" ]

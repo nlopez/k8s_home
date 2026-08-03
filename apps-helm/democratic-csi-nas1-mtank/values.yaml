@@ -7,8 +7,6 @@ driver:
 controller:
   externalSnapshotter:
     enabled: true
-# VolumeSnapshotClass is managed via standalone manifest in manifests/
-# (Helm chart v0.15.1 renders empty parameters as null, which K8s rejects)
 storageClasses:
 - name: nas1-mtank-iscsi
   defaultClass: false
