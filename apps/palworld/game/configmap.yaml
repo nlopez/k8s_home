@@ -86,4 +86,4 @@ data:
   PAL_STOMACH_DECREASE_RATE: "1.0"
   WORK_SPEED_RATE: "2.0"
   PAL_EGG_DEFAULT_HATCHING_TIME: "0" # hours (default: 1)
-  RESPAWN_BLOCK_TIME: "0" # seconds (default: 5)
+  RESPAWN_BLOCK_TIME: "1" # seconds (default: 5)
