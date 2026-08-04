@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: data
   namespace: palworld
+  labels:
+    velero.io/exclude-from-backup: "true"
 spec:
   storageClassName: nas1-mtank-iscsi
   resources:

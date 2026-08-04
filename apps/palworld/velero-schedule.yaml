@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/velero.io/schedule_v1.json
 # Consolidated Velero backup schedules for the palworld namespace
 #
-# savegames PVC: CSI/ZFS snapshot via democratic-csi NFS driver (snapshotVolumes: true)
-# config PVC: excluded (manifests only)
+# Only the `saved` PVC is backed up; the `data` PVC is excluded via
+# the velero.io/exclude-from-backup label (see game/pvc-data.yaml).
 #
 # Schedule:
 #   - 10min: Every 10 minutes, retains 1h (6 snapshots)
@@ -60,6 +60,8 @@ spec:
 # Hook (runs inside the palworld container via pod exec):
 #   pre — rest-cli save: flush game state to disk before the ZFS snapshot.
 #          onError:Fail so a failed save aborts the backup entirely.
+#
+# Only the `saved` PVC is backed up; `data` and `savegames` are excluded.
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
