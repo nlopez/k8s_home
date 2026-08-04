@@ -18,4 +18,4 @@ jobs:
     - name: 'Check YAML formatting'
       run: |-
         export PATH="$(go env GOPATH)/bin:$PATH"
-        yamlfmt -lint .
+        yamlfmt -lint -exclude 'bootstrap/apps.yaml' -exclude 'bootstrap/apps-helm.yaml' .

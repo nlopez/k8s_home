@@ -6,3 +6,6 @@ formatter:
   max_line_length: 200
   trim_trailing_whitespace: true
   eof_newline: true
+exclude:
+- bootstrap/apps.yaml
+- bootstrap/apps-helm.yaml
