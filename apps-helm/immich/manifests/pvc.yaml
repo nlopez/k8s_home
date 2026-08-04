@@ -46,7 +46,7 @@ spec:
   capacity:
     storage: 50Gi
   accessModes:
-  - ReadWriteMany
+  - ReadWriteOnce
   iscsi:
     targetPortal: 192.168.222.149
     iqn: iqn.2014-09.com.radoncanyon:nas1:immich-ml-cache
@@ -66,7 +66,7 @@ spec:
     requests:
       storage: 50Gi
   accessModes:
-  - ReadWriteMany
+  - ReadWriteOnce
 ---
 # iCloud media volume (read-only)
 # Points to /mnt/etank/media/icloud on the NFS share
