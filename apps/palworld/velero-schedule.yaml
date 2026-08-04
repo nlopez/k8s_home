@@ -30,6 +30,7 @@ spec:
     ttl: 1h
     includeClusterResources: false
     snapshotVolumes: true
+    snapshotMoveData: false
   paused: false
 ---
 # Hourly backup of the palworld namespace
@@ -48,6 +49,7 @@ spec:
     ttl: 24h
     includeClusterResources: false
     snapshotVolumes: true
+    snapshotMoveData: false
   paused: false
 ---
 # Daily backup of the palworld namespace

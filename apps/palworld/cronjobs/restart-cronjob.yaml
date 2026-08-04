@@ -119,8 +119,8 @@ spec:
             - name: DISCORD_WEBHOOK_URL
               valueFrom:
                 secretKeyRef:
-                  name: palworld-backup-secrets
-                  key: discord-webhook-url
+                  name: palworld-restart-secrets
+                  key: url
                   optional: true
             resources:
               requests:
