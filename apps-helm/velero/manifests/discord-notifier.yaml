@@ -148,13 +148,29 @@ spec:
                   return 0
                 fi
 
-                local color emoji
+                local color emoji uploaded
                 case "$phase" in
-                  Completed)       color=5763713;  emoji="✅" ;;
-                  PartiallyFailed) color=16776960; emoji="⚠️" ;;
-                  Failed)          color=16711680; emoji="❌" ;;
-                  *)               color=9807270;  emoji="ℹ️" ;;
+                  Completed)
+                    emoji="✅"
+                    # Orange if any warnings/errors, green if clean
+                    if [ "$warnings" -gt 0 ] 2>/dev/null || [ "$errors" -gt 0 ] 2>/dev/null; then
+                      color=16753920  # orange
+                      emoji="⚠️"
+                    else
+                      color=5763713   # green
+                      emoji="✅"
+                    fi
+                    uploaded="Yes"
+                    ;;
+                  PartiallyFailed) color=16776960; emoji="⚠️"; uploaded="Partial" ;;
+                  Failed)          color=16711680; emoji="❌"; uploaded="No"  ;;
+                  *)               color=9807270;  emoji="ℹ️"; uploaded="N/A" ;;
                 esac
+
+                # Format timestamps to Discord localized format <t:EPOCH:f>
+                local started_ts completed_ts
+                started_ts=$(fmt_ts "$started")
+                completed_ts=$(fmt_ts "$completed")
 
                 local payload
                 payload=$(jq -n \
@@ -165,21 +181,22 @@ spec:
                   --arg schedule  "$schedule" \
                   --arg warnings  "$warnings" \
                   --arg errors    "$errors" \
-                  --arg started   "$started" \
-                  --arg completed "$completed" \
-                  --arg emoji     "$emoji" \
+                  --arg started   "$started_ts" \
+                  --arg completed "$completed_ts" \
+                  --arg uploaded  "$uploaded" \
                   '{
                     embeds: [{
                       title: $title,
                       color: $color,
                       fields: [
-                        {name: "Name",         value: $name,         inline: false},
-                        {name: "Status",       value: $phase,        inline: false},
-                        {name: "Schedule",     value: $schedule,     inline: false},
-                        {name: "Started",      value: $started,      inline: false},
-                        {name: "Completed",    value: $completed,    inline: false},
-                        {name: "Warnings",     value: $warnings,     inline: true},
-                        {name: "Errors",       value: $errors,       inline: true}
+                        {name: "Name",          value: $name,         inline: false},
+                        {name: "Status",        value: $phase,        inline: false},
+                        {name: "Schedule",      value: $schedule,     inline: false},
+                        {name: "Started",       value: $started,      inline: false},
+                        {name: "Completed",     value: $completed,    inline: false},
+                        {name: "Data Uploaded", value: $uploaded,     inline: true},
+                        {name: "Warnings",      value: $warnings,    inline: true},
+                        {name: "Errors",        value: $errors,      inline: true}
                       ],
                       footer: {text: "Velero · k8s_home"}
                     }]
