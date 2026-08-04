@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
-# 1Password item: democratic-csi-nas1-mtank-nfs-driver-config
+# 1Password item: democratic-csi-nas1-mtank-nfs-driver-config (moved to Automation vault)
 # Contains NFS driver config (truenas-api-nfs) for democratic-csi
 # Shares API key with the iSCSI config (same nas1 TrueNAS)
 #
@@ -40,4 +40,4 @@ metadata:
   name: democratic-csi-nas1-mtank-nfs-driver-config
   namespace: democratic-csi-nas1-mtank
 spec:
-  itemPath: "vaults/k8s_home/items/efunggumslvxe4jzb3yclegqjq"
+  itemPath: "vaults/evjh25ux2mnoufaut6qhvm2pdi/items/3twa5m7g4ofrpfywcroiv6yvzu"
