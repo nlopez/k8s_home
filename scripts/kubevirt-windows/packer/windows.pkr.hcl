@@ -1,8 +1,8 @@
 packer {
   required_plugins {
-    virtualbox = {
-      source  = "github.com/hashicorp/virtualbox"
-      version = "~> 1"
+    qemu = {
+      source  = "github.com/hashicorp/qemu"
+      version = "~> 2"
     }
   }
 }
@@ -17,34 +17,33 @@ variable "iso_checksum" {
   default = "sha256:ca2154211cb277ade7139173f802b6098781faa2513a15bd51fee4b2246991ed"
 }
 
-source "virtualbox-iso" "windows" {
-  vm_name              = "palworld-windows"
-  communicator         = "winrm"
+source "qemu" "windows" {
+  iso_checksum         = var.iso_checksum
+  iso_url              = var.iso_path
+  disk_size            = "40G"
+  headless             = false
   floppy_files         = [
     "../files/Autounattend.xml",
     "../scripts/enable-winrm.ps1",
     "../scripts/shutdown.bat"
   ]
-  guest_os_type        = "Windows2022_64"
-  headless             = false
-  iso_checksum         = var.iso_checksum
-  iso_url              = var.iso_path
-  disk_size            = "40960"
-  shutdown_timeout     = "30m"
+  vm_name              = "palworld-windows"
   cpus                 = 4
   memory               = 8192
-  winrm_timeout        = "4h"
+  communicator         = "winrm"
   winrm_username       = "vagrant"
   winrm_password       = "vagrant"
+  winrm_timeout        = "4h"
   winrm_use_ssl        = false
   winrm_insecure       = true
-  keep_registered      = false
-  vboxmanage           = [
-    ["modifyvm", "{{ .Name }}", "--memory", "8192"],
-    ["modifyvm", "{{ .Name }}", "--vram", "48"],
-    ["modifyvm", "{{ .Name }}", "--cpus", "4"]
-  ]
+  shutdown_timeout     = "30m"
   shutdown_command     = "a:/shutdown.bat"
+  qemuimg_binary       = "qemu-img"
+  qemu_binary          = "qemu-system-x86_64"
+  netdev               = "user,hostfwd=tcp::2222-:22"
+  disk_interface       = "virtio"
+  firmware             = "bios"
+  machine_type         = "q35"
 }
 
 build {
