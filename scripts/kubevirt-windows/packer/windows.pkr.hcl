@@ -42,7 +42,7 @@ source "qemu" "windows" {
   disk_interface       = "virtio"
   firmware             = "bios"
   machine_type         = "q35"
-  display_type         = "cocoa"
+  qemuargs             = [["-display", "cocoa"]]
 }
 
 build {
