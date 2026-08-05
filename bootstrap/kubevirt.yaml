@@ -14,7 +14,6 @@ spec:
       elements:
       - name: kubevirt
         namespace: kubevirt
-        version: '1.7.0'
   template:
     metadata:
       name: '{{.name}}'
@@ -29,9 +28,9 @@ spec:
         - CreateNamespace=true
         - ServerSideApply=true
       sources:
-      - repoURL: 'https://github.com/kubevirt/kubevirt.git'
-        targetRevision: 'v{{.version}}'
-        path: '.'
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: unstable
+        path: bootstrap/kubevirt-manifests
       destination:
         namespace: '{{.namespace}}'
         server: https://kubernetes.default.svc
