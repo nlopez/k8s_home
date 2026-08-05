@@ -23,32 +23,9 @@ spec:
       project: default
       syncPolicy:
         automated:
-{{- $syncFile := file (printf "%s/sync.yaml" .path.path) | default "" }}
-{{- if and $syncFile (ne $syncFile "") }}
-{{- $sync := fromYaml $syncFile }}
-          enabled: {{ default true (index $sync "enabled") }}
-          prune: {{ default false (index $sync "prune") }}
-          selfHeal: {{ default false (index $sync "selfHeal") }}
-{{- else }}
-{{- if gt (len .path.segments) 2 }}
-{{- $appDir := printf "apps/%s" (index .path.segments 1) }}
-{{- $parentSync := file (printf "%s/sync.yaml" $appDir) | default "" }}
-{{- if and $parentSync (ne $parentSync "") }}
-{{- $sync := fromYaml $parentSync }}
-          enabled: {{ default true (index $sync "enabled") }}
-          prune: {{ default false (index $sync "prune") }}
-          selfHeal: {{ default false (index $sync "selfHeal") }}
-{{- else }}
           enabled: true
           prune: false
           selfHeal: false
-{{- end }}
-{{- else }}
-          enabled: true
-          prune: false
-          selfHeal: false
-{{- end }}
-{{- end }}
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
@@ -73,3 +50,25 @@ spec:
     spec:
       destination:
         namespace: '{{ $patchedNamespace }}'
+      {{- $syncFile := file (printf "%s/sync.yaml" .path.path) | default "" }}
+      {{- if and $syncFile (ne $syncFile "") }}
+      {{- $sync := fromYaml $syncFile }}
+      syncPolicy:
+        automated:
+          enabled: {{ default true (index $sync "enabled") }}
+          prune: {{ default false (index $sync "prune") }}
+          selfHeal: {{ default false (index $sync "selfHeal") }}
+      {{- else }}
+      {{- if gt (len .path.segments) 2 }}
+      {{- $appDir := printf "apps/%s" (index .path.segments 1) }}
+      {{- $parentSync := file (printf "%s/sync.yaml" $appDir) | default "" }}
+      {{- if and $parentSync (ne $parentSync "") }}
+      {{- $sync := fromYaml $parentSync }}
+      syncPolicy:
+        automated:
+          enabled: {{ default true (index $sync "enabled") }}
+          prune: {{ default false (index $sync "prune") }}
+          selfHeal: {{ default false (index $sync "selfHeal") }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
