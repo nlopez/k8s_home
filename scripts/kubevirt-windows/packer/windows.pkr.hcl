@@ -38,12 +38,11 @@ source "qemu" "windows" {
   winrm_insecure       = true
   shutdown_timeout     = "30m"
   shutdown_command     = "a:/shutdown.bat"
-  qemuimg_binary       = "qemu-img"
   qemu_binary          = "qemu-system-x86_64"
-  netdev               = "user,hostfwd=tcp::2222-:22"
   disk_interface       = "virtio"
   firmware             = "bios"
   machine_type         = "q35"
+  net_port_forward     = ["user,hostfwd=tcp::2222-:22"]
 }
 
 build {
