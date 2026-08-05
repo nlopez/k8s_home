@@ -98,7 +98,6 @@ spec:
             name: saved-disk
           - cdrom:
               bus: sata
-              name: cdrom0
           interfaces:
           - masquerade: {}
             name: default
@@ -124,7 +123,6 @@ spec:
             ipi: {}
             reenlightenment: {}
           smm: {}
-          s4: {}
         firmware:
           bootloader:
             efi:
@@ -155,7 +153,4 @@ spec:
       - name: virtio-disk
         containerDisk:
           image: kubevirt/virtio-container-disk:latest
-      - name: cdrom-disk
-        cdrom:
-          bus: sata
-          readonly: true
+
