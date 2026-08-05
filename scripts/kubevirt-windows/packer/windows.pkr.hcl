@@ -42,7 +42,6 @@ source "qemu" "windows" {
   disk_interface       = "virtio"
   firmware             = "bios"
   machine_type         = "q35"
-  headless             = false
   display_type         = "cocoa"
 }
 
