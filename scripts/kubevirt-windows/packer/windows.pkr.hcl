@@ -23,7 +23,7 @@ source "qemu" "windows" {
   disk_size            = "40G"
   headless             = false
   floppy_files         = [
-    "../files/Autounattend.xml",
+    "../files/autounattend.xml",
     "../scripts/enable-winrm.ps1",
     "../scripts/shutdown.bat"
   ]
@@ -37,7 +37,7 @@ source "qemu" "windows" {
   winrm_use_ssl        = false
   winrm_insecure       = true
   shutdown_timeout     = "30m"
-  shutdown_command     = "a:/shutdown.bat"
+  shutdown_command     = "shutdown /s /t 10"
   qemu_binary          = "qemu-system-x86_64"
   disk_interface       = "virtio"
   machine_type         = "q35"
