@@ -88,8 +88,12 @@ build_image() {
     rm -rf "$OUTPUT_DIR" 2>/dev/null || true
     mkdir -p "$OUTPUT_DIR"
     
-    # Run Packer
+    # Initialize Packer plugins
     cd "$PACKER_DIR"
+    log "Initializing Packer plugins..."
+    packer init .
+    
+    # Run Packer
     packer build windows.pkr.hcl
     
     # Find the output VMDK
