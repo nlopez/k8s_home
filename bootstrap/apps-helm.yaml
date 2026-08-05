@@ -103,7 +103,16 @@ spec:
         chart: velero
         targetRevision: '12.1.0'
         namespace: velero
-
+      - name: kubevirt
+        repoURL: https://encircle360-oss.github.io/helm-charts
+        chart: kubevirt
+        targetRevision: '1.7.0'
+        namespace: kubevirt
+      - name: cdi
+        repoURL: https://encircle360-oss.github.io/helm-charts
+        chart: cdi
+        targetRevision: '0.1.1'
+        namespace: cdi
   template:
     metadata:
       name: "{{.name}}"
