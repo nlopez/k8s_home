@@ -67,7 +67,6 @@
         <Organization>Vagrant</Organization>
         <ProductKey>
           <Key>N69G4-B89J2-4G8F4-WWYCC-J464C</Key>
-          <WillShowUI>OnError</WillShowUI>
         </ProductKey>
       </UserData>
     </component>
@@ -82,12 +81,12 @@
       <OEMName>KubeVirt Windows VM</OEMName>
     </component>
     <component name="Microsoft-Windows-TerminalServices-LocalSessionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      fDenyTSConnections>false
+      <fDenyTSConnections>false</fDenyTSConnections>
     </component>
     <component name="Microsoft-Windows-TerminalServices-RDP-WinStationExtensions" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      fAllowSecProtocolNegotiation>false
-      fAllowTSConnections>1
-      SecurityLayer>1
+      <fAllowSecProtocolNegotiation>false</fAllowSecProtocolNegotiation>
+      <fAllowTSConnections>1</fAllowTSConnections>
+      <SecurityLayer>1</SecurityLayer>
     </component>
     <component name="Microsoft-Windows-UnattendedJoin" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <Identification>
@@ -129,6 +128,8 @@
         <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
         <NetworkLocation>Work</NetworkLocation>
         <ProtectYourPC>3</ProtectYourPC>
+        <SkipMachineOOBE>true</SkipMachineOOBE>
+        <SkipUserOOBE>true</SkipUserOOBE>
       </OOBE>
       <UserAccounts>
         <LocalAccounts>
