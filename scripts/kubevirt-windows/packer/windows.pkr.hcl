@@ -47,7 +47,7 @@ source "qemu" "windows" {
 }
 
 build {
-  sources = ["source.virtualbox-iso.windows"]
+  sources = ["source.qemu.windows"]
 
   provisioner "powershell" {
     elevated_password = "vagrant"
