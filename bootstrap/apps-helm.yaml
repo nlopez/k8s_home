@@ -103,16 +103,7 @@ spec:
         chart: velero
         targetRevision: '12.1.0'
         namespace: velero
-      - name: kubevirt
-        repoURL: https://kubevirt.github.io/kubevirt
-        chart: kubevirt
-        targetRevision: '1.6.1'
-        namespace: kubevirt
-      - name: cdi
-        repoURL: https://kubevirt.github.io/kubevirt
-        chart: cdi
-        targetRevision: '1.6.1'
-        namespace: cdi
+
   template:
     metadata:
       name: "{{.name}}"
