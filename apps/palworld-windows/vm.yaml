@@ -96,8 +96,6 @@ spec:
           - disk:
               bus: virtio
             name: saved-disk
-          - cdrom:
-              bus: sata
           interfaces:
           - masquerade: {}
             name: default
