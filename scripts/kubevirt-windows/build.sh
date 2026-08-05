@@ -6,13 +6,13 @@ set -euo pipefail
 # 
 # Prerequisites:
 #   - Packer (packer.io)
-#   - VirtualBox (virtualbox.org)
-#   - qemu-img (part of qemu)
+#   - VMware Fusion Pro (vmware.com/fusion)
+#   - qemu-img (part of qemu) — for QCOW2 conversion
 #   - kubectl + CDI operator installed
 #   - Windows Server 2022 ISO
 #
 # Usage:
-#   ./build.sh [--iso /path/to/windows.iso] [--version 1.7.0]
+#   ./build.sh [--iso /path/to/windows.iso]
 # ============================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -35,12 +35,10 @@ err() { echo -e "${RED}✗${NC} $*" >&2; }
 
 # Parse arguments
 ISO_PATH=""
-KUBEVIRT_VERSION="1.7.0"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         --iso) ISO_PATH="$2"; shift 2;;
-        --version) KUBEVIRT_VERSION="$2"; shift 2;;
         *) err "Unknown option: $1"; exit 1;;
     esac
 done
@@ -49,7 +47,7 @@ done
 check_prereqs() {
     local missing=0
     
-    for cmd in packer qemu-img kubectl VBoxManage; do
+    for cmd in packer qemu-img kubectl vmware-vmx; do
         if ! command -v "$cmd" &>/dev/null; then
             err "$cmd is not installed"
             missing=1
@@ -82,12 +80,12 @@ check_prereqs() {
 
 # Build image with Packer
 build_image() {
-    log "Building Windows image with Packer..."
+    log "Building Windows image with Packer (VMware)..."
     log "This will take 20-40 minutes depending on your machine."
     echo ""
     
     # Clean previous builds
-    rm -rf "$PACKER_DIR/output-windows" 2>/dev/null || true
+    rm -rf "$PACKER_DIR/output-vmware" 2>/dev/null || true
     rm -rf "$OUTPUT_DIR" 2>/dev/null || true
     mkdir -p "$OUTPUT_DIR"
     
@@ -101,18 +99,18 @@ build_image() {
     
     # Find the output VMDK
     local vmdk=""
-    if [[ -f "output-windows/win2022-disk001.vmdk" ]]; then
-        vmdk="output-windows/win2022-disk001.vmdk"
-    elif ls output-windows/*.vmdk &>/dev/null; then
-        vmdk=$(ls output-windows/*.vmdk | head -1)
+    if [[ -f "output-vmware/palworld-windows.vmdk" ]]; then
+        vmdk="output-vmware/palworld-windows.vmdk"
+    elif ls output-vmware/*.vmdk &>/dev/null; then
+        vmdk=$(ls output-vmware/*.vmdk | head -1)
     else
-        err "No VMDK output found in output-windows/"
+        err "No VMDK output found in output-vmware/"
         exit 1
     fi
     
     ok "Packer build complete: $vmdk"
     
-    # Convert to QCOW2
+    # Convert to QCOW2 for KubeVirt
     log "Converting VMDK to QCOW2..."
     qemu-img convert -f vmdk -O qcow2 "$vmdk" "$QCOW2_FILE"
     
@@ -160,45 +158,16 @@ spec:
 EOF
     ok "PVC created"
     
-    # Create DataVolume from local file
-    log "Creating DataVolume from local file..."
-    log "This may take 5-15 minutes for a 40GB image."
-    
-    # Upload using kubectl cdi-uploadproxy or direct PVC population
-    # Method 1: Use virtctl upload (requires uploadproxy)
+    # Upload using virtctl
     if command -v virtctl &>/dev/null; then
         log "Using virtctl to upload image..."
         virtctl upload disk --image="$QCOW2_FILE" --pvc=palworld-os-disk \
             --namespace=palworld-windows --size=40Gi --wait-secs=600
         ok "Image uploaded via virtctl"
     else
-        # Method 2: Create DataVolume with HTTP source (requires local web server)
-        warn "virtctl not found. Using DataVolume with local file upload."
-        warn "Start a local web server in another terminal:"
-        warn "  python3 -m http.server 8080 --directory $(dirname "$QCOW2_FILE")"
-        warn ""
-        warn "Then run: ./upload-http.sh"
-        
-        # Create DataVolume manifest
-        cat > "$OUTPUT_DIR/datavolume.yaml" <<EOF
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: palworld-os-disk
-  namespace: palworld-windows
-spec:
-  storage:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 40Gi
-  source:
-    pvc:
-      name: palworld-os-disk
-      namespace: palworld-windows
-EOF
-        ok "DataVolume manifest created: $OUTPUT_DIR/datavolume.yaml"
+        warn "virtctl not found. Cannot upload image."
+        warn "Install virtctl from: https://github.com/kubevirt/kubevirt/releases"
+        exit 1
     fi
 }
 

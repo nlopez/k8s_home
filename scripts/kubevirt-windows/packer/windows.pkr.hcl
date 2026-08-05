@@ -1,7 +1,7 @@
 packer {
   required_plugins {
-    qemu = {
-      source  = "github.com/hashicorp/qemu"
+    vmware = {
+      source  = "github.com/vmware/packer-plugin-vmware"
       version = "~> 1.1"
     }
   }
@@ -17,10 +17,11 @@ variable "iso_checksum" {
   default = "sha256:ca2154211cb277ade7139173f802b6098781faa2513a15bd51fee4b2246991ed"
 }
 
-source "qemu" "windows" {
+source "vmware-iso" "windows" {
   iso_checksum         = var.iso_checksum
   iso_url              = var.iso_path
-  disk_size            = "40G"
+  disk_size            = "40960"
+  guest_os_type        = "windows2022-64"
   headless             = false
   floppy_files         = [
     "../files/autounattend.xml",
@@ -38,14 +39,14 @@ source "qemu" "windows" {
   winrm_insecure       = true
   shutdown_timeout     = "30m"
   shutdown_command     = "shutdown /s /t 10"
-  qemu_binary          = "qemu-system-x86_64"
-  disk_interface       = "virtio"
-  machine_type         = "q35"
-  qemuargs             = [["-display", "cocoa"]]
+  # Apple Silicon requirements
+  cd_adapter           = "sata"
+  disk_adapter_type  = "sata"
+  network_adapter      = "e1000e"
 }
 
 build {
-  sources = ["source.qemu.windows"]
+  sources = ["source.vmware-iso.windows"]
 
   provisioner "powershell" {
     elevated_password = "vagrant"
