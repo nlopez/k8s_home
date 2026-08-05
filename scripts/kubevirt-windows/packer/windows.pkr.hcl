@@ -33,7 +33,6 @@ source "virtualbox-iso" "windows" {
   shutdown_timeout     = "30m"
   cpus                 = 4
   memory               = 8192
-  vram                 = 48
   winrm_timeout        = "4h"
   winrm_username       = "vagrant"
   winrm_password       = "vagrant"
