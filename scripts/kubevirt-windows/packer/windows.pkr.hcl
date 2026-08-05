@@ -42,7 +42,6 @@ source "qemu" "windows" {
   disk_interface       = "virtio"
   firmware             = "bios"
   machine_type         = "q35"
-  net_port_forward     = ["user,hostfwd=tcp::2222-:22"]
 }
 
 build {
