@@ -65,6 +65,10 @@
         <AcceptEula>true</AcceptEula>
         <FullName>Vagrant</FullName>
         <Organization>Vagrant</Organization>
+        <ProductKey>
+          <Key>N69G4-B89J2-4G8F4-WWYCC-J464C</Key>
+          <WillShowUI>OnError</WillShowUI>
+        </ProductKey>
       </UserData>
     </component>
   </settings>
