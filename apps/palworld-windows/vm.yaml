@@ -98,13 +98,12 @@ spec:
             name: saved-disk
           - cdrom:
               bus: sata
-              name: virtio-disk
+              name: cdrom0
           interfaces:
           - masquerade: {}
             name: default
           autoattachPodInterface: true
           autoattachMemBalloon: true
-          autoattachGraphicsConsole: true
           autoattachSerialConsole: false
         features:
           acpi: {}
@@ -125,7 +124,6 @@ spec:
             ipi: {}
             reenlightenment: {}
           smm: {}
-          s3: {}
           s4: {}
         firmware:
           bootloader:
@@ -157,3 +155,7 @@ spec:
       - name: virtio-disk
         containerDisk:
           image: kubevirt/virtio-container-disk:latest
+      - name: cdrom-disk
+        cdrom:
+          bus: sata
+          readonly: true
