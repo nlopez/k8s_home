@@ -1,0 +1,14 @@
+# OS disk for Windows Server 2022
+# iSCSI-backed for performance
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: os-disk
+  namespace: palworld-windows
+spec:
+  storageClassName: nas1-mtank-iscsi
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 80Gi

@@ -1,0 +1,21 @@
+# CDI (Containerized Data Importer) Helm values
+# Handles ISO and disk image uploads for Kubevirt VMs
+cloneStrategy: ""
+config:
+  upload:
+    enabled: true
+httpIndirectDownload:
+  enabled: true
+infra:
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+imageBuilder:
+  serviceType: ClusterIP
+operator:
+  logsLevel: "info"
+storage:
+  defaultArchiveImage: ""
+  defaultImage: ""
+  defaultStorageClass: "nas1-mtank-iscsi"
+  defaultVolumeFormat: ""

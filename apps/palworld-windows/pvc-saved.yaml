@@ -1,0 +1,16 @@
+# Save data for Palworld
+# NFS-backed, 1 GiB (matches existing container Palworld pattern)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: saved
+  namespace: palworld-windows
+  labels:
+    velero.io/exclude-from-backup: "true"
+spec:
+  storageClassName: nas1-mtank-nfs
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

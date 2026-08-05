@@ -1,0 +1,38 @@
+# NodePort service for Palworld game ports
+#
+# Exposes the VM's game ports on every node:
+#   8211/UDP (game), 27015/UDP (query), 8212/TCP (REST API)
+#
+# Access: <node-ip>:<nodePort>
+#
+# Note: Kubevirt VM pods use the pod network. This service
+# selects VM pods by label and forwards to the correct ports.
+# The VM itself must listen on the same ports.
+apiVersion: v1
+kind: Service
+metadata:
+  name: palworld
+  namespace: palworld-windows
+  labels:
+    app: palworld
+spec:
+  type: NodePort
+  selector:
+    kubevirt.io/managed: "true"
+    app: palworld
+  ports:
+  - name: game
+    port: 8211
+    targetPort: 8211
+    nodePort: 30211
+    protocol: UDP
+  - name: query
+    port: 27015
+    targetPort: 27015
+    nodePort: 30015
+    protocol: UDP
+  - name: rest-api
+    port: 8212
+    targetPort: 8212
+    nodePort: 30212
+    protocol: TCP

@@ -1,0 +1,32 @@
+# NOTE: cloud-init NoCloud does NOT work with Windows.
+# Cloudbase-Init (Windows equivalent) only supports network datasource.
+#
+# For Windows VMs in Kubevirt, use one of these approaches:
+#   1. Manual setup via RDP (simplest)
+#   2. Sysprep with autounattend.xml (automated, complex)
+#
+# This file is kept as a reference for manual setup steps.
+#
+# Manual setup steps (via RDP after Windows install):
+#
+#   1. Install SteamCMD:
+#      - Download from: https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip
+#      - Extract to C:\SteamCMD
+#
+#   2. Download Palworld Dedicated Server:
+#      C:\SteamCMD\steamcmd.exe +login anonymous +force_install_dir "C:\PalworldServer" +app_update 2394370 validate +quit
+#
+#   3. Create StartServer.bat in C:\PalworldServer\:
+#      @echo off
+#      cd /d C:\PalworldServer
+#      PalServer.exe -port=8211 -players=32 -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS
+#
+#   4. Create Windows Service:
+#      sc create "Palworld" binPath= "\"C:\PalworldServer\PalServer.exe\" -port=8211 -players=32 -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS" start= auto
+#
+#   5. Configure firewall:
+#      netsh advfirewall firewall add rule name="Palworld-Game" dir=in action=allow protocol=UDP localport=8211,27015
+#      netsh advfirewall firewall add rule name="Palworld-REST" dir=in action=allow protocol=TCP localport=8212
+#
+#   6. Start the service:
+#      net start Palworld

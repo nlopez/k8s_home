@@ -1,0 +1,159 @@
+# Windows Server 2022 VirtualMachine for Palworld Dedicated Server
+#
+# Initial setup requires manual Windows installation:
+#   1. Upload Windows Server 2022 ISO:
+#      virtctl image-upload pvc windows-iso-pvc --size 6Gi \
+#        --image-path=/path/to/en-us_windows_server_2022.iso \
+#        --insecure -n palworld-windows
+#   2. Start VM and install Windows via VNC:
+#      virtctl start palworld -n palworld-windows
+#      virtctl vnc palworld -n palworld-windows
+#   3. After install, stop VM:
+#      virtctl stop palworld -n palworld-windows
+#
+# Post-install setup (via RDP):
+#   - Install SteamCMD
+#   - Download Palworld Dedicated Server (app_update 2394370)
+#   - Create StartServer.bat with correct args
+#   - Create Windows Service for auto-start
+#   - Configure firewall rules
+#
+# Ports exposed via NodePort:
+#   8211/UDP (game), 27015/UDP (query), 8212/TCP (REST API)
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: palworld
+  namespace: palworld-windows
+  labels:
+    app: palworld
+    kubevirt.io/domain: palworld
+    kubevirt.io/size: medium
+    os.template.kubevirt.io/windows2022: "true"
+    vm.kubevirt.io/os: windows
+    vm.kubevirt.io/workload: server
+  annotations:
+    vm.kubevirt.io/validations: |
+      [
+        {
+          "name": "minimal-required-memory",
+          "path": "jsonpath::.spec.domain.resources.requests.memory",
+          "rule": "integer",
+          "message": "This VM requires more memory.",
+          "min": 16106127360
+        },
+        {
+          "name": "windows-disk-bus",
+          "path": "jsonpath::.spec.domain.devices.disks[*].disk.bus",
+          "valid": "jsonpath::.spec.domain.devices.disks[*].disk.bus",
+          "rule": "enum",
+          "message": "disk bus has to be either virtio or sata or scsi",
+          "values": ["virtio", "sata", "scsi"]
+        },
+        {
+          "name": "windows-cd-bus",
+          "path": "jsonpath::.spec.domain.devices.disks[*].cdrom.bus",
+          "valid": "jsonpath::.spec.domain.devices.disks[*].cdrom.bus",
+          "rule": "enum",
+          "message": "cd bus has to be sata",
+          "values": ["sata"]
+        }
+      ]
+spec:
+  runStrategy: Halted
+  template:
+    metadata:
+      labels:
+        app: palworld
+        kubevirt.io/domain: palworld
+        kubevirt.io/size: medium
+        kubevirt.io/os: windows
+        kubevirt.io/workload: server
+    spec:
+      domain:
+        clock:
+          utc: {}
+          timer:
+            hpet:
+              present: false
+            hyperv: {}
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+        cpu:
+          cores: 4
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: os-disk
+          - disk:
+              bus: virtio
+            name: gamedata-disk
+          - disk:
+              bus: virtio
+            name: saved-disk
+          - cdrom:
+              bus: sata
+              name: virtio-disk
+          interfaces:
+          - masquerade: {}
+            name: default
+          autoattachPodInterface: true
+          autoattachMemBalloon: true
+          autoattachGraphicsConsole: true
+          autoattachSerialConsole: false
+        features:
+          acpi: {}
+          apic: {}
+          hyperv:
+            relaxed: {}
+            spinlocks:
+              spinlocks: 8191
+            vapic: {}
+            synic: {}
+            synictimer:
+              direct: {}
+            vpindex: {}
+            runtime: {}
+            tlbflush: {}
+            frequencies: {}
+            reset: {}
+            ipi: {}
+            reenlightenment: {}
+          smm: {}
+          s3: {}
+          s4: {}
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+        machine:
+          type: q35
+        resources:
+          requests:
+            memory: 16Gi
+          limits:
+            memory: 16Gi
+      evictionStrategy: LiveMigrate
+      hostname: palworld-server
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 300
+      volumes:
+      - name: os-disk
+        persistentVolumeClaim:
+          claimName: os-disk
+      - name: gamedata-disk
+        persistentVolumeClaim:
+          claimName: gamedata-disk
+      - name: saved-disk
+        persistentVolumeClaim:
+          claimName: saved
+      - name: virtio-disk
+        containerDisk:
+          image: kubevirt/virtio-container-disk:latest

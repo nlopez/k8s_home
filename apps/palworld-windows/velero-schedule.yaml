@@ -1,0 +1,96 @@
+# Consolidated Velero backup schedules for the palworld-windows namespace
+#
+# Only the `saved` PVC is backed up; other PVCs are excluded.
+#
+# Schedule:
+#   - 10min: Every 10 minutes, retains 1h (6 snapshots)
+#   - hourly: Every hour, retains 24h (24 snapshots)
+#   - daily: Daily at 11:15 UTC (6:15 AM EST), retains 30 days (720h)
+#
+# Hook (daily only, runs inside the VM pod via pod exec):
+#   pre — REST API save: flush game state to disk before the ZFS snapshot.
+#          onError:Fail so a failed save aborts the backup entirely.
+#
+# Server restart is handled separately by apps/palworld-windows/cronjob-restart.yaml.
+# Every 10-minute backup of the palworld-windows namespace
+# Retains the last 6 backups (1h)
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: palworld-windows-10min
+  namespace: velero
+spec:
+  schedule: "*/10 * * * *"
+  template:
+    includedNamespaces:
+    - palworld-windows
+    storageLocation: default
+    ttl: 1h
+    includeClusterResources: false
+    snapshotVolumes: true
+    snapshotMoveData: false
+  paused: false
+---
+# Hourly backup of the palworld-windows namespace
+# Retains the last 24 hourly backups
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: palworld-windows-hourly
+  namespace: velero
+spec:
+  schedule: "0 * * * *"
+  template:
+    includedNamespaces:
+    - palworld-windows
+    storageLocation: default
+    ttl: 24h
+    includeClusterResources: false
+    snapshotVolumes: true
+    snapshotMoveData: false
+  paused: false
+---
+# Daily backup of the palworld-windows namespace
+# Retains the last 30 daily backups (720h TTL)
+# ZFS snapshot via democratic-csi NFS driver, moved to S3 (DO Spaces)
+#
+# Fires at 6:15 AM EST (11:15 UTC). Velero Schedule has no timeZone field,
+# so this drifts to 7:15 AM EDT during summer — accepted for a home cluster.
+#
+# Hook (runs inside the palworld Windows VM pod via pod exec):
+#   pre — PowerShell save: flush game state to disk before the ZFS snapshot.
+#          onError:Fail so a failed save aborts the backup entirely.
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: palworld-windows-daily
+  namespace: velero
+spec:
+  schedule: "15 11 * * *"
+  template:
+    includedNamespaces:
+    - palworld-windows
+    storageLocation: default
+    ttl: 720h
+    includeClusterResources: true
+    snapshotVolumes: true
+    snapshotMoveData: true
+    hooks:
+      resources:
+      - name: palworld-windows-save
+        includedNamespaces:
+        - palworld-windows
+        labelSelector:
+          matchLabels:
+            kubevirt.io/vm: palworld
+        pre:
+        - exec:
+            container: containerdisk
+            command:
+            - powershell.exe
+            - -Command
+            - |
+              Invoke-WebRequest -Uri "http://localhost:8212/save" -Method POST -TimeoutSec 30
+            onError: Fail
+            timeout: 60s
+  paused: false
