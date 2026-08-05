@@ -66,6 +66,9 @@ check_prereqs() {
         ISO_PATH="$HOME/Downloads/en-us_windows_server_2022.iso"
     fi
     
+    # Expand ~ to full path
+    ISO_PATH="${ISO_PATH/#\~/$HOME}"
+    
     if [[ ! -f "$ISO_PATH" ]]; then
         err "Windows ISO not found: $ISO_PATH"
         echo "  Download from: https://www.microsoft.com/en-gb/evalcenter/download-windows-server-2022"
