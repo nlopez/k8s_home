@@ -40,7 +40,6 @@ source "qemu" "windows" {
   shutdown_command     = "a:/shutdown.bat"
   qemu_binary          = "qemu-system-x86_64"
   disk_interface       = "virtio"
-  firmware             = "bios"
   machine_type         = "q35"
   qemuargs             = [["-display", "cocoa"]]
 }
