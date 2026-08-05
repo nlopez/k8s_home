@@ -1,8 +1,8 @@
 packer {
   required_plugins {
     vmware = {
-      source  = "github.com/vmware/packer-plugin-vmware"
-      version = "~> 1.1"
+      source  = "github.com/vmware/vmware"
+      version = "~> 2"
     }
   }
 }
@@ -22,7 +22,7 @@ source "vmware-iso" "windows" {
   iso_url              = var.iso_path
   disk_size            = "40960"
   guest_os_type        = "windows2022-64"
-  headless             = false
+  headless             = true
   floppy_files         = [
     "../files/autounattend.xml",
     "../scripts/enable-winrm.ps1",
@@ -40,9 +40,9 @@ source "vmware-iso" "windows" {
   shutdown_timeout     = "30m"
   shutdown_command     = "shutdown /s /t 10"
   # Apple Silicon requirements
-  cd_adapter           = "sata"
-  disk_adapter_type  = "sata"
-  network_adapter      = "e1000e"
+  cdrom_adapter_type   = "sata"
+  disk_adapter_type    = "sata"
+  network_adapter_type = "e1000e"
 }
 
 build {

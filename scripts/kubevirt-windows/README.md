@@ -10,10 +10,11 @@ Build and manage Windows Server 2022 VM images for KubeVirt, pre-configured for 
   - SteamCMD (for Palworld server)
   - OpenSSH Server (for SSH access)
   - PowerShell Remoting (for WinRM/SSH)
-  - RDP enabled
   - virtio drivers (for KubeVirt performance)
 - **Build script** — One-command build and upload to Kubernetes
-- **Management script** — Start/stop/status/vnc/rdp/ssh
+- **Management script** — Start/stop/status/vnc/ssh
+
+Built on Windows Server 2022 **Core** (no desktop shell) to keep the image slim — RDP is intentionally disabled; management is via SSH/WinRM.
 
 ## Prerequisites
 
@@ -71,10 +72,6 @@ This will:
 # Open VNC console (for initial setup)
 ./manage.sh vnc
 
-# Setup RDP port-forward
-./manage.sh rdp &
-mstsc localhost  # Windows/macOS RDP client
-
 # SSH access
 ./manage.sh ssh &
 ssh vagrant@localhost -p 2222
@@ -90,7 +87,6 @@ ssh vagrant@localhost -p 2222
 
 | Method | Host | Port | Username | Password |
 |--------|------|------|----------|----------|
-| RDP | localhost (via port-forward) | 3389 | vagrant | vagrant |
 | SSH | localhost (via port-forward) | 2222 | vagrant | vagrant |
 | WinRM | localhost | 5985 | vagrant | vagrant |
 
@@ -143,7 +139,7 @@ kubectl get dv -n palworld-windows
 kubectl describe dv palworld-os-disk -n palworld-windows
 ```
 
-### Can't Connect via RDP/SSH
+### Can't Connect via SSH
 1. Wait 5-10 minutes after VM starts for services to initialize
 2. Check VM status: `./manage.sh status`
 3. View logs: `./manage.sh logs`

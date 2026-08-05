@@ -1,4 +1,4 @@
-# ============================================================
+﻿# ============================================================
 # Palworld Windows VM Builder for KubeVirt
 # 
 # Prerequisites:
@@ -34,20 +34,61 @@ $IsoPath = $IsoPath -replace '^~', $env:USERPROFILE
 $IsoPath = [System.IO.Path]::GetFullPath($IsoPath)
 
 if (-not (Test-Path $IsoPath)) {
-    Err "Windows ISO not found: $IsoPath"
     Write-Host "  Download from: https://www.microsoft.com/en-gb/evalcenter/download-windows-server-2022"
     Write-Host "  Specify with: -IsoPath `"C:\path\to\windows.iso`""
-    exit 1
+    Err "Windows ISO not found: $IsoPath"
 }
 
 Ok "All prerequisites found"
 Ok "ISO: $IsoPath"
 
 # Check prerequisites
-$requiredCmds = @('packer', 'qemu-img', 'kubectl', 'vmware-cmd')
+# Note: packer-plugin-vmware (used by windows.pkr.hcl) drives VMware Workstation
+# via vmrun.exe, not vmware-cmd (which is an ESX/ESXi tool and isn't installed by
+# Workstation Pro at all).
+function Find-AndAddToPath {
+    param([string]$Cmd, [string[]]$Candidates)
+    if (Get-Command $Cmd -ErrorAction SilentlyContinue) { return }
+    foreach ($candidate in $Candidates) {
+        $found = if ($candidate -like "*.exe") { $candidate } else {
+            (Get-ChildItem -Path $candidate -Filter "$Cmd.exe" -Recurse -ErrorAction SilentlyContinue |
+                Select-Object -First 1 -ExpandProperty FullName)
+        }
+        if ($found -and (Test-Path $found)) {
+            $dir = Split-Path -Parent $found
+            Warn "$Cmd.exe found at $dir but not on PATH; adding it for this session"
+            $env:Path = "$env:Path;$dir"
+            return
+        }
+    }
+}
+
+# vmrun: installed by Workstation Pro but not added to PATH by default.
+$vmrunInstallPath = $null
+foreach ($key in @(
+    "HKLM:\SOFTWARE\VMware, Inc.\VMware Workstation",
+    "HKLM:\SOFTWARE\WOW6432Node\VMware, Inc.\VMware Workstation"
+)) {
+    $vmrunInstallPath = (Get-ItemProperty -Path $key -ErrorAction SilentlyContinue).InstallPath
+    if ($vmrunInstallPath) { break }
+}
+$vmrunCandidates = @(
+    $(if ($vmrunInstallPath) { Join-Path $vmrunInstallPath "vmrun.exe" }),
+    "C:\Program Files\VMware\VMware Workstation\vmrun.exe",
+    "C:\Program Files (x86)\VMware\VMware Workstation\vmrun.exe"
+) | Where-Object { $_ }
+Find-AndAddToPath -Cmd "vmrun" -Candidates $vmrunCandidates
+
+# qemu-img: scoop's qemu package doesn't shim it, only the qemu-system-* binaries.
+Find-AndAddToPath -Cmd "qemu-img" -Candidates @(
+    "$env:USERPROFILE\scoop\apps\qemu\current",
+    "D:\Users\LocalUser\scoop\apps\qemu\current"
+)
+
+$requiredCmds = @('packer', 'qemu-img', 'kubectl', 'vmrun')
 foreach ($cmd in $requiredCmds) {
     if (-not (Get-Command $cmd -ErrorAction SilentlyContinue)) {
-        Err "$cmd is not installed"
+        Err "$cmd is not installed (or not on PATH)"
     }
 }
 
@@ -75,9 +116,15 @@ Log "Running Packer build..."
 packer build -var "iso_path=$IsoPath" windows.pkr.hcl
 
 # Find the output VMDK
-$vmdkFiles = Get-ChildItem -Path (Join-Path $PackerDir "output-windows") -Filter "*.vmdk" -File
+# VMware writes the disk as a small descriptor file (disk.vmdk) plus a series of
+# split 2GB extent files (disk-s001.vmdk, disk-s002.vmdk, ...) since the template
+# uses split-sparse disk type. qemu-img needs the descriptor, not a raw extent -
+# exclude the "-sNNN" extent files rather than just taking the alphabetically
+# first *.vmdk (which is an extent, since '-' sorts before '.').
+$vmdkFiles = Get-ChildItem -Path (Join-Path $PackerDir "output-windows") -Filter "*.vmdk" -File |
+    Where-Object { $_.Name -notmatch '-s\d+\.vmdk$' }
 if (-not $vmdkFiles) {
-    Err "No VMDK output found in output-windows/"
+    Err "No VMDK descriptor found in output-windows/"
 }
 $vmdk = $vmdkFiles[0].FullName
 Ok "Packer build complete: $vmdk"
@@ -97,10 +144,9 @@ Log "Uploading image to Kubernetes via CDI..."
 
 # Check if CDI is installed
 if (-not (kubectl get cdi cdi -n cdi 2>$null)) {
-    Err "CDI operator not found in cluster"
     Write-Host "  Install CDI: kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/v1.61.0/cdi-operator.yaml"
     Write-Host "               kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/v1.61.0/cdi-cr.yaml"
-    exit 1
+    Err "CDI operator not found in cluster"
 }
 
 # Create namespace
@@ -151,7 +197,6 @@ kubectl wait vm palworld -n palworld-windows `
     --for=condition=Ready --timeout=10m 2>$null
 
 Ok "VM deployed! Access via:"
-Write-Host "  RDP:   kubectl port-forward svc/palworld-windows 3389:3389 -n palworld-windows"
 Write-Host "  SSH:   kubectl port-forward svc/palworld-windows 2222:22 -n palworld-windows"
 Write-Host "  VNC:   virtctl vnc palworld -n palworld-windows"
 
