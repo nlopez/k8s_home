@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/applicationset_v1alpha1.json
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kubevirt
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+  - list:
+      elements:
+      - name: kubevirt
+        namespace: kubevirt
+        version: '1.7.0'
+  template:
+    metadata:
+      name: '{{.name}}'
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          enabled: true
+          prune: false
+          selfHeal: false
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+      sources:
+      - repoURL: 'https://github.com/kubevirt/kubevirt.git'
+        targetRevision: 'v{{.version}}'
+        path: '.'
+      destination:
+        namespace: '{{.namespace}}'
+        server: https://kubernetes.default.svc
