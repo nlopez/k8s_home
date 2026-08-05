@@ -134,13 +134,6 @@ spec:
       annotations:
         argocd.argoproj.io/sync-wave: '2'
     spec:
-    {{- if .sync }}
-      syncPolicy:
-        automated:
-          enabled: {{ default true (index .sync "enabled") }}
-          prune: {{ default false (index .sync "prune") }}
-          selfHeal: {{ default false (index .sync "selfHeal") }}
-    {{- end }}
       sources:
       - repoURL: '{{.repoURL}}'
         {{- if regexMatch "^oci://" .repoURL }}
