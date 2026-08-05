@@ -21,9 +21,9 @@ source "virtualbox-iso" "windows" {
   vm_name              = "palworld-windows"
   communicator         = "winrm"
   floppy_files         = [
-    "./files/Autounattend.xml",
-    "./scripts/enable-winrm.ps1",
-    "./scripts/shutdown.bat"
+    "../files/Autounattend.xml",
+    "../scripts/enable-winrm.ps1",
+    "../scripts/shutdown.bat"
   ]
   guest_os_type        = "Windows2022_64"
   headless             = false
@@ -54,7 +54,7 @@ build {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     scripts           = [
-      "./scripts/customise.ps1"
+      "../scripts/customise.ps1"
     ]
   }
 }
