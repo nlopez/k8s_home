@@ -96,8 +96,8 @@ build_image() {
     log "Initializing Packer plugins..."
     packer init .
     
-    # Run Packer
-    packer build windows.pkr.hcl
+    # Run Packer with ISO path override
+    packer build -var "iso_path=$ISO_PATH" windows.pkr.hcl
     
     # Find the output VMDK
     local vmdk=""
