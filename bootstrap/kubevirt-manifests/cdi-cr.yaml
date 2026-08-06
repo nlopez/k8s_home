@@ -6,6 +6,7 @@ spec:
   config:
     featureGates:
     - HonorWaitForFirstConsumer
+    uploadProxyURLOverride: https://cdi-uploadproxy.heimdall.ts.net
   imagePullPolicy: IfNotPresent
   infra:
     nodeSelector:
