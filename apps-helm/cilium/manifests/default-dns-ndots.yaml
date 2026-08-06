@@ -1,27 +1,44 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/mutatingadmissionpolicy-admissionregistration-v1beta1.json
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingAdmissionPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      cilium:admissionregistration.k8s.io/MutatingAdmissionPolicy:kube-system/default-dns-ndots
   name: default-dns-ndots
 spec:
   matchConstraints:
     resourceRules:
-    - apiGroups: [""]
-      apiVersions: ["v1"]
-      resources: ["pods"]
-      operations: ["CREATE"]
-    - apiGroups: ["apps"]
-      apiVersions: ["v1"]
-      resources: ["deployments", "statefulsets", "daemonsets"]
-      operations: ["CREATE", "UPDATE"]
-    - apiGroups: ["batch"]
-      apiVersions: ["v1"]
-      resources: ["cronjobs", "jobs"]
-      operations: ["CREATE", "UPDATE"]
-  reinvocationPolicy: IfNeeded
+    - apiGroups:
+      - ''
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      resources:
+      - pods
+    - apiGroups:
+      - apps
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - deployments
+      - statefulsets
+      - daemonsets
+    - apiGroups:
+      - batch
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - cronjobs
+      - jobs
   mutations:
-  - patchType: "JSONPatch"
-    jsonPatch:
+  - jsonPatch:
       expression: |-
         object.kind == "Pod" ? [
           JSONPatch{
@@ -63,11 +80,5 @@ spec:
              }
           }
         ]
----
-apiVersion: admissionregistration.k8s.io/v1beta1
-kind: MutatingAdmissionPolicyBinding
-metadata:
-  name: default-dns-ndots
-spec:
-  policyName: default-dns-ndots
-  matchResources: {}
+    patchType: JSONPatch
+  reinvocationPolicy: IfNeeded
