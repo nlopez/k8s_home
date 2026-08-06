@@ -4,6 +4,7 @@ metadata:
   name: cdi
 spec:
   config:
+    defaultStorageClass: nas1-mtank-iscsi
     featureGates:
     - HonorWaitForFirstConsumer
   imagePullPolicy: IfNotPresent
