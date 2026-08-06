@@ -14,7 +14,6 @@ routingMode: "native"
 # directRoutingSkipUnreachable
 ipv4:
   enabled: true
-enableIPv4BIGTCP: true
 ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
@@ -24,9 +23,6 @@ bpf:
   lbExternalClusterIP: true
   hostLegacyRouting: false
   tproxy: false
-  distributedLRU:
-    enabled: true
-  mapDynamicSizeRatio: 0.08
   events:
     monitorInterval: "10s"
     default:
@@ -40,7 +36,9 @@ socketLB:
 bandwidthManager:
   enabled: true
   bbr: true
-vlanBypass: 0
+MTU: 1500
+endpointRoutes:
+  enabled: true
 hubble:
   enabled: true
   tls:
@@ -53,6 +51,3 @@ hubble:
   relay:
     enabled: true
   eventQueueSize: 32768
-MTU: 1500
-endpointRoutes:
-  enabled: true
