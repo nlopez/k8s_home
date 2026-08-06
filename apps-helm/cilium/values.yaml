@@ -2,6 +2,8 @@
 k8sServiceHost: "192.168.222.245"
 k8sServicePort: "8443"
 kubeProxyReplacement: true
+installNoConntrackIptablesRules: true
+bpfClockProbe: true
 bgpControlPlane:
   enabled: true
 ipam:
@@ -14,6 +16,7 @@ routingMode: "native"
 # directRoutingSkipUnreachable
 ipv4:
   enabled: true
+enableIPv4BIGTCP: true
 ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
@@ -23,6 +26,9 @@ bpf:
   lbExternalClusterIP: true
   hostLegacyRouting: false
   tproxy: false
+  distributedLRU:
+    enabled: true
+  mapDynamicSizeRatio: 0.08
   events:
     monitorInterval: "10s"
     default:
@@ -33,12 +39,17 @@ loadBalancer:
   mode: snat
 socketLB:
   enabled: true
+ipMasqAgent:
+  enabled: true
+  config:
+    nonMasqueradeCIDRs:
+    - 10.0.0.0/8
+    masqLinkLocal: false
+    masqLinkLocalIPv6: false
 bandwidthManager:
   enabled: true
   bbr: true
-MTU: 1500
-endpointRoutes:
-  enabled: true
+vlanBypass: 0
 hubble:
   enabled: true
   tls:
@@ -51,3 +62,6 @@ hubble:
   relay:
     enabled: true
   eventQueueSize: 32768
+MTU: 1500
+endpointRoutes:
+  enabled: true
