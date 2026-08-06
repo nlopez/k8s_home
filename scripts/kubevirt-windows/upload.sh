@@ -86,12 +86,15 @@ check_prereqs() {
         exit 1
     fi
 
-    # Check PVC exists
-    if ! kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" &>/dev/null; then
-        err "PVC '$PVC_NAME' not found in namespace '$NAMESPACE'"
-        echo "  Apply PVC manifest:"
-        echo "    kubectl apply -f apps/palworld-windows/pvc-os-disk.yaml"
-        exit 1
+    # Check PVC exists (it will be created by virtctl on first upload)
+    if kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" &>/dev/null; then
+        local pvc_status
+        pvc_status=$(kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o jsonpath='{.status.phase}')
+        if [[ "$pvc_status" == "Bound" ]]; then
+            log "PVC '$PVC_NAME' is Bound — will be replaced during upload"
+        fi
+    else
+        log "PVC '$PVC_NAME' does not exist — will be created during upload"
     fi
 
     # Check image file
