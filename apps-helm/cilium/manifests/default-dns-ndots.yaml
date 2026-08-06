@@ -70,4 +70,10 @@ metadata:
   name: default-dns-ndots
 spec:
   policyName: default-dns-ndots
-  matchResources: {}
+  matchResources:
+    namespaceSelector:
+      matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: NotIn
+        values:
+        - argocd
