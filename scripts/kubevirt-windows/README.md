@@ -61,20 +61,25 @@ This will:
 
 ### 2. Upload & Deploy (from macOS)
 
-Copy the built image to your macOS machine, then upload to the cluster:
+Everything except the actual file upload is declarative (managed via ArgoCD):
+- Namespace, PVCs, and VM manifest in `apps/palworld-windows/`
+- CDI operator via `apps-helm/cdi/`
+- KubeVirt via `bootstrap/kubevirt-manifests/`
+
+Copy the built image to your macOS machine, then upload:
 
 ```bash
 # Copy the qcow2 from the Windows host
 scp user@windows-host:scripts/kubevirt-windows/output/palworld-windows.qcow2 ./output/
 
-# Upload and deploy to Kubernetes
+# Upload to the existing PVC
 cd scripts/kubevirt-windows
 ./upload.sh
 
 # Or specify a custom image path
 ./upload.sh --image /path/to/palworld-windows.qcow2
 
-# Preview without applying (--dry-run)
+# Preview without running (--dry-run)
 ./upload.sh --dry-run
 ```
 

@@ -2,29 +2,28 @@
 set -euo pipefail
 
 # ============================================================
-# Upload QCOW2 image to Kubernetes (CDI) and deploy VM
+# Upload QCOW2 image to existing palworld-windows PVC
 #
-# Run this from macOS (or any machine with kubectl/virtctl)
+# Run from macOS (or any machine with kubectl/virtctl)
 # after copying the qcow2 file from the Windows build host.
 #
 # Prerequisites:
 #   - kubectl configured for your cluster
 #   - virtctl installed
-#   - CDI operator installed in the cluster
+#   - CDI operator deployed (via ArgoCD apps-helm/cdi/)
+#   - Namespace + PVCs already applied (via ArgoCD apps/palworld-windows/)
 #   - QCOW2 file (default: output/palworld-windows.qcow2)
 #
 # Usage:
 #   ./upload.sh [--image /path/to/palworld-windows.qcow2]
-#   ./upload.sh --dry-run   # Show manifests without applying
+#   ./upload.sh --dry-run   # Show what would run
 # ============================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BASE_DIR="$(dirname "$SCRIPT_DIR")"
 OUTPUT_DIR="$SCRIPT_DIR/output"
 QCOW2_FILE="$OUTPUT_DIR/palworld-windows.qcow2"
 NAMESPACE="palworld-windows"
-PVC_NAME="palworld-os-disk"
-VM_NAME="palworld"
+PVC_NAME="os-disk"
 
 # Colors
 RED='\033[0;31m'
@@ -73,12 +72,25 @@ check_prereqs() {
     # Check CDI
     if ! kubectl get cdi cdi -n cdi &>/dev/null; then
         err "CDI operator not found in cluster"
-        echo "  CDI is managed via ArgoCD in bootstrap/kubevirt-manifests/."
-        echo "  Make sure the kubevirt ApplicationSet is synced:"
-        echo "    kubectl get application kubevirt -n argocd"
-        echo "  Or deploy manually:"
-        echo "    kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/v1.66.0/cdi-operator.yaml"
-        echo "    kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/v1.66.0/cdi-cr.yaml"
+        echo "  CDI is managed via ArgoCD (apps-helm/cdi/)."
+        echo "  Make sure the bootstrap ApplicationSet is synced:"
+        echo "    kubectl get applicationset -n argocd"
+        exit 1
+    fi
+
+    # Check namespace exists
+    if ! kubectl get namespace "$NAMESPACE" &>/dev/null; then
+        err "Namespace '$NAMESPACE' not found"
+        echo "  Apply namespace manifest:"
+        echo "    kubectl apply -f apps/palworld-windows/namespace.yaml"
+        exit 1
+    fi
+
+    # Check PVC exists
+    if ! kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" &>/dev/null; then
+        err "PVC '$PVC_NAME' not found in namespace '$NAMESPACE'"
+        echo "  Apply PVC manifest:"
+        echo "    kubectl apply -f apps/palworld-windows/pvc-os-disk.yaml"
         exit 1
     fi
 
@@ -91,111 +103,43 @@ check_prereqs() {
 
     ok "All prerequisites found"
     ok "Image: $QCOW2_FILE"
+    ok "PVC: $PVC_NAME ($NAMESPACE)"
 }
 
-# Upload to Kubernetes via CDI DataVolume
-upload_to_k8s() {
-    log "Uploading image to Kubernetes via CDI..."
+# Upload the image via virtctl
+upload_image() {
+    log "Uploading image to PVC '$PVC_NAME'..."
 
-    # Create namespace
-    if [[ $DRY_RUN -eq 1 ]]; then
-        log "[dry-run] Would create namespace: $NAMESPACE"
-    else
-        kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
-        ok "Namespace '$NAMESPACE' ready"
-    fi
-
-    # Create PVC
-    log "Creating PVC..."
-    cat <<EOF | { if [[ $DRY_RUN -eq 1 ]]; then cat; else kubectl apply -f -; fi; }
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: $PVC_NAME
-  namespace: $NAMESPACE
-spec:
-  storageClassName: standard
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 40Gi
-EOF
-    ok "PVC '$PVC_NAME' created"
-
-    # Upload using virtctl
-    log "Uploading image via virtctl..."
     if [[ $DRY_RUN -eq 1 ]]; then
         log "[dry-run] Would run:"
-        log "  virtctl upload disk --image=$QCOW2_FILE --pvc=$PVC_NAME --namespace=$NAMESPACE --size=40Gi --wait-secs=600"
-    else
-        virtctl upload disk --image="$QCOW2_FILE" --pvc="$PVC_NAME" \
-            --namespace="$NAMESPACE" --size=40Gi --wait-secs=600
+        log "  virtctl image-upload pvc $PVC_NAME -n $NAMESPACE \\"
+        log "    --image-path=$QCOW2_FILE --size=80Gi --insecure --wait-secs=600"
+        return
     fi
+
+    virtctl image-upload pvc "$PVC_NAME" -n "$NAMESPACE" \
+        --image-path="$QCOW2_FILE" --size=80Gi --insecure --wait-secs=600
+
     ok "Image uploaded"
-}
-
-# Wait for DataVolume to complete
-wait_for_dv() {
-    log "Waiting for DataVolume to become ready..."
-    if [[ $DRY_RUN -eq 1 ]]; then
-        log "[dry-run] Would wait for DataVolume '$PVC_NAME' to be ready (30m timeout)"
-    else
-        kubectl wait dv "$PVC_NAME" -n "$NAMESPACE" \
-            --for=condition=Ready --timeout=30m
-    fi
-    ok "DataVolume ready"
-}
-
-# Deploy the VM
-deploy_vm() {
-    log "Deploying VM..."
-
-    # Apply VM manifest
-    VM_MANIFEST="$BASE_DIR/apps/palworld-windows/vm.yaml"
-    if [[ ! -f "$VM_MANIFEST" ]]; then
-        err "VM manifest not found: $VM_MANIFEST"
-        exit 1
-    fi
-
-    if [[ $DRY_RUN -eq 1 ]]; then
-        log "[dry-run] Would apply: $VM_MANIFEST"
-    else
-        kubectl apply -f "$VM_MANIFEST"
-    fi
-    ok "VM manifest applied"
-
-    # Wait for VM to start
-    log "Waiting for VM to start..."
-    if [[ $DRY_RUN -eq 1 ]]; then
-        log "[dry-run] Would wait for VM '$VM_NAME' to be ready (10m timeout)"
-    else
-        kubectl wait vm "$VM_NAME" -n "$NAMESPACE" \
-            --for=condition=Ready --timeout=10m 2>/dev/null || true
-    fi
-
-    ok "VM deployed!"
-    echo ""
-    log "Access the VM via:"
-    echo "  SSH:   kubectl port-forward svc/${VM_NAME}-windows 2222:22 -n $NAMESPACE"
-    echo "  VNC:   virtctl vnc $VM_NAME -n $NAMESPACE"
-    echo "  RDP:   kubectl port-forward svc/${VM_NAME}-windows 3389:3389 -n $NAMESPACE"
 }
 
 # Main
 main() {
-    log "=== Upload & Deploy Windows VM ==="
+    log "=== Upload Windows QCOW2 Image ==="
     echo ""
 
     check_prereqs
-    upload_to_k8s
-    wait_for_dv
-    deploy_vm
+    upload_image
 
     echo ""
     log "=== Complete ==="
     ok "Image: $QCOW2_FILE"
-    ok "VM: $VM_NAME (namespace: $NAMESPACE)"
+    ok "PVC: $PVC_NAME (namespace: $NAMESPACE)"
+    echo ""
+    log "Next steps:"
+    echo "  1. Verify VM manifest is applied: kubectl apply -f apps/palworld-windows/"
+    echo "  2. Start the VM: virtctl start palworld -n $NAMESPACE"
+    echo "  3. Open VNC: virtctl vnc palworld -n $NAMESPACE"
 }
 
 main "$@"
