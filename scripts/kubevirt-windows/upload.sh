@@ -26,7 +26,7 @@ NAMESPACE="palworld-windows"
 DV_NAME="os-disk"
 
 # CDI uploadproxy exposed via Tailscale
-UPLOADPROXY_URL="https://cdi-uploadproxy.macaroni-pirate-ts.net"
+UPLOADPROXY_URL="https://cdi-uploadproxy.macaroni-pirate.ts.net"
 
 # Colors
 RED='\033[0;31m'
