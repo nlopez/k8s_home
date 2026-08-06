@@ -106,9 +106,20 @@ check_prereqs() {
     ok "PVC: $PVC_NAME ($NAMESPACE)"
 }
 
-# Upload the image via virtctl
+# Upload the image via CDI DataVolume
 upload_image() {
-    log "Uploading image to PVC '$PVC_NAME'..."
+    log "Uploading image to PVC '$PVC_NAME' via CDI..."
+
+    # Remove pre-bound PVC so CDI can manage it
+    if kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" &>/dev/null; then
+        log "Removing pre-bound PVC (CDI will recreate it)..."
+        if [[ $DRY_RUN -eq 1 ]]; then
+            log "[dry-run] Would delete PVC $PVC_NAME"
+        else
+            kubectl delete pvc "$PVC_NAME" -n "$NAMESPACE" --wait=false 2>/dev/null || true
+            sleep 2
+        fi
+    fi
 
     if [[ $DRY_RUN -eq 1 ]]; then
         log "[dry-run] Would run:"
