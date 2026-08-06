@@ -1,27 +1,27 @@
 # k8s
 
 <!-- hy-mt2-i18n:start -->
-**English** · [中文](./README_zh-CN.md) · [日本語](./README_ja.md) · [Español](./README_es.md)
+[English](./README.md) | [中文](./README_zh-CN.md) | **日本語** | [Español](./README_es.md)
 <!-- hy-mt2-i18n:end -->
 
-Kubernetes gitops for my personal infra
+私の個人インフラ向け Kubernetes gitops
 
-## Notes
+## 備考
 ### kubeadm
 
 ```bash
 sudo kubeadm init --config kubeadm-init.conf --upload-certs
 ```
 
-Run the control plane join command on additional nodes.
+追加のノードでコントロールプレーンのジョインコマンドを実行します。
 
-### Untaint master/control-plane
+### master/control-plane のタインを解除する
 ```bash
-kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+kubectl taint nodes --all node-role.kubernetes.io/control-plane=
 ```
 
-### Approve CSRs
-This is [necessary](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416) because we're using `serverTLSBootstrap: true` in kubeadm.
+### CSRの承認
+kubeadmで`serverTLSBootstrap: true`を使用しているため、これは[必須](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416)なのです。
 
 ```bash
 for csr in $(kubectl get csr --sort-by=.metadata.creationTimestamp -o name); do kubectl certificate approve $csr; done
@@ -35,7 +35,7 @@ cilium status --wait
 kubectl apply --server-side -Rf apps-helm/cilium/manifests
 ```
 
-### Wait for coredns/control plane running
+### corednsおよびコントロールプレーンの起動を待機する
 ```bash
 kubectl get pod --all-namespaces -owide --watch
 ```
@@ -60,14 +60,14 @@ kubectl create secret generic op-credentials -n 1password --from-file=1password-
 kubectl create secret generic onepassword-token -n 1password --from-literal=token="$(op read op://bamv726zv6zbcfke3cnbwjtnuu/lshy7xejhopza2xq6qpjqlcw5y/credential --no-newline)" --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-### Bootstrap Argo AppSets
+### Argo AppSetの起動
 ```bash
 kubectl apply --server-side -Rf bootstrap
 ```
 
 ### Renovate
 
-Run renovate locally against the working tree (no GitHub token required):
+ワーキングツリー上でローカルにRenovateを実行する（GitHubトークンは不要）：
 
 ```bash
 docker run --rm \
@@ -78,7 +78,7 @@ docker run --rm \
   --dry-run=full
 ```
 
-To open actual PRs on GitHub, set `RENOVATE_TOKEN` to a GitHub PAT with `repo` scope and drop `--dry-run=full`:
+GitHub上で実際のPRを開くには、`RENOVATE_TOKEN` を `repo` スコープを持つGitHub PATに設定し、`--dry-run=full` を削除してください。
 
 ```bash
 RENOVATE_TOKEN=<github-pat> docker run --rm \
@@ -88,5 +88,5 @@ RENOVATE_TOKEN=<github-pat> docker run --rm \
   nlopez/k8s_home
 ```
 
-## Thanks
-*  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state).
+## お礼
+* [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state) から多くのインスピレーションを得ました。

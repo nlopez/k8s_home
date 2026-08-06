@@ -1,33 +1,33 @@
 # k8s
 
 <!-- hy-mt2-i18n:start -->
-**English** · [中文](./README_zh-CN.md) · [日本語](./README_ja.md) · [Español](./README_es.md)
+[English](./README.md) | **中文** | [日本語](./README_ja.md) | [Español](./README_es.md)
 <!-- hy-mt2-i18n:end -->
 
-Kubernetes gitops for my personal infra
+用于我个人基础设施的 Kubernetes gitops 方案
 
-## Notes
+## 备注
 ### kubeadm
 
 ```bash
 sudo kubeadm init --config kubeadm-init.conf --upload-certs
 ```
 
-Run the control plane join command on additional nodes.
+在其他节点上运行控制平面加入命令。
 
-### Untaint master/control-plane
+### 解除主节点/控制平面的污点
 ```bash
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
 
-### Approve CSRs
-This is [necessary](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416) because we're using `serverTLSBootstrap: true` in kubeadm.
+### 批准证书请求
+由于我们在 kubeadm 中使用了 `serverTLSBootstrap: true`，因此这是[必要的](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416)。
 
 ```bash
 for csr in $(kubectl get csr --sort-by=.metadata.creationTimestamp -o name); do kubectl certificate approve $csr; done
 ```
 
-### CNI: Cilium
+### CNI：Cilium
 ```bash
 helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium --version 1.19.2 --namespace kube-system --values apps-helm/cilium/values.yaml
@@ -35,7 +35,7 @@ cilium status --wait
 kubectl apply --server-side -Rf apps-helm/cilium/manifests
 ```
 
-### Wait for coredns/control plane running
+### 等待 coredns/控制平面启动
 ```bash
 kubectl get pod --all-namespaces -owide --watch
 ```
@@ -60,14 +60,14 @@ kubectl create secret generic op-credentials -n 1password --from-file=1password-
 kubectl create secret generic onepassword-token -n 1password --from-literal=token="$(op read op://bamv726zv6zbcfke3cnbwjtnuu/lshy7xejhopza2xq6qpjqlcw5y/credential --no-newline)" --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-### Bootstrap Argo AppSets
+### 启动 Argo AppSets
 ```bash
 kubectl apply --server-side -Rf bootstrap
 ```
 
-### Renovate
+### renovate 工具
 
-Run renovate locally against the working tree (no GitHub token required):
+在当前工作目录中本地运行 renovate 工具（无需 GitHub 令牌）：
 
 ```bash
 docker run --rm \
@@ -78,7 +78,7 @@ docker run --rm \
   --dry-run=full
 ```
 
-To open actual PRs on GitHub, set `RENOVATE_TOKEN` to a GitHub PAT with `repo` scope and drop `--dry-run=full`:
+若要在 GitHub 上创建实际的 PR，请将 `RENOVATE_TOKEN` 设置为具有 `repo` 权限范围的 GitHub PAT，并去掉 `--dry-run=full` 参数。
 
 ```bash
 RENOVATE_TOKEN=<github-pat> docker run --rm \
@@ -88,5 +88,5 @@ RENOVATE_TOKEN=<github-pat> docker run --rm \
   nlopez/k8s_home
 ```
 
-## Thanks
-*  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state).
+## 致谢
+* 很多灵感来自 [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state) 。

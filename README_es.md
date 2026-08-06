@@ -1,27 +1,27 @@
 # k8s
 
 <!-- hy-mt2-i18n:start -->
-**English** · [中文](./README_zh-CN.md) · [日本語](./README_ja.md) · [Español](./README_es.md)
+[English](./README.md) | [中文](./README_zh-CN.md) | [日本語](./README_ja.md) | **Español**
 <!-- hy-mt2-i18n:end -->
 
-Kubernetes gitops for my personal infra
+GitOps para Kubernetes en mi infraestructura personal
 
-## Notes
+## Notas
 ### kubeadm
 
 ```bash
 sudo kubeadm init --config kubeadm-init.conf --upload-certs
 ```
 
-Run the control plane join command on additional nodes.
+Ejecute la orden de unión al plano de control en los nodos adicionales.
 
-### Untaint master/control-plane
+### Marcar como no aptas las nodos master/control-plane
 ```bash
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 ```
 
-### Approve CSRs
-This is [necessary](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416) because we're using `serverTLSBootstrap: true` in kubeadm.
+### Aprobar solicitudes de certificado
+Esto es [necesario](https://github.com/kubernetes/kubeadm/issues/591#issuecomment-1257061416) porque estamos utilizando `serverTLSBootstrap: true` en kubeadm.
 
 ```bash
 for csr in $(kubectl get csr --sort-by=.metadata.creationTimestamp -o name); do kubectl certificate approve $csr; done
@@ -35,7 +35,7 @@ cilium status --wait
 kubectl apply --server-side -Rf apps-helm/cilium/manifests
 ```
 
-### Wait for coredns/control plane running
+### Esperar a que coredns y el plano de control estén en ejecución
 ```bash
 kubectl get pod --all-namespaces -owide --watch
 ```
@@ -60,14 +60,14 @@ kubectl create secret generic op-credentials -n 1password --from-file=1password-
 kubectl create secret generic onepassword-token -n 1password --from-literal=token="$(op read op://bamv726zv6zbcfke3cnbwjtnuu/lshy7xejhopza2xq6qpjqlcw5y/credential --no-newline)" --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-### Bootstrap Argo AppSets
+### Inicializar Argo AppSets
 ```bash
 kubectl apply --server-side -Rf bootstrap
 ```
 
 ### Renovate
 
-Run renovate locally against the working tree (no GitHub token required):
+Ejecutar renovate localmente sobre el árbol de trabajo (no se requiere token de GitHub):
 
 ```bash
 docker run --rm \
@@ -78,7 +78,7 @@ docker run --rm \
   --dry-run=full
 ```
 
-To open actual PRs on GitHub, set `RENOVATE_TOKEN` to a GitHub PAT with `repo` scope and drop `--dry-run=full`:
+Para abrir las PR reales en GitHub, establezca `RENOVATE_TOKEN` como un PAT de GitHub con alcance `repo` y elimine `--dry-run=full`:
 
 ```bash
 RENOVATE_TOKEN=<github-pat> docker run --rm \
@@ -88,5 +88,5 @@ RENOVATE_TOKEN=<github-pat> docker run --rm \
   nlopez/k8s_home
 ```
 
-## Thanks
-*  Lots of inspiration drawn from [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state).
+## Agradecimientos
+* Gran parte de la inspiración proviene de [nicolerenee/k8s-state](https://github.com/nicolerenee/k8s-state).
