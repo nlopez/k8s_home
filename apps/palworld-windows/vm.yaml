@@ -90,7 +90,6 @@ spec:
           interfaces:
           - masquerade: {}
             name: default
-            bridge: {}
             macAddress: 00:ff:ff:ff:ff:01
           autoattachPodInterface: false
           autoattachMemBalloon: true
