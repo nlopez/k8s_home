@@ -66,7 +66,9 @@ Everything except the actual file upload is declarative (managed via ArgoCD):
 - CDI operator via `apps-helm/cdi/`
 - KubeVirt via `bootstrap/kubevirt-manifests/`
 
-Copy the built image to your macOS machine, then upload:
+Note: the `os-disk` PVC is declarative but will be deleted and recreated by
+CDI during upload (CDI cannot write to an already-bound PVC). ArgoCD will
+re-apply the PVC manifest after the upload completes.
 
 ```bash
 # Copy the qcow2 from the Windows host
