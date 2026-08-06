@@ -2,6 +2,8 @@ global:
   domain: argocd.macaroni-pirate-ts.net
 configs:
   cm:
+    # ---- resource.exclusions ----
+    # Resources ArgoCD should completely ignore (not discovered at all)
     resource.exclusions: |
       - apiGroups:
           - velero.io
@@ -10,6 +12,34 @@ configs:
           - Restore
         clusters:
           - "*"
+      - apiGroups:
+          - postgresql.cnpg.io
+        kinds:
+          - ClusterRestore
+          - ClusterBackup
+        clusters:
+          - "*"
+      - apiGroups:
+          - externaldns.k8s.io
+        kinds:
+          - DNSEndpoint
+        clusters:
+          - "*"
+    # ---- resource.customizations ----
+    # Ignore cert-manager Certificate status (conditions, notusThrough, etc.)
+    resource.customizations.ignoreDifferences.cert-manager.io_Certificate: |
+      jsonPointers:
+      - /status
+    # Ignore Reloader's pod-template annotation on Deployments/StatefulSets/DaemonSets
+    resource.customizations.ignoreDifferences.apps_Deployment: |
+      jsonPointers:
+      - /spec/template/metadata/annotations/reloader.stakater.com~1last-reloaded-from
+    resource.customizations.ignoreDifferences.apps_StatefulSet: |
+      jsonPointers:
+      - /spec/template/metadata/annotations/reloader.stakater.com~1last-reloaded-from
+    resource.customizations.ignoreDifferences.apps_DaemonSet: |
+      jsonPointers:
+      - /spec/template/metadata/annotations/reloader.stakater.com~1last-reloaded-from
   params:
     server.insecure: true
 server:
