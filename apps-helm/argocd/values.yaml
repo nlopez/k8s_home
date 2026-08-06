@@ -1,6 +1,15 @@
 global:
   domain: argocd.macaroni-pirate-ts.net
 configs:
+  cm:
+    resource.exclusions: |
+      - apiGroups:
+          - velero.io
+        kinds:
+          - Backup
+          - Restore
+        clusters:
+          - "*"
   params:
     server.insecure: true
 server:
