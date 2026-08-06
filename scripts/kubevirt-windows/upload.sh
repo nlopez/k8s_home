@@ -25,6 +25,9 @@ QCOW2_FILE="$OUTPUT_DIR/palworld-windows.qcow2"
 NAMESPACE="palworld-windows"
 DV_NAME="os-disk"
 
+# CDI uploadproxy exposed via Tailscale
+UPLOADPROXY_URL="https://cdi-uploadproxy.macaroni-pirate.ts.net"
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -113,12 +116,16 @@ upload_image() {
     if [[ $DRY_RUN -eq 1 ]]; then
         log "[dry-run] Would run:"
         log "  virtctl image-upload dv $DV_NAME -n $NAMESPACE \\"
-        log "    --image-path=$QCOW2_FILE --insecure --wait-secs=600"
+        log "    --image-path=$QCOW2_FILE \\"
+        log "    --uploadproxy-url=$UPLOADPROXY_URL \\"
+        log "    --insecure --wait-secs=600"
         return
     fi
 
     virtctl image-upload dv "$DV_NAME" -n "$NAMESPACE" \
-        --image-path="$QCOW2_FILE" --insecure --wait-secs=600
+        --image-path="$QCOW2_FILE" \
+        --uploadproxy-url="$UPLOADPROXY_URL" \
+        --insecure --wait-secs=600
 
     ok "Image uploaded"
 }

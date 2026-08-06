@@ -1,22 +1,13 @@
 # Windows Server 2022 VirtualMachine for Palworld Dedicated Server
 #
-# Initial setup requires manual Windows installation:
-#   1. Upload Windows Server 2022 ISO:
-#      virtctl image-upload pvc windows-iso-pvc --size 6Gi \
-#        --image-path=/path/to/en-us_windows_server_2022.iso \
-#        --insecure -n palworld-windows
-#   2. Start VM and install Windows via VNC:
-#      virtctl start palworld -n palworld-windows
-#      virtctl vnc palworld -n palworld-windows
-#   3. After install, stop VM:
-#      virtctl stop palworld -n palworld-windows
+# OS disk is managed separately via datavolume-os-disk.yaml (CDI DataVolume).
+# Upload the QCOW2 image using: scripts/kubevirt-windows/upload.sh
 #
-# Post-install setup (via RDP):
-#   - Install SteamCMD
-#   - Download Palworld Dedicated Server (app_update 2394370)
-#   - Create StartServer.bat with correct args
-#   - Create Windows Service for auto-start
-#   - Configure firewall rules
+# Post-boot setup (via SSH or RDP):
+#   - SteamCMD + Palworld Dedicated Server pre-installed via Packer build
+#   - virtio drivers pre-installed
+#   - OpenSSH + WinRM configured
+#   - Configure PalWorldSettings.ini on the saved-data PVC
 #
 # Ports exposed via NodePort:
 #   8211/UDP (game), 27015/UDP (query), 8212/TCP (REST API)
@@ -61,19 +52,6 @@ metadata:
       ]
 spec:
   runStrategy: Halted
-  dataVolumeTemplates:
-  - metadata:
-      name: os-disk
-    spec:
-      source:
-        upload: {}
-      storage:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 80Gi
-        storageClassName: nas1-mtank-iscsi
   template:
     metadata:
       labels:

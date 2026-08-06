@@ -1,0 +1,28 @@
+# Expose cdi-uploadproxy via Tailscale for virtctl image-upload
+#
+# The cdi-uploadproxy service lives in the cdi namespace on port 443
+# (targetPort 8443). This Ingress routes it through the tailscale-operator
+# proxy group "heimdall" so your Mac can reach it.
+#
+# Usage:
+#   kubectl apply -f ingress-cdi-uploadproxy.yaml
+#
+# Or pass --uploadproxy-url explicitly in virtctl commands.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cdi-uploadproxy
+  namespace: cdi
+  annotations:
+    tailscale.com/proxy-group: heimdall
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
+spec:
+  ingressClassName: tailscale
+  tls:
+  - hosts:
+    - cdi-uploadproxy.macaroni-pirate.ts.net
+  defaultBackend:
+    service:
+      name: cdi-uploadproxy
+      port:
+        number: 443
