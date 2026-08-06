@@ -61,6 +61,19 @@ metadata:
       ]
 spec:
   runStrategy: Halted
+  dataVolumeTemplates:
+  - metadata:
+      name: os-disk
+    spec:
+      source:
+        upload: {}
+      storage:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 80Gi
+        storageClassName: nas1-mtank-iscsi
   template:
     metadata:
       labels:
@@ -140,8 +153,8 @@ spec:
       terminationGracePeriodSeconds: 300
       volumes:
       - name: os-disk
-        persistentVolumeClaim:
-          claimName: os-disk
+        dataVolume:
+          name: os-disk
       - name: gamedata-disk
         persistentVolumeClaim:
           claimName: gamedata-disk
@@ -151,4 +164,3 @@ spec:
       - name: virtio-disk
         containerDisk:
           image: kubevirt/virtio-container-disk:latest
-

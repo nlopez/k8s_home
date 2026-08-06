@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ============================================================
-# Upload QCOW2 image to existing palworld-windows PVC
+# Upload QCOW2 image to palworld-windows DataVolume
 #
 # Run from macOS (or any machine with kubectl/virtctl)
 # after copying the qcow2 file from the Windows build host.
@@ -10,8 +10,8 @@ set -euo pipefail
 # Prerequisites:
 #   - kubectl configured for your cluster
 #   - virtctl installed
-#   - CDI operator deployed (via ArgoCD apps-helm/cdi/)
-#   - Namespace + PVCs already applied (via ArgoCD apps/palworld-windows/)
+#   - CDI operator deployed (via ArgoCD bootstrap/kubevirt-manifests/)
+#   - Namespace + DataVolume already applied (via ArgoCD apps/palworld-windows/)
 #   - QCOW2 file (default: output/palworld-windows.qcow2)
 #
 # Usage:
@@ -23,7 +23,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_DIR="$SCRIPT_DIR/output"
 QCOW2_FILE="$OUTPUT_DIR/palworld-windows.qcow2"
 NAMESPACE="palworld-windows"
-PVC_NAME="os-disk"
+DV_NAME="os-disk"
 
 # Colors
 RED='\033[0;31m'
@@ -72,9 +72,9 @@ check_prereqs() {
     # Check CDI
     if ! kubectl get cdi cdi -n cdi &>/dev/null; then
         err "CDI operator not found in cluster"
-        echo "  CDI is managed via ArgoCD (apps-helm/cdi/)."
-        echo "  Make sure the bootstrap ApplicationSet is synced:"
-        echo "    kubectl get applicationset -n argocd"
+        echo "  CDI is managed via ArgoCD (bootstrap/kubevirt-manifests/)."
+        echo "  Make sure the kubevirt ApplicationSet is synced:"
+        echo "    kubectl get applicationset kubevirt -n argocd"
         exit 1
     fi
 
@@ -86,15 +86,12 @@ check_prereqs() {
         exit 1
     fi
 
-    # Check PVC exists (it will be created by virtctl on first upload)
-    if kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" &>/dev/null; then
-        local pvc_status
-        pvc_status=$(kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" -o jsonpath='{.status.phase}')
-        if [[ "$pvc_status" == "Bound" ]]; then
-            log "PVC '$PVC_NAME' is Bound — will be replaced during upload"
-        fi
-    else
-        log "PVC '$PVC_NAME' does not exist — will be created during upload"
+    # Check DataVolume exists
+    if ! kubectl get dv "$DV_NAME" -n "$NAMESPACE" &>/dev/null; then
+        err "DataVolume '$DV_NAME' not found in namespace '$NAMESPACE'"
+        echo "  Apply DataVolume manifest:"
+        echo "    kubectl apply -f apps/palworld-windows/datavolume-os-disk.yaml"
+        exit 1
     fi
 
     # Check image file
@@ -106,33 +103,22 @@ check_prereqs() {
 
     ok "All prerequisites found"
     ok "Image: $QCOW2_FILE"
-    ok "PVC: $PVC_NAME ($NAMESPACE)"
+    ok "DataVolume: $DV_NAME ($NAMESPACE)"
 }
 
 # Upload the image via CDI DataVolume
 upload_image() {
-    log "Uploading image to PVC '$PVC_NAME' via CDI..."
-
-    # Remove pre-bound PVC so CDI can manage it
-    if kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" &>/dev/null; then
-        log "Removing pre-bound PVC (CDI will recreate it)..."
-        if [[ $DRY_RUN -eq 1 ]]; then
-            log "[dry-run] Would delete PVC $PVC_NAME"
-        else
-            kubectl delete pvc "$PVC_NAME" -n "$NAMESPACE" --wait=false 2>/dev/null || true
-            sleep 2
-        fi
-    fi
+    log "Uploading image to DataVolume '$DV_NAME'..."
 
     if [[ $DRY_RUN -eq 1 ]]; then
         log "[dry-run] Would run:"
-        log "  virtctl image-upload pvc $PVC_NAME -n $NAMESPACE \\"
-        log "    --image-path=$QCOW2_FILE --size=80Gi --insecure --wait-secs=600"
+        log "  virtctl image-upload dv $DV_NAME -n $NAMESPACE \\"
+        log "    --image-path=$QCOW2_FILE --insecure --wait-secs=600"
         return
     fi
 
-    virtctl image-upload pvc "$PVC_NAME" -n "$NAMESPACE" \
-        --image-path="$QCOW2_FILE" --size=80Gi --insecure --wait-secs=600
+    virtctl image-upload dv "$DV_NAME" -n "$NAMESPACE" \
+        --image-path="$QCOW2_FILE" --insecure --wait-secs=600
 
     ok "Image uploaded"
 }
@@ -148,10 +134,10 @@ main() {
     echo ""
     log "=== Complete ==="
     ok "Image: $QCOW2_FILE"
-    ok "PVC: $PVC_NAME (namespace: $NAMESPACE)"
+    ok "DataVolume: $DV_NAME (namespace: $NAMESPACE)"
     echo ""
     log "Next steps:"
-    echo "  1. Verify VM manifest is applied: kubectl apply -f apps/palworld-windows/"
+    echo "  1. DataVolume will sync to Ready via ArgoCD"
     echo "  2. Start the VM: virtctl start palworld -n $NAMESPACE"
     echo "  3. Open VNC: virtctl vnc palworld -n $NAMESPACE"
 }
