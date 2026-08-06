@@ -11,7 +11,8 @@ Build and manage Windows Server 2022 VM images for KubeVirt, pre-configured for 
   - OpenSSH Server (for SSH access)
   - PowerShell Remoting (for WinRM/SSH)
   - virtio drivers (for KubeVirt performance)
-- **Build script** — One-command build and upload to Kubernetes
+- **Build script** — Build QCOW2 image on Windows host (VMware Fusion)
+- **Upload script** — Upload and deploy from macOS (kubectl + virtctl)
 - **Management script** — Start/stop/status/vnc/ssh
 
 Built on Windows Server 2022 **Core** (no desktop shell) to keep the image slim — RDP is intentionally disabled; management is via SSH/WinRM.
@@ -39,7 +40,7 @@ https://www.microsoft.com/en-gb/evalcenter/download-windows-server-2022
 
 ## Quick Start
 
-### 1. Build the Image
+### 1. Build the Image (on Windows host with VMware Fusion)
 
 ```bash
 cd scripts/kubevirt-windows
@@ -52,15 +53,39 @@ cd scripts/kubevirt-windows
 ```
 
 This will:
-1. Create a VirtualBox VM with Windows Server 2022
+1. Create a VMware VM with Windows Server 2022
 2. Run unattended install + provisioning
 3. Convert to QCOW2 format
-4. Upload to Kubernetes via CDI
-5. Deploy the VM
 
 **Time:** 20-40 minutes (depends on machine speed)
 
-### 2. Manage the VM
+### 2. Upload & Deploy (from macOS)
+
+Copy the built image to your macOS machine, then upload to the cluster:
+
+```bash
+# Copy the qcow2 from the Windows host
+scp user@windows-host:scripts/kubevirt-windows/output/palworld-windows.qcow2 ./output/
+
+# Upload and deploy to Kubernetes
+cd scripts/kubevirt-windows
+./upload.sh
+
+# Or specify a custom image path
+./upload.sh --image /path/to/palworld-windows.qcow2
+
+# Preview without applying (--dry-run)
+./upload.sh --dry-run
+```
+
+This will:
+1. Create the `palworld-windows` namespace
+2. Create a 40Gi PVC
+3. Upload the image via `virtctl`
+4. Wait for the DataVolume to be ready
+5. Deploy the VM from the manifest
+
+### 3. Manage the VM
 
 ```bash
 # Check status
@@ -94,7 +119,8 @@ ssh vagrant@localhost -p 2222
 
 ```
 scripts/kubevirt-windows/
-├── build.sh              # Main build script
+├── build.sh              # Build QCOW2 image (Windows host)
+├── upload.sh             # Upload & deploy from macOS
 ├── manage.sh             # VM management script
 ├── packer/
 │   └── windows.pkr.hcl   # Packer template
