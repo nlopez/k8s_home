@@ -51,7 +51,7 @@ metadata:
         }
       ]
 spec:
-  runStrategy: Running
+  runStrategy: Always
   template:
     metadata:
       labels:
