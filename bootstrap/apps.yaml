@@ -23,9 +23,9 @@ spec:
       project: default
       syncPolicy:
         automated:
-          enabled: false
-          prune: false
-          selfHeal: false
+          enabled: true
+          prune: true
+          selfHeal: true
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
