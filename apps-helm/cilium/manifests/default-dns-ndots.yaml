@@ -1,6 +1,9 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingAdmissionPolicy
 metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: >-
+      cilium:admissionregistration.k8s.io/MutatingAdmissionPolicy:kube-system/default-dns-ndots
   name: default-dns-ndots
 spec:
   matchConstraints:
@@ -34,10 +37,8 @@ spec:
       resources:
       - cronjobs
       - jobs
-  reinvocationPolicy: IfNeeded
   mutations:
-  - patchType: JSONPatch
-    jsonPatch:
+  - jsonPatch:
       expression: |-
         object.kind == "Pod" ? [
           JSONPatch{
@@ -79,6 +80,8 @@ spec:
              }
           }
         ]
+    patchType: JSONPatch
+  reinvocationPolicy: IfNeeded
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingAdmissionPolicyBinding

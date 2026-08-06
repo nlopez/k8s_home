@@ -123,14 +123,15 @@ spec:
     metadata:
       annotations:
         argocd.argoproj.io/sync-wave: '2'
-    spec{{ if eq .name "cilium" }}
+    spec:
+    {{- if eq .name "cilium" }}
       ignoreDifferences:
       - group: batch
         kind: Job
         namespace: kube-system
         jqPathExpressions:
         - select(.metadata.name | startswith("hubble-generate-certs"))
-    {{ end }}
+    {{- end }}
       sources:
       - repoURL: '{{.repoURL}}'
         {{- if regexMatch "^oci://" .repoURL }}
