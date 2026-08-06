@@ -1,4 +1,6 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/tailscale.com/dnsconfig_v1alpha1.json
+# Enable MagicDNS resolution from within the cluster
+# Required for workloads to resolve .ts.net names (e.g., cdi-uploadproxy.macaroni-pirate.ts.net)
+# and for TLS certificate validation against MagicDNS names.
 apiVersion: tailscale.com/v1alpha1
 kind: DNSConfig
 metadata:

@@ -21,6 +21,17 @@ spec:
   tls:
   - hosts:
     - cdi-uploadproxy.macaroni-pirate.ts.net
+  rules:
+  - host: cdi-uploadproxy.macaroni-pirate.ts.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cdi-uploadproxy
+            port:
+              number: 443
   defaultBackend:
     service:
       name: cdi-uploadproxy
