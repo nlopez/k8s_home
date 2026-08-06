@@ -56,6 +56,7 @@ spec:
     metadata:
       labels:
         app: palworld
+        kubevirt.io/managed: "true"
         kubevirt.io/domain: palworld
         kubevirt.io/size: medium
         kubevirt.io/os: windows
