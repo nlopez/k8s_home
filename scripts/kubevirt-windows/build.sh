@@ -193,7 +193,6 @@ deploy_vm() {
         --for=condition=Ready --timeout=10m 2>/dev/null || true
     
     ok "VM deployed! Access via:"
-    echo "  RDP:   kubectl port-forward svc/palworld-windows 3389:3389 -n palworld-windows"
     echo "  SSH:   kubectl port-forward svc/palworld-windows 2222:22 -n palworld-windows"
     echo "  VNC:   virtctl vnc palworld -n palworld-windows"
 }

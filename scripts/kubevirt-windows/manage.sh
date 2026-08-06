@@ -89,15 +89,6 @@ cmd_vnc() {
     virtctl vnc "$VM_NAME" -n "$NAMESPACE"
 }
 
-# Setup RDP port-forward
-cmd_rdp() {
-    check_vm
-    log "Setting up RDP port-forward (localhost:3389 → VM:3389)..."
-    kubectl port-forward -n "$NAMESPACE" \
-        "$(kubectl get pod -n "$NAMESPACE" -l kubevirt.io/domain="$VM_NAME" -o jsonpath='{.items[0].metadata.name}')" \
-        3389:3389
-}
-
 # Setup SSH port-forward
 cmd_ssh() {
     check_vm
@@ -132,15 +123,13 @@ usage() {
     echo "  restart Restart the VM"
     echo "  status  Show VM status"
     echo "  vnc     Open VNC console"
-    echo "  rdp     Setup RDP port-forward (localhost:3389)"
     echo "  ssh     Setup SSH port-forward (localhost:2222)"
     echo "  logs    Show VM pod logs"
     echo ""
     echo "Examples:"
     echo "  $0 start        # Start the VM"
     echo "  $0 status       # Check VM status"
-    echo "  $0 rdp &        # Background RDP port-forward"
-    echo "  mstsc localhost  # Connect via RDP"
+    echo "  $0 ssh &        # Background SSH port-forward"
 }
 
 # Main
@@ -155,7 +144,6 @@ case "$1" in
     restart)   cmd_restart;;
     status)    cmd_status;;
     vnc)       cmd_vnc;;
-    rdp)       cmd_rdp;;
     ssh)       cmd_ssh;;
     logs)      cmd_logs;;
     *)         err "Unknown command: $1"; usage; exit 1;;

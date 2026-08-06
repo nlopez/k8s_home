@@ -56,7 +56,7 @@
           <InstallFrom>
             <MetaData wcm:action="add">
               <Key>/IMAGE/NAME</Key>
-              <Value>Windows Server 2022 SERVERSTANDARD</Value>
+              <Value>Windows Server 2022 SERVERSTANDARDCORE</Value>
             </MetaData>
           </InstallFrom>
         </OSImage>
@@ -66,37 +66,18 @@
         <FullName>Vagrant</FullName>
         <Organization>Vagrant</Organization>
         <ProductKey>
-          <Key>N69G4-B89J2-4G8F4-WWYCC-J464C</Key>
+          <Key>VDYBN-27WPP-V4HQT-9VMD4-VMK7H</Key>
         </ProductKey>
       </UserData>
     </component>
   </settings>
   <settings pass="specialize">
     <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <ComputerName>palworld-ws</ComputerName>
       <OEMInformation>
         <Manufacturer>RootIsGod</Manufacturer>
         <Model>KubeVirt Windows VM</Model>
       </OEMInformation>
-      <OEMName>KubeVirt Windows VM</OEMName>
-    </component>
-    <component name="Microsoft-Windows-TerminalServices-LocalSessionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <fDenyTSConnections>false</fDenyTSConnections>
-    </component>
-    <component name="Microsoft-Windows-TerminalServices-RDP-WinStationExtensions" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <fAllowSecProtocolNegotiation>false</fAllowSecProtocolNegotiation>
-      <fAllowTSConnections>1</fAllowTSConnections>
-      <SecurityLayer>1</SecurityLayer>
-    </component>
-    <component name="Microsoft-Windows-UnattendedJoin" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <Identification>
-        <Credentials>
-          <Domain></Domain>
-          <Password></Password>
-          <Username></Username>
-        </Credentials>
-        <JoinDomain></JoinDomain>
-      </Identification>
+      <ComputerName>palworld-ws</ComputerName>
     </component>
   </settings>
   <settings pass="oobeSystem">
@@ -112,13 +93,8 @@
       <FirstLogonCommands>
         <SynchronousCommand wcm:action="add">
           <Order>1</Order>
-          <CommandLine>wscript.exe a:\enable-winrm.ps1</CommandLine>
+          <CommandLine>cmd.exe /c powershell.exe -ExecutionPolicy Bypass -File a:\enable-winrm.ps1</CommandLine>
           <Description>Enable WinRM for Packer provisioning</Description>
-        </SynchronousCommand>
-        <SynchronousCommand wcm:action="add">
-          <Order>2</Order>
-          <CommandLine>wscript.exe a:\shutdown.bat</CommandLine>
-          <Description>Shutdown after provisioning</Description>
         </SynchronousCommand>
       </FirstLogonCommands>
       <OOBE>

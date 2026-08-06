@@ -1,0 +1,6 @@
+# Packer build outputs and cache - these are large, transient, host-specific
+# binary artifacts (VM disks, memory snapshots, downloaded ISOs) and should
+# never be committed.
+packer/output-windows/
+packer/packer_cache/
+output/
