@@ -7,10 +7,6 @@
 # Usage:
 #   kubectl apply -f ingress-cdi-uploadproxy.yaml
 #
-# Then set the override in CDI config:
-#   kubectl patch cdi cdi --type merge -n cdi \
-#     --patch '{"spec":{"config":{"uploadProxyURLOverride":"https://cdi-uploadproxy.heimdall.ts.net"}}}'
-#
 # Or pass --uploadproxy-url explicitly in virtctl commands.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -24,7 +20,7 @@ spec:
   ingressClassName: tailscale
   tls:
   - hosts:
-    - cdi-uploadproxy.heimdall.ts.net
+    - cdi-uploadproxy.macaroni-pirate.ts.net
   defaultBackend:
     service:
       name: cdi-uploadproxy
