@@ -90,7 +90,8 @@ spec:
           interfaces:
           - masquerade: {}
             name: default
-          autoattachPodInterface: true
+            bridge: {}
+          autoattachPodInterface: false
           autoattachMemBalloon: true
           autoattachSerialConsole: false
         features:
