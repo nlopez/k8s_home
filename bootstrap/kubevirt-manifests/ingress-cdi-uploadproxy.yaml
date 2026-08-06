@@ -2,14 +2,14 @@
 #
 # The cdi-uploadproxy service lives in the cdi namespace on port 443
 # (targetPort 8443). This Ingress routes it through the tailscale-operator
-# so your Mac can reach it at <hostname>.<tailnet>.tailscale.com:443.
+# proxy group "heimdall" so your Mac can reach it.
 #
 # Usage:
 #   kubectl apply -f ingress-cdi-uploadproxy.yaml
 #
 # Then set the override in CDI config:
 #   kubectl patch cdi cdi --type merge -n cdi \
-#     --patch '{"spec":{"config":{"uploadProxyURLOverride":"https://cdi-uploadproxy.<tailnet>.tailscale.com"}}}'
+#     --patch '{"spec":{"config":{"uploadProxyURLOverride":"https://cdi-uploadproxy.heimdall.ts.net"}}}'
 #
 # Or pass --uploadproxy-url explicitly in virtctl commands.
 apiVersion: networking.k8s.io/v1
@@ -18,14 +18,13 @@ metadata:
   name: cdi-uploadproxy
   namespace: cdi
   annotations:
-    tailscale.com/proxy-group: ""
+    tailscale.com/proxy-group: heimdall
     tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
-    tailscale.com/hostname: cdi-uploadproxy
 spec:
   ingressClassName: tailscale
   tls:
   - hosts:
-    - cdi-uploadproxy
+    - cdi-uploadproxy.heimdall.ts.net
   defaultBackend:
     service:
       name: cdi-uploadproxy
