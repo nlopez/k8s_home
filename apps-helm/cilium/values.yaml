@@ -2,8 +2,6 @@
 k8sServiceHost: "192.168.222.245"
 k8sServicePort: "8443"
 kubeProxyReplacement: true
-installNoConntrackIptablesRules: true
-bpfClockProbe: true
 bgpControlPlane:
   enabled: true
 ipam:
@@ -39,13 +37,6 @@ loadBalancer:
   mode: snat
 socketLB:
   enabled: true
-ipMasqAgent:
-  enabled: true
-  config:
-    nonMasqueradeCIDRs:
-    - 10.0.0.0/8
-    masqLinkLocal: false
-    masqLinkLocalIPv6: false
 bandwidthManager:
   enabled: true
   bbr: true
