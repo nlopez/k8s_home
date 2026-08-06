@@ -51,7 +51,7 @@ metadata:
         }
       ]
 spec:
-  runStrategy: Halted
+  runStrategy: Running
   template:
     metadata:
       labels:
