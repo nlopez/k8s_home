@@ -5,13 +5,11 @@ operatorConfig:
   logging: info
   image:
     repository: ghcr.io/tailscale/k8s-operator
-    tag: v1.102.2
     pullPolicy: IfNotPresent
 proxyConfig:
   defaultTags: "tag:k8s,tag:home,tag:lga1"
   image:
     repository: ghcr.io/tailscale/tailscale
-    tag: v1.102.2
     pullPolicy: IfNotPresent
 apiServerProxyConfig:
   mode: "true"
