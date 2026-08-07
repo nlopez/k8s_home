@@ -1,3 +1,4 @@
 # Reloader — use annotations strategy to avoid ArgoCD OutOfSync fights
 reloader:
   reloadStrategy: annotations
+  logLevel: trace
