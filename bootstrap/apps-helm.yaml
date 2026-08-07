@@ -134,8 +134,7 @@ spec:
     {{- end }}
     {{- if eq .name "velero" }}
       ignoreDifferences:
-      - group: v1
-        kind: ConfigMap
+      - kind: ConfigMap
         name: velero-notifier-state
         jsonPointers:
         - /data/activeSince
