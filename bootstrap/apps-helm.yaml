@@ -132,6 +132,15 @@ spec:
         jqPathExpressions:
         - select(.metadata.name | startswith("hubble-generate-certs"))
     {{- end }}
+    {{- if eq .name "velero" }}
+      ignoreDifferences:
+      - group: v1
+        kind: ConfigMap
+        name: velero-notifier-state
+        jsonPointers:
+        - /data/activeSince
+        - /data/state
+    {{- end }}
       sources:
       - repoURL: '{{.repoURL}}'
         {{- if regexMatch "^oci://" .repoURL }}
