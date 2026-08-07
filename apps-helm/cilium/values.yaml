@@ -16,7 +16,6 @@ autoDirectNodeRoutes: true
 directRoutingSkipUnreachable: true
 ipv4:
   enabled: true
-enableIPv4BIGTCP: true
 ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
@@ -39,13 +38,6 @@ loadBalancer:
   mode: snat
 socketLB:
   enabled: true
-ipMasqAgent:
-  enabled: true
-  config:
-    nonMasqueradeCIDRs:
-    - 10.0.0.0/8
-    masqLinkLocal: false
-    masqLinkLocalIPv6: false
 bandwidthManager:
   enabled: true
   bbr: true
