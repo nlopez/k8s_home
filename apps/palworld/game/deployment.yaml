@@ -20,6 +20,8 @@ spec:
       labels:
         app: palworld
         version: v1
+      annotations:
+        configmap.reloader.stakater.com/auto: "true"
     spec:
       containers:
       - name: palworld
