@@ -22,6 +22,7 @@ spec:
         version: v1
       annotations:
         configmap.reloader.stakater.com/auto: "true"
+        backup.velero.io/backup-volumes: saved
     spec:
       containers:
       - name: palworld
