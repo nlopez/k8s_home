@@ -16,7 +16,7 @@ spec:
     includedNamespaces:
     - obsidian-livesync
     includeClusterResources: true
-    storageLocation: default
+    storageLocation: do-spaces-sfo3
     ttl: 720h
     snapshotVolumes: true
     snapshotMoveData: true

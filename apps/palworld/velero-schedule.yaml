@@ -33,7 +33,7 @@ spec:
   template:
     includedNamespaces:
     - palworld
-    storageLocation: default
+    storageLocation: do-spaces-sfo3
     ttl: 1h
     includeClusterResources: false
     snapshotVolumes: true
@@ -52,7 +52,7 @@ spec:
   template:
     includedNamespaces:
     - palworld
-    storageLocation: default
+    storageLocation: do-spaces-sfo3
     ttl: 24h
     includeClusterResources: false
     snapshotVolumes: true
@@ -81,7 +81,7 @@ spec:
   template:
     includedNamespaces:
     - palworld
-    storageLocation: default
+    storageLocation: do-spaces-sfo3
     ttl: 720h
     includeClusterResources: true
     snapshotVolumes: true
@@ -118,7 +118,7 @@ spec:
   template:
     includedNamespaces:
     - palworld
-    storageLocation: default
+    storageLocation: do-spaces-sfo3
     ttl: 48h
     includeClusterResources: false
     snapshotVolumes: false
@@ -158,7 +158,7 @@ spec:
   template:
     includedNamespaces:
     - palworld
-    storageLocation: default
+    storageLocation: do-spaces-sfo3
     ttl: 720h
     includeClusterResources: false
     snapshotVolumes: false

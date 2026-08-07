@@ -8,7 +8,7 @@ image:
 # ---- Backup Storage Location (S3 / DigitalOcean Spaces) ----
 configuration:
   backupStorageLocation:
-  - name: default
+  - name: do-spaces-sfo3
     provider: aws
     bucket: k8s-velero-backups-cowardly-tiger
     config:
