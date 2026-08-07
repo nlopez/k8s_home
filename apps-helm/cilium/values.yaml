@@ -35,7 +35,7 @@ bpf:
       burstLimit: 50000
   disableExternalIPMitigation: true
 loadBalancer:
-  mode: snat
+  mode: hybrid
 socketLB:
   enabled: true
 bandwidthManager:
