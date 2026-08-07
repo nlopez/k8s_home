@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   name: palworld-config
   namespace: palworld
+  annotations:
+    reloader.stakater.com/auto: "true"
 data:
   TZ: "UTC"
   PLAYERS: "16"
