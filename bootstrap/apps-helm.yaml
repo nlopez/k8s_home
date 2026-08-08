@@ -9,7 +9,7 @@ spec:
   # - jsonPointers:
   #   - /spec/syncPolicy
   syncPolicy:
-    preserveResourcesOnDeletion: true
+    preserveResourcesOnDeletion: false
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
