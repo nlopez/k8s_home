@@ -83,7 +83,7 @@ spec:
     - palworld
     storageLocation: do-spaces-sfo3
     ttl: 720h
-    includeClusterResources: true
+    includeClusterResources: false
     snapshotVolumes: true
     snapshotMoveData: true
     hooks:
