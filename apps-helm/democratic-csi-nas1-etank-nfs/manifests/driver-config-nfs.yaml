@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
+# 1Password item: democratic-csi-nas1-etank-nfs-driver-config (moved to Automation vault)
+# Contains NFS driver config (truenas-api-nfs) for democratic-csi
+# Shares API key with the iSCSI config (same nas1 TrueNAS)
+#
+# The 1Password item should have a field named "driver-config-file.yaml" with the following content:
+#
+# driver: freenas-api-nfs
+# httpConnection:
+#   protocol: https
+#   host: nas1.lga1.radoncanyon.com
+#   port: 443
+#   apiKey: <truenas-api-key>
+#   allowInsecure: false
+# zfs:
+#   datasetParentName: etank/k8s/vols
+#   detachedSnapshotsDatasetParentName: etank/k8s/snaps
+#   datasetEnableQuotas: true
+#   datasetEnableReservation: false
+#   # Human-readable ZFS user properties — visible via `zfs get all <dataset>` and TrueNAS API.
+#   # Set at provision time; existing volumes are unaffected.
+#   datasetProperties:
+#     "org.democratic-csi:pvc-namespace": "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}"
+#     "org.democratic-csi:pvc-name": "{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
+# nfs:
+#   shareHost: nas1.lga1.radoncanyon.com
+#   shareAlldirs: false
+#   shareAllowedHosts: []
+#   shareAllowedNetworks: []
+#   shareMaprootUser: root
+#   shareMaprootGroup: wheel
+#   shareMapallUser: ""
+#   shareMapallGroup: ""
+#   # Human-readable NFS share comment shown in TrueNAS UI (Shares → NFS).
+#   # Richer context than datasetProperties: also has `name` (PV name) and `zfs.datasetName`.
+#   shareCommentTemplate: "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }} ({{ zfs.datasetName }})"
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: democratic-csi-nas1-etank-nfs-driver-config
+  namespace: democratic-csi-nas1-etank-nfs
+spec:
+  itemPath: "vaults/evjh25ux2mnoufaut6qhvm2pdi/items/lkxukkyw7dconmvdg5tdlx6yre"

@@ -1,0 +1,21 @@
+csiDriver:
+  name: "org.democratic-csi.nas1-etank-iscsi"
+driver:
+  existingConfigSecret: democratic-csi-nas1-etank-iscsi-driver-config
+  config:
+    driver: freenas-api-iscsi
+controller:
+  externalSnapshotter:
+    enabled: true
+# VolumeSnapshotClass is managed via standalone manifest in manifests/
+# (Helm chart v0.15.1 renders empty parameters as null, which K8s rejects)
+storageClasses:
+- name: nas1-etank-iscsi
+  defaultClass: false
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true
+  parameters:
+    fsType: ext4
+  mountOptions:
+  - noatime
