@@ -38,7 +38,6 @@ spec:
     includeClusterResources: false
     snapshotVolumes: true
     snapshotMoveData: false
-    includeVolumeData: true
   paused: false
 ---
 # Hourly backup of the palworld namespace
@@ -58,7 +57,6 @@ spec:
     includeClusterResources: false
     snapshotVolumes: true
     snapshotMoveData: false
-    includeVolumeData: true
   paused: false
 ---
 # Daily backup of the palworld namespace
@@ -88,7 +86,6 @@ spec:
     includeClusterResources: false
     snapshotVolumes: true
     snapshotMoveData: true
-    includeVolumeData: true
     hooks:
       resources:
       - name: palworld-save-and-restart

@@ -20,5 +20,4 @@ spec:
     ttl: 720h
     snapshotVolumes: true
     snapshotMoveData: true
-    includeVolumeData: true
   paused: false
