@@ -15,9 +15,10 @@ spec:
   template:
     includedNamespaces:
     - obsidian-livesync
-    includeClusterResources: true
+    includeClusterResources: false
     storageLocation: do-spaces-sfo3
     ttl: 720h
     snapshotVolumes: true
     snapshotMoveData: true
+    includeVolumeData: true
   paused: false
