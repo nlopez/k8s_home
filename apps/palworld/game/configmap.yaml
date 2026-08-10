@@ -80,7 +80,7 @@ data:
   COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "0.5" # lower is faster
   ITEM_WEIGHT_RATE: "0" # default: 1
   PAL_STAMINA_DECREASE_RATE: "0.1" # default: 1.0
-  SUPPLY_DROP_SPAN: "5" # minutes (default: 180)
+  SUPPLY_DROP_SPAN: "3" # minutes (default: 180)
   PLAYER_STOMACH_DECREASE_RATE: "1.0"
   PAL_STOMACH_DECREASE_RATE: "1.0"
   WORK_SPEED_RATE: "2.0"
