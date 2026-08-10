@@ -9,22 +9,6 @@ spec:
   - type: IPAddress
     value: 10.43.64.10
   listeners:
-  - name: wildcard-desertbluffs-com-https
-    protocol: HTTPS
-    hostname: "*.desertbluffs.com"
-    port: 443
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: wildcard-desertbluffs-com-cert-rsa
-        group: ""
-      - kind: Secret
-        name: wildcard-desertbluffs-com-cert-ecdsa
-        group: ""
-    allowedRoutes:
-      namespaces:
-        from: All
   - name: wildcard-radoncanyon-com-https
     protocol: HTTPS
     hostname: "*.radoncanyon.com"
