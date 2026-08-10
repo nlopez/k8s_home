@@ -18,13 +18,6 @@ spec:
       path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
       value:
         allow_connect: true
-  - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
-    name: "envoy-gateway-system/internet/wildcard-radoncanyon-com-https"
-    operation:
-      op: add
-      path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
-      value:
-        allow_connect: true
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
@@ -38,13 +31,6 @@ spec:
     name: private
   type: JSONPatch
   jsonPatches:
-  - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
-    name: "envoy-gateway-system/private/wildcard-desertbluffs-com-https"
-    operation:
-      op: add
-      path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
-      value:
-        allow_connect: true
   - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
     name: "envoy-gateway-system/private/wildcard-radoncanyon-com-https"
     operation:

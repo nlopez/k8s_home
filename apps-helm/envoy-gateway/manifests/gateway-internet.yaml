@@ -27,22 +27,6 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
-  - name: wildcard-radoncanyon-com-https
-    protocol: HTTPS
-    hostname: "*.radoncanyon.com"
-    port: 443
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: wildcard-radoncanyon-com-cert-rsa
-        group: ""
-      - kind: Secret
-        name: wildcard-radoncanyon-com-cert-ecdsa
-        group: ""
-    allowedRoutes:
-      namespaces:
-        from: All
   - name: palworld-game-udp
     protocol: UDP
     port: 8211
