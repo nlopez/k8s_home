@@ -135,6 +135,8 @@ spec:
         argocd.argoproj.io/sync-wave: '2'
     spec:
     {{- if eq .name "cilium" }}
+      annotations:
+        argocd.argoproj.io/compare-options: {{ "ServerSideDiff=false" | quote }}
       ignoreDifferences:
       - group: batch
         kind: Job
