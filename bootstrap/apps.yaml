@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 spec:
   syncPolicy:
-    preserveResourcesOnDeletion: false
+    preserveResourcesOnDeletion: true
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
@@ -23,9 +23,9 @@ spec:
       project: default
       syncPolicy:
         automated:
-          enabled: true
-          prune: true
-          selfHeal: true
+          enabled: false
+          prune: false
+          selfHeal: false
         syncOptions:
         - CreateNamespace=true
         - ServerSideApply=true
