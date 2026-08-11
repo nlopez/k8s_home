@@ -11,6 +11,6 @@ spec:
     requests:
       storage: 10Gi
   dataSource:
-    name: test-snapshot
+    name: radarr-config-snap
     kind: VolumeSnapshot
     apiGroup: snapshot.storage.k8s.io
