@@ -12,7 +12,7 @@ spec:
     fsType: ext4
     volumeHandle: pvc-185a964f-5252-4b0c-9147-4d3e391d0f96
     volumeAttributes:
-      iqn: iqn.2014-09.com.radoncanyon:nas1:pvc-185a964f-5252-4b0c-9147-4d3e391d0f96-nas1-mtank
+      iqn: iqn.2014-09.com.radoncanyon:nas1:csi-pvc-185a964f-5252-4b0c-9147-4d3e391d0f96-nas1-mtank
       lun: "0"
       node_attach_driver: iscsi
       portal: nas1.lga1.radoncanyon.com:3260

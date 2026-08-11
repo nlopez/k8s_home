@@ -8,4 +8,5 @@ spec:
   resources:
     requests:
       storage: 20Gi
+  storageClassName: nas1-mtank-iscsi
   volumeName: pvc-185a964f-5252-4b0c-9147-4d3e391d0f96
