@@ -67,3 +67,11 @@ server:
       - argocd
   httproute:
     enabled: false
+# Increase liveness/readiness probe timeouts to prevent CLBO under load.
+# The default 1s timeout is too short when the repo server processes many
+# concurrent manifest generation calls (e.g. ~20 apps syncing).
+repoServer:
+  livenessProbe:
+    timeoutSeconds: 5
+  readinessProbe:
+    timeoutSeconds: 5

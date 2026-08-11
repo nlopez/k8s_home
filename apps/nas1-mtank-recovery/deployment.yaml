@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nas1-mtank-recovery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nas1-mtank-recovery
+  template:
+    metadata:
+      labels:
+        app: nas1-mtank-recovery
+    spec:
+      containers:
+      - name: recovery
+        image: alpine:3.21
+        command: ["sleep", "infinity"]
+        resources: {}
+        volumeMounts:
+        - name: pvc-0b4fab02-96b4-4ee6-a26c-098c5a81a7a1
+          mountPath: /mnt/0b4fab02-96b4-4ee6-a26c-098c5a81a7a1
+          readOnly: true
+        - name: pvc-185a964f-5252-4b0c-9147-4d3e391d0f96
+          mountPath: /mnt/185a964f-5252-4b0c-9147-4d3e391d0f96
+          readOnly: true
+        - name: pvc-45f0fa8d-f1f6-482b-87f6-01eede619072
+          mountPath: /mnt/45f0fa8d-f1f6-482b-87f6-01eede619072
+          readOnly: true
+        - name: pvc-4f855363-5bdb-4d75-bdd1-14cc5cedadbe
+          mountPath: /mnt/4f855363-5bdb-4d75-bdd1-14cc5cedadbe
+          readOnly: true
+        - name: pvc-80377a50-fbc5-43c9-bfe1-349d9c453d49
+          mountPath: /mnt/80377a50-fbc5-43c9-bfe1-349d9c453d49
+          readOnly: true
+        - name: pvc-853e24a9-9c78-4c42-b313-e97ef4ae035e
+          mountPath: /mnt/853e24a9-9c78-4c42-b313-e97ef4ae035e
+          readOnly: true
+        - name: pvc-8c485ceb-2a93-4b1c-b985-33eab910e26c
+          mountPath: /mnt/8c485ceb-2a93-4b1c-b985-33eab910e26c
+          readOnly: true
+        - name: pvc-993e48c0-3bb0-4930-a15b-0f2c87108acd
+          mountPath: /mnt/993e48c0-3bb0-4930-a15b-0f2c87108acd
+          readOnly: true
+        - name: pvc-9e8559d1-f431-4870-ba55-1619064d683f
+          mountPath: /mnt/9e8559d1-f431-4870-ba55-1619064d683f
+          readOnly: true
+        - name: pvc-b5221bfe-4fb7-403f-afaa-567de6b5dc26
+          mountPath: /mnt/b5221bfe-4fb7-403f-afaa-567de6b5dc26
+          readOnly: true
+        - name: pvc-dabd95ee-fb47-4274-8e0e-fae74d052f21
+          mountPath: /mnt/dabd95ee-fb47-4274-8e0e-fae74d052f21
+          readOnly: true
+        - name: pvc-ec0fb702-dc8e-4844-8fc6-27306217ab12
+          mountPath: /mnt/ec0fb702-dc8e-4844-8fc6-27306217ab12
+          readOnly: true
+        - name: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979
+          mountPath: /mnt/fdd99132-6de0-44bc-93b6-45d1f2fcc979
+          readOnly: true
+        securityContext: {}
+      volumes:
+      - name: pvc-0b4fab02-96b4-4ee6-a26c-098c5a81a7a1
+        persistentVolumeClaim:
+          claimName: pvc-0b4fab02-96b4-4ee6-a26c-098c5a81a7a1
+      - name: pvc-185a964f-5252-4b0c-9147-4d3e391d0f96
+        persistentVolumeClaim:
+          claimName: pvc-185a964f-5252-4b0c-9147-4d3e391d0f96
+      - name: pvc-45f0fa8d-f1f6-482b-87f6-01eede619072
+        persistentVolumeClaim:
+          claimName: pvc-45f0fa8d-f1f6-482b-87f6-01eede619072
+      - name: pvc-4f855363-5bdb-4d75-bdd1-14cc5cedadbe
+        persistentVolumeClaim:
+          claimName: pvc-4f855363-5bdb-4d75-bdd1-14cc5cedadbe
+      - name: pvc-80377a50-fbc5-43c9-bfe1-349d9c453d49
+        persistentVolumeClaim:
+          claimName: pvc-80377a50-fbc5-43c9-bfe1-349d9c453d49
+      - name: pvc-853e24a9-9c78-4c42-b313-e97ef4ae035e
+        persistentVolumeClaim:
+          claimName: pvc-853e24a9-9c78-4c42-b313-e97ef4ae035e
+      - name: pvc-8c485ceb-2a93-4b1c-b985-33eab910e26c
+        persistentVolumeClaim:
+          claimName: pvc-8c485ceb-2a93-4b1c-b985-33eab910e26c
+      - name: pvc-993e48c0-3bb0-4930-a15b-0f2c87108acd
+        persistentVolumeClaim:
+          claimName: pvc-993e48c0-3bb0-4930-a15b-0f2c87108acd
+      - name: pvc-9e8559d1-f431-4870-ba55-1619064d683f
+        persistentVolumeClaim:
+          claimName: pvc-9e8559d1-f431-4870-ba55-1619064d683f
+      - name: pvc-b5221bfe-4fb7-403f-afaa-567de6b5dc26
+        persistentVolumeClaim:
+          claimName: pvc-b5221bfe-4fb7-403f-afaa-567de6b5dc26
+      - name: pvc-dabd95ee-fb47-4274-8e0e-fae74d052f21
+        persistentVolumeClaim:
+          claimName: pvc-dabd95ee-fb47-4274-8e0e-fae74d052f21
+      - name: pvc-ec0fb702-dc8e-4844-8fc6-27306217ab12
+        persistentVolumeClaim:
+          claimName: pvc-ec0fb702-dc8e-4844-8fc6-27306217ab12
+      - name: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979
+        persistentVolumeClaim:
+          claimName: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979

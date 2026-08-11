@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-853e24a9-9c78-4c42-b313-e97ef4ae035e
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pvc-853e24a9-9c78-4c42-b313-e97ef4ae035e

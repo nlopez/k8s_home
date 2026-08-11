@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-45f0fa8d-f1f6-482b-87f6-01eede619072
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  csi:
+    driver: org.democratic-csi.nas1-mtank-iscsi
+    fsType: ext4
+    volumeHandle: pvc-45f0fa8d-f1f6-482b-87f6-01eede619072
+    volumeAttributes:
+      iqn: iqn.2014-09.com.radoncanyon:nas1:pvc-45f0fa8d-f1f6-482b-87f6-01eede619072-nas1-mtank
+      lun: "0"
+      node_attach_driver: iscsi
+      portal: nas1.lga1.radoncanyon.com:3260
+  mountOptions:
+  - noatime
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nas1-mtank-iscsi
+  volumeMode: Filesystem

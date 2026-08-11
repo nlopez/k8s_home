@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-dabd95ee-fb47-4274-8e0e-fae74d052f21
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  volumeName: pvc-dabd95ee-fb47-4274-8e0e-fae74d052f21
