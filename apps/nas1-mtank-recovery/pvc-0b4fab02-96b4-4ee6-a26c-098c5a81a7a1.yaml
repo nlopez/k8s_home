@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  namespace: nas1-recovery
   name: pvc-0b4fab02-96b4-4ee6-a26c-098c5a81a7a1
 spec:
   accessModes:

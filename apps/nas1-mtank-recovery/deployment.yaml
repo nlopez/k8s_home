@@ -2,6 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: nas1-recovery
   name: nas1-mtank-recovery
 spec:
   replicas: 1
