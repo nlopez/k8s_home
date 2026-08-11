@@ -137,12 +137,6 @@ spec:
     {{- if eq .name "cilium" }}
       annotations:
         argocd.argoproj.io/compare-options: {{ "ServerSideDiff=false" | quote }}
-      ignoreDifferences:
-      - group: batch
-        kind: Job
-        namespace: kube-system
-        jqPathExpressions:
-        - select(.metadata.name | startswith("hubble-generate-certs"))
     {{- end }}
     {{- if eq .name "velero" }}
       ignoreDifferences:

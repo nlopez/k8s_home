@@ -25,6 +25,12 @@ configs:
           - DNSEndpoint
         clusters:
           - "*"
+      - apiGroups:
+          - batch
+        kinds:
+          - Job
+        clusters:
+          - "kube-system.*"
     # ---- resource.customizations ----
     # Ignore cert-manager Certificate status (conditions, notusThrough, etc.)
     resource.customizations.ignoreDifferences.cert-manager.io_Certificate: |
