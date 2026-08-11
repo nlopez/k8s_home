@@ -10,7 +10,8 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  dataSource:
+  dataSourceRef:
     name: radarr-config-snap
     kind: VolumeSnapshot
     apiGroup: snapshot.storage.k8s.io
+    namespace: nas1-recovery
