@@ -120,7 +120,7 @@ spec:
       project: default
       syncPolicy:
         automated:
-          enabled: false
+          enabled: true
           prune: false
           selfHeal: false
         syncOptions:
