@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: harbor-database
+spec:
+  instances: 1
+  storage:
+    size: 20Gi
+    pvcTemplate:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: nas1-etank-iscsi
+      resources:
+        requests:
+          storage: 20Gi
+  bootstrap:
+    initdb:
+      database: registry
+      owner: harbor
+      secret:
+        name: onepassword-harbor-database

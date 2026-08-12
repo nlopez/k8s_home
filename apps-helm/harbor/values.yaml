@@ -1,0 +1,50 @@
+# Harbor Helm chart values
+# Official chart: https://github.com/goharbor/harbor-helm
+# Internal-only registry, routed via the private Envoy Gateway (*.radoncanyon.com).
+# TLS is terminated at the Gateway using the existing wildcard cert, so Harbor's
+# own nginx component just serves plain HTTP internally (same pattern as other
+# apps on the private gateway).
+externalURL: https://harbor.radoncanyon.com
+expose:
+  type: clusterIP
+  tls:
+    enabled: false
+  clusterIP:
+    name: harbor
+    ports:
+      httpPort: 80
+# Admin UI/API password, sourced from 1Password via manifests/onepassworditem-admin.yaml
+existingSecretAdminPassword: onepassword-harbor-admin
+existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
+# External PostgreSQL via CloudNative-PG (manifests/cloudnative-pg.yaml), credentials
+# from 1Password via manifests/onepassworditem-database.yaml
+database:
+  type: external
+  external:
+    host: harbor-database-rw.harbor.svc.cluster.local
+    port: "5432"
+    username: harbor
+    coreDatabase: registry
+    existingSecret: onepassword-harbor-database
+    sslmode: disable
+# Bundled Redis (same call as Immich bundling Valkey rather than standing up a
+# separate instance) - just needs a small PVC.
+redis:
+  type: internal
+trivy:
+  enabled: true
+persistence:
+  persistentVolumeClaim:
+    registry:
+      storageClass: nas1-etank-iscsi
+      size: 100Gi
+    jobservice:
+      jobLog:
+        storageClass: nas1-etank-iscsi
+        size: 1Gi
+    redis:
+      storageClass: nas1-etank-iscsi
+      size: 1Gi
+    trivy:
+      storageClass: nas1-etank-iscsi
+      size: 5Gi
