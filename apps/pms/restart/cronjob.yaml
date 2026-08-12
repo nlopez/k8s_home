@@ -22,4 +22,4 @@ spec:
             - bash
             - -c
             - >-
-              kubectl rollout restart sts/pms && kubectl rollout status sts/pms
+              kubectl rollout restart deployment/pms && kubectl rollout status deployment/pms
