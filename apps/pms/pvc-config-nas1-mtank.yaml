@@ -10,3 +10,7 @@ spec:
   resources:
     requests:
       storage: 100Gi
+  dataSource:
+    name: pms-config-restore
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io

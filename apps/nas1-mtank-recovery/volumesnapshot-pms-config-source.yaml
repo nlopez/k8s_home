@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/snapshot.storage.k8s.io/volumesnapshot_v1.json
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: pms-config-source
+  namespace: nas1-recovery
+spec:
+  volumeSnapshotClassName: nas1-mtank-iscsi
+  source:
+    persistentVolumeClaimName: pvc-80377a50-fbc5-43c9-bfe1-349d9c453d49

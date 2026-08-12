@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/snapshot.storage.k8s.io/volumesnapshotcontent_v1.json
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotContent
+metadata:
+  name: pms-config-restore-content
+spec:
+  deletionPolicy: Retain
+  driver: org.democratic-csi.nas1-mtank-iscsi
+  source:
+    snapshotHandle: pvc-80377a50-fbc5-43c9-bfe1-349d9c453d49@snapshot-f2a949c5-78a9-4210-807d-a503684e5b3c
+  volumeSnapshotClassName: nas1-mtank-iscsi
+  volumeSnapshotRef:
+    name: pms-config-restore
+    namespace: pms
