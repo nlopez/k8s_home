@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/snapshot.storage.k8s.io/volumesnapshotcontent_v1.json
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotContent
+metadata:
+  name: radarr-config-restore-content
+spec:
+  deletionPolicy: Retain
+  driver: org.democratic-csi.nas1-mtank-iscsi
+  source:
+    snapshotHandle: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979@snapshot-d967b359-c30d-44e9-994e-0ad7f9b8f075
+  volumeSnapshotClassName: nas1-mtank-iscsi
+  volumeSnapshotRef:
+    name: radarr-config-restore
+    namespace: radarr

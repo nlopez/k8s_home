@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/snapshot.storage.k8s.io/volumesnapshot_v1.json
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: radarr-config-snap
+  namespace: nas1-recovery
+spec:
+  volumeSnapshotClassName: nas1-mtank-iscsi
+  source:
+    persistentVolumeClaimName: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979
