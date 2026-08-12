@@ -12,7 +12,7 @@ controller:
 storageClasses:
 - name: nas1-etank-nfs
   defaultClass: false
-  reclaimPolicy: Delete
+  reclaimPolicy: Retain
   volumeBindingMode: Immediate
   allowVolumeExpansion: true
   parameters:

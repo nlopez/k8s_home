@@ -81,3 +81,9 @@ repoServer:
     timeoutSeconds: 5
   readinessProbe:
     timeoutSeconds: 5
+# Enable ApplicationSet Progressive Syncs (RollingSync), used by
+# bootstrap/apps-helm.yaml to order the infra tiers (network/secrets ->
+# storage -> platform) instead of syncing all 21 apps at once.
+applicationSet:
+  extraArgs:
+  - --enable-progressive-syncs

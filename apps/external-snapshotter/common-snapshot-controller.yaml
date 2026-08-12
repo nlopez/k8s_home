@@ -5,11 +5,15 @@ kind: ServiceAccount
 metadata:
   name: snapshot-controller
   namespace: external-snapshotter
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: snapshot-controller-runner
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
 rules:
 - apiGroups: [""]
   resources: ["persistentvolumes"]
@@ -55,6 +59,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: snapshot-controller-role
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -69,6 +75,8 @@ kind: Role
 metadata:
   name: snapshot-controller-leaderelection
   namespace: external-snapshotter
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
 rules:
 - apiGroups: ["coordination.k8s.io"]
   resources: ["leases"]
@@ -79,6 +87,8 @@ kind: RoleBinding
 metadata:
   name: snapshot-controller-leaderelection
   namespace: external-snapshotter
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
 subjects:
 - kind: ServiceAccount
   name: snapshot-controller
@@ -94,6 +104,8 @@ kind: Deployment
 metadata:
   name: snapshot-controller
   namespace: external-snapshotter
+  annotations:
+    argocd.argoproj.io/sync-wave: '1'
 spec:
   replicas: 2
   selector:

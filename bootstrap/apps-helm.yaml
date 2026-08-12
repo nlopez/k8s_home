@@ -10,110 +10,162 @@ spec:
   #   - /spec/syncPolicy
   syncPolicy:
     preserveResourcesOnDeletion: true
+  # Progressive Syncs: order the infra tiers instead of syncing all apps at
+  # once. Requires the ApplicationSet controller's --enable-progressive-syncs
+  # flag (apps-helm/argocd/values.yaml). Each step waits for its tier's
+  # Applications to be Healthy before the next tier starts.
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+      - matchExpressions:
+        - key: tier
+          operator: In
+          values:
+          - network-and-secrets
+      - matchExpressions:
+        - key: tier
+          operator: In
+          values:
+          - storage
+      - matchExpressions:
+        - key: tier
+          operator: In
+          values:
+          - platform
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
   - list:
       elements:
-      - name: argocd
-        repoURL: "https://argoproj.github.io/argo-helm"
-        chart: argo-cd
-        targetRevision: '10.3.0'
-        namespace: argocd
-      - name: cert-manager
-        repoURL: https://charts.jetstack.io
-        chart: cert-manager
-        targetRevision: v1.21.0
-        namespace: cert-manager
+      # ---- tier: network-and-secrets ----
+      # CNI, gateway/DNS, and the secrets provider most other apps need to
+      # even come up healthy.
+      - name: cilium
+        tier: network-and-secrets
+        repoURL: https://helm.cilium.io
+        chart: cilium
+        targetRevision: "1.20.0"
+        namespace: kube-system
       - name: envoy-gateway
+        tier: network-and-secrets
         repoURL: registry-1.docker.io
         chart: envoyproxy/gateway-helm
         targetRevision: 1.7.1
         namespace: envoy-gateway-system
       - name: tailscale-operator
+        tier: network-and-secrets
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
         targetRevision: "1.98.9"
         namespace: tailscale
-      - name: cilium
-        repoURL: https://helm.cilium.io
-        chart: cilium
-        targetRevision: "1.20.0"
-        namespace: kube-system
-      - name: metrics-server
-        repoURL: https://kubernetes-sigs.github.io/metrics-server
-        chart: metrics-server
-        targetRevision: "3.13.1"
-        namespace: kube-system
-      - name: reloader
-        repoURL: https://stakater.github.io/stakater-charts
-        chart: reloader
-        targetRevision: "2.2.14"
-        namespace: reloader
-      - name: node-feature-discovery
-        repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-        chart: node-feature-discovery
-        targetRevision: "0.19.0"
-        namespace: node-feature-discovery
-      - name: intel-device-plugins-gpu
-        repoURL: https://intel.github.io/helm-charts
-        chart: intel-device-plugins-gpu
-        targetRevision: "0.36.0"
-        namespace: intel-device-plugins-gpu
       - name: external-dns
+        tier: network-and-secrets
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
         targetRevision: "1.21.1"
         namespace: external-dns
-      - name: jellyfin
-        repoURL: https://jellyfin.github.io/jellyfin-helm
-        chart: jellyfin
-        targetRevision: "3.2.0"
-        namespace: jellyfin
-      - name: cloudnative-pg
-        repoURL: https://cloudnative-pg.github.io/charts
-        chart: cloudnative-pg
-        targetRevision: "0.29.0"
-        namespace: cnpg-system
-      - name: immich
-        repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: '0.13.1'
-        namespace: immich
-      - name: spegel
-        repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
-        targetRevision: "0.7.4"
-        namespace: spegel
       - name: onepassword-connect
+        tier: network-and-secrets
         repoURL: https://1password.github.io/connect-helm-charts
         chart: connect
         targetRevision: "2.4.1"
         namespace: 1password
+      - name: cert-manager
+        tier: network-and-secrets
+        repoURL: https://charts.jetstack.io
+        chart: cert-manager
+        targetRevision: v1.21.0
+        namespace: cert-manager
+      # ---- tier: storage ----
+      # CSI drivers + StorageClass/VolumeSnapshotClasses, and the operators
+      # (Velero, CNPG) whose own config depends on those existing.
       - name: democratic-csi-nas1-mtank
+        tier: storage
         repoURL: https://democratic-csi.github.io/charts
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-mtank
       - name: democratic-csi-nas1-mtank-nfs
+        tier: storage
         repoURL: https://democratic-csi.github.io/charts
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-mtank
       - name: democratic-csi-nas1-etank-iscsi
+        tier: storage
         repoURL: https://democratic-csi.github.io/charts
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-etank-iscsi
       - name: democratic-csi-nas1-etank-nfs
+        tier: storage
         repoURL: https://democratic-csi.github.io/charts
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-etank-nfs
       - name: velero
+        tier: storage
         repoURL: https://vmware-tanzu.github.io/helm-charts
         chart: velero
         targetRevision: '12.1.0'
         namespace: velero
+      - name: cloudnative-pg
+        tier: storage
+        repoURL: https://cloudnative-pg.github.io/charts
+        chart: cloudnative-pg
+        targetRevision: "0.29.0"
+        namespace: cnpg-system
+      # ---- tier: platform ----
+      # Everything else: ArgoCD itself and general workloads/add-ons.
+      - name: argocd
+        tier: platform
+        repoURL: "https://argoproj.github.io/argo-helm"
+        chart: argo-cd
+        targetRevision: '10.3.0'
+        namespace: argocd
+      - name: metrics-server
+        tier: platform
+        repoURL: https://kubernetes-sigs.github.io/metrics-server
+        chart: metrics-server
+        targetRevision: "3.13.1"
+        namespace: kube-system
+      - name: reloader
+        tier: platform
+        repoURL: https://stakater.github.io/stakater-charts
+        chart: reloader
+        targetRevision: "2.2.14"
+        namespace: reloader
+      - name: node-feature-discovery
+        tier: platform
+        repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+        chart: node-feature-discovery
+        targetRevision: "0.19.0"
+        namespace: node-feature-discovery
+      - name: intel-device-plugins-gpu
+        tier: platform
+        repoURL: https://intel.github.io/helm-charts
+        chart: intel-device-plugins-gpu
+        targetRevision: "0.36.0"
+        namespace: intel-device-plugins-gpu
+      - name: jellyfin
+        tier: platform
+        repoURL: https://jellyfin.github.io/jellyfin-helm
+        chart: jellyfin
+        targetRevision: "3.2.0"
+        namespace: jellyfin
+      - name: immich
+        tier: platform
+        repoURL: oci://ghcr.io/immich-app/immich-charts/immich
+        targetRevision: '0.13.1'
+        namespace: immich
+      - name: spegel
+        tier: platform
+        repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
+        targetRevision: "0.7.4"
+        namespace: spegel
       - name: harbor
+        tier: platform
         repoURL: https://helm.goharbor.io
         chart: harbor
         targetRevision: "1.19.2"
@@ -121,6 +173,8 @@ spec:
   template:
     metadata:
       name: "{{.name}}"
+      labels:
+        tier: "{{.tier}}"
     spec:
       project: default
       syncPolicy:
@@ -135,9 +189,6 @@ spec:
         namespace: "{{.namespace}}"
         server: https://kubernetes.default.svc
   templatePatch: |-
-    metadata:
-      annotations:
-        argocd.argoproj.io/sync-wave: '2'
     spec:
     {{- if eq .name "cilium" }}
       annotations:
