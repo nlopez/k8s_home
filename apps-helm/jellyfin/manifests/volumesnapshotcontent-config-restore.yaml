@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/snapshot.storage.k8s.io/volumesnapshotcontent_v1.json
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotContent
+metadata:
+  name: jellyfin-config-restore-content
+spec:
+  deletionPolicy: Retain
+  driver: org.democratic-csi.nas1-mtank-iscsi
+  source:
+    snapshotHandle: pvc-dabd95ee-fb47-4274-8e0e-fae74d052f21@snapshot-6b0e6cfb-fa35-4507-b248-387eff20ad08
+  volumeSnapshotClassName: nas1-mtank-iscsi
+  volumeSnapshotRef:
+    name: jellyfin-config-restore
+    namespace: jellyfin
