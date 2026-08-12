@@ -13,3 +13,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  dataSource:
+    name: obsidian-livesync-locald-restore
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
