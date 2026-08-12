@@ -59,6 +59,9 @@ spec:
         - name: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979
           mountPath: /mnt/fdd99132-6de0-44bc-93b6-45d1f2fcc979
           readOnly: true
+        - name: pvc-b64ee534-98c7-4633-b2f6-0cfe84f57654
+          mountPath: /mnt/b64ee534-98c7-4633-b2f6-0cfe84f57654
+          readOnly: true
         securityContext: {}
       volumes:
       - name: pvc-0b4fab02-96b4-4ee6-a26c-098c5a81a7a1
@@ -100,3 +103,6 @@ spec:
       - name: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979
         persistentVolumeClaim:
           claimName: pvc-fdd99132-6de0-44bc-93b6-45d1f2fcc979
+      - name: pvc-b64ee534-98c7-4633-b2f6-0cfe84f57654
+        persistentVolumeClaim:
+          claimName: pvc-b64ee534-98c7-4633-b2f6-0cfe84f57654

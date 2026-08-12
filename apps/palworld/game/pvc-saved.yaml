@@ -11,3 +11,7 @@ spec:
       storage: 1Gi
   accessModes:
   - ReadWriteMany
+  dataSource:
+    name: palworld-saved-restore
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
