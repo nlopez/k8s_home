@@ -46,6 +46,14 @@ configs:
     resource.customizations.ignoreDifferences.apps_DaemonSet: |
       jsonPointers:
       - /spec/template/metadata/annotations/reloader.stakater.com~1last-reloaded-from
+    # Statically pre-provisioned VolumeSnapshotContents (used to restore PVCs
+    # from a snapshot, e.g. apps/*/volumesnapshotcontent-*-restore.yaml) get
+    # spec.volumeSnapshotRef.uid populated by the snapshot-controller once
+    # bound. Git can't declare a UID it doesn't know ahead of time, so this
+    # otherwise causes perpetual OutOfSync drift.
+    resource.customizations.ignoreDifferences.snapshot.storage.k8s.io_VolumeSnapshotContent: |
+      jsonPointers:
+      - /spec/volumeSnapshotRef/uid
   params:
     server.insecure: true
 server:
