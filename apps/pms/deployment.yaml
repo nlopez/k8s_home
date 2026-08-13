@@ -25,7 +25,7 @@ spec:
       - &pms
         name: pms
         # IMAGE=ghcr.io/linuxserver/plex; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
-        image: ghcr.io/linuxserver/plex:version-1.43.2.10687-563d026ea
+        image: ghcr.io/linuxserver/plex:version-1.43.3.10861-07dfddaeb
         # image: docker.io/alpine:latest
         # command: [ "sleep" ]
         # args: [ "infinity" ]
