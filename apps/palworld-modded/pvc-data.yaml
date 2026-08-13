@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/persistentvolumeclaim-v1.json
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data
+  namespace: palworld-modded
+  labels:
+    velero.io/exclude-from-backup: "true"
+spec:
+  storageClassName: nas1-mtank-iscsi
+  resources:
+    requests:
+      # obnyis/jammsen image recommends ~30Gi base + 2Gi/player beyond 8; MAX_PLAYERS=16 here.
+      storage: 50Gi
+  accessModes:
+  - ReadWriteOnce
