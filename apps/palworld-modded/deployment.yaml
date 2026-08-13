@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld-modded
+  namespace: palworld-modded
+  labels:
+    app: palworld-modded
+    version: v1
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: palworld-modded
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: palworld-modded
+        version: v1
+      annotations:
+        configmap.reloader.stakater.com/auto: "true"
+        secret.reloader.stakater.com/reload: "palworld-modded-secrets"
+        backup.velero.io/backup-volumes: saved
+    spec:
+      containers:
+      - name: palworld-modded
+        # Fork of jammsen/docker-palworld-dedicated-server (same native Linux server binary
+        # as apps/palworld/) with UE4SS mod support bolted on via ENABLE_UE4SS. Published
+        # publicly -- no build/push step needed, unlike the Proton-based alternative.
+        image: obnyis/palworld-dedicated-server@sha256:ad9c21f1636b184c2bd24644bdeb223062f5dd8019dd54d437136cd42e68832d
+        envFrom:
+        - configMapRef:
+            name: palworld-modded-config
+        env:
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-modded-secrets
+              key: adminPassword
+        - name: SERVER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-modded-secrets
+              key: serverPassword
+        ports:
+        - name: game
+          containerPort: 8211
+          protocol: UDP
+        - name: query
+          containerPort: 27015
+          protocol: UDP
+        - name: rest-api
+          containerPort: 8212
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "2"
+            memory: "6Gi"
+          limits:
+            cpu: "8"
+            memory: "16Gi"
+        volumeMounts:
+        - name: data
+          mountPath: /palworld
+        - name: saved
+          mountPath: /palworld/Pal/Saved
+        # Same official Linux dedicated-server binary as apps/palworld/, so the same
+        # process-name probe applies. Drop UE4SS Lua/blueprint mods into
+        # /palworld/Pal/Binaries/Linux/ue4ss and .pak LogicMods into
+        # /palworld/Pal/Content/Paks (both under the `data` PVC above) -- e.g. via a
+        # suspended editor pod like apps/palworld/editor/editor.yaml.
+        startupProbe:
+          exec:
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+          failureThreshold: 120
+          periodSeconds: 5
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+          initialDelaySeconds: 120
+          periodSeconds: 20
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: saved
+        persistentVolumeClaim:
+          claimName: saved

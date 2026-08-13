@@ -67,7 +67,7 @@ create` rather than hand-reconstructing PV/PVC manifests from TrueNAS.
 timing:
 ```bash
 velero backup create cluster-pre-reinit-$(date +%Y%m%d) \
-  --include-namespaces atuin,harbor,jellyfin,obsidian-livesync,palworld,pms,radarr,seadexarr,sonarr,warp
+  --include-namespaces atuin,harbor,jellyfin,obsidian-livesync,palworld,palworld-modded,pms,radarr,seadexarr,sonarr,warp
 ```
 For CNPG-managed namespaces (`atuin`, `harbor`), hibernate the `Cluster` first
 (`cnpg.io/hibernation: "on"` annotation) so the snapshot is transactionally consistent rather than

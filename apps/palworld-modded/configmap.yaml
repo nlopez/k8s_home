@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+# Env var names/spellings below (including the upstream "DECREACE" typos) match
+# https://github.com/jammsen/docker-palworld-dedicated-server/blob/master/docs/ENV_VARS.md
+# exactly -- this image uses a different schema than thijsvanloef's (used by apps/palworld/).
+# ENABLE_UE4SS is the obnyis/palworld-dedicated-server fork's addition on top of that base.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: palworld-modded-config
+  namespace: palworld-modded
+data:
+  TZ: "UTC"
+  PUID: "1000"
+  PGID: "1000"
+  ALWAYS_UPDATE_ON_START: "true"
+  BACKUP_ENABLED: "false" # rely on Velero snapshots of the `saved` PVC instead
+  RESTART_ENABLED: "false"
+  ENABLE_UE4SS: "true"
+  MULTITHREAD_ENABLED: "true"
+  COMMUNITY_SERVER: "true"
+  DIFFICULTY: "None"
+  DAYTIME_SPEEDRATE: "2.000000"
+  NIGHTTIME_SPEEDRATE: "0.500000"
+  EXP_RATE: "5.000000"
+  PAL_CAPTURE_RATE: "1.200000"
+  PAL_SPAWN_NUM_RATE: "2.900000"
+  PAL_DAMAGE_RATE_ATTACK: "1.000000"
+  PAL_DAMAGE_RATE_DEFENSE: "1.000000"
+  PLAYER_DAMAGE_RATE_ATTACK: "1.000000"
+  PLAYER_DAMAGE_RATE_DEFENSE: "1.000000"
+  DEATH_PENALTY: "Item"
+  ENABLE_PLAYER_TO_PLAYER_DAMAGE: "false"
+  ENABLE_FRIENDLY_FIRE: "false"
+  ENABLE_INVADER_ENEMY: "false"
+  ENABLE_AIM_ASSIST_PAD: "true"
+  ENABLE_AIM_ASSIST_KEYBOARD: "false"
+  DROP_ITEM_MAX_NUM: "5000" # default: 3000
+  BASE_CAMP_MAX_NUM: "128"
+  BASE_CAMP_WORKER_MAXNUM: "50" # default: 15
+  BASE_CAMP_MAX_NUM_IN_GUILD: "10" # default: 4
+  AUTO_RESET_GUILD_NO_ONLINE_PLAYERS: "false"
+  GUILD_PLAYER_MAX_NUM: "20"
+  IS_MULTIPLAY: "false"
+  IS_PVP: "false"
+  HARDCORE: "false"
+  ENABLE_NON_LOGIN_PENALTY: "false"
+  ENABLE_FAST_TRAVEL: "true"
+  IS_START_LOCATION_SELECT_BY_MAP: "true"
+  EXIST_PLAYER_AFTER_LOGOUT: "false"
+  MAX_PLAYERS: "16"
+  SERVER_NAME: "Modded Flamingo"
+  SERVER_DESCRIPTION: "🦩🔧"
+  PUBLIC_PORT: "8211"
+  RCON_ENABLED: "false"
+  RCON_PORT: "25575"
+  USEAUTH: "true"
+  BAN_LIST_URL: "https://api.palworldgame.com/api/banlist.txt"
+  RESTAPI_ENABLED: "true"
+  RESTAPI_PORT: "8212"
+  SHOW_PLAYER_LIST: "true"
+  CROSSPLAY_PLATFORMS: "(Steam,Xbox,PS5,Mac)"
+  ENABLE_PREDATOR_BOSS_PAL: "true"
+  ALLOW_GLOBAL_PALBOX_EXPORT: "true"
+  ALLOW_GLOBAL_PALBOX_IMPORT: "false"
+  EQUIPMENT_DURABILITY_DAMAGE_RATE: "0.000000"
+  ITEM_CORRUPTION_MULTIPLIER: "0.000000"
+  PLAYER_STAMINA_DECREACE_RATE: "0.800000"
+  PAL_AUTO_HP_REGENE_RATE: "3.000000"
+  PAL_AUTO_HP_REGENE_RATE_IN_SLEEP: "5.000000"
+  PLAYER_AUTO_HP_REGENE_RATE: "3.000000"
+  PLAYER_AUTO_HP_REGENE_RATE_IN_SLEEP: "5.000000"
+  BUILD_OBJECT_DETERIORATION_DAMAGE_RATE: "0.000000" # default: 1
+  COLLECTION_DROP_RATE: "3.000000"
+  COLLECTION_OBJECT_HP_RATE: "1.000000"
+  ENEMY_DROP_ITEM_RATE: "3.000000"
+  COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "0.500000" # lower is faster
+  ITEM_WEIGHT_RATE: "0.000000" # default: 1
+  PAL_STAMINA_DECREACE_RATE: "0.100000" # default: 1.0
+  SUPPLY_DROP_SPAN: "3" # minutes (default: 180)
+  PLAYER_STOMACH_DECREASE_RATE: "1.000000"
+  PAL_STOMACH_DECREACE_RATE: "1.000000"
+  WORK_SPEED_RATE: "2.000000"
+  PAL_EGG_DEFAULT_HATCHING_TIME: "0.000000" # hours (default: 1)
+  BLOCK_RESPAWN_TIME: "1.000000" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
