@@ -188,8 +188,8 @@ schedules:
   # re-init (etcd wipe), not a loss of the TrueNAS backend itself, so a
   # pointer to the ZFS snapshot is enough — no need to copy volume data
   # into object storage.
-  # Note: atuin and harbor are CloudNativePG-managed (operator-owned
-  # PVCs); a plain scheduled snapshot captures a crash-consistent copy,
+  # Note: atuin is CloudNativePG-managed (operator-owned PVCs); a plain
+  # scheduled snapshot captures a crash-consistent copy,
   # not the transactionally-consistent one a hibernate-first restore
   # gives you (see commit 4bd437f7). Good enough as a safety net, but
   # prefer an on-demand backup right after a manual CNPG hibernate for
@@ -201,7 +201,6 @@ schedules:
     template:
       includedNamespaces:
       - atuin
-      - harbor
       - jellyfin
       - pms
       - radarr

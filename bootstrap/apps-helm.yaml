@@ -164,12 +164,6 @@ spec:
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
         targetRevision: "0.7.4"
         namespace: spegel
-      - name: harbor
-        tier: platform
-        repoURL: https://helm.goharbor.io
-        chart: harbor
-        targetRevision: "1.19.2"
-        namespace: harbor
       - name: goldpinger
         tier: platform
         repoURL: https://bloomberg.github.io/goldpinger
