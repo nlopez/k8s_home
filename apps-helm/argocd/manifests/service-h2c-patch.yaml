@@ -1,0 +1,20 @@
+# Patches the Helm-managed argocd-server Service to declare its "http" port
+# as h2c (cleartext HTTP/2). Envoy Gateway reads Service.spec.ports[].appProtocol
+# to decide the upstream protocol for a backendRef; without it, it defaults to
+# HTTP/1.1 and native grpc calls (e.g. `argocd login` without --grpc-web) fail
+# upstream even though the gateway's HTTPS listener negotiates h2 with clients.
+# server.insecure: true (values.yaml) makes argocd-server itself speak h2c on
+# :8080, multiplexing plain HTTP and grpc on the same port, so a single
+# appProtocol change here covers both the web UI and grpc/grpc-web traffic.
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+    appProtocol: kubernetes.io/h2c
