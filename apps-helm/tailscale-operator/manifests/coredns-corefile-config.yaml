@@ -30,8 +30,3 @@ data:
       reload
       loadbalance
     }
-    ts.net {
-      errors
-      cache 30
-      forward . 10.43.43.242
-    }
