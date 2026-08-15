@@ -10,6 +10,7 @@ spec:
     kind: Gateway
     name: internet
     namespace: envoy-gateway-system
+    sectionName: palworld-modded-game-udp
   rules:
   - backendRefs:
     - name: palworld-modded
@@ -29,6 +30,7 @@ spec:
     kind: Gateway
     name: private
     namespace: envoy-gateway-system
+    sectionName: palworld-modded-game-udp
   rules:
   - backendRefs:
     - name: palworld-modded
