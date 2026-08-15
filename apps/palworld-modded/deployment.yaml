@@ -45,12 +45,15 @@ spec:
             secretKeyRef:
               name: palworld-modded-secrets
               key: serverPassword
+        # This image (unlike apps/palworld's thijsvanloef image) has no env var or CLI
+        # flag to change the game listen port -- PalServer.sh always starts with no
+        # -port arg, so it always binds 8211 here regardless of PUBLIC_PORT (that only
+        # sets the ini's NAT-advertise field). service.yaml maps its +100 external port
+        # (8311) back to this real one via targetPort. Query port isn't exposed -- it's
+        # not used by Palworld.
         ports:
         - name: game
           containerPort: 8211
-          protocol: UDP
-        - name: query
-          containerPort: 27015
           protocol: UDP
         - name: rest-api
           containerPort: 8212

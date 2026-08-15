@@ -2,8 +2,8 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: UDPRoute
 metadata:
-  name: palworld-game
-  namespace: palworld
+  name: palworld-modded-game
+  namespace: palworld-modded
 spec:
   parentRefs:
   - group: gateway.networking.k8s.io
@@ -12,8 +12,8 @@ spec:
     namespace: envoy-gateway-system
   rules:
   - backendRefs:
-    - name: palworld
-      port: 8211
+    - name: palworld-modded
+      port: 8311
       group: ""
       kind: Service
       weight: 1
@@ -21,8 +21,8 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: UDPRoute
 metadata:
-  name: palworld-game-private
-  namespace: palworld
+  name: palworld-modded-game-private
+  namespace: palworld-modded
 spec:
   parentRefs:
   - group: gateway.networking.k8s.io
@@ -31,8 +31,8 @@ spec:
     namespace: envoy-gateway-system
   rules:
   - backendRefs:
-    - name: palworld
-      port: 8211
+    - name: palworld-modded
+      port: 8311
       group: ""
       kind: Service
       weight: 1

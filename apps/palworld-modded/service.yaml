@@ -12,12 +12,10 @@ spec:
   loadBalancerClass: tailscale
   selector:
     app: palworld-modded
+  # Service port is +100 vs. the container's real bind port (see deployment.yaml)
+  # so Gateway UDP listeners never collide with apps/palworld's 8211.
   ports:
   - name: game
-    port: 8211
+    port: 8311
     protocol: UDP
     targetPort: game
-  - name: query
-    port: 27015
-    protocol: UDP
-    targetPort: query

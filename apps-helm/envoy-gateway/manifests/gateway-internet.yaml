@@ -33,3 +33,9 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: palworld-modded-game-udp
+    protocol: UDP
+    port: 8311
+    allowedRoutes:
+      namespaces:
+        from: All

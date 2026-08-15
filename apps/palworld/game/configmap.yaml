@@ -8,7 +8,6 @@ data:
   TZ: "UTC"
   PLAYERS: "16"
   PORT: "8211"
-  QUERY_PORT: "27015"
   REST_API_PORT: "8212"
   PUID: "1000"
   PGID: "1000"
