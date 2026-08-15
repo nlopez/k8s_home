@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
 # Unified ClientTrafficPolicy covering all gateways (internet + private).
-# Merges: session resumption, HTTP/3, and post-quantum TLS curves.
+# Merges: session resumption, HTTP/3, post-quantum TLS curves, and HSTS.
 # Replaces: tls-session-resumption, enable-http3, quantum-ciphers,
 #           cloudflare-authenticated-origin-pull-policy
 #
@@ -37,3 +37,11 @@ spec:
     - P-256
   # HTTP/3 (UDP QUIC) — only applies where listeners support it
   http3: {}
+  headers:
+    # lateResponseHeaders run after per-route filters and the backend
+    # response, immediately before bytes leave Envoy — so this also lands on
+    # Envoy-generated 503/504/400 responses, not just successful backend ones.
+    lateResponseHeaders:
+      set:
+      - name: strict-transport-security
+        value: max-age=31536000; includeSubDomains
