@@ -4,8 +4,7 @@ kind: HTTPRoute
 metadata:
   name: atuin
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: atuin.desertbluffs.com
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.alpha.kubernetes.io/hostname: atuin.desertbluffs.com,terminal-frost.desertbluffs.com
 spec:
   parentRefs:
   - name: internet
@@ -32,7 +31,7 @@ kind: HTTPRoute
 metadata:
   name: atuin-private
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: atuin.radoncanyon.com
+    external-dns.alpha.kubernetes.io/hostname: atuin.radoncanyon.com,terminal-frost.desertbluffs.com
 spec:
   parentRefs:
   - name: private

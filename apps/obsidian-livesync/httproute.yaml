@@ -6,7 +6,6 @@ metadata:
   namespace: obsidian-livesync
   annotations:
     external-dns.alpha.kubernetes.io/hostname: sunny-glacier.desertbluffs.com
-    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
   parentRefs:
   - name: internet
