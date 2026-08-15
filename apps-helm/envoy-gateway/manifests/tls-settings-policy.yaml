@@ -1,9 +1,20 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
 # Unified ClientTrafficPolicy covering all gateways (internet + private).
-# Merges: session resumption, HTTP/3, post-quantum TLS curves, and Cloudflare
-#         authenticated-origin-pull (AOP) client certificate validation.
+# Merges: session resumption, HTTP/3, and post-quantum TLS curves.
 # Replaces: tls-session-resumption, enable-http3, quantum-ciphers,
 #           cloudflare-authenticated-origin-pull-policy
+#
+# NOTE: Cloudflare Authenticated-Origin-Pull (client cert validation) was
+# removed from here on purpose. Envoy cannot serve TLS client-cert
+# validation over QUIC — any listener with both `tls.clientValidation` and
+# `http3` enabled has its QUIC listener permanently rejected with
+# "TLS Client Authentication is not supported over QUIC"
+# (see https://github.com/envoyproxy/gateway/issues/8581, unresolved as of
+# 2026-08). Since our *.desertbluffs.com records aren't Cloudflare-proxied
+# (they resolve straight to the origin IP), AOP wasn't protecting anything
+# here anyway. If a host under this wildcard is ever put behind Cloudflare's
+# proxy, re-add clientValidation on a policy scoped to that listener only
+# (not this shared one) so it doesn't take HTTP/3 down for everything else.
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
@@ -24,13 +35,5 @@ spec:
     - X25519MLKEM768
     - X25519
     - P-256
-    # Cloudflare Authenticated-Origin-Pull (AOP) — validates client certs signed
-    # by the CF origin-pull CA. Kept optional so non-Cloudflare clients work too.
-    clientValidation:
-      optional: true
-      caCertificateRefs:
-      - kind: ConfigMap
-        name: cloudflare-origin-pull-ca
-        group: ""
   # HTTP/3 (UDP QUIC) — only applies where listeners support it
   http3: {}
