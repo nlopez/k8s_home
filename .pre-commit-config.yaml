@@ -17,3 +17,11 @@ repos:
   hooks:
   - id: check-yamlschema
     exclude: ^bootstrap/apps\.yaml$|^bootstrap/apps-helm\.yaml$
+- repo: local
+  hooks:
+  - id: check-httproute-mirror
+    name: 'Verify internet HTTPRoutes are mirrored to private'
+    entry: python3 scripts/check_httproute_mirror.py
+    language: python
+    additional_dependencies: [pyyaml]
+    pass_filenames: false

@@ -26,3 +26,32 @@ spec:
       name: argocd-server
       port: 80
       weight: 1
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd-server-private
+  namespace: argocd
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: c.radoncanyon.com,argocd.radoncanyon.com
+spec:
+  parentRefs:
+  - name: private
+    namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
+  hostnames:
+  - c.radoncanyon.com
+  - argocd.radoncanyon.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: argocd-server
+      port: 80
+      weight: 1
