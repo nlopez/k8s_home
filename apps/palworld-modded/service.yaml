@@ -4,9 +4,6 @@ kind: Service
 metadata:
   name: palworld-modded
   namespace: palworld-modded
-  annotations:
-    tailscale.com/proxy-group: heimdall
-    tailscale.com/hostname: modded-palworld
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale

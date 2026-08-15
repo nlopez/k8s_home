@@ -4,9 +4,6 @@ kind: Service
 metadata:
   name: palworld
   namespace: palworld
-  annotations:
-    tailscale.com/proxy-group: heimdall
-    tailscale.com/hostname: brave-flamingo
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
