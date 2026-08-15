@@ -19,3 +19,7 @@ spec:
     port: 8311
     protocol: UDP
     targetPort: game
+  - name: rest-api
+    port: 8212
+    protocol: TCP
+    targetPort: rest-api
