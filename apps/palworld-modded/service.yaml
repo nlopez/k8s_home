@@ -5,8 +5,6 @@ metadata:
   name: palworld-modded
   namespace: palworld-modded
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
   selector:
     app: palworld-modded
   # Service port is +100 vs. the container's real bind port (see deployment.yaml)

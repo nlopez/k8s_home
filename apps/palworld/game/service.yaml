@@ -5,8 +5,6 @@ metadata:
   name: palworld
   namespace: palworld
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
   selector:
     app: palworld
   ports:

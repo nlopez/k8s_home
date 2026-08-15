@@ -4,8 +4,6 @@ kind: Service
 metadata:
   name: warp
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
   selector:
     app: warp
   ports:
