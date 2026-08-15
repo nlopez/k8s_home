@@ -1,0 +1,6 @@
+rbac:
+  create: true
+  clusterscoped: true
+service:
+  type: ClusterIP
+  port: 8081

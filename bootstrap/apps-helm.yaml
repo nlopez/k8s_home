@@ -170,6 +170,12 @@ spec:
         chart: harbor
         targetRevision: "1.19.2"
         namespace: harbor
+      - name: goldpinger
+        tier: platform
+        repoURL: https://bloomberg.github.io/goldpinger
+        chart: goldpinger
+        targetRevision: "1.1.2"
+        namespace: goldpinger
   template:
     metadata:
       name: "{{.name}}"
