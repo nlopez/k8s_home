@@ -1,6 +1,6 @@
 # icloudpd - iCloud Photos Downloader
 
-icloudpd downloads photos and videos from iCloud to your media NFS share at `/home/user/iCloud`.
+icloudpd downloads photos and videos from iCloud to your media NFS share at `/home/user/iCloud`. It runs as an hourly `CronJob` (`cronjob.yaml`) that performs a single pass and exits, rather than a long-lived process managing its own internal schedule.
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ icloudpd downloads photos and videos from iCloud to your media NFS share at `/ho
 - **Existing Files**: If you have previously downloaded files with `1000:1000` ownership, fix them: `chown -R 1001:1001 /mnt/etank/media/icloud`
 - **Interactive Setup**: You must run the interactive initialization process to set up authentication and generate the MFA cookie
 - **Configuration File**: icloudpd.conf is created during initialization using `sync-icloud.sh --Initialise`
-- **Continuous Sync**: The singleton deployment runs continuously; keep `single_pass` unset or false and use `download_interval` to control frequency
+- **Scheduled Sync**: A Kubernetes `CronJob` triggers a single pass every hour (`schedule: '0 * * * *'`); `single_pass` must be `true` in `icloudpd.conf` so each run exits after one pass instead of looping. `download_interval` is ignored once `single_pass=true`.
 - **Failsafe Mount Check**: A `.mounted` file is required in `/home/user/iCloud/.mounted` to prevent accidental syncs
 
 ## Setup Instructions
@@ -38,26 +38,27 @@ kubectl run icloudpd-init \
 
 Or manually: `kubectl exec -it <pod> -- touch /home/user/iCloud/.mounted`
 
-### 2. Deploy the Singleton Pod
+### 2. Deploy the CronJob
 
-Deploy the icloudpd deployment:
+Deploy the icloudpd CronJob:
 
 ```bash
-kubectl apply -f deployment.yaml
+kubectl apply -f cronjob.yaml
 ```
 
 ### 3. Run Initial Authentication & Configuration (MFA Setup)
 
-Watch the pod startup:
+Trigger a one-off Job from the CronJob so you have a pod to attach to (don't wait for the top of the hour):
 
 ```bash
-kubectl get pods -w
+kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-init
+kubectl get pods -n icloudpd -l job-name=icloudpd-init -w
 ```
 
 Once the pod is running, attach to it interactively:
 
 ```bash
-kubectl exec -it <icloudpd-pod-name> -- /bin/sh
+kubectl exec -it -n icloudpd <icloudpd-init-pod-name> -- /bin/sh
 ```
 
 Inside the pod, run the initialization script:
@@ -74,11 +75,11 @@ This interactive process will:
 5. Create `/config/icloudpd.conf` with default settings
 6. Generate and store the MFA cookie in `/config/your-email@icloud.com`
 
-Once complete, optionally edit `/config/icloudpd.conf` if you need to customize settings.
+Once complete, edit `/config/icloudpd.conf` and set `single_pass=true` so each hourly run exits after one pass instead of looping.
 
 ## Updating the Container Image
 
-The icloudpd deployment uses a specific version from Docker Hub: `boredazfcuk/icloudpd:v2024.02.16`
+The icloudpd CronJob uses a specific version mirrored from Docker Hub's `boredazfcuk/icloudpd`.
 
 To update to a newer version:
 
@@ -87,9 +88,9 @@ To update to a newer version:
 IMAGE=boredazfcuk/icloudpd
 skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n10
 
-# Update the image tag in deployment.yaml
+# Update the image tag in cronjob.yaml
 # Then reapply:
-kubectl apply -f deployment.yaml
+kubectl apply -f cronjob.yaml
 ```
 
 ## Configuration
@@ -101,23 +102,23 @@ The icloudpd configuration file `/config/icloudpd.conf` is created during the in
 **To modify configuration after initialization:**
 
 ```bash
-# Connect to a running icloudpd pod
-kubectl exec -it <pod-name> -- sh
+# Trigger a one-off Job so you have a pod to connect to (or wait for the next hourly run)
+kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-manual
+kubectl exec -it -n icloudpd <pod-name> -- sh
 
 # Edit the configuration
 vi /config/icloudpd.conf
-
-# Restart the pod to apply changes
-kubectl rollout restart deployment/icloudpd
 ```
+
+Changes to `/config/icloudpd.conf` take effect on the next Job run automatically — there's no long-lived pod to restart.
 
 ### Key Configuration Items
 
 - **apple_id**: Your iCloud email (set during initialization)
 - **user**: Container user name (default: user)
 - **download_path**: Where to save photos (default: `/home/user/iCloud`)
-- **download_interval**: Seconds between syncs - 21600 (6hrs), 43200 (12hrs), 86400 (24hrs) etc.
-- **single_pass**: Keep `false` for the deployment (default)
+- **download_interval**: Ignored — the CronJob schedule (`cronjob.yaml`, hourly by default) controls sync frequency instead
+- **single_pass**: Must be `true` so each CronJob run exits after one pass
 - **folder_structure**: Date-based organization `{:%Y/%m/%d}` (default) or `none` for flat structure
 - **photo_size**: Image sizes to download - `original`, `medium`, `thumb`, `adjusted`, `alternative` or any combination
 - **skip_videos**: Set to `true` to skip video downloads
@@ -138,7 +139,8 @@ See [CONFIGURATION.md](https://github.com/boredazfcuk/docker-icloudpd/blob/maste
 The MFA cookie expires every **30 days**. Re-authenticate when needed:
 
 ```bash
-kubectl exec -it <icloudpd-pod-name> -- reauth.sh
+kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-reauth
+kubectl exec -it -n icloudpd <icloudpd-reauth-pod-name> -- reauth.sh
 ```
 
 This prompts for a new MFA code on your device and generates a fresh cookie.
@@ -148,7 +150,8 @@ This prompts for a new MFA code on your device and generates a fresh cookie.
 If you change your iCloud password, remove the keyring:
 
 ```bash
-kubectl exec -it <icloudpd-pod-name> -- sync-icloud.sh --Remove-Keyring
+kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-remove-keyring
+kubectl exec -it -n icloudpd <icloudpd-remove-keyring-pod-name> -- sync-icloud.sh --Remove-Keyring
 ```
 
 Then re-run initialization: `sync-icloud.sh --Initialise`
@@ -175,4 +178,8 @@ skip_check=true
 
 ### DNS/Network Issues
 
-Ensure your cluster can reach iCloud servers (icloud.com, api-edge.icloud.com, etc.). If you change network or image settings, reapply the deployment manifest.
+Ensure your cluster can reach iCloud servers (icloud.com, api-edge.icloud.com, etc.). If you change network or image settings, reapply the CronJob manifest (`kubectl apply -f cronjob.yaml`).
+
+### RWO `config` PVC Contention
+
+The `config` PVC is `ReadWriteOnce` (iSCSI), so only one pod can mount it at a time. If you manually trigger a Job (`kubectl create job --from=cronjob/...`) while another icloudpd pod is still running or terminating, the new pod may sit `Pending` briefly until the volume is released — this is expected, not a failure.
