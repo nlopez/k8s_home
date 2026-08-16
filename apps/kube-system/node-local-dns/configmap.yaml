@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+# Adapted from the upstream nodelocaldns.yaml addon
+# (https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/dns/nodelocaldns/nodelocaldns.yaml)
+# per Cilium's guidance for clusters running kube-proxy-free with socketLB
+# (https://docs.cilium.io/en/stable/network/kubernetes/local-redirect-policy/#node-local-dns-cache):
+#   - "bind 0.0.0.0" instead of the link-local IP (node-cache doesn't own an
+#     interface here; CiliumLocalRedirectPolicy does the redirect instead)
+#   - "health" with no host:port, since it's no longer bound to a fixed IP
+#   - __PILLAR__CLUSTER__DNS__ / __PILLAR__UPSTREAM__SERVERS__ are left as
+#     literal placeholders: the node-cache binary substitutes them itself at
+#     startup from the kube-dns ConfigMap / node's /etc/resolv.conf.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-local-dns
+  namespace: kube-system
+data:
+  Corefile: |-
+    cluster.local:53 {
+        errors
+        cache {
+                success 9984 30
+                denial 9984 5
+        }
+        reload
+        loop
+        bind 0.0.0.0
+        forward . __PILLAR__CLUSTER__DNS__ {
+                force_tcp
+        }
+        prometheus :9253
+        health
+        }
+    in-addr.arpa:53 {
+        errors
+        cache 30
+        reload
+        loop
+        bind 0.0.0.0
+        forward . __PILLAR__CLUSTER__DNS__ {
+                force_tcp
+        }
+        prometheus :9253
+        }
+    ip6.arpa:53 {
+        errors
+        cache 30
+        reload
+        loop
+        bind 0.0.0.0
+        forward . __PILLAR__CLUSTER__DNS__ {
+                force_tcp
+        }
+        prometheus :9253
+        }
+    .:53 {
+        errors
+        cache 30
+        reload
+        loop
+        bind 0.0.0.0
+        forward . __PILLAR__UPSTREAM__SERVERS__
+        prometheus :9253
+        }

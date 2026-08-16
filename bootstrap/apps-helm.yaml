@@ -47,12 +47,6 @@ spec:
         chart: cilium
         targetRevision: "1.20.0"
         namespace: kube-system
-      - name: node-local-dns
-        tier: network-and-secrets
-        repoURL: https://lablabs.github.io/k8s-nodelocaldns-helm
-        chart: node-local-dns
-        targetRevision: "2.4.0"
-        namespace: kube-system
       - name: envoy-gateway
         tier: network-and-secrets
         repoURL: registry-1.docker.io
