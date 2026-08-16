@@ -6,9 +6,17 @@
 #   - "bind 0.0.0.0" instead of the link-local IP (node-cache doesn't own an
 #     interface here; CiliumLocalRedirectPolicy does the redirect instead)
 #   - "health" with no host:port, since it's no longer bound to a fixed IP
-#   - __PILLAR__CLUSTER__DNS__ / __PILLAR__UPSTREAM__SERVERS__ are left as
-#     literal placeholders: the node-cache binary substitutes them itself at
-#     startup from the kube-dns ConfigMap / node's /etc/resolv.conf.
+#   - __PILLAR__CLUSTER__DNS__ is left as a literal placeholder: the node-cache
+#     binary substitutes it itself at startup from the kube-dns ConfigMap.
+#   - the external (".") forward is pinned to the LAN router + public
+#     fallbacks instead of __PILLAR__UPSTREAM__SERVERS__ (node's
+#     /etc/resolv.conf). That file is Tailscale-managed and puts MagicDNS
+#     (100.100.100.100) in the mix, which answers authoritatively-but-not-
+#     recursively (SERVFAIL/"recursion not available") for made-up names
+#     under the tailnet's own search domain. musl's resolver (every
+#     Alpine-based pod) aborts its whole ndots search-list on that instead
+#     of falling through to the next suffix, breaking resolution of the
+#     *bare* external hostname pods actually wanted.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -59,6 +67,6 @@ data:
         reload
         loop
         bind 0.0.0.0
-        forward . __PILLAR__UPSTREAM__SERVERS__
+        forward . 192.168.222.1 1.1.1.1 1.0.0.1
         prometheus :9253
         }

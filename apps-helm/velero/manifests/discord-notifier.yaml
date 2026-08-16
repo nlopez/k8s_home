@@ -110,6 +110,13 @@ spec:
         spec:
           restartPolicy: Never
           serviceAccountName: velero-discord-notifier
+          # See apps/icloudpd/cronjob.yaml for why: musl's resolver aborts its
+          # ndots search-list on the first SERVFAIL instead of falling through,
+          # which broke curl's resolution of the external Discord webhook host.
+          dnsConfig:
+            options:
+            - name: ndots
+              value: "1"
           containers:
           - name: notifier
             image: alpine/k8s:1.36.2
