@@ -8,7 +8,7 @@ metadata:
     version: v1
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.43.64.1
+  loadBalancerIP: 10.43.64.2
   selector:
     app: pms
     version: v1
