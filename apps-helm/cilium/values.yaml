@@ -19,6 +19,11 @@ ipv4:
 ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
+localRedirectPolicies:
+  # required so node-local-dns can redirect kube-dns traffic to the
+  # node-local cache pod instead of the real CoreDNS Service; see
+  # apps-helm/node-local-dns
+  enabled: true
 bpf:
   datapathMode: netkit
   masquerade: true
