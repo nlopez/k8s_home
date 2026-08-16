@@ -78,7 +78,7 @@ spec:
   capacity:
     storage: 1Pi
   accessModes:
-  - ReadOnlyMany
+  - ReadWriteMany
   nfs:
     server: 192.168.222.114
     path: "/mnt/etank/media/icloud"
@@ -101,44 +101,6 @@ metadata:
   name: immich-icloud-nfs
 spec:
   volumeName: immich-icloud-nfs
-  resources:
-    requests:
-      storage: 1Pi
-  accessModes:
-  - ReadOnlyMany
----
-# PhotoSync media volume (read-write)
-# Points to /mnt/etank/media/PhotoSync on the NFS share
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: immich-photosync-nfs
-spec:
-  capacity:
-    storage: 1Pi
-  accessModes:
-  - ReadWriteMany
-  nfs:
-    server: 192.168.222.114
-    path: "/mnt/etank/media/PhotoSync"
-  mountOptions:
-  - nfsvers=4.1
-  - rsize=1048576
-  - wsize=1048576
-  - hard
-  - timeo=600
-  - retrans=2
-  - noresvport
-  - _netdev
-  - nofail
-  persistentVolumeReclaimPolicy: Retain
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: immich-photosync-nfs
-spec:
-  volumeName: immich-photosync-nfs
   resources:
     requests:
       storage: 1Pi
