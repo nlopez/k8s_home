@@ -15,6 +15,18 @@ spec:
         spec:
           serviceAccountName: default
           restartPolicy: Never
+          # Alpine/musl's resolver aborts the whole ndots search-domain list on
+          # the first SERVFAIL instead of falling through (unlike glibc, which
+          # continues to the next suffix). Tailscale's injected search domains
+          # (macaroni-pirate.ts.net, <tailnet>) get forwarded externally by
+          # node-local-dns and come back SERVFAIL for made-up subdomains, which
+          # aborts resolution of the actual bare hostname (e.g. icloud.com).
+          # ndots:1 makes any dotted hostname resolve as absolute first,
+          # skipping that search-suffix path.
+          dnsConfig:
+            options:
+            - name: ndots
+              value: "1"
           containers:
           - name: icloudpd
             # IMAGE=boredazfcuk/icloudpd; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
