@@ -36,6 +36,7 @@ spec:
     kind: Gateway
   hostnames:
   - httpbin.radoncanyon.com
+  - httpbin.desertbluffs.com
   rules:
   - backendRefs:
     - name: httpbin

@@ -38,6 +38,7 @@ spec:
     kind: Gateway
   hostnames:
   - cecil.radoncanyon.com
+  - cecil.desertbluffs.com
   rules:
   - backendRefs:
     - name: jellyfin

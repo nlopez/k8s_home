@@ -42,6 +42,7 @@ spec:
     kind: Gateway
   hostnames:
   - sunny-glacier.radoncanyon.com
+  - sunny-glacier.desertbluffs.com
   rules:
   - backendRefs:
     - name: couchdb

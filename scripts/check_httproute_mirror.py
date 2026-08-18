@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """Verify every internet-gateway HTTPRoute hostname has a private mirror.
 
-Rule: any hostname on the "internet" Gateway (*.desertbluffs.com) must have a
-matching hostname on the "private" Gateway (*.radoncanyon.com) with the same
-subdomain. This is one-directional -- private-only hosts (radoncanyon.com
-without a desertbluffs.com counterpart) are allowed, since some apps are
-intentionally internal-only.
+Rule: any hostname on the "internet" Gateway (*.desertbluffs.com) must have,
+on the "private" Gateway:
+  1. a matching hostname on *.radoncanyon.com with the same subdomain, and
+  2. the original *.desertbluffs.com hostname itself, listed directly on a
+     private-gateway HTTPRoute (so the private gw can also terminate TLS
+     for and route the public name -- see apps/pms/httproute.yaml for the
+     pattern).
+
+This is one-directional -- private-only hosts (radoncanyon.com without a
+desertbluffs.com counterpart) are allowed, since some apps are intentionally
+internal-only.
 
 Exit non-zero and print actionable errors if any mirror is missing.
 """
@@ -68,7 +74,11 @@ def main() -> int:
             continue
         if sd not in private_subdomains:
             expected = f"{sd}.{PRIVATE_DOMAIN}" if sd else PRIVATE_DOMAIN
-            missing.append((hostname, expected))
+            missing.append((hostname, f"{expected} on the private gateway"))
+        if hostname not in by_gateway["private"]:
+            missing.append(
+                (hostname, f"{hostname} listed directly on a private-gateway HTTPRoute")
+            )
 
     if missing:
         print("HTTPRoute mirror check failed:\n", file=sys.stderr)
@@ -81,7 +91,10 @@ def main() -> int:
         print(
             "\nAdd an HTTPRoute for the private gateway with the missing "
             "hostname(s) above -- see apps/httpbin/httproute.yaml or "
-            "apps-helm/jellyfin/manifests/httproute.yaml for the pattern.",
+            "apps-helm/jellyfin/manifests/httproute.yaml for the "
+            "radoncanyon.com mirror pattern, and apps/pms/httproute.yaml "
+            "for also listing the desertbluffs.com hostname directly on "
+            "the private-gateway route.",
             file=sys.stderr,
         )
         return 1

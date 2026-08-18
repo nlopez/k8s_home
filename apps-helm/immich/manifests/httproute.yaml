@@ -40,6 +40,7 @@ spec:
     kind: Gateway
   hostnames:
   - immich.radoncanyon.com
+  - immich.desertbluffs.com
   rules:
   - backendRefs:
     - name: immich-server

@@ -44,6 +44,8 @@ spec:
   hostnames:
   - c.radoncanyon.com
   - argocd.radoncanyon.com
+  - c.desertbluffs.com
+  - argocd.desertbluffs.com
   rules:
   - matches:
     - path:

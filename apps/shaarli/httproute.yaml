@@ -36,6 +36,7 @@ spec:
     kind: Gateway
   hostnames:
   - shaarli.radoncanyon.com
+  - shaarli.desertbluffs.com
   rules:
   - backendRefs:
     - name: shaarli
