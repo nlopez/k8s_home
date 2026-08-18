@@ -14,14 +14,21 @@ attached to the "private" Gateway that is otherwise identical:
      apps/httpbin/httproute.yaml) is allowed but no longer required -- split
      horizon DNS now resolves the desertbluffs.com hostname to the private
      gateway internally too.
-  3. the `external-dns.alpha.kubernetes.io/hostname` annotation is exempt
-     from the comparison -- it's expected to differ (or be absent) since it
-     drives DNS record creation, not routing.
+Separately, every HTTPRoute (internet or private, mirrored or not) is
+checked for the `external-dns.alpha.kubernetes.io/hostname` annotation and
+flagged as an error if present. Per the external-dns Gateway API source
+docs [1], relying on the annotation is discouraged: the Gateway itself only
+recognizes hostnames declared in `spec.hostnames`, so any hostname added
+only via the annotation won't actually be routable. `spec.hostnames` alone
+is sufficient for external-dns to create DNS records.
+
+[1] https://kubernetes-sigs.github.io/external-dns/latest/docs/sources/gateway-api/#hostnames
 
 This is one-directional -- private-only HTTPRoutes (no internet-gateway
 counterpart) are allowed, since some apps are intentionally internal-only.
 
-Exit non-zero and print actionable errors if any mirror is missing or diverges.
+Exit non-zero and print actionable errors if any mirror is missing, diverges,
+or an HTTPRoute still uses the external-dns hostname annotation.
 """
 
 from __future__ import annotations
@@ -86,10 +93,25 @@ def find_private_match(
     return None
 
 
+def check_annotation(doc: dict[str, Any], path: pathlib.Path, errors: list[str]) -> None:
+    annotations = doc.get("metadata", {}).get("annotations") or {}
+    if EXTERNAL_DNS_ANNOTATION in annotations:
+        errors.append(
+            f"{path}: {route_name(doc)} sets the {EXTERNAL_DNS_ANNOTATION} "
+            f"annotation -- use spec.hostnames instead, since the Gateway "
+            f"won't recognize hostnames from the annotation alone (see "
+            f"https://kubernetes-sigs.github.io/external-dns/latest/docs/"
+            f"sources/gateway-api/#hostnames)."
+        )
+
+
 def check_file(path: pathlib.Path, errors: list[str]) -> None:
     docs = load_httproutes(path)
     internet_docs = [d for d in docs if "internet" in parent_gateways(d)]
     private_docs = [d for d in docs if "private" in parent_gateways(d)]
+
+    for doc in docs:
+        check_annotation(doc, path, errors)
 
     for internet_doc in internet_docs:
         name = route_name(internet_doc)
@@ -139,9 +161,9 @@ def main() -> int:
             "apps-helm/jellyfin/manifests/httproute.yaml for the "
             "radoncanyon.com mirror pattern, and apps/pms/httproute.yaml "
             "for also listing the desertbluffs.com hostname directly on "
-            "the private-gateway route. The "
-            f"{EXTERNAL_DNS_ANNOTATION} annotation is not compared and may "
-            "differ.",
+            "the private-gateway route. Drop the "
+            f"{EXTERNAL_DNS_ANNOTATION} annotation wherever it appears -- "
+            "spec.hostnames alone is enough for external-dns.",
             file=sys.stderr,
         )
         return 1

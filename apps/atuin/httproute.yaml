@@ -3,8 +3,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: atuin
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: atuin.desertbluffs.com,terminal-frost.desertbluffs.com
 spec:
   parentRefs:
   - name: internet
@@ -31,8 +29,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: atuin-private
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: atuin.radoncanyon.com,terminal-frost.radoncanyon.com
 spec:
   parentRefs:
   - name: private

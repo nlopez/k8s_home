@@ -3,8 +3,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: sonarr
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: majestic-fear.radoncanyon.com
 spec:
   parentRefs:
   - name: private
