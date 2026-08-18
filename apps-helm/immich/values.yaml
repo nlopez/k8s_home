@@ -73,7 +73,7 @@ server:
         main:
           main:
           - path: /icloud
-            readOnly: true
+            readOnly: false
 # Machine learning component
 machine-learning:
   enabled: true
