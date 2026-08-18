@@ -11,9 +11,6 @@ spec:
       envoyService:
         type: LoadBalancer
         allocateLoadBalancerNodePorts: false
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: envoy-gateway-private
       envoyDeployment:
         container:
           resources:

@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/tailscale.com/connector_v1alpha1.json
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: envoy-gateway-private
+spec:
+  hostname: envoy-gateway-private
+  subnetRouter:
+    advertiseRoutes:
+    - 10.43.64.10/32
