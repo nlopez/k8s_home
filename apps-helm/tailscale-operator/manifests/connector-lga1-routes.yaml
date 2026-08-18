@@ -2,9 +2,10 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: envoy-gateway-private
+  name: lga1-routes
 spec:
-  hostname: envoy-gateway-private
+  hostname: lga1-routes
   subnetRouter:
     advertiseRoutes:
-    - 10.43.64.10/32
+    - 10.43.64.0/24
+    - 192.168.222.0/24
