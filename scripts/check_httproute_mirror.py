@@ -1,100 +1,147 @@
 #!/usr/bin/env python3
-"""Verify every internet-gateway HTTPRoute hostname has a private mirror.
+"""Verify every internet-gateway HTTPRoute has a matching private-gateway mirror.
 
-Rule: any hostname on the "internet" Gateway (*.desertbluffs.com) must have,
-on the "private" Gateway:
-  1. a matching hostname on *.radoncanyon.com with the same subdomain, and
-  2. the original *.desertbluffs.com hostname itself, listed directly on a
-     private-gateway HTTPRoute (so the private gw can also terminate TLS
-     for and route the public name -- see apps/pms/httproute.yaml for the
-     pattern).
+Rule: for any HTTPRoute attached to the "internet" Gateway, there must be a
+sibling HTTPRoute (defined in the same file, as is the repo convention --
+see apps/httpbin/httproute.yaml or apps-helm/jellyfin/manifests/httproute.yaml)
+attached to the "private" Gateway that is otherwise identical:
 
-This is one-directional -- private-only hosts (radoncanyon.com without a
-desertbluffs.com counterpart) are allowed, since some apps are intentionally
-internal-only.
+  1. same `spec.rules` (backendRefs, matches, timeouts, ...) -- the private
+     route must serve the same backend the same way.
+  2. every desertbluffs.com hostname on the internet route must also appear
+     directly on the private route (see apps/pms/httproute.yaml). A
+     radoncanyon.com mirror with the same subdomain (see
+     apps/httpbin/httproute.yaml) is allowed but no longer required -- split
+     horizon DNS now resolves the desertbluffs.com hostname to the private
+     gateway internally too.
+  3. the `external-dns.alpha.kubernetes.io/hostname` annotation is exempt
+     from the comparison -- it's expected to differ (or be absent) since it
+     drives DNS record creation, not routing.
 
-Exit non-zero and print actionable errors if any mirror is missing.
+This is one-directional -- private-only HTTPRoutes (no internet-gateway
+counterpart) are allowed, since some apps are intentionally internal-only.
+
+Exit non-zero and print actionable errors if any mirror is missing or diverges.
 """
 
 from __future__ import annotations
 
 import pathlib
 import sys
+from typing import Any
 
 import yaml
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
 INTERNET_DOMAIN = "desertbluffs.com"
-PRIVATE_DOMAIN = "radoncanyon.com"
-GATEWAY_NAMES = {"internet": INTERNET_DOMAIN, "private": PRIVATE_DOMAIN}
+EXTERNAL_DNS_ANNOTATION = "external-dns.alpha.kubernetes.io/hostname"
 
 
 def iter_httproute_files() -> list[pathlib.Path]:
     return sorted(REPO_ROOT.glob("**/httproute.yaml"))
 
 
-def hostnames_by_gateway(paths: list[pathlib.Path]) -> dict[str, set[str]]:
-    """Map gateway name -> set of hostnames attached to it, across all files."""
-    result: dict[str, set[str]] = {name: set() for name in GATEWAY_NAMES}
-    for path in paths:
-        text = path.read_text()
-        for doc in yaml.safe_load_all(text):
-            if not doc or doc.get("kind") != "HTTPRoute":
-                continue
-            spec = doc.get("spec", {})
-            hostnames = spec.get("hostnames", [])
-            for parent_ref in spec.get("parentRefs", []):
-                gw_name = parent_ref.get("name")
-                if gw_name in GATEWAY_NAMES:
-                    result[gw_name].update(hostnames)
-    return result
+def load_httproutes(path: pathlib.Path) -> list[dict[str, Any]]:
+    docs = []
+    for doc in yaml.safe_load_all(path.read_text()):
+        if doc and doc.get("kind") == "HTTPRoute":
+            docs.append(doc)
+    return docs
+
+
+def parent_gateways(doc: dict[str, Any]) -> set[str]:
+    return {
+        ref.get("name")
+        for ref in doc.get("spec", {}).get("parentRefs", [])
+    }
 
 
 def subdomain(hostname: str, domain: str) -> str | None:
     suffix = f".{domain}"
-    if hostname == domain or hostname.endswith(suffix):
-        return hostname[: -len(suffix)] if hostname.endswith(suffix) else ""
+    if hostname == domain:
+        return ""
+    if hostname.endswith(suffix):
+        return hostname[: -len(suffix)]
     return None
 
 
-def main() -> int:
-    paths = iter_httproute_files()
-    by_gateway = hostnames_by_gateway(paths)
+def route_name(doc: dict[str, Any]) -> str:
+    meta = doc.get("metadata", {})
+    ns = meta.get("namespace")
+    name = meta.get("name", "<unnamed>")
+    return f"{ns}/{name}" if ns else name
 
-    private_subdomains = {
-        sd
-        for h in by_gateway["private"]
-        if (sd := subdomain(h, PRIVATE_DOMAIN)) is not None
-    }
 
-    missing = []
-    for hostname in sorted(by_gateway["internet"]):
-        sd = subdomain(hostname, INTERNET_DOMAIN)
-        if sd is None:
+def find_private_match(
+    internet_doc: dict[str, Any], private_docs: list[dict[str, Any]]
+) -> dict[str, Any] | None:
+    """Pick the private-gateway doc whose rules match the internet doc's."""
+    internet_rules = internet_doc.get("spec", {}).get("rules")
+    exact = [d for d in private_docs if d.get("spec", {}).get("rules") == internet_rules]
+    if exact:
+        return exact[0]
+    # Fall back to the only private route in the file, if unambiguous.
+    if len(private_docs) == 1:
+        return private_docs[0]
+    return None
+
+
+def check_file(path: pathlib.Path, errors: list[str]) -> None:
+    docs = load_httproutes(path)
+    internet_docs = [d for d in docs if "internet" in parent_gateways(d)]
+    private_docs = [d for d in docs if "private" in parent_gateways(d)]
+
+    for internet_doc in internet_docs:
+        name = route_name(internet_doc)
+        private_doc = find_private_match(internet_doc, private_docs)
+        if private_doc is None:
+            errors.append(
+                f"{path}: {name} is on the internet gateway but has no "
+                f"private-gateway mirror HTTPRoute in this file."
+            )
             continue
-        if sd not in private_subdomains:
-            expected = f"{sd}.{PRIVATE_DOMAIN}" if sd else PRIVATE_DOMAIN
-            missing.append((hostname, f"{expected} on the private gateway"))
-        if hostname not in by_gateway["private"]:
-            missing.append(
-                (hostname, f"{hostname} listed directly on a private-gateway HTTPRoute")
+
+        internet_hostnames = internet_doc.get("spec", {}).get("hostnames", [])
+        private_hostnames = set(private_doc.get("spec", {}).get("hostnames", []))
+        for hostname in internet_hostnames:
+            sd = subdomain(hostname, INTERNET_DOMAIN)
+            if sd is None:
+                continue
+            if hostname not in private_hostnames:
+                errors.append(
+                    f"{path}: {name} hostname {hostname} is not listed "
+                    f"directly on private-gateway route {route_name(private_doc)}."
+                )
+
+        internet_rules = internet_doc.get("spec", {}).get("rules")
+        private_rules = private_doc.get("spec", {}).get("rules")
+        if internet_rules != private_rules:
+            errors.append(
+                f"{path}: {name} and its private-gateway mirror "
+                f"{route_name(private_doc)} have diverging spec.rules "
+                f"(backendRefs/matches must match)."
             )
 
-    if missing:
+
+def main() -> int:
+    errors: list[str] = []
+    for path in iter_httproute_files():
+        check_file(path, errors)
+
+    if errors:
         print("HTTPRoute mirror check failed:\n", file=sys.stderr)
-        for hostname, expected in missing:
-            print(
-                f"  {hostname} is on the internet gateway but has no "
-                f"private-gateway mirror ({expected} not found).",
-                file=sys.stderr,
-            )
+        for error in errors:
+            print(f"  {error}", file=sys.stderr)
         print(
-            "\nAdd an HTTPRoute for the private gateway with the missing "
-            "hostname(s) above -- see apps/httpbin/httproute.yaml or "
+            "\nAdd or fix an HTTPRoute for the private gateway with the same "
+            "spec.rules as the internet-gateway route above -- see "
+            "apps/httpbin/httproute.yaml or "
             "apps-helm/jellyfin/manifests/httproute.yaml for the "
             "radoncanyon.com mirror pattern, and apps/pms/httproute.yaml "
             "for also listing the desertbluffs.com hostname directly on "
-            "the private-gateway route.",
+            "the private-gateway route. The "
+            f"{EXTERNAL_DNS_ANNOTATION} annotation is not compared and may "
+            "differ.",
             file=sys.stderr,
         )
         return 1
