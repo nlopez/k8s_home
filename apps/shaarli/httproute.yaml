@@ -11,6 +11,7 @@ spec:
     kind: Gateway
   hostnames:
   - shaarli.desertbluffs.com
+  - small-cow.desertbluffs.com
   rules:
   - backendRefs:
     - name: shaarli
@@ -35,8 +36,8 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - shaarli.radoncanyon.com
   - shaarli.desertbluffs.com
+  - small-cow.desertbluffs.com
   rules:
   - backendRefs:
     - name: shaarli

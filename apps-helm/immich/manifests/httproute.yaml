@@ -11,6 +11,7 @@ spec:
     kind: Gateway
   hostnames:
   - immich.desertbluffs.com
+  - burning-cloud.desertbluffs.com
   rules:
   - backendRefs:
     - name: immich-server
@@ -35,8 +36,8 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - immich.radoncanyon.com
   - immich.desertbluffs.com
+  - burning-cloud.desertbluffs.com
   rules:
   - backendRefs:
     - name: immich-server
