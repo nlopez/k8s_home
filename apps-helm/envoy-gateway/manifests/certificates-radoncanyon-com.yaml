@@ -6,6 +6,7 @@ metadata:
 spec:
   secretName: wildcard-radoncanyon-com-cert-rsa
   isCA: false
+  renewBefore: 24h
   privateKey:
     algorithm: RSA
     size: 2048
@@ -22,6 +23,7 @@ metadata:
 spec:
   secretName: wildcard-radoncanyon-com-cert-ecdsa
   isCA: false
+  renewBefore: 24h
   privateKey:
     algorithm: ECDSA
     size: 256
