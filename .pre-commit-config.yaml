@@ -25,3 +25,11 @@ repos:
     language: python
     additional_dependencies: [pyyaml]
     pass_filenames: false
+  - id: kubeconform
+    name: 'Validate raw Kubernetes manifests against schema (strict)'
+    entry: >-
+      kubeconform -strict -summary -schema-location default -schema-location https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json -ignore-missing-schemas
+    language: golang
+    additional_dependencies: ['github.com/yannh/kubeconform/cmd/kubeconform@v0.8.0']
+    files: ^(apps|apps-helm)/.*\.ya?ml$
+    exclude: /values\.yaml$|/\.gitkeep$|^apps/pms/deployment\.yaml$

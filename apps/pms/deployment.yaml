@@ -1,4 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+# NOTE: excluded from the kubeconform pre-commit hook (see .pre-commit-config.yaml) —
+# the initContainer's `<<: *pms` merge-key override is valid YAML/K8s but trips
+# kubeconform -strict's duplicate-key detector as a false positive.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
