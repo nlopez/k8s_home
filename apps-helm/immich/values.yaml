@@ -107,14 +107,14 @@ machine-learning:
           main:
           - path: /cache
             readOnly: false
-    icloud:
-      enabled: true
-      existingClaim: immich-icloud-nfs
-      advancedMounts:
-        main:
-          main:
-          - path: /icloud
-            readOnly: true
+    # icloud:
+    #   enabled: true
+    #   existingClaim: immich-icloud-nfs
+    #   advancedMounts:
+    #     main:
+    #       main:
+    #       - path: /icloud
+    #         readOnly: true
     photosync:
       enabled: true
       existingClaim: immich-photosync-nfs
