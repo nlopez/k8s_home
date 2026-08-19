@@ -107,3 +107,10 @@ machine-learning:
           main:
           - path: /icloud
             readOnly: false
+    photosync:
+      enabled: true
+      existingClaim: immich-photosync-nfs
+      advancedMounts:
+        main:
+          main:
+          - path: /PhotoSync
