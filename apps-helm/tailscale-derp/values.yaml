@@ -66,6 +66,51 @@ env:
 - name: DERP_VERIFY_CLIENTS
   value: "true"
 
+# The chart's baked-in /app/healthprobe.sh curls https://$DERP_HOSTNAME/derp/
+# probe - i.e. the *external* hostname/LB IP. That only works from outside
+# the cluster: pods can't hairpin back to their own Cilium LB-IPAM VIP
+# (10.43.64.30) from inside the cluster, so that probe always fails here
+# with "no route to host". Override all three probes to hit derper directly
+# on localhost:8443 instead (still validating the real hostname/cert via
+# --resolve), which is what these probes actually care about anyway.
+startupProbe:
+  exec:
+    command:
+    - /bin/bash
+    - -c
+    - |
+      curl --head -L -k -s -o /dev/null -m 5 \
+        --resolve "${DERP_HOSTNAME}:8443:127.0.0.1" \
+        "https://${DERP_HOSTNAME}:8443/derp/probe" || exit 1
+      if [ "${DERP_VERIFY_CLIENTS}" = "true" ]; then
+        tailscale status --peers=false --json | grep -q '"Online": *true' || exit 1
+      fi
+  periodSeconds: 10
+  failureThreshold: 60
+  timeoutSeconds: 60
+
+livenessProbe:
+  exec:
+    command:
+    - /bin/bash
+    - -c
+    - >-
+      curl --head -L -k -s -o /dev/null -m 5
+      --resolve "${DERP_HOSTNAME}:8443:127.0.0.1"
+      "https://${DERP_HOSTNAME}:8443/derp/probe"
+  timeoutSeconds: 60
+
+readinessProbe:
+  exec:
+    command:
+    - /bin/bash
+    - -c
+    - >-
+      curl --head -L -k -s -o /dev/null -m 5
+      --resolve "${DERP_HOSTNAME}:8443:127.0.0.1"
+      "https://${DERP_HOSTNAME}:8443/derp/probe"
+  timeoutSeconds: 60
+
 # Sidecar tailscaled joined to our tailnet, required by DERP_VERIFY_CLIENTS.
 # Non-ephemeral, persisted identity: this is long-running infra, not a
 # scale-to-zero job, so it should behave like any other always-on tailnet
