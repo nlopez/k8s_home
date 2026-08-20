@@ -1,0 +1,84 @@
+derpServerHostname: derp.desertbluffs.com
+
+service:
+  enabled: true
+  type: LoadBalancer
+  annotations:
+    # Fixed IP (next free one after pms's .2 and the gateways' .10/.20) so a
+    # NAT rule can be pointed at it. The chart's Service template doesn't
+    # pass through spec.loadBalancerIP, so request it via Cilium's LB-IPAM
+    # annotation instead.
+    lbipam.cilium.io/ips: "10.43.64.30"
+
+tls:
+  enabled: true
+  domain: '{{ include "tailscale-derp.hostname" . }}'
+  clusterIssuer: letsencrypt-prod
+
+env:
+- name: GOMAXPROCS
+  valueFrom:
+    resourceFieldRef:
+      resource: limits.cpu
+- name: GOMEMLIMIT
+  valueFrom:
+    resourceFieldRef:
+      resource: limits.memory
+- name: DERP_HOSTNAME
+  value: '{{ include "tailscale-derp.hostname" . }}'
+- name: DERP_CERTMODE
+  value: "manual"
+- name: DERP_CERTDIR
+  value: "/app/certs"
+# Restrict relaying to nodes that are verified members of our own tailnet,
+# via the tailscaled sidecar container below.
+- name: DERP_VERIFY_CLIENTS
+  value: "true"
+
+# Sidecar tailscaled joined to our tailnet, required by DERP_VERIFY_CLIENTS.
+# Non-ephemeral, persisted identity: this is long-running infra, not a
+# scale-to-zero job, so it should behave like any other always-on tailnet
+# server (stable node, key expiry disabled) rather than re-joining as a
+# fresh device on every pod restart. See manifests/onepassword-item.yaml and
+# manifests/rbac.yaml for the auth key and secret-access RBAC this needs.
+tailscaled:
+  volumeMounts:
+  - name: pipes
+    mountPath: /tmp
+  env:
+  - name: TS_HEALTHCHECK_ADDR_PORT
+    value: 0.0.0.0:9002
+  - name: TS_USERSPACE
+    value: "true"
+  - name: TS_KUBE_SECRET
+    value: "tailscale-derp-state" # persists node identity across restarts
+  - name: TS_AUTH_KEY
+    valueFrom:
+      secretKeyRef:
+        name: onepassword-tailscale-derp-authkey
+        key: credential
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 9002
+
+serviceAccount:
+  create: true
+
+volumes:
+- name: pipes
+  emptyDir: {}
+- name: cert
+  secret:
+    secretName: '{{ .Release.Name }}-tls'
+
+volumeMounts:
+- name: pipes
+  mountPath: /var/run/tailscale
+- name: cert
+  mountPath: '/app/certs/{{ include "tailscale-derp.hostname" . }}.crt'
+  subPath: tls.crt
+- name: cert
+  mountPath: '/app/certs/{{ include "tailscale-derp.hostname" . }}.key'
+  subPath: tls.key
+  readOnly: true
