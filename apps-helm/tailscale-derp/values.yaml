@@ -38,6 +38,7 @@ service:
   - name: stun
     port: 3478
     targetPort: 3478
+    protocol: UDP # STUN is UDP; the chart's port default is TCP
 
 tls:
   enabled: true
