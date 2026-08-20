@@ -9,6 +9,14 @@ service:
     # pass through spec.loadBalancerIP, so request it via Cilium's LB-IPAM
     # annotation instead.
     lbipam.cilium.io/ips: "10.43.64.30"
+    # The chart's own default annotation for this
+    # ("externaldns.alpha.kubernetes.io/hostname") is missing the hyphen in
+    # "external-dns" and so external-dns never recognizes it ("No endpoints
+    # could be generated" in its logs). Null it out and set the correctly
+    # spelled key ourselves, matching jellyfin's values.yaml elsewhere in
+    # this repo.
+    externaldns.alpha.kubernetes.io/hostname: null
+    external-dns.alpha.kubernetes.io/hostname: derp.desertbluffs.com
   # derper binds :8443 internally (see DERP_A below) instead of :443 -
   # non-root + capabilities.add:[NET_BIND_SERVICE] alone doesn't let this
   # image bind <1024: runc only puts the added capability in the container's
