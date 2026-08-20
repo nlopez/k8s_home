@@ -54,7 +54,7 @@ data:
   ENABLE_NON_LOGIN_PENALTY: "False"
   ENABLE_FAST_TRAVEL: "True"
   IS_START_LOCATION_SELECT_BY_MAP: "True"
-  EXIST_PLAYER_AFTER_LOGOUT: "False"
+  EXIST_PLAYER_AFTER_LOGOUT: "True"
   REST_API_ENABLED: "True"
   SHOW_PLAYER_LIST: "True"
   BAN_LIST_URL: "https://api.palworldgame.com/api/banlist.txt"
