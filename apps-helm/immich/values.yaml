@@ -74,14 +74,14 @@ server:
   #       main:
   #       - path: /icloud
   #         readOnly: false
-  # photosync:
-  #   enabled: true
-  #   existingClaim: immich-photosync-nfs
-  #   advancedMounts:
-  #     main:
-  #       main:
-  #       - path: /PhotoSync
-  #         readOnly: false
+  photosync:
+    enabled: true
+    existingClaim: immich-photosync-nfs
+    advancedMounts:
+      main:
+        main:
+        - path: /PhotoSync
+          readOnly: false
 # Machine learning component
 machine-learning:
   enabled: true
@@ -120,11 +120,11 @@ machine-learning:
             #       main:
             #       - path: /icloud
             #         readOnly: true
-            # photosync:
-            #   enabled: true
-            #   existingClaim: immich-photosync-nfs
-            #   advancedMounts:
-            #     main:
-            #       main:
-            #       - path: /PhotoSync
-            #         readOnly: true
+            photosync:
+              enabled: true
+              existingClaim: immich-photosync-nfs
+              advancedMounts:
+                main:
+                  main:
+                  - path: /PhotoSync
+                    readOnly: true
