@@ -36,7 +36,7 @@ global:
   - name: AUTHENTIK_EMAIL__TIMEOUT
     value: "30"
   - name: AUTHENTIK_EMAIL__FROM
-    value: nlopez@gmail.com
+    value: authentik@desertbluffs.com
   - name: AUTHENTIK_EMAIL__USERNAME
     valueFrom:
       secretKeyRef:
