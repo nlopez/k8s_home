@@ -23,6 +23,30 @@ global:
     value: authentik
   - name: AUTHENTIK_POSTGRESQL__PORT
     value: "5432"
+  # SES SMTP, same credentials as the ses-freenas 1Password item (shared SES
+  # SMTP user). from-address matches the SES-verified sender used there.
+  - name: AUTHENTIK_EMAIL__HOST
+    value: email-smtp.us-east-1.amazonaws.com
+  - name: AUTHENTIK_EMAIL__PORT
+    value: "587"
+  - name: AUTHENTIK_EMAIL__USE_TLS
+    value: "true"
+  - name: AUTHENTIK_EMAIL__USE_SSL
+    value: "false"
+  - name: AUTHENTIK_EMAIL__TIMEOUT
+    value: "30"
+  - name: AUTHENTIK_EMAIL__FROM
+    value: nlopez@gmail.com
+  - name: AUTHENTIK_EMAIL__USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: onepassword-authentik-email
+        key: username
+  - name: AUTHENTIK_EMAIL__PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: onepassword-authentik-email
+        key: password
   # Bootstraps the initial akadmin user on first start, so there's no manual
   # setup-wizard step. Safe to leave set after that: authentik only applies
   # these on first run, and it's a no-op once akadmin already exists.
