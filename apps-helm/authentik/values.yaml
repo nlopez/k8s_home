@@ -41,12 +41,12 @@ global:
     valueFrom:
       secretKeyRef:
         name: onepassword-authentik-email
-        key: username
+        key: em_user
   - name: AUTHENTIK_EMAIL__PASSWORD
     valueFrom:
       secretKeyRef:
         name: onepassword-authentik-email
-        key: password
+        key: em_pass1
   # Bootstraps the initial akadmin user on first start, so there's no manual
   # setup-wizard step. Safe to leave set after that: authentik only applies
   # these on first run, and it's a no-op once akadmin already exists.
