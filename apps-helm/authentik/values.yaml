@@ -5,17 +5,24 @@ postgresql:
   # of the bundled Bitnami subchart.
   enabled: false
 authentik:
+  # NOTE: `authentik.*` values (postgresql host/name/user/port, web.path,
+  # email, log_level, etc.) are normally rendered into AUTHENTIK_* env vars
+  # by templates/secret.yaml - but that template (and thus all of these
+  # values) is skipped entirely once existingSecret.secretName is set below.
+  # So with existingSecret in use, connection config has to be supplied as
+  # plain env vars instead (see global.env) rather than here.
   existingSecret:
     secretName: onepassword-authentik-database
-  postgresql:
-    host: authentik-database-rw.authentik.svc.cluster.local
-    name: authentik
-    user: authentik
-    port: 5432
-  web:
-    path: /
 global:
   env:
+  - name: AUTHENTIK_POSTGRESQL__HOST
+    value: authentik-database-rw.authentik.svc.cluster.local
+  - name: AUTHENTIK_POSTGRESQL__NAME
+    value: authentik
+  - name: AUTHENTIK_POSTGRESQL__USER
+    value: authentik
+  - name: AUTHENTIK_POSTGRESQL__PORT
+    value: "5432"
   # Bootstraps the initial akadmin user on first start, so there's no manual
   # setup-wizard step. Safe to leave set after that: authentik only applies
   # these on first run, and it's a no-op once akadmin already exists.
