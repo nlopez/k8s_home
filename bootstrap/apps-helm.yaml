@@ -175,6 +175,12 @@ spec:
         repoURL: oci://ghcr.io/coreweave/tailscale-derp/chart/tailscale-derp
         targetRevision: "0.19.0"
         namespace: tailscale-derp
+      - name: authentik
+        tier: platform
+        repoURL: https://charts.goauthentik.io
+        chart: authentik
+        targetRevision: "2026.8.0"
+        namespace: authentik
   template:
     metadata:
       name: "{{.name}}"

@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/postgresql.cnpg.io/cluster_v1.json
+# PostgreSQL cluster for Authentik using cloudnative-pg
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: authentik-database
+spec:
+  instances: 1
+  storage:
+    size: 10Gi
+    pvcTemplate:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: nas1-mtank-iscsi
+      resources:
+        requests:
+          storage: 10Gi
+  bootstrap:
+    initdb:
+      database: authentik
+      owner: authentik
+      secret:
+        name: onepassword-authentik-database

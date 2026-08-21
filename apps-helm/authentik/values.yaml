@@ -1,0 +1,40 @@
+# Authentik Helm chart values
+# Official chart: https://github.com/goauthentik/helm
+postgresql:
+  # Use our own cloudnative-pg Cluster (manifests/cloudnative-pg.yaml) instead
+  # of the bundled Bitnami subchart.
+  enabled: false
+authentik:
+  existingSecret:
+    secretName: onepassword-authentik-database
+  postgresql:
+    host: authentik-database-rw.authentik.svc.cluster.local
+    name: authentik
+    user: authentik
+    port: 5432
+  web:
+    path: /
+global:
+  env:
+  # Bootstraps the initial akadmin user on first start, so there's no manual
+  # setup-wizard step. Safe to leave set after that: authentik only applies
+  # these on first run, and it's a no-op once akadmin already exists.
+  - name: AUTHENTIK_BOOTSTRAP_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: onepassword-authentik-database
+        key: bootstrap_password
+  - name: AUTHENTIK_BOOTSTRAP_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: onepassword-authentik-database
+        key: bootstrap_token
+  - name: AUTHENTIK_BOOTSTRAP_EMAIL
+    valueFrom:
+      secretKeyRef:
+        name: onepassword-authentik-database
+        key: bootstrap_email
+server:
+  ingress:
+    # We use our own HTTPRoute manifests (manifests/httproute.yaml) instead.
+    enabled: false
