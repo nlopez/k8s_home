@@ -54,6 +54,28 @@ configs:
     resource.customizations.ignoreDifferences.snapshot.storage.k8s.io_VolumeSnapshotContent: |
       jsonPointers:
       - /spec/volumeSnapshotRef/uid
+    # ArgoCD ships no built-in health check for nested Application/
+    # ApplicationSet resources (only top-level Applications get one), so
+    # app-of-apps roots like bootstrap sit at health "Progressing" forever.
+    # Mirror the nested Application's own status.health, and treat
+    # ApplicationSet as always Healthy -- the Applications it generates
+    # already carry their own health independently.
+    resource.customizations.health.argoproj.io_Application: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil and obj.status.health ~= nil then
+        hs.status = obj.status.health.status
+        if obj.status.health.message ~= nil then
+          hs.message = obj.status.health.message
+        end
+      end
+      return hs
+    resource.customizations.health.argoproj.io_ApplicationSet: |
+      hs = {}
+      hs.status = "Healthy"
+      hs.message = ""
+      return hs
   params:
     server.insecure: true
 server:
