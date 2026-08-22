@@ -12,6 +12,7 @@ spec:
     size: 2048
   dnsNames:
   - '*.desertbluffs.com'
+  - 'desertbluffs.com'
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -29,6 +30,7 @@ spec:
     size: 256
   dnsNames:
   - '*.desertbluffs.com'
+  - 'desertbluffs.com'
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
