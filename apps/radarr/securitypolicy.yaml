@@ -25,10 +25,12 @@ spec:
     - "x-forwarded-proto"
     http:
       backendRefs:
-      - kind: Service
+      - group: ''
+        kind: Service
         name: authentik-server
         namespace: authentik
         port: 80
+        weight: 1
       path: /outpost.goauthentik.io/auth/envoy
       headersToBackend:
       - "Set-Cookie"
