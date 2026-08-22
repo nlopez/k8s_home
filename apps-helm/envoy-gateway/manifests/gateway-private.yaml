@@ -5,6 +5,9 @@ metadata:
   name: private
 spec:
   gatewayClassName: private
+  addresses:
+  - type: IPAddress
+    value: 10.43.64.10
   listeners:
   - name: wildcard-radoncanyon-com-https
     protocol: HTTPS

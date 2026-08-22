@@ -10,12 +10,24 @@ spec:
     kubernetes:
       envoyService:
         type: LoadBalancer
-        # Have the Tailscale operator -- not Cilium's lbipam -- become this
-        # Service's LoadBalancer controller, so the private gateway is
-        # reachable solely over the tailnet.
-        loadBalancerClass: tailscale
+        # Dual-homed like technitium: Cilium's lbipam still owns this
+        # Service's LoadBalancer IP (LAN/BGP-reachable pool address), and the
+        # Tailscale operator additionally stands up an ingress proxy in front
+        # of it via the annotations below, independent of the Cilium IP, so
+        # the private gateway is reachable from both the LAN and the tailnet.
         allocateLoadBalancerNodePorts: false
         annotations:
+          # Pin the Cilium LB-IPAM address explicitly. Gateway.spec.addresses
+          # alone doesn't reliably propagate to the generated Service's
+          # actual assigned IP in this Envoy Gateway version, so request it
+          # directly the same way technitium does.
+          lbipam.cilium.io/ips: "10.43.64.10"
+          # Have the Tailscale operator stand up an ingress proxy in front of
+          # this Service, independent of its Cilium LoadBalancer IP (mirrors
+          # technitium's dual-exposure pattern). loadBalancerClass isn't set
+          # above, so this annotation -- normally auto-added by Envoy Gateway
+          # when loadBalancerClass=tailscale -- must be set explicitly here.
+          tailscale.com/expose: "true"
           # The operator's auto-generated hostname
           # (envoy-gateway-system-envoy-envoy-gateway-system-private-<hash>)
           # exceeds Tailscale's 63-byte hostname limit -- pin a short one.

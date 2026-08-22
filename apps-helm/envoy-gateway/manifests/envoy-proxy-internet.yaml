@@ -11,6 +11,12 @@ spec:
       envoyService:
         type: LoadBalancer
         allocateLoadBalancerNodePorts: false
+        annotations:
+          # Pin the Cilium LB-IPAM address explicitly. Gateway.spec.addresses
+          # alone doesn't reliably propagate to the generated Service's
+          # actual assigned IP in this Envoy Gateway version, so request it
+          # directly the same way technitium does.
+          lbipam.cilium.io/ips: "10.43.64.20"
       envoyDeployment:
         container:
           resources:
