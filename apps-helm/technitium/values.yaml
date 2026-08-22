@@ -13,6 +13,11 @@ service:
   main:
     annotations:
       lbipam.cilium.io/ips: "10.43.64.53"
+      # Have the Tailscale operator stand up an ingress proxy in front of
+      # this Service so Technitium is also reachable over the tailnet,
+      # independent of its Cilium LoadBalancer IP.
+      tailscale.com/expose: "true"
+      tailscale.com/hostname: technitium
 
 persistence:
   config:
