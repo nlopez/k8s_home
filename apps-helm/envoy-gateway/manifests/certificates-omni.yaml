@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: omni-certificate-rsa
+spec:
+  secretName: omni-certificate-rsa
+  isCA: false
+  renewBefore: 24h
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  dnsNames:
+  - '*.desertbluffs.com'
+  - 'desertbluffs.com'
+  - '*.radoncanyon.com'
+  - 'radoncanyon.com'
+  - '*.nulogorsk.com'
+  - 'nulogorsk.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: omni-certificate-ecdsa
+spec:
+  secretName: omni-certificate-ecdsa
+  isCA: false
+  renewBefore: 24h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+  - '*.desertbluffs.com'
+  - 'desertbluffs.com'
+  - '*.radoncanyon.com'
+  - 'radoncanyon.com'
+  - '*.nulogorsk.com'
+  - 'nulogorsk.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
