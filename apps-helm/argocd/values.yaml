@@ -83,6 +83,13 @@ server:
     enabled: false
   httproute:
     enabled: false
+  service:
+    # h2c on the https-named service port lets Envoy Gateway proxy native
+    # gRPC (used by the argocd CLI) upstream over HTTP/2 cleartext, since
+    # server.insecure disables TLS on argocd-server itself. The web UI's
+    # grpc-web traffic stays on the plain http port/HTTPRoute.
+    # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
+    servicePortHttpsAppProtocol: kubernetes.io/h2c
 # Increase liveness/readiness probe timeouts to prevent CLBO under load.
 # The default 1s timeout is too short when the repo server processes many
 # concurrent manifest generation calls (e.g. ~20 apps syncing).

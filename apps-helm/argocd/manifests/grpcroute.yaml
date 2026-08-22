@@ -1,0 +1,61 @@
+# Routes native gRPC (used by the argocd CLI) to argocd-server over HTTP/2
+# cleartext (h2c), disambiguated from grpc-web/UI traffic on the sibling
+# HTTPRoute by the Content-Type header. Requires
+# server.service.servicePortHttpsAppProtocol: kubernetes.io/h2c in values.yaml
+# so Envoy Gateway knows to speak h2c upstream on port 443.
+# Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/gateway.networking.k8s.io/grpcroute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  parentRefs:
+  - name: internet
+    namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
+  hostnames:
+  - argocd.desertbluffs.com
+  - gentle-tornado.desertbluffs.com
+  rules:
+  - matches:
+    - headers:
+      - name: content-type
+        type: RegularExpression
+        value: "^application/grpc.*$"
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: argocd-server
+      port: 443
+      weight: 1
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/gateway.networking.k8s.io/grpcroute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: argocd-server-private
+  namespace: argocd
+spec:
+  parentRefs:
+  - name: private
+    namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
+  hostnames:
+  - argocd.desertbluffs.com
+  - gentle-tornado.desertbluffs.com
+  rules:
+  - matches:
+    - headers:
+      - name: content-type
+        type: RegularExpression
+        value: "^application/grpc.*$"
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: argocd-server
+      port: 443
+      weight: 1
