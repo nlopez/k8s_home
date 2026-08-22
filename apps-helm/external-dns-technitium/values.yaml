@@ -1,0 +1,44 @@
+image:
+  repository: registry.k8s.io/external-dns/external-dns
+  tag: v0.21.0
+provider:
+  name: rfc2136
+env:
+- name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: technitium-rfc2136-tsig
+      key: secret
+sources:
+- service
+- ingress
+- crd
+- gateway-httproute
+- gateway-grpcroute
+- gateway-tlsroute
+- gateway-tcproute
+- gateway-udproute
+domainFilters:
+- nulogorsk.com
+- radoncanyon.com
+- desertbluffs.com
+extraArgs:
+# Only the private gateway's routes should drive these RFC2136 records; the
+# service/ingress/crd sources below aren't gateway-scoped and pass through
+# regardless of this flag (e.g. nulogorsk.com infra services).
+- --gateway-name=private
+# In-cluster ClusterIP, not the LoadBalancer IP -- avoids hairpinning through
+# the LB for updates issued from inside the cluster.
+- --rfc2136-host=technitium-technitium-dnsserver.technitium.svc.cluster.local
+- --rfc2136-port=53
+- --rfc2136-zone=nulogorsk.com
+- --rfc2136-zone=radoncanyon.com
+- --rfc2136-zone=desertbluffs.com
+- --rfc2136-tsig-keyname=externaldns.
+- --rfc2136-tsig-secret-alg=hmac-sha256
+- --rfc2136-axfr
+# Avoids known cross-zone update issues when multiple --rfc2136-zone values
+# are set: https://github.com/kubernetes-sigs/external-dns/issues/4106
+- --rfc2136-batch-change-size=1
+- --txt-owner-id=technitium
+logLevel: debug

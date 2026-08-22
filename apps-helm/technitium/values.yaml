@@ -1,0 +1,22 @@
+# Technitium DNS Server Helm chart values
+# Chart: https://github.com/obeone/charts/tree/master/charts/technitium-dnsserver
+# (inherits from the k8s-at-home common library chart)
+#
+# Authoritative resolver for nulogorsk.com, radoncanyon.com, and desertbluffs.com
+# (private side), updated dynamically via RFC2136 by the external-dns-technitium app.
+# Exposed directly on its own LoadBalancer IP; deliberately NOT routed through
+# envoy-gateway to avoid a circular dependency between DNS and gateway routing.
+env:
+  TZ: America/New_York
+
+service:
+  main:
+    annotations:
+      lbipam.cilium.io/ips: "10.43.64.53"
+
+persistence:
+  config:
+    enabled: true
+    type: pvc
+    existingClaim: technitium-config
+    mountPath: /etc/dns
