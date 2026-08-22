@@ -18,6 +18,7 @@ service:
       # independent of its Cilium LoadBalancer IP.
       tailscale.com/expose: "true"
       tailscale.com/hostname: technitium
+      tailscale.com/proxy-group: heimdall
 
 persistence:
   config:

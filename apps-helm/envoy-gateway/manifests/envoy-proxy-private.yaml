@@ -20,6 +20,7 @@ spec:
           # (envoy-gateway-system-envoy-envoy-gateway-system-private-<hash>)
           # exceeds Tailscale's 63-byte hostname limit -- pin a short one.
           tailscale.com/hostname: envoy-gateway-private
+          tailscale.com/proxy-group: heimdall
       envoyDeployment:
         container:
           resources:
