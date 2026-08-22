@@ -12,6 +12,9 @@ spec:
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
     name: radarr
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: radarr-private
   extAuth:
     failOpen: false
     recomputeRoute: true

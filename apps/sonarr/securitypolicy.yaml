@@ -12,6 +12,9 @@ spec:
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
     name: sonarr
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: sonarr-private
   extAuth:
     failOpen: false
     recomputeRoute: true
