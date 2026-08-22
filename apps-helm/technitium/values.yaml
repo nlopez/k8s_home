@@ -11,6 +11,13 @@ env:
 
 service:
   main:
+    # Preserve the real client source IP end-to-end. Without this, Cilium
+    # SNATs cross-node LoadBalancer-IP traffic to the receiving node's own
+    # LAN IP (default externalTrafficPolicy: Cluster), which collapses both
+    # LAN clients and the heimdall tailnet ingress proxy down to whichever
+    # node's IP happened to receive the packet -- making it impossible for
+    # Technitium to tell LAN and tailnet clients apart by source IP.
+    externalTrafficPolicy: Local
     annotations:
       lbipam.cilium.io/ips: "10.43.64.53"
       # Have the Tailscale operator stand up an ingress proxy in front of

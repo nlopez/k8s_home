@@ -16,6 +16,13 @@ spec:
         # of it via the annotations below, independent of the Cilium IP, so
         # the private gateway is reachable from both the LAN and the tailnet.
         allocateLoadBalancerNodePorts: false
+        # Preserve the real client source IP end-to-end, same reasoning as
+        # technitium's Service: without this, Cilium SNATs cross-node
+        # LoadBalancer-IP traffic to the receiving node's own LAN IP (default
+        # externalTrafficPolicy: Cluster), collapsing both LAN clients and
+        # the heimdall tailnet ingress proxy down to whichever node's IP
+        # happened to receive the packet.
+        externalTrafficPolicy: Local
         annotations:
           # Pin the Cilium LB-IPAM address explicitly. Gateway.spec.addresses
           # alone doesn't reliably propagate to the generated Service's
