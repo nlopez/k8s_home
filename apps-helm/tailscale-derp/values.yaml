@@ -50,10 +50,12 @@ env:
   valueFrom:
     resourceFieldRef:
       resource: limits.cpu
+      divisor: '0'
 - name: GOMEMLIMIT
   valueFrom:
     resourceFieldRef:
       resource: limits.memory
+      divisor: '0'
 - name: DERP_HOSTNAME
   value: '{{ include "tailscale-derp.hostname" . }}'
 - name: DERP_CERTMODE
