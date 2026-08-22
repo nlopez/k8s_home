@@ -87,6 +87,15 @@ machine-learning:
   enabled: true
   controllers:
     main:
+      # immich-ml-cache is a ReadWriteOnce (iSCSI) PVC and this controller
+      # only ever runs a single replica, so RollingUpdate deadlocks: the new
+      # pod can't attach the volume until the old one releases it, but the
+      # old one isn't torn down until the new one is ready. Recreate avoids
+      # the deadlock by terminating the old pod first. rollingUpdate must be
+      # nulled out explicitly -- the chart's own default (25%/25%) otherwise
+      # survives the merge and Kubernetes rejects it alongside Recreate.
+      strategy: Recreate
+      rollingUpdate: null
       containers:
         main:
           image:
