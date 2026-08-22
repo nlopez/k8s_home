@@ -16,6 +16,10 @@ spec:
           # of this Service so the private gateway also gets its own
           # tailnet IP/hostname, independent of its Cilium LoadBalancer IP.
           tailscale.com/expose: "true"
+          # The operator's auto-generated hostname
+          # (envoy-gateway-system-envoy-envoy-gateway-system-private-<hash>)
+          # exceeds Tailscale's 63-byte hostname limit -- pin a short one.
+          tailscale.com/hostname: envoy-gateway-private
       envoyDeployment:
         container:
           resources:
