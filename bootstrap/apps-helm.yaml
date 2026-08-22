@@ -170,11 +170,6 @@ spec:
         chart: goldpinger
         targetRevision: "1.1.2"
         namespace: goldpinger
-      - name: tailscale-derp
-        tier: platform
-        repoURL: oci://ghcr.io/coreweave/tailscale-derp/chart/tailscale-derp
-        targetRevision: "0.19.0"
-        namespace: tailscale-derp
       - name: authentik
         tier: platform
         repoURL: https://charts.goauthentik.io
