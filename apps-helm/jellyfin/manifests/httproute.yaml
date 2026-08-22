@@ -10,7 +10,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - cecil.desertbluffs.com
+  - bustling-ghost.desertbluffs.com
   rules:
   - backendRefs:
     - name: jellyfin
@@ -37,8 +37,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - cecil.radoncanyon.com
-  - cecil.desertbluffs.com
+  - bustling-ghost.desertbluffs.com
   rules:
   - backendRefs:
     - name: jellyfin
