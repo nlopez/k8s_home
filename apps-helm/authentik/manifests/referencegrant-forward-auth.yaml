@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/referencegrant_v1beta1.json
+# Lets sonarr/radarr's SecurityPolicy (ext_authz) resources reach the
+# authentik-server Service across namespaces. Add one `from` entry per
+# namespace that gets a forward-auth SecurityPolicy.
+#
+# Note: unlike the blog post this follows, there's no separate
+# ak-outpost-authentik-embedded-outpost Service here - we never configured a
+# Kubernetes Service Connection for the embedded outpost, so it's just
+# served in-process by the regular authentik-server pods on the same
+# port (9000) as the main UI, differentiated by the /outpost.goauthentik.io
+# path prefix (already covered by the catch-all "/" rule in
+# manifests/httproute.yaml). That's why extAuth.http.backendRefs in the
+# per-app SecurityPolicy targets authentik-server:80 instead of a
+# dedicated outpost Service.
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: ext-auth-sonarr-radarr
+spec:
+  from:
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: sonarr
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: radarr
+  to:
+  - group: ""
+    kind: Service
+    name: authentik-server
