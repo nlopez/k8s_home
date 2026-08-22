@@ -91,11 +91,10 @@ machine-learning:
       # only ever runs a single replica, so RollingUpdate deadlocks: the new
       # pod can't attach the volume until the old one releases it, but the
       # old one isn't torn down until the new one is ready. Recreate avoids
-      # the deadlock by terminating the old pod first. rollingUpdate must be
-      # nulled out explicitly -- the chart's own default (25%/25%) otherwise
-      # survives the merge and Kubernetes rejects it alongside Recreate.
+      # the deadlock by terminating the old pod first. (The chart itself sets
+      # no rollingUpdate default -- any value seen live was just the API
+      # server's own RollingUpdate default, cleared out-of-band once.)
       strategy: Recreate
-      rollingUpdate: null
       containers:
         main:
           image:
