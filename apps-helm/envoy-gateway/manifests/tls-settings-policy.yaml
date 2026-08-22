@@ -4,6 +4,13 @@
 # Replaces: tls-session-resumption, enable-http3, quantum-ciphers,
 #           cloudflare-authenticated-origin-pull-policy
 #
+# NOTE: tls.alpnProtocols is pinned explicitly below. Enabling `http3`
+# without it collapses the TCP listener's ALPN down to ["http/1.1"] only,
+# silently dropping h2 -- which breaks native gRPC (e.g. `argocd login`
+# without --grpc-web) since there's no HTTP/2 to carry the stream over.
+# (see https://github.com/envoyproxy/gateway/issues/2875). Pin it back to
+# the Gateway API default so HTTP/3 (QUIC/Alt-Svc) and h2 both keep working.
+#
 # NOTE: Cloudflare Authenticated-Origin-Pull (client cert validation) was
 # removed from here on purpose. Envoy cannot serve TLS client-cert
 # validation over QUIC — any listener with both `tls.clientValidation` and
@@ -35,6 +42,11 @@ spec:
     - X25519MLKEM768
     - X25519
     - P-256
+    # Explicit ALPN: the Gateway API default, restated because enabling
+    # `http3` below overrides that default down to ["http/1.1"] otherwise.
+    alpnProtocols:
+    - h2
+    - http/1.1
   # HTTP/3 (UDP QUIC) — only applies where listeners support it
   http3: {}
   headers:
