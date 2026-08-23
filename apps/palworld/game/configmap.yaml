@@ -86,3 +86,7 @@ data:
   PAL_EGG_DEFAULT_HATCHING_TIME: "0" # hours (default: 1)
   BLOCK_RESPAWN_TIME: "1" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
   ENABLE_GAMEDATA_API: "true"
+  # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image comment)
+  MOD_ENABLED: "true"
+  MOD_UPDATE_ON_BOOT: "true"
+  MOD_IDS: "3772992108,3773035536"

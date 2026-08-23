@@ -28,8 +28,10 @@ spec:
       containers:
       - name: palworld
         # Get the SHA256 digest for a given tag:
-        #   skopeo inspect --override-arch amd64 --override-os linux --format '{{.Digest}}' docker://ghcr.io/thijsvanloef/palworld-server-docker:<tag>
-        image: thijsvanloef/palworld-server-docker@sha256:39059e157ea5148f7c4f66c2913c9e844fd62b9fd9de1e7200de8bb4d9bd7a8f
+        #   skopeo inspect --override-arch amd64 --override-os linux --format '{{.Digest}}' docker://ghcr.io/nlopez/palworld-server-docker:<tag>
+        # Built from nlopez/palworld-server-docker branch mods-wine-support (PR thijsvanloef/palworld-server-docker#914,
+        # Windows/Wine target) so Steam Workshop mods (MOD_IDS) can load. Windows/Wine path is amd64-only.
+        image: ghcr.io/nlopez/palworld-server-docker@sha256:238e16f90fddd085321679536a55f2edf817d251164a242c196ae35f2ba34224
         envFrom:
         - configMapRef:
             name: palworld-config
@@ -65,17 +67,23 @@ spec:
           mountPath: /palworld/Pal/Saved
         startupProbe:
           exec:
-            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+            # Windows/Wine image: process name differs from the Linux build, so use the
+            # image's own platform-aware helper (same check the Dockerfile HEALTHCHECK uses).
+            command: ["bash", "-c", "cd /home/steam/server && . ./helper_functions.sh && PalworldServerPid >/dev/null"]
           failureThreshold: 120
           periodSeconds: 5
         readinessProbe:
           exec:
-            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+            # Windows/Wine image: process name differs from the Linux build, so use the
+            # image's own platform-aware helper (same check the Dockerfile HEALTHCHECK uses).
+            command: ["bash", "-c", "cd /home/steam/server && . ./helper_functions.sh && PalworldServerPid >/dev/null"]
           initialDelaySeconds: 60
           periodSeconds: 10
         livenessProbe:
           exec:
-            command: ["sh", "-c", "pgrep PalServer-Linux >/dev/null"]
+            # Windows/Wine image: process name differs from the Linux build, so use the
+            # image's own platform-aware helper (same check the Dockerfile HEALTHCHECK uses).
+            command: ["bash", "-c", "cd /home/steam/server && . ./helper_functions.sh && PalworldServerPid >/dev/null"]
           initialDelaySeconds: 120
           periodSeconds: 20
       terminationGracePeriodSeconds: 30
