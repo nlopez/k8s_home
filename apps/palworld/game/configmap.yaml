@@ -27,65 +27,216 @@ data:
   AUTO_PAUSE_ENABLED: "false"
   ENABLE_PLAYER_LOGGING: "true"
   DIFFICULTY: "None"
+  # Day Time Speed
+  # [0.1, 1, 5]
   DAYTIME_SPEEDRATE: "0.9"
+
+  # Night Time Speed
+  # [0.1, 1, 5]
   NIGHTTIME_SPEEDRATE: "5.0"
+
+  # EXP Rate
+  # [0.1, 1, 20]
   EXP_RATE: "5.0"
+
+  # Pal Capture Rate
+  # [0.1, 1, 2]
   PAL_CAPTURE_RATE: "1.2"
+
+  # Pal Appearance Rate
+  # [0.5, 1, 3]
   PAL_SPAWN_NUM_RATE: "2.9"
+
+  # Damage from Pals Multiplier [0.1, 1, 5]
   PAL_DAMAGE_RATE_ATTACK: "1.0"
+
+  # Damage to Pals Multiplier
+  # [0.1, 1, 5]
   PAL_DAMAGE_RATE_DEFENSE: "1.0"
+
+  # Pal Hunger Depletion Rate
+  # [0.1, 1, 5]
+  PAL_STOMACH_DECREASE_RATE: "2.0"
+
+  # Pal Stamina Reduction Rate
+  # [0.1, 1, 5]
+  PAL_STAMINA_DECREASE_RATE: "0.1"
+
+  # Pal Auto Health Regeneration Rate
+  # [0.1, 1, 5]
+  PAL_AUTO_HP_REGEN_RATE: "3.0"
+
+  # Pal Sleep Health Regeneration Rate (Health Regeneration Rate in Palbox)
+  # [0.1, 1, 5]
+  PAL_AUTO_HP_REGEN_RATE_IN_SLEEP: "5.0"
+
+  # Damage from Player Multiplier
+  # [0.1, 1, 5]
   PLAYER_DAMAGE_RATE_ATTACK: "1.0"
+
+  # Damage to Player Multiplier
+  # [0.1, 1, 5]
   PLAYER_DAMAGE_RATE_DEFENSE: "1.0"
-  DEATHPENALTY: "Item"
-  ENABLE_PLAYER_TO_PLAYER_DAMAGE: "False"
-  ENABLE_FRIENDLY_FIRE: "False"
+
+  # Player Hunger Depletion Rate
+  # [0.1, 1, 5]
+  PLAYER_STOMACH_DECREASE_RATE: "1.0"
+
+  # Player Stamina Reduction Rate
+  # [0.1, 1, 5]
+  PLAYER_STAMINA_DECREASE_RATE: "1.0"
+
+  # Player Auto Health Regeneration Rate
+  # [0.1, 1, 5]
+  PLAYER_AUTO_HP_REGEN_RATE: "3.0"
+
+  # Player Sleep Health Regeneration Rate
+  # [0.1, 1, 5]
+  PLAYER_AUTO_HP_REGEN_RATE_IN_SLEEP: "5.0"
+
+  # Work Speed Multiplier
+  # [0.1, 1, 5]
+  WORK_SPEED_RATE: "2.0"
+
+  # Damage to Structure Multiplier
+  # [0.5, 1, 3]
+  BUILD_OBJECT_DAMAGE_RATE: "1"
+
+  # Structure Deterioration Rate
+  # [0, 1, 10]
+  BUILD_OBJECT_DETERIORATION_DAMAGE_RATE: "0" # default: 1
+
+  # Grazing Item Production Rate Multiplier
+  # [0.5, 1, 3]
+  MONSTER_FARM_ACTION_SPEED_RATE: "1"
+
+  # Maximum Number of Dropped Items in a World
+  # [0, 3000, 5000]
+  DROP_ITEM_MAX_NUM: "5000"
+
+  # Gatherable Items Multiplier
+  # [0.5, 1, 3]
+  COLLECTION_DROP_RATE: "3.0"
+
+  # Gatherable Objects Health Multiplier
+  # [0.5, 1, 3]
+  COLLECTION_OBJECT_HP_RATE: "1.0"
+
+  # Gatherable Objects Respawn Interval
+  # [0.5, 1, 3]
+  COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "1"
+
+  # Dropped Items Multiplier
+  # [0.5, 1, 3]
+  ENEMY_DROP_ITEM_RATE: "3"
+
+  # Item Weight Rate
+  # [0, 1, 10]
+  ITEM_WEIGHT_RATE: "0"
+
+  # Item Decay Rate Multiplier
+  # [0, 1, 10]
+  ITEM_CORRUPTION_MULTIPLIER: "0"
+
+  # Equipment Durability Loss Multiplier
+  # [0, 1, 10]
+  EQUIPMENT_DURABILITY_DAMAGE_RATE: "0"
+
+  # Meteorite/Supplies Drop Interval
+  # [1, 180, 999]
+  SUPPLY_DROP_SPAN: "1"
+
+  # Time (h) to incubate Massive Egg
+  # [0, 180, 240]
+  PAL_EGG_DEFAULT_HATCHING_TIME: "0"
+
+  # Enable Raid Events
   ENABLE_INVADER_ENEMY: "False"
+
+  # Enable Predator Pals
+  ENABLE_PREDATOR_BOSS_PAL: "True"
+
+  # Death Penalty
+  DEATHPENALTY: "Item"
+
+  # Maximum Number of Guild Members
+  # [1, 20, 100]
+  GUILD_PLAYER_MAX_NUM: "20"
+
+  # Enable Fast Travel
+  ENABLE_FAST_TRAVEL: "True"
+
+  # Restrict Fast Travel to bases only
+  # Allow Pal Genetic Data to be saved in the Global Palbox.
+  ALLOW_GLOBAL_PALBOX_EXPORT: "True"
+  # Allow Pals to be reconstructed from the Global Palbox.
+  ALLOW_GLOBAL_PALBOX_IMPORT: "False"
+
+  # Prevent building near structures such as fast-travel points.
+  BUILD_AREA_LIMIT: "False"
+
+  # PvP
+  IS_PVP: "False"
+  ENABLE_PLAYER_TO_PLAYER_DAMAGE: "False"
+
+
+  ENABLE_FRIENDLY_FIRE: "False"
   ENABLE_AIM_ASSIST_PAD: "True"
   ENABLE_AIM_ASSIST_KEYBOARD: "False"
-  DROP_ITEM_MAX_NUM: "5000" # default: 3000
-  BASE_CAMP_MAX_NUM: "128"
-  BASE_CAMP_WORKER_MAX_NUM: "50" # default: 15
-  BASE_CAMP_MAX_NUM_IN_GUILD: "10" # default: 4
   AUTO_RESET_GUILD_NO_ONLINE_PLAYERS: "False"
-  GUILD_PLAYER_MAX_NUM: "20"
   IS_MULTIPLAY: "False"
-  IS_PVP: "False"
   HARDCORE: "False"
+
   ENABLE_NON_LOGIN_PENALTY: "False"
-  ENABLE_FAST_TRAVEL: "True"
+
+  # Whether to allow players to choose their starting location.
   IS_START_LOCATION_SELECT_BY_MAP: "True"
-  EXIST_PLAYER_AFTER_LOGOUT: "True"
+
+  # Whether players enter a sleeping state at their current location when logging out.
+  EXIST_PLAYER_AFTER_LOGOUT: "false"
+
   REST_API_ENABLED: "True"
   SHOW_PLAYER_LIST: "True"
   BAN_LIST_URL: "https://api.palworldgame.com/api/banlist.txt"
   USEAUTH: "True"
   CROSSPLAY_PLATFORMS: "(Steam,Xbox,PS5,Mac)"
-  ENABLE_PREDATOR_BOSS_PAL: "true"
-  ALLOW_GLOBAL_PALBOX_EXPORT: "True"
-  ALLOW_GLOBAL_PALBOX_IMPORT: "False"
-  EQUIPMENT_DURABILITY_DAMAGE_RATE: "0"
-  ITEM_CORRUPTION_MULTIPLIER: "0"
+
   DISABLE_GENERATE_ENGINE: "false"
   DISABLE_GENERATE_SETTINGS: "false"
-  PLAYER_STAMINA_DECREASE_RATE: "1.0"
-  PAL_AUTO_HP_REGEN_RATE: "3.0"
-  PAL_AUTO_HP_REGEN_RATE_IN_SLEEP: "5.0"
-  PLAYER_AUTO_HP_REGEN_RATE: "3.0"
-  PLAYER_AUTO_HP_REGEN_RATE_IN_SLEEP: "5.0"
-  BUILD_OBJECT_DETERIORATION_DAMAGE_RATE: "0" # default: 1
-  COLLECTION_DROP_RATE: "3.0"
-  COLLECTION_OBJECT_HP_RATE: "1.0"
-  ENEMY_DROP_ITEM_RATE: "3.0"
-  COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "0.5" # lower is faster
-  ITEM_WEIGHT_RATE: "0" # default: 1
-  PAL_STAMINA_DECREASE_RATE: "0.1" # default: 1.0
-  SUPPLY_DROP_SPAN: "1" # minutes (default: 180)
-  PLAYER_STOMACH_DECREASE_RATE: "1.0"
-  PAL_STOMACH_DECREASE_RATE: "2.0"
-  WORK_SPEED_RATE: "2.0"
-  PAL_EGG_DEFAULT_HATCHING_TIME: "0" # hours (default: 1)
+
+  ###################
+  ### Performance ###
+  ###################
+
+  # Total number of bases across the server.
+  BASE_CAMP_MAX_NUM: "128"
+
+  # Maximum number of bases for each guild.
+  # [2, 4, 10]
+  BASE_CAMP_MAX_NUM_IN_GUILD: "10" # default: 4
+
+  # Maximum number of work pals at the base.
+  # [1, 15, 50]
+  BASE_CAMP_WORKER_MAX_NUM: "50" # default: 15
+
+  # Maximum number of structures per base
+  MAX_BUILDING_LIMIT_NUM: "0"
+
+  # How often to force re-sync while a container UI is open (seconds).
+  ITEM_CONTAINER_FORCE_MARK_DIRTY_INTERVAL: "1"
+
+  # Maximum number of dropped items that can use physics behavior (default: -1 unlimited)
+  PHYSICS_ACTIVE_DROP_ITEM_MAX_NUM: "0"
+
+  # Pal sync distance from players (cm). Minimum 5000 – maximum 15000.
+  SERVER_REPLICATE_PAWN_CULL_DISTANCE: "15000"
+
+
   BLOCK_RESPAWN_TIME: "1" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
   ENABLE_GAMEDATA_API: "true"
+
+  WORKER_THREADS_SERVER: "4"
+
   # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image comment)
   MOD_ENABLED: "true"
   MOD_UPDATE_ON_BOOT: "true"

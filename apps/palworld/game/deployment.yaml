@@ -31,7 +31,7 @@ spec:
         #   skopeo inspect --override-arch amd64 --override-os linux --format '{{.Digest}}' docker://ghcr.io/nlopez/palworld-server-docker:<tag>
         # Built from nlopez/palworld-server-docker branch mods-wine-support (PR thijsvanloef/palworld-server-docker#914,
         # Windows/Wine target) so Steam Workshop mods (MOD_IDS) can load. Windows/Wine path is amd64-only.
-        image: ghcr.io/nlopez/palworld-server-docker@sha256:238e16f90fddd085321679536a55f2edf817d251164a242c196ae35f2ba34224
+        image: ghcr.io/nlopez/palworld-server-docker@sha256:5853ba44e69cc71bd05a96eecf55627bff7f8526cf18baf611b42a20ad8afa66
         envFrom:
         - configMapRef:
             name: palworld-config
@@ -55,10 +55,10 @@ spec:
           protocol: TCP
         resources:
           requests:
-            cpu: "2"
-            memory: "6Gi"
+            cpu: "4"
+            memory: "16Gi"
           limits:
-            cpu: "8"
+            cpu: "4"
             memory: "16Gi"
         volumeMounts:
         - name: data
