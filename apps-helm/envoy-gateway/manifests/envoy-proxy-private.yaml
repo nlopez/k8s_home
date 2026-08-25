@@ -46,3 +46,18 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+        pod:
+          # Datadog Envoy integration: scrape the proxy's Prometheus stats
+          # via Autodiscovery. https://docs.datadoghq.com/integrations/envoy/
+          annotations:
+            ad.datadoghq.com/envoy.checks: |
+              {
+                "envoy": {
+                  "init_config": {},
+                  "instances": [
+                    {
+                      "openmetrics_endpoint": "http://%%host%%:19001/stats/prometheus"
+                    }
+                  ]
+                }
+              }
