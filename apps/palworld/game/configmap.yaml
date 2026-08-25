@@ -14,7 +14,7 @@ data:
   COMMUNITY: "true"
   SERVER_NAME: "Brave Flamingo"
   SERVER_DESCRIPTION: "🦩"
-  UPDATE_ON_BOOT: "true"
+  UPDATE_ON_BOOT: "false"
   RCON_ENABLED: "false"
   RCON_PORT: "25575"
   USE_BACKUP_SAVE_DATA: "true"
