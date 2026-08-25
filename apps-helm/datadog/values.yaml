@@ -23,6 +23,10 @@ datadog:
     processCollection: false
   orchestratorExplorer:
     enabled: true
+  # https://docs.datadoghq.com/network_monitoring/cloud_network_monitoring/setup/?tab=helm
+  # Requires system-probe (privileged, eBPF); compatible with Cilium 1.6+.
+  networkMonitoring:
+    enabled: true
 clusterAgent:
   enabled: true
   tokenExistingSecret: datadog-keys
