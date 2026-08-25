@@ -1,5 +1,5 @@
 global:
-  domain: argocd.macaroni-pirate-ts.net
+  domain: argocd.desertbluffs.com
 configs:
   cm:
     # ---- resource.exclusions ----
