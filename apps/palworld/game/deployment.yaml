@@ -24,6 +24,26 @@ spec:
         configmap.reloader.stakater.com/auto: "true"
         secret.reloader.stakater.com/reload: "palworld-secrets"
         backup.velero.io/backup-volumes: saved
+        # Datadog Autodiscovery: feeds the custom `palworld` check (shipped
+        # via apps-helm/datadog/values.yaml datadog.checksd) an instance per
+        # pod. %%host%% resolves to this pod's IP; %%env_ADMIN_PASSWORD%%
+        # pulls the REST API password straight out of the palworld
+        # container's own env below, so it's never duplicated into the
+        # datadog-keys Secret. https://docs.palworldgame.com/api/rest-api/metrics
+        ad.datadoghq.com/palworld.checks: |
+          {
+            "palworld": {
+              "init_config": {},
+              "instances": [
+                {
+                  "url": "http://%%host%%:8212",
+                  "username": "admin",
+                  "password": "%%env_ADMIN_PASSWORD%%",
+                  "tags": ["service:palworld"]
+                }
+              ]
+            }
+          }
     spec:
       containers:
       - name: palworld

@@ -40,6 +40,56 @@ datadog:
   # mutation required) depend on it.
   kubeStateMetricsCore:
     enabled: true
+  # There's no official Datadog integration for Palworld, so this ships a
+  # custom Agent check that polls the dedicated server's built-in REST API
+  # metrics endpoint (server FPS, player count, uptime, ...):
+  # https://docs.palworldgame.com/api/rest-api/metrics
+  #
+  # The check itself is generic (talks to whatever host/port/credentials the
+  # instance config gives it); the actual instance is supplied per-pod via
+  # Autodiscovery annotations on the palworld Deployment
+  # (apps/palworld/game/deployment.yaml), so the server's admin password
+  # never has to be duplicated into this repo/Secret - it's read straight
+  # out of the palworld container's own ADMIN_PASSWORD env var via
+  # %%env_ADMIN_PASSWORD%%.
+  checksd:
+    palworld.py: |-
+      from datadog_checks.base import AgentCheck, ConfigurationError
+
+
+      class PalworldCheck(AgentCheck):
+          """Polls the Palworld dedicated server REST API metrics endpoint.
+
+          https://docs.palworldgame.com/api/rest-api/metrics
+          """
+
+          __NAMESPACE__ = "palworld"
+
+          def check(self, instance):
+              url = instance.get("url")
+              if not url:
+                  raise ConfigurationError("'url' is required, e.g. http://%%host%%:8212")
+
+              tags = list(instance.get("tags", []))
+              endpoint = "{}/v1/api/metrics".format(url.rstrip("/"))
+
+              try:
+                  response = self.http.get(endpoint)
+                  response.raise_for_status()
+                  payload = response.json()
+              except Exception as e:
+                  self.service_check("can_connect", self.CRITICAL, tags=tags, message=str(e))
+                  raise
+
+              self.service_check("can_connect", self.OK, tags=tags)
+
+              self.gauge("server.fps", payload.get("serverfps"), tags=tags)
+              self.gauge("server.frame_time_ms", payload.get("serverframetime"), tags=tags)
+              self.gauge("players.current", payload.get("currentplayernum"), tags=tags)
+              self.gauge("players.max", payload.get("maxplayernum"), tags=tags)
+              self.gauge("uptime", payload.get("uptime"), tags=tags)
+              self.gauge("basecamps", payload.get("basecampnum"), tags=tags)
+              self.gauge("days", payload.get("days"), tags=tags)
 clusterAgent:
   enabled: true
   tokenExistingSecret: datadog-keys
