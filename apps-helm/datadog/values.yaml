@@ -35,6 +35,24 @@ datadog:
       enabled: true
   kubernetesEvents:
     unbundleEvents: true
+  # Cloud Security Management: misconfigurations (CSPM) and vulnerability
+  # management (SBOM), for both hosts and container images.
+  # https://docs.datadoghq.com/security/cloud_security_management/setup/agent/kubernetes/?tab=helm
+  securityAgent:
+    compliance:
+      enabled: true
+      host_benchmarks:
+        enabled: true
+  sbom:
+    containerImage:
+      enabled: true
+      analyzers: ["os", "languages"]
+    host:
+      enabled: true
+      analyzers: ["os", "languages"]
+    enrichment:
+      usage:
+        enabled: true
   # Defaults to true; set explicitly since vertical scaling recommendations
   # (shown in the UI for every workload, no DatadogPodAutoscaler/live
   # mutation required) depend on it.
