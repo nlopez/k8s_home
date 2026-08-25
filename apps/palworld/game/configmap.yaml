@@ -33,70 +33,70 @@ data:
 
   # Night Time Speed
   # [0.1, 1, 5]
-  NIGHTTIME_SPEEDRATE: "5.0"
+  NIGHTTIME_SPEEDRATE: "5"
 
   # EXP Rate
   # [0.1, 1, 20]
-  EXP_RATE: "5.0"
+  EXP_RATE: "5"
 
   # Pal Capture Rate
   # [0.1, 1, 2]
-  PAL_CAPTURE_RATE: "1.2"
+  PAL_CAPTURE_RATE: "1"
 
   # Pal Appearance Rate
   # [0.5, 1, 3]
   PAL_SPAWN_NUM_RATE: "2.9"
 
   # Damage from Pals Multiplier [0.1, 1, 5]
-  PAL_DAMAGE_RATE_ATTACK: "1.0"
+  PAL_DAMAGE_RATE_ATTACK: "1"
 
   # Damage to Pals Multiplier
   # [0.1, 1, 5]
-  PAL_DAMAGE_RATE_DEFENSE: "1.0"
+  PAL_DAMAGE_RATE_DEFENSE: "1"
 
   # Pal Hunger Depletion Rate
   # [0.1, 1, 5]
-  PAL_STOMACH_DECREASE_RATE: "2.0"
+  PAL_STOMACH_DECREASE_RATE: "1"
 
   # Pal Stamina Reduction Rate
   # [0.1, 1, 5]
-  PAL_STAMINA_DECREASE_RATE: "0.1"
+  PAL_STAMINA_DECREASE_RATE: "1"
 
   # Pal Auto Health Regeneration Rate
   # [0.1, 1, 5]
-  PAL_AUTO_HP_REGEN_RATE: "3.0"
+  PAL_AUTO_HP_REGEN_RATE: "3"
 
   # Pal Sleep Health Regeneration Rate (Health Regeneration Rate in Palbox)
   # [0.1, 1, 5]
-  PAL_AUTO_HP_REGEN_RATE_IN_SLEEP: "5.0"
+  PAL_AUTO_HP_REGEN_RATE_IN_SLEEP: "5"
 
   # Damage from Player Multiplier
   # [0.1, 1, 5]
-  PLAYER_DAMAGE_RATE_ATTACK: "1.0"
+  PLAYER_DAMAGE_RATE_ATTACK: "1"
 
   # Damage to Player Multiplier
   # [0.1, 1, 5]
-  PLAYER_DAMAGE_RATE_DEFENSE: "1.0"
+  PLAYER_DAMAGE_RATE_DEFENSE: "1"
 
   # Player Hunger Depletion Rate
   # [0.1, 1, 5]
-  PLAYER_STOMACH_DECREASE_RATE: "1.0"
+  PLAYER_STOMACH_DECREASE_RATE: "1"
 
   # Player Stamina Reduction Rate
   # [0.1, 1, 5]
-  PLAYER_STAMINA_DECREASE_RATE: "1.0"
+  PLAYER_STAMINA_DECREASE_RATE: "1"
 
   # Player Auto Health Regeneration Rate
   # [0.1, 1, 5]
-  PLAYER_AUTO_HP_REGEN_RATE: "3.0"
+  PLAYER_AUTO_HP_REGEN_RATE: "3"
 
   # Player Sleep Health Regeneration Rate
   # [0.1, 1, 5]
-  PLAYER_AUTO_HP_REGEN_RATE_IN_SLEEP: "5.0"
+  PLAYER_AUTO_HP_REGEN_RATE_IN_SLEEP: "5"
 
   # Work Speed Multiplier
   # [0.1, 1, 5]
-  WORK_SPEED_RATE: "2.0"
+  WORK_SPEED_RATE: "1"
 
   # Damage to Structure Multiplier
   # [0.5, 1, 3]
@@ -112,15 +112,15 @@ data:
 
   # Maximum Number of Dropped Items in a World
   # [0, 3000, 5000]
-  DROP_ITEM_MAX_NUM: "5000"
+  DROP_ITEM_MAX_NUM: "3000"
 
   # Gatherable Items Multiplier
   # [0.5, 1, 3]
-  COLLECTION_DROP_RATE: "3.0"
+  COLLECTION_DROP_RATE: "3"
 
   # Gatherable Objects Health Multiplier
   # [0.5, 1, 3]
-  COLLECTION_OBJECT_HP_RATE: "1.0"
+  COLLECTION_OBJECT_HP_RATE: "1"
 
   # Gatherable Objects Respawn Interval
   # [0.5, 1, 3]
@@ -128,7 +128,7 @@ data:
 
   # Dropped Items Multiplier
   # [0.5, 1, 3]
-  ENEMY_DROP_ITEM_RATE: "3"
+  ENEMY_DROP_ITEM_RATE: "10"
 
   # Item Weight Rate
   # [0, 1, 10]
@@ -178,8 +178,6 @@ data:
   # PvP
   IS_PVP: "False"
   ENABLE_PLAYER_TO_PLAYER_DAMAGE: "False"
-
-
   ENABLE_FRIENDLY_FIRE: "False"
   ENABLE_AIM_ASSIST_PAD: "True"
   ENABLE_AIM_ASSIST_KEYBOARD: "False"
@@ -226,11 +224,10 @@ data:
   ITEM_CONTAINER_FORCE_MARK_DIRTY_INTERVAL: "1"
 
   # Maximum number of dropped items that can use physics behavior (default: -1 unlimited)
-  PHYSICS_ACTIVE_DROP_ITEM_MAX_NUM: "-1"
+  PHYSICS_ACTIVE_DROP_ITEM_MAX_NUM: "0"
 
   # Pal sync distance from players (cm). Minimum 5000 – maximum 15000.
   SERVER_REPLICATE_PAWN_CULL_DISTANCE: "15000"
-
 
   BLOCK_RESPAWN_TIME: "1" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
   ENABLE_GAMEDATA_API: "true"
