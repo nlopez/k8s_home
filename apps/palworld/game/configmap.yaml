@@ -240,4 +240,4 @@ data:
   # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image comment)
   MOD_ENABLED: "true"
   MOD_UPDATE_ON_BOOT: "true"
-  MOD_IDS: "3772992108,3780425019,3782653857"
+  MOD_IDS: "3780425019,3782653857"
