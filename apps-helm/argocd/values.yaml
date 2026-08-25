@@ -95,13 +95,11 @@ server:
   podAnnotations:
     ad.datadoghq.com/server.checks: |
       {
-        "openmetrics": {
+        "argocd": {
           "init_config": {},
           "instances": [
             {
-              "openmetrics_endpoint": "http://%%host%%:8083/metrics",
-              "namespace": "argocd.server",
-              "metrics": [".*"]
+              "api_server_endpoint": "http://%%host%%:8083/metrics"
             }
           ]
         }
@@ -117,13 +115,11 @@ repoServer:
   podAnnotations:
     ad.datadoghq.com/repo-server.checks: |
       {
-        "openmetrics": {
+        "argocd": {
           "init_config": {},
           "instances": [
             {
-              "openmetrics_endpoint": "http://%%host%%:8084/metrics",
-              "namespace": "argocd.repo_server",
-              "metrics": [".*"]
+              "repo_server_endpoint": "http://%%host%%:8084/metrics"
             }
           ]
         }
@@ -132,13 +128,11 @@ controller:
   podAnnotations:
     ad.datadoghq.com/application-controller.checks: |
       {
-        "openmetrics": {
+        "argocd": {
           "init_config": {},
           "instances": [
             {
-              "openmetrics_endpoint": "http://%%host%%:8082/metrics",
-              "namespace": "argocd.controller",
-              "metrics": [".*"]
+              "app_controller_endpoint": "http://%%host%%:8082/metrics"
             }
           ]
         }
@@ -147,13 +141,11 @@ notifications:
   podAnnotations:
     ad.datadoghq.com/notifications-controller.checks: |
       {
-        "openmetrics": {
+        "argocd": {
           "init_config": {},
           "instances": [
             {
-              "openmetrics_endpoint": "http://%%host%%:9001/metrics",
-              "namespace": "argocd.notifications",
-              "metrics": [".*"]
+              "notifications_controller_endpoint": "http://%%host%%:9001/metrics"
             }
           ]
         }
@@ -167,13 +159,11 @@ applicationSet:
   podAnnotations:
     ad.datadoghq.com/applicationset-controller.checks: |
       {
-        "openmetrics": {
+        "argocd": {
           "init_config": {},
           "instances": [
             {
-              "openmetrics_endpoint": "http://%%host%%:8080/metrics",
-              "namespace": "argocd.applicationset",
-              "metrics": [".*"]
+              "appset_controller_endpoint": "http://%%host%%:8080/metrics"
             }
           ]
         }
