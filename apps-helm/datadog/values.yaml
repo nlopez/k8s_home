@@ -35,6 +35,11 @@ datadog:
       enabled: true
   kubernetesEvents:
     unbundleEvents: true
+  # Defaults to true; set explicitly since vertical scaling recommendations
+  # (shown in the UI for every workload, no DatadogPodAutoscaler/live
+  # mutation required) depend on it.
+  kubeStateMetricsCore:
+    enabled: true
 clusterAgent:
   enabled: true
   tokenExistingSecret: datadog-keys
