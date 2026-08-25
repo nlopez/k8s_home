@@ -229,10 +229,12 @@ data:
   # Pal sync distance from players (cm). Minimum 5000 – maximum 15000.
   SERVER_REPLICATE_PAWN_CULL_DISTANCE: "15000"
 
-  BLOCK_RESPAWN_TIME: "1" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
+  BLOCK_RESPAWN_TIME: "5" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
   ENABLE_GAMEDATA_API: "true"
 
   WORKER_THREADS_SERVER: "4"
+
+  DROP_ITEM_ALIVE_MAX_HOURS: "0.5" # default: 1
 
   # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image comment)
   MOD_ENABLED: "true"
