@@ -27,11 +27,24 @@ datadog:
   # Requires system-probe (privileged, eBPF); compatible with Cilium 1.6+.
   networkMonitoring:
     enabled: true
+  # https://docs.datadoghq.com/containers/autoscaling/?tab=helm#setup
+  # Only enables the capability; nothing scales until a DatadogPodAutoscaler
+  # resource targets a workload.
+  autoscaling:
+    workload:
+      enabled: true
+  kubernetesEvents:
+    unbundleEvents: true
 clusterAgent:
   enabled: true
   tokenExistingSecret: datadog-keys
   metricsProvider:
     enabled: false
+  admissionController:
+    enabled: true
+    # Fail open: if the webhook is unreachable, pods still get scheduled
+    # (unmutated) instead of blocking all cluster scheduling.
+    failurePolicy: Ignore
 # https://docs.datadoghq.com/remote_configuration/#enable-remote-configuration
 # Defaults to true in the chart; set explicitly so it's documented here and
 # doesn't drift silently if the chart default ever changes.
