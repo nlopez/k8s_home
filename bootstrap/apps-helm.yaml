@@ -188,6 +188,12 @@ spec:
         chart: authentik
         targetRevision: "2026.8.0"
         namespace: authentik
+      - name: datadog
+        tier: platform
+        repoURL: https://helm.datadoghq.com
+        chart: datadog
+        targetRevision: "3.240.0"
+        namespace: datadog
   template:
     metadata:
       name: "{{.name}}"

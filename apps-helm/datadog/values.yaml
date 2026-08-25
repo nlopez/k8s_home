@@ -1,0 +1,25 @@
+# Datadog Helm chart values
+# Chart: https://github.com/DataDog/helm-charts/tree/main/charts/datadog
+#
+# Node Agent (DaemonSet) + Cluster Agent for cluster/container metrics,
+# orchestrator explorer, and log collection. API/App keys and the
+# Agent<->Cluster Agent shared token come from the `datadog-keys` Secret
+# (see manifests/datadog-keys.yaml).
+datadog:
+  site: datadoghq.com
+  apiKeyExistingSecret: datadog-keys
+  appKeyExistingSecret: datadog-keys
+  # kubeadm bare-metal kubelet serving certs aren't signed by a CA the
+  # Agent trusts by default.
+  kubelet:
+    tlsVerify: false
+  logs:
+    enabled: true
+    containerCollectAll: true
+  processAgent:
+    processCollection: false
+clusterAgent:
+  enabled: true
+  tokenExistingSecret: datadog-keys
+  metricsProvider:
+    enabled: false
