@@ -9,6 +9,7 @@ datadog:
   site: datadoghq.com
   apiKeyExistingSecret: datadog-keys
   appKeyExistingSecret: datadog-keys
+  clusterName: k8s-home
   # kubeadm bare-metal kubelet serving certs aren't signed by a CA the
   # Agent trusts by default.
   kubelet:
@@ -16,8 +17,12 @@ datadog:
   logs:
     enabled: true
     containerCollectAll: true
+  # https://docs.datadoghq.com/containers/monitoring/kubernetes_explorer/?tab=helm
   processAgent:
+    enabled: true
     processCollection: false
+  orchestratorExplorer:
+    enabled: true
 clusterAgent:
   enabled: true
   tokenExistingSecret: datadog-keys
