@@ -20,7 +20,7 @@ datadog:
   # https://docs.datadoghq.com/containers/monitoring/kubernetes_explorer/?tab=helm
   processAgent:
     enabled: true
-    processCollection: false
+    processCollection: true
   orchestratorExplorer:
     enabled: true
   # https://docs.datadoghq.com/network_monitoring/cloud_network_monitoring/setup/?tab=helm
