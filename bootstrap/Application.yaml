@@ -20,4 +20,4 @@ spec:
   sources:
   - repoURL: https://github.com/nlopez/k8s_home.git
     path: bootstrap
-    targetRevision: unstable
+    targetRevision: main

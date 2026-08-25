@@ -239,8 +239,8 @@ spec:
           - $values/apps-helm/{{.name}}/values.yaml
           ignoreMissingValueFiles: true
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
-        targetRevision: unstable
+        targetRevision: main
         ref: values
       - repoURL: 'https://github.com/nlopez/k8s_home.git'
-        targetRevision: unstable
+        targetRevision: main
         path: apps-helm/{{.name}}/manifests
