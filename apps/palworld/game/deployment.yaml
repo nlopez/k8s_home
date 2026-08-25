@@ -26,10 +26,12 @@ spec:
         backup.velero.io/backup-volumes: saved
         # Datadog Autodiscovery: feeds the custom `palworld` check (shipped
         # via apps-helm/datadog/values.yaml datadog.checksd) an instance per
-        # pod. %%host%% resolves to this pod's IP; %%env_ADMIN_PASSWORD%%
-        # pulls the REST API password straight out of the palworld
-        # container's own env below, so it's never duplicated into the
-        # datadog-keys Secret. https://docs.palworldgame.com/api/rest-api/metrics
+        # pod. %%host%% resolves to this pod's IP. %%env_%% template vars
+        # resolve from the Agent's OWN env, not this pod's, so the REST API
+        # password is mirrored into the datadog namespace as
+        # PALWORLD_ADMIN_PASSWORD (see apps-helm/datadog/values.yaml
+        # datadog.env and manifests/palworld-secrets.yaml) rather than read
+        # off the container below. https://docs.palworldgame.com/api/rest-api/metrics
         ad.datadoghq.com/palworld.checks: |
           {
             "palworld": {
@@ -38,7 +40,7 @@ spec:
                 {
                   "url": "http://%%host%%:8212",
                   "username": "admin",
-                  "password": "%%env_ADMIN_PASSWORD%%",
+                  "password": "%%env_PALWORLD_ADMIN_PASSWORD%%",
                   "tags": ["service:palworld"]
                 }
               ]

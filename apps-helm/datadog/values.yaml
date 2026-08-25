@@ -48,10 +48,19 @@ datadog:
   # The check itself is generic (talks to whatever host/port/credentials the
   # instance config gives it); the actual instance is supplied per-pod via
   # Autodiscovery annotations on the palworld Deployment
-  # (apps/palworld/game/deployment.yaml), so the server's admin password
-  # never has to be duplicated into this repo/Secret - it's read straight
-  # out of the palworld container's own ADMIN_PASSWORD env var via
-  # %%env_ADMIN_PASSWORD%%.
+  # (apps/palworld/game/deployment.yaml) using %%host%% for the pod IP and
+  # %%env_PALWORLD_ADMIN_PASSWORD%% for the REST API password.
+  # %%env_VARNAME%% resolves from the Agent process's OWN environment (not
+  # the annotated pod's - https://docs.datadoghq.com/containers/guide/template_variables/),
+  # so the password is mirrored into this namespace as its own Secret
+  # (manifests/palworld-secrets.yaml, same 1Password item as
+  # apps/palworld/game/onepassword-item.yaml) and wired in below via env.
+  env:
+  - name: PALWORLD_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: palworld-secrets
+        key: adminPassword
   checksd:
     palworld.py: |-
       from datadog_checks.base import AgentCheck, ConfigurationError
