@@ -17,10 +17,10 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-radoncanyon-com-cert-rsa
+        name: omni-certificate-rsa
         group: ""
       - kind: Secret
-        name: wildcard-radoncanyon-com-cert-ecdsa
+        name: omni-certificate-ecdsa
         group: ""
     allowedRoutes:
       namespaces:
@@ -33,10 +33,10 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-desertbluffs-com-cert-rsa
+        name: omni-certificate-rsa
         group: ""
       - kind: Secret
-        name: wildcard-desertbluffs-com-cert-ecdsa
+        name: omni-certificate-ecdsa
         group: ""
     allowedRoutes:
       namespaces:
@@ -49,10 +49,10 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-desertbluffs-com-cert-rsa
+        name: omni-certificate-rsa
         group: ""
       - kind: Secret
-        name: wildcard-desertbluffs-com-cert-ecdsa
+        name: omni-certificate-ecdsa
         group: ""
     allowedRoutes:
       namespaces:
