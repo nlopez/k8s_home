@@ -76,7 +76,7 @@ operator:
           "init_config": {},
           "instances": [
             {
-              "operator_endpoint": "http://%%host%%:6942/metrics",
+              "operator_endpoint": "http://%%host%%:9963/metrics",
               "use_openmetrics": "true"
             }
           ]
