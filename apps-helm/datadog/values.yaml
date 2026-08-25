@@ -29,7 +29,8 @@ datadog:
     enabled: true
   # https://docs.datadoghq.com/containers/autoscaling/?tab=helm#setup
   # Only enables the capability; nothing scales until a DatadogPodAutoscaler
-  # resource targets a workload.
+  # resource targets a workload (see e.g.
+  # apps-helm/immich/manifests/datadogpodautoscalers.yaml).
   autoscaling:
     workload:
       enabled: true
@@ -127,6 +128,14 @@ clusterAgent:
     # Fail open: if the webhook is unreachable, pods still get scheduled
     # (unmutated) instead of blocking all cluster scheduling.
     failurePolicy: Ignore
+  # In-place vertical resize (patches a running pod's resources.requests /
+  # limits via the K8s pods/resize subresource) for DatadogPodAutoscalers
+  # that opt into it (update.strategy: Auto), instead of always recreating
+  # the pod. No structured Helm value for this yet, hence the raw env var.
+  # https://docs.datadoghq.com/containers/autoscaling/
+  env:
+  - name: DD_AUTOSCALING_WORKLOAD_IN_PLACE_VERTICAL_SCALING_ENABLED
+    value: "true"
 # https://docs.datadoghq.com/remote_configuration/#enable-remote-configuration
 # Defaults to true in the chart; set explicitly so it's documented here and
 # doesn't drift silently if the chart default ever changes.

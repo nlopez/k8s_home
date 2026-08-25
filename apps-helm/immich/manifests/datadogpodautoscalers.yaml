@@ -1,0 +1,109 @@
+# Datadog Kubernetes Autoscaling (in-place vertical pod resize).
+# https://docs.datadoghq.com/containers/autoscaling/
+#
+# Vertical-only for all three Immich Deployments: horizontal scaling is
+# explicitly disabled (replicas stay as set in apps-helm/immich/values.yaml),
+# and update.strategy: Auto lets Datadog patch resources.requests/limits on
+# the running pod in place, falling back to a rollout only if the kubelet
+# reports the resize as infeasible. None of these containers have CPU/memory
+# requests set today (only gpu.intel.com/i915 on server/ML) -- Datadog's
+# recommender computes recommendations from observed usage and will populate
+# requests/limits itself once each autoscaler goes Active, same as VPA would.
+apiVersion: datadoghq.com/v1alpha2
+kind: DatadogPodAutoscaler
+metadata:
+  name: immich-server
+  namespace: immich
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: immich-server
+  owner: Local
+  applyPolicy:
+    mode: Apply
+    scaleUp:
+      strategy: Disabled
+    scaleDown:
+      strategy: Disabled
+    update:
+      strategy: Auto
+  objectives:
+  - type: PodResource
+    podResource:
+      name: cpu
+      value:
+        type: Utilization
+        utilization: 80
+  - type: PodResource
+    podResource:
+      name: memory
+      value:
+        type: Utilization
+        utilization: 80
+---
+apiVersion: datadoghq.com/v1alpha2
+kind: DatadogPodAutoscaler
+metadata:
+  name: immich-machine-learning
+  namespace: immich
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: immich-machine-learning
+  owner: Local
+  applyPolicy:
+    mode: Apply
+    scaleUp:
+      strategy: Disabled
+    scaleDown:
+      strategy: Disabled
+    update:
+      strategy: Auto
+  objectives:
+  - type: PodResource
+    podResource:
+      name: cpu
+      value:
+        type: Utilization
+        utilization: 80
+  - type: PodResource
+    podResource:
+      name: memory
+      value:
+        type: Utilization
+        utilization: 80
+---
+apiVersion: datadoghq.com/v1alpha2
+kind: DatadogPodAutoscaler
+metadata:
+  name: immich-valkey
+  namespace: immich
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: immich-valkey
+  owner: Local
+  applyPolicy:
+    mode: Apply
+    scaleUp:
+      strategy: Disabled
+    scaleDown:
+      strategy: Disabled
+    update:
+      strategy: Auto
+  objectives:
+  - type: PodResource
+    podResource:
+      name: cpu
+      value:
+        type: Utilization
+        utilization: 80
+  - type: PodResource
+    podResource:
+      name: memory
+      value:
+        type: Utilization
+        utilization: 80
