@@ -78,6 +78,8 @@ configs:
       return hs
   params:
     server.insecure: true
+# Datadog ArgoCD integration: scrape each component's Prometheus metrics via
+# Autodiscovery. https://docs.datadoghq.com/integrations/argocd/
 server:
   ingress:
     enabled: false
@@ -90,6 +92,20 @@ server:
     # grpc-web traffic stays on the plain http port/HTTPRoute.
     # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
     servicePortHttpsAppProtocol: kubernetes.io/h2c
+  podAnnotations:
+    ad.datadoghq.com/server.checks: |
+      {
+        "openmetrics": {
+          "init_config": {},
+          "instances": [
+            {
+              "openmetrics_endpoint": "http://%%host%%:8083/metrics",
+              "namespace": "argocd.server",
+              "metrics": [".*"]
+            }
+          ]
+        }
+      }
 # Increase liveness/readiness probe timeouts to prevent CLBO under load.
 # The default 1s timeout is too short when the repo server processes many
 # concurrent manifest generation calls (e.g. ~20 apps syncing).
@@ -98,9 +114,67 @@ repoServer:
     timeoutSeconds: 5
   readinessProbe:
     timeoutSeconds: 5
+  podAnnotations:
+    ad.datadoghq.com/repo-server.checks: |
+      {
+        "openmetrics": {
+          "init_config": {},
+          "instances": [
+            {
+              "openmetrics_endpoint": "http://%%host%%:8084/metrics",
+              "namespace": "argocd.repo_server",
+              "metrics": [".*"]
+            }
+          ]
+        }
+      }
+controller:
+  podAnnotations:
+    ad.datadoghq.com/application-controller.checks: |
+      {
+        "openmetrics": {
+          "init_config": {},
+          "instances": [
+            {
+              "openmetrics_endpoint": "http://%%host%%:8082/metrics",
+              "namespace": "argocd.controller",
+              "metrics": [".*"]
+            }
+          ]
+        }
+      }
+notifications:
+  podAnnotations:
+    ad.datadoghq.com/notifications-controller.checks: |
+      {
+        "openmetrics": {
+          "init_config": {},
+          "instances": [
+            {
+              "openmetrics_endpoint": "http://%%host%%:9001/metrics",
+              "namespace": "argocd.notifications",
+              "metrics": [".*"]
+            }
+          ]
+        }
+      }
 # Enable ApplicationSet Progressive Syncs (RollingSync), used by
 # bootstrap/apps-helm.yaml to order the infra tiers (network/secrets ->
 # storage -> platform) instead of syncing all 21 apps at once.
 applicationSet:
   extraArgs:
   - --enable-progressive-syncs
+  podAnnotations:
+    ad.datadoghq.com/applicationset-controller.checks: |
+      {
+        "openmetrics": {
+          "init_config": {},
+          "instances": [
+            {
+              "openmetrics_endpoint": "http://%%host%%:8080/metrics",
+              "namespace": "argocd.applicationset",
+              "metrics": [".*"]
+            }
+          ]
+        }
+      }
