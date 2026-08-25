@@ -32,3 +32,8 @@ clusterAgent:
   tokenExistingSecret: datadog-keys
   metricsProvider:
     enabled: false
+# https://docs.datadoghq.com/remote_configuration/#enable-remote-configuration
+# Defaults to true in the chart; set explicitly so it's documented here and
+# doesn't drift silently if the chart default ever changes.
+remoteConfiguration:
+  enabled: true
