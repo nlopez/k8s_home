@@ -62,3 +62,36 @@ hubble:
 MTU: 1500
 endpointRoutes:
   enabled: true
+# Datadog Cilium integration: expose Prometheus metrics and annotate pods
+# for Autodiscovery. https://docs.datadoghq.com/integrations/cilium/
+prometheus:
+  enabled: true
+operator:
+  prometheus:
+    enabled: true
+  podAnnotations:
+    ad.datadoghq.com/cilium-operator.checks: |
+      {
+        "cilium": {
+          "init_config": {},
+          "instances": [
+            {
+              "operator_endpoint": "http://%%host%%:6942/metrics",
+              "use_openmetrics": "true"
+            }
+          ]
+        }
+      }
+podAnnotations:
+  ad.datadoghq.com/cilium-agent.checks: |-
+    {
+      "cilium": {
+        "init_config": {},
+        "instances": [
+          {
+            "agent_endpoint": "http://%%host%%:9962/metrics",
+            "use_openmetrics": "true"
+          }
+        ]
+      }
+    }
