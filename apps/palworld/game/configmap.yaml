@@ -224,7 +224,7 @@ data:
   ITEM_CONTAINER_FORCE_MARK_DIRTY_INTERVAL: "1"
 
   # Maximum number of dropped items that can use physics behavior (default: -1 unlimited)
-  PHYSICS_ACTIVE_DROP_ITEM_MAX_NUM: "0"
+  PHYSICS_ACTIVE_DROP_ITEM_MAX_NUM: "-1"
 
   # Pal sync distance from players (cm). Minimum 5000 – maximum 15000.
   SERVER_REPLICATE_PAWN_CULL_DISTANCE: "15000"
