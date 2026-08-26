@@ -116,7 +116,7 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: data
+          claimName: data-nfs
       - name: saved
         persistentVolumeClaim:
           claimName: saved

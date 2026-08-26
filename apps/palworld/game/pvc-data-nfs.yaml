@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data
+  name: data-nfs
   namespace: palworld
   labels:
     velero.io/exclude-from-backup: "true"
 spec:
-  storageClassName: nas1-mtank-iscsi
+  storageClassName: nas1-mtank-nfs
   resources:
     requests:
       storage: 20Gi
