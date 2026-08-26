@@ -6,6 +6,8 @@ metadata:
   namespace: palworld
 data:
   TZ: "UTC"
+  # json, logfmt, colored, plain, default (thijsvanloef/palworld-server-docker >=2.0.1)
+  LOG_FORMAT_TYPE: "json"
   PLAYERS: "16"
   PORT: "8211"
   REST_API_PORT: "8212"
