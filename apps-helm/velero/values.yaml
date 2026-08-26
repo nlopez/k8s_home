@@ -16,6 +16,10 @@ configuration:
       s3ForcePathStyle: true
       s3Url: https://sfo3.digitaloceanspaces.com
     accessMode: ReadWrite
+    # Only BSL; mark it default to silence "no BackupStorageLocation set as
+    # default" in the velero server logs (schedules already pin
+    # storageLocation explicitly, so this only affects ad-hoc/CLI backups).
+    default: true
   # Volume snapshot location (required by Velero for CSI snapshot tracking)
   # Only region/profile/credentialsFile/enableSharedConfig are valid keys for
   # the AWS volume snapshotter. s3ForcePathStyle and s3Url are for the backup
