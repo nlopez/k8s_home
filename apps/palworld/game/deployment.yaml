@@ -46,6 +46,20 @@ spec:
               ]
             }
           }
+        # UE4SS (the mod loader) logs to a file, not stdout, so the Agent
+        # can't pick it up via normal container log collection. The
+        # ue4ss-log sidecar below tails that file onto its own stdout; this
+        # annotation just tags that stream with a proper source/service
+        # instead of the default (derived from the sidecar's image name).
+        # https://docs.datadoghq.com/containers/kubernetes/log/
+        ad.datadoghq.com/ue4ss-log.logs: |
+          [
+            {
+              "source": "ue4ss",
+              "service": "palworld",
+              "tags": ["service:palworld"]
+            }
+          ]
     spec:
       containers:
       - name: palworld
@@ -112,6 +126,30 @@ spec:
             command: ["bash", "-c", "cd /home/steam/server && . ./helper_functions.sh && PalworldServerPid >/dev/null"]
           initialDelaySeconds: 120
           periodSeconds: 20
+      - name: ue4ss-log
+        # UE4SS writes its own log to a file inside the data volume rather
+        # than stdout, so it's invisible to normal container log collection.
+        # This tails that file onto stdout so the Datadog Agent picks it up
+        # (see the ad.datadoghq.com/ue4ss-log.logs annotation above).
+        image: alpine:3.21
+        command:
+        - sh
+        - -c
+        - |
+          log=/palworld/Pal/Binaries/Win64/ue4ss/UE4SS.log
+          while [ ! -f "$log" ]; do sleep 5; done
+          exec tail -n +1 -f "$log"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            cpu: 50m
+            memory: 32Mi
+        volumeMounts:
+        - name: data
+          mountPath: /palworld
+          readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
       - name: data
