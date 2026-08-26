@@ -49,8 +49,40 @@ initContainers:
   - mountPath: /target
     name: plugins
 # ---- Metrics ----
+# Enabled for the Datadog integration (https://docs.datadoghq.com/integrations/velero/),
+# which scrapes the OpenMetrics endpoint on both the velero and node-agent
+# pods directly (see podAnnotations below) rather than via this Service.
 metrics:
-  enabled: false
+  enabled: true
+# ---- Datadog Autodiscovery ----
+# https://docs.datadoghq.com/integrations/velero/
+# Applied to both the velero Deployment and node-agent DaemonSet pod specs
+# (the chart reuses this same top-level podAnnotations for both); each pod
+# only has one of these two containers, so the Agent picks the matching key
+# and ignores the other.
+podAnnotations:
+  ad.datadoghq.com/velero.checks: |
+    {
+      "velero": {
+        "init_config": {},
+        "instances": [
+          {
+            "openmetrics_endpoint": "http://%%host%%:8085/metrics"
+          }
+        ]
+      }
+    }
+  ad.datadoghq.com/node-agent.checks: |
+    {
+      "velero": {
+        "init_config": {},
+        "instances": [
+          {
+            "openmetrics_endpoint": "http://%%host%%:8085/metrics"
+          }
+        ]
+      }
+    }
 # ---- Backup Schedules ----
 schedules:
   # Every 10-minute backup of the palworld namespace
