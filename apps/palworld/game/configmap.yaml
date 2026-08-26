@@ -128,7 +128,7 @@ data:
 
   # Dropped Items Multiplier
   # [0.5, 1, 3]
-  ENEMY_DROP_ITEM_RATE: "10"
+  ENEMY_DROP_ITEM_RATE: "3"
 
   # Item Weight Rate
   # [0, 1, 10]
@@ -232,7 +232,7 @@ data:
   BLOCK_RESPAWN_TIME: "5" # seconds (default: 5, DO NOT SET TO 0 -- infinite?)
   ENABLE_GAMEDATA_API: "true"
 
-  WORKER_THREADS_SERVER: "4"
+  WORKER_THREADS_SERVER: "8"
 
   DROP_ITEM_ALIVE_MAX_HOURS: "0.5" # default: 1
 
