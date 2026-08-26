@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/service-v1.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: palworld-live-map
+  namespace: palworld
+spec:
+  selector:
+    app: palworld-live-map
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http

@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld-live-map
+  namespace: palworld
+  labels:
+    app: palworld-live-map
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palworld-live-map
+  template:
+    metadata:
+      labels:
+        app: palworld-live-map
+      annotations:
+        secret.reloader.stakater.com/reload: "palworld-secrets"
+    spec:
+      containers:
+      - name: palworld-live-map
+        # Get the SHA256 digest for a given tag:
+        #   skopeo inspect --override-arch amd64 --override-os linux --format '{{.Digest}}' docker://ghcr.io/lukehollanddev/palworld-live-map:<tag>
+        image: ghcr.io/lukehollanddev/palworld-live-map@sha256:f0b2175cf6b0721a5e578d89ad1708373b5679710a9c38773d3371e43b53ab28
+        env:
+        - name: PALWORLD_REST_URL
+          value: http://palworld.palworld.svc.cluster.local:8212
+        - name: PALWORLD_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: palworld-secrets
+              key: adminPassword
+        # Enriches the live map with save-backed data (offline players,
+        # character-to-account claims) by reading the same SaveGames/0
+        # directory as the game server (mounted read-only below).
+        - name: SAVE_DATA_ENABLED
+          value: "true"
+        - name: PLAYER_CLAIMS_ENABLED
+          value: "true"
+        - name: PALWORLD_SAVE_ROOT
+          value: /data/palworld/saves/SaveGames/0
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi
+        volumeMounts:
+        - name: saved
+          mountPath: /data/palworld/saves
+          readOnly: true
+        readinessProbe:
+          httpGet:
+            path: /-/health
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /-/health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 20
+      volumes:
+      - name: saved
+        persistentVolumeClaim:
+          claimName: saved
+          readOnly: true
