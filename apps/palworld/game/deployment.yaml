@@ -87,6 +87,10 @@ spec:
           mountPath: /palworld
         - name: saved
           mountPath: /palworld/Pal/Saved
+        - name: workshop-mods
+          mountPath: /palworld/Mods/workshop-mods.txt
+          subPath: workshop-mods.txt
+          readOnly: true
         startupProbe:
           exec:
             # Windows/Wine image: process name differs from the Linux build, so use the
@@ -116,3 +120,6 @@ spec:
       - name: saved
         persistentVolumeClaim:
           claimName: saved
+      - name: workshop-mods
+        configMap:
+          name: palworld-workshop-mods

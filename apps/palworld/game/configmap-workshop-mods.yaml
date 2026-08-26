@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: palworld-workshop-mods
+  namespace: palworld
+data:
+  # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image
+  # comment). Mounted into the container at /palworld/Mods/workshop-mods.txt,
+  # one mod ID per line, combined with MOD_IDS at boot.
+  # Format follows thijsvanloef/palworld-server-docker's
+  # examples/mods/workshop-mods.txt: https://steamcommunity.com/workshop/browse/?appid=1623730
+  workshop-mods.txt: |
+    3780425019  # Guild Feed Box Sync (https://steamcommunity.com/sharedfiles/filedetails/?id=3780425019)
+    3782653857  # Auto-Close Base Doors (https://steamcommunity.com/sharedfiles/filedetails/?id=3782653857)
+    3773035536  # True Mercy (https://steamcommunity.com/sharedfiles/filedetails/?id=3773035536)

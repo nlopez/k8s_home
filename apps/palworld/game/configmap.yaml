@@ -236,7 +236,9 @@ data:
 
   DROP_ITEM_ALIVE_MAX_HOURS: "0.5" # default: 1
 
-  # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image comment)
+  # Steam Workshop mods (Windows/Wine image only, see deployment.yaml image
+  # comment). Mod IDs themselves live in configmap-workshop-mods.yaml, mounted
+  # at /palworld/Mods/workshop-mods.txt, rather than in MOD_IDS here.
   MOD_ENABLED: "true"
   MOD_UPDATE_ON_BOOT: "true"
-  MOD_IDS: "3780425019,3782653857,3773035536"
+  MOD_DEBUG: "true"
