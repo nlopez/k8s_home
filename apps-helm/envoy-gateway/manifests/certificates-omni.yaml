@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: omni-certificate-rsa
   isCA: false
-  renewBefore: 24h
+  renewBeforePercentage: 30
   privateKey:
     algorithm: RSA
     size: 2048
@@ -28,7 +28,7 @@ metadata:
 spec:
   secretName: omni-certificate-ecdsa
   isCA: false
-  renewBefore: 24h
+  renewBeforePercentage: 30
   privateKey:
     algorithm: ECDSA
     size: 256
