@@ -6,6 +6,9 @@ metadata:
   namespace: obsidian-livesync
   labels:
     app: obsidian-livesync
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: obsidian-livesync
+    tags.datadoghq.com/version: v1
 spec:
   replicas: 1
   strategy:
@@ -17,6 +20,9 @@ spec:
     metadata:
       labels:
         app: obsidian-livesync
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: obsidian-livesync
+        tags.datadoghq.com/version: v1
     spec:
       initContainers:
       - name: init-config

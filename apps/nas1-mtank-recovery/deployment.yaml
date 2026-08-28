@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: nas1-mtank-recovery
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: nas1-mtank-recovery
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: recovery

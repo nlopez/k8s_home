@@ -42,3 +42,7 @@ extraArgs:
 - --rfc2136-batch-change-size=1
 - --txt-owner-id=technitium
 logLevel: debug
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: external-dns-technitium
+  tags.datadoghq.com/version: v1

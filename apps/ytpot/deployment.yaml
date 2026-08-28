@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         app: ytpot
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: ytpot
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: ytpot

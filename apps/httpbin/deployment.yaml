@@ -6,6 +6,9 @@ metadata:
   labels:
     app: httpbin
     version: v1
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: httpbin
+    tags.datadoghq.com/version: v1
 spec:
   replicas: 1
   selector:
@@ -17,6 +20,9 @@ spec:
       labels:
         app: httpbin
         version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: httpbin
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: httpbin

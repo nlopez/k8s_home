@@ -9,6 +9,9 @@ metadata:
   labels:
     app: pms
     version: v1
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: pms
+    tags.datadoghq.com/version: v1
 spec:
   replicas: 1
   strategy:
@@ -22,6 +25,9 @@ spec:
       labels:
         app: pms
         version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: pms
+        tags.datadoghq.com/version: v1
     spec:
       serviceAccountName: pms
       containers:

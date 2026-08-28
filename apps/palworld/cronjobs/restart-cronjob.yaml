@@ -17,6 +17,9 @@ metadata:
   namespace: palworld
   labels:
     app: palworld
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld
+    tags.datadoghq.com/version: v1
     component: restart
 spec:
   schedule: "15 6 * * *"
@@ -139,6 +142,9 @@ metadata:
   namespace: palworld
   labels:
     app: palworld
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld
+    tags.datadoghq.com/version: v1
     component: restart
 ---
 # Role to allow managing pods and deployments
@@ -149,6 +155,9 @@ metadata:
   name: palworld-restart-role
   labels:
     app: palworld
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld
+    tags.datadoghq.com/version: v1
     component: restart
 rules:
 - apiGroups: [""]
@@ -172,6 +181,9 @@ metadata:
   name: palworld-restart-binding
   labels:
     app: palworld
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld
+    tags.datadoghq.com/version: v1
     component: restart
 subjects:
 - kind: ServiceAccount

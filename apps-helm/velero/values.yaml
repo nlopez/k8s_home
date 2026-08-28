@@ -5,6 +5,10 @@
 image:
   repository: docker.io/velero/velero
   tag: v1.18.1
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: velero
+  tags.datadoghq.com/version: v1
 # ---- Backup Storage Location (S3 / DigitalOcean Spaces) ----
 configuration:
   backupStorageLocation:
@@ -45,6 +49,10 @@ credentials:
 deployNodeAgent: true
 nodeAgent:
   resources: {}
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: velero-node-agent
+    tags.datadoghq.com/version: v1
 # ---- Init container for AWS plugin ----
 initContainers:
 - name: velero-plugin-for-aws

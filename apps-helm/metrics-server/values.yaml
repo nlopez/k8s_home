@@ -1,0 +1,6 @@
+# metrics-server Helm chart values
+# Runs entirely on chart defaults besides Unified Service Tagging.
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: metrics-server
+  tags.datadoghq.com/version: v1

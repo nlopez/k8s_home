@@ -6,6 +6,9 @@ metadata:
   labels:
     app: sonarr
     version: v1
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: sonarr
+    tags.datadoghq.com/version: v1
 spec:
   strategy:
     type: Recreate
@@ -18,6 +21,9 @@ spec:
       labels:
         app: sonarr
         version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: sonarr
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: sonarr

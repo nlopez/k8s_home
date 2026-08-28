@@ -6,6 +6,9 @@ metadata:
   namespace: palworld
   labels:
     app: palworld-live-map
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld-live-map
+    tags.datadoghq.com/version: v1
 spec:
   replicas: 1
   selector:
@@ -15,6 +18,9 @@ spec:
     metadata:
       labels:
         app: palworld-live-map
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: palworld-live-map
+        tags.datadoghq.com/version: v1
       annotations:
         secret.reloader.stakater.com/reload: "palworld-secrets"
     spec:

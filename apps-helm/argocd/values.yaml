@@ -1,5 +1,9 @@
 global:
   domain: argocd.desertbluffs.com
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: argocd
+    tags.datadoghq.com/version: v1
 configs:
   cm:
     # ---- resource.exclusions ----
@@ -157,7 +161,7 @@ applicationSet:
   extraArgs:
   - --enable-progressive-syncs
   podAnnotations:
-    ad.datadoghq.com/applicationset-controller.checks: |
+    ad.datadoghq.com/applicationset-controller.checks: |-
       {
         "argocd": {
           "init_config": {},

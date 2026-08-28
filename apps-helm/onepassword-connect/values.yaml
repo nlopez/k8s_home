@@ -5,6 +5,10 @@ connect:
   # Keep credentials in an out-of-git secret named op-credentials.
   credentialsName: op-credentials
   credentialsKey: 1password-credentials.json
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: onepassword-connect
+    tags.datadoghq.com/version: v1
 operator:
   create: true
   annotations:
@@ -14,3 +18,7 @@ operator:
   token:
     name: onepassword-token
     key: token
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: onepassword-connect
+    tags.datadoghq.com/version: v1

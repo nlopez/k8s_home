@@ -27,6 +27,9 @@ metadata:
   namespace: palworld
   labels:
     app: palworld-editor
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld-editor
+    tags.datadoghq.com/version: v1
 spec:
   replicas: 0
   selector:
@@ -36,6 +39,9 @@ spec:
     metadata:
       labels:
         app: palworld-editor
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: palworld-editor
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: editor

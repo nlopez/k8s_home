@@ -123,6 +123,9 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: snapshot-controller
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: snapshot-controller
+        tags.datadoghq.com/version: v1
     spec:
       serviceAccountName: snapshot-controller
       containers:

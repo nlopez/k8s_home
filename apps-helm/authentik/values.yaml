@@ -65,6 +65,10 @@ global:
       secretKeyRef:
         name: onepassword-authentik-database
         key: bootstrap_email
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: authentik
+    tags.datadoghq.com/version: v1
 server:
   ingress:
     # We use our own HTTPRoute manifests (manifests/httproute.yaml) instead.

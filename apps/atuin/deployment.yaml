@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: atuin
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: atuin
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: atuin

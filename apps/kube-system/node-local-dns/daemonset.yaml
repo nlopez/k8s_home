@@ -17,6 +17,9 @@ metadata:
   namespace: kube-system
   labels:
     k8s-app: node-local-dns
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: node-local-dns
+    tags.datadoghq.com/version: v1
 spec:
   updateStrategy:
     rollingUpdate:
@@ -28,6 +31,9 @@ spec:
     metadata:
       labels:
         k8s-app: node-local-dns
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: node-local-dns
+        tags.datadoghq.com/version: v1
       annotations:
         policy.cilium.io/no-track-port: "53"
         prometheus.io/port: "9253"

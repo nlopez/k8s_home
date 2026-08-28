@@ -5,3 +5,17 @@ config:
   apiVersion: controller.config.cert-manager.io/v1alpha1
   kind: ControllerConfiguration
   enableGatewayAPI: true
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: cert-manager
+  tags.datadoghq.com/version: v1
+webhook:
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: cert-manager-webhook
+    tags.datadoghq.com/version: v1
+cainjector:
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: cert-manager-cainjector
+    tags.datadoghq.com/version: v1

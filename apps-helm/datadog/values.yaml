@@ -10,6 +10,12 @@ datadog:
   apiKeyExistingSecret: datadog-keys
   appKeyExistingSecret: datadog-keys
   clusterName: k8s-home
+  # Cluster-wide Unified Service Tagging env. Per-pod
+  # tags.datadoghq.com/{env,service,version} labels (set on each workload)
+  # take precedence for that workload's own telemetry.
+  # https://docs.datadoghq.com/getting_started/tagging/unified_service_tagging/
+  tags:
+  - env:homelab
   # kubeadm bare-metal kubelet serving certs aren't signed by a CA the
   # Agent trusts by default.
   kubelet:

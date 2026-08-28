@@ -4,3 +4,7 @@ rbac:
 service:
   type: ClusterIP
   port: 8081
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: goldpinger
+  tags.datadoghq.com/version: v1

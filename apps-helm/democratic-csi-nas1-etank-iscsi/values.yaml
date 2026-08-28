@@ -7,6 +7,15 @@ driver:
 controller:
   externalSnapshotter:
     enabled: true
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: democratic-csi-nas1-etank-iscsi
+    tags.datadoghq.com/version: v1
+node:
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: democratic-csi-nas1-etank-iscsi
+    tags.datadoghq.com/version: v1
 # VolumeSnapshotClass is managed via standalone manifest in manifests/
 # (Helm chart v0.15.1 renders empty parameters as null, which K8s rejects)
 storageClasses:

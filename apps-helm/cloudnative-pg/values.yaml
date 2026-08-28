@@ -1,7 +1,8 @@
-
-
 # cloudnative-pg Helm chart values
 # Official chart: https://cloudnative-pg.io/
-
 # Use default values from the chart
 # The operator will be installed to manage PostgreSQL clusters
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: cloudnative-pg
+  tags.datadoghq.com/version: v1

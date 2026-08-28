@@ -7,6 +7,9 @@ metadata:
   labels:
     app: palworld
     version: v1
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: palworld
+    tags.datadoghq.com/version: v1
 spec:
   replicas: 1
   strategy:
@@ -20,6 +23,9 @@ spec:
       labels:
         app: palworld
         version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: palworld
+        tags.datadoghq.com/version: v1
       annotations:
         configmap.reloader.stakater.com/auto: "true"
         secret.reloader.stakater.com/reload: "palworld-secrets"
