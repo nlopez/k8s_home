@@ -1,6 +1,12 @@
 # immich Helm chart values
 # Official chart: https://github.com/immich-app/immich-charts
 # This chart uses the bjw-s common library
+global:
+  propagateGlobalMetadataToPods: true
+  labels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: immich
+    tags.datadoghq.com/version: v1
 # Shared configuration for all controllers
 controllers:
   main:

@@ -19,3 +19,7 @@ resources:
     gpu.intel.com/i915: 1
 deploymentStrategy:
   type: Recreate
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: jellyfin
+  tags.datadoghq.com/version: v1

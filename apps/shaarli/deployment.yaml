@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         app: shaarli
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: shaarli
+        tags.datadoghq.com/version: v1
     spec:
       volumes:
       - name: shaarli

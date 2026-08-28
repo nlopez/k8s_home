@@ -3,6 +3,10 @@ operatorConfig:
     operator.1password.io/item-path: "vaults/evjh25ux2mnoufaut6qhvm2pdi/items/2gsoxeyko7xgyz7ar6yqasjo54"
     operator.1password.io/item-name: "operator-oauth"
   logging: info
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: tailscale-operator
+    tags.datadoghq.com/version: v1
   image:
     repository: ghcr.io/tailscale/k8s-operator
     pullPolicy: IfNotPresent

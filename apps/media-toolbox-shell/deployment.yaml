@@ -18,6 +18,9 @@ spec:
       labels:
         app: toolbox
         version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: toolbox
+        tags.datadoghq.com/version: v1
     spec:
       securityContext:
         runAsUser: 1001

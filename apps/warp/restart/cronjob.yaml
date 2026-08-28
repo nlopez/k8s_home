@@ -12,6 +12,11 @@ spec:
       backoffLimit: 2
       activeDeadlineSeconds: 600
       template:
+        metadata:
+          labels:
+            tags.datadoghq.com/env: homelab
+            tags.datadoghq.com/service: warp-restart
+            tags.datadoghq.com/version: v1
         spec:
           serviceAccountName: warp-restart
           restartPolicy: Never

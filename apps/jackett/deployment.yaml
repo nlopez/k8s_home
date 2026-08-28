@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: jackett
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: jackett
+        tags.datadoghq.com/version: v1
     spec:
       containers:
       - name: jackett

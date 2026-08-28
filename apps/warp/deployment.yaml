@@ -16,6 +16,9 @@ spec:
       labels:
         app: warp
         version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: warp
+        tags.datadoghq.com/version: v1
     spec:
       restartPolicy: Always
       containers:

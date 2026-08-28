@@ -1,0 +1,9 @@
+# Envoy Gateway control plane Helm chart values.
+# Data-plane Envoy proxy pods (internet/private) are configured separately
+# via the EnvoyProxy CRs in manifests/envoy-proxy-*.yaml.
+deployment:
+  pod:
+    labels:
+      tags.datadoghq.com/env: homelab
+      tags.datadoghq.com/service: envoy-gateway
+      tags.datadoghq.com/version: v1

@@ -40,3 +40,7 @@ extraArgs:
 # Causes extraneous record updates
 # - --cloudflare-record-comment=managed by external-dns
 logLevel: debug
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: external-dns
+  tags.datadoghq.com/version: v1

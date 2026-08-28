@@ -1,0 +1,21 @@
+# node-feature-discovery Helm chart values
+master:
+  labels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: node-feature-discovery
+    tags.datadoghq.com/version: v1
+worker:
+  labels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: node-feature-discovery
+    tags.datadoghq.com/version: v1
+gc:
+  labels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: node-feature-discovery
+    tags.datadoghq.com/version: v1
+topologyUpdater:
+  labels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: node-feature-discovery
+    tags.datadoghq.com/version: v1

@@ -13,6 +13,11 @@ spec:
       backoffLimit: 1
       activeDeadlineSeconds: 3300 # 55m - leaves a buffer before the next hourly trigger
       template:
+        metadata:
+          labels:
+            tags.datadoghq.com/env: homelab
+            tags.datadoghq.com/service: icloudpd
+            tags.datadoghq.com/version: v1
         spec:
           serviceAccountName: default
           restartPolicy: Never

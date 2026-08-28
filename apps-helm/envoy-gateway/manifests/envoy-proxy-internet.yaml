@@ -24,10 +24,14 @@ spec:
               cpu: 100m
               memory: 128Mi
         pod:
+          labels:
+            tags.datadoghq.com/env: homelab
+            tags.datadoghq.com/service: envoy-proxy-internet
+            tags.datadoghq.com/version: v1
           # Datadog Envoy integration: scrape the proxy's Prometheus stats
           # via Autodiscovery. https://docs.datadoghq.com/integrations/envoy/
           annotations:
-            ad.datadoghq.com/envoy.checks: |
+            ad.datadoghq.com/envoy.checks: |-
               {
                 "envoy": {
                   "init_config": {},
