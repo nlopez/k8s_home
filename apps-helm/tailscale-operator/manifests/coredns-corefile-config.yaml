@@ -6,6 +6,56 @@ metadata:
   namespace: kube-system
 data:
   Corefile: |-
+    # Per-namespace split answers for example.org, via the `view` + `metadata`
+    # plugins. The `kubernetes` plugin is the metadata provider: with `pods
+    # verified` it reconciles the client packet's source IP to a pod and
+    # publishes `kubernetes/client-namespace`, which each view's `expr` matches.
+    # Non-matching clients fall through the label hierarchy to the `.:53` block.
+    #
+    # NOTE: node-local-dns forwards `example.org` straight to the LAN + public
+    # resolvers, so a normal pod never reaches these views. To see them, query
+    # the kube-dns ClusterIP directly, e.g.:
+    #   kubectl -n palworld exec deploy/<x> -- dig +tcp TXT example.org @10.43.32.10
+    example.org:53 {
+      errors
+      view palworld {
+        expr metadata('kubernetes/client-namespace') == 'palworld'
+      }
+      metadata
+      kubernetes cluster.local {
+        pods verified
+      }
+      template IN TXT example.org {
+        match ^example\.org\.$
+        answer "{{ .Name }} 60 IN TXT \"Hello palworld namespace!\""
+        fallthrough
+      }
+      forward . tls://1.1.1.1 tls://1.0.0.1 {
+        tls_servername cloudflare-dns.com
+      }
+      cache 30
+    }
+
+    example.org:53 {
+      errors
+      view media-toolbox-shell {
+        expr metadata('kubernetes/client-namespace') == 'media-toolbox-shell'
+      }
+      metadata
+      kubernetes cluster.local {
+        pods verified
+      }
+      template IN TXT example.org {
+        match ^example\.org\.$
+        answer "{{ .Name }} 60 IN TXT \"Hello media-toolbox-shell!\""
+        fallthrough
+      }
+      forward . tls://1.1.1.1 tls://1.0.0.1 {
+        tls_servername cloudflare-dns.com
+      }
+      cache 30
+    }
+
     .:53 {
       errors
       health {
