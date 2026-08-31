@@ -12,10 +12,10 @@ data:
     # publishes `kubernetes/client-namespace`, which each view's `expr` matches.
     # Non-matching clients fall through the label hierarchy to the `.:53` block.
     #
-    # NOTE: node-local-dns forwards `example.org` straight to the LAN + public
-    # resolvers, so a normal pod never reaches these views. To see them, query
-    # the kube-dns ClusterIP directly, e.g.:
-    #   kubectl -n palworld exec deploy/<x> -- dig +tcp TXT example.org @10.43.32.10
+    # Pods reach this server directly (node-local-dns was dropped 2026-08-31),
+    # so Cilium socketLB preserves the client pod IP and `pods verified` can
+    # resolve it to a namespace. Test:
+    #   kubectl -n palworld exec deploy/<x> -- dig +short TXT example.org
     example.org:53 {
       errors
       view palworld {
@@ -26,7 +26,7 @@ data:
         pods verified
       }
       template IN TXT example.org {
-        match ^example\.org\.$
+        match ^example[.]org[.]$
         answer "{{ .Name }} 60 IN TXT \"Hello palworld namespace!\""
         fallthrough
       }
@@ -46,7 +46,7 @@ data:
         pods verified
       }
       template IN TXT example.org {
-        match ^example\.org\.$
+        match ^example[.]org[.]$
         answer "{{ .Name }} 60 IN TXT \"Hello media-toolbox-shell!\""
         fallthrough
       }

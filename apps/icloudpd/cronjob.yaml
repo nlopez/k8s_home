@@ -25,7 +25,7 @@ spec:
           # the first SERVFAIL instead of falling through (unlike glibc, which
           # continues to the next suffix). Tailscale's injected search domains
           # (macaroni-pirate.ts.net, <tailnet>) get forwarded externally by
-          # node-local-dns and come back SERVFAIL for made-up subdomains, which
+          # CoreDNS and come back SERVFAIL for made-up subdomains, which
           # aborts resolution of the actual bare hostname (e.g. icloud.com).
           # ndots:1 makes any dotted hostname resolve as absolute first,
           # skipping that search-suffix path.

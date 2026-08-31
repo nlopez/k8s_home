@@ -20,9 +20,11 @@ ipv6:
   enabled: false
 ipv4NativeRoutingCIDR: "10.43.0.0/16"
 localRedirectPolicies:
-  # required so node-local-dns can redirect kube-dns traffic to the
-  # node-local cache pod instead of the real CoreDNS Service; see
-  # apps-helm/node-local-dns
+  # Kept on for future CiliumLocalRedirectPolicy use. Previously required by
+  # node-local-dns, which was dropped 2026-08-31 so pods reach CoreDNS
+  # directly and their source pod IP is preserved (needed for the
+  # per-namespace example.org views in the coredns Corefile). No
+  # CiliumLocalRedirectPolicy objects currently exist.
   enabled: true
 bpf:
   datapathMode: netkit
