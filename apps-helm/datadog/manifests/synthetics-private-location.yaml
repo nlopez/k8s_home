@@ -1,0 +1,87 @@
+# Datadog Synthetics private location worker.
+#
+# A private location lets Synthetic API/browser tests run from inside this
+# cluster (against internal-only endpoints on *.radoncanyon.com, cluster
+# Services, etc.) instead of Datadog's managed locations.
+#
+# The location itself ("k8s-home", id
+# pl:k8s-home-f3f578aff4bf51e5b30953259fcd87ce) was created via
+# POST /api/v1/synthetics/private-locations. Its worker config JSON
+# (dedicated keypair + access keys - NOT the org API key) is stored on the
+# same 1Password item as the Agent keys, field `synthetics-check-runner-json`,
+# so the existing `datadog-keys` Secret already exposes it as that key
+# (see manifests/datadog-keys.yaml).
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datadog-synthetics-private-location
+  labels:
+    app: datadog-synthetics-private-location
+    version: v1
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: datadog-synthetics-private-location
+    tags.datadoghq.com/version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: datadog-synthetics-private-location
+  template:
+    metadata:
+      labels:
+        app: datadog-synthetics-private-location
+        version: v1
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: datadog-synthetics-private-location
+        tags.datadoghq.com/version: v1
+      annotations:
+        secret.reloader.stakater.com/reload: "datadog-keys"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10000
+        fsGroup: 10000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: worker
+        image: datadog/synthetics-private-location-worker:1.72.0
+        args: ["--configFile=/etc/datadog/synthetics-check-runner.json"]
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        volumeMounts:
+        - name: worker-config
+          mountPath: /etc/datadog/synthetics-check-runner.json
+          subPath: synthetics-check-runner-json
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 2
+      volumes:
+      - name: worker-config
+        secret:
+          secretName: datadog-keys
+          items:
+          - key: synthetics-check-runner-json
+            path: synthetics-check-runner-json

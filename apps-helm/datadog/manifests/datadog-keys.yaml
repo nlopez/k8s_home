@@ -1,7 +1,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
 # Datadog API/App keys and Agent<->Cluster Agent shared token.
 # Creates a K8s Secret named `datadog-keys` with keys: api-key, app-key, token
-# (see apps-helm/datadog/values.yaml for how each key is consumed).
+# (see apps-helm/datadog/values.yaml for how each key is consumed), plus
+# synthetics-check-runner-json - the Synthetics private location worker config
+# (see manifests/synthetics-private-location.yaml).
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
