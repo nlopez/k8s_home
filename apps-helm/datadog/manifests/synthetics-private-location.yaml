@@ -49,17 +49,15 @@ spec:
       containers:
       - name: worker
         image: datadog/synthetics-private-location-worker:1.72.0
-        args: ["--configFile=/etc/datadog/synthetics-check-runner.json"]
+        # No args: the worker reads /etc/datadog/synthetics-check-runner.json
+        # by default. Its entrypoint also needs sudo (cert setup, /etc/passwd),
+        # so no allowPrivilegeEscalation:false / no_new_privs here.
         resources:
           requests:
             cpu: 250m
             memory: 512Mi
           limits:
             memory: 1Gi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop: ["ALL"]
         volumeMounts:
         - name: worker-config
           mountPath: /etc/datadog/synthetics-check-runner.json
