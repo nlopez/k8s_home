@@ -40,9 +40,10 @@ spec:
         secret.reloader.stakater.com/reload: "datadog-keys"
     spec:
       securityContext:
+        # The image ships a built-in non-root user `dog` (uid 501) and
+        # refuses to start as any other uid not present in /etc/passwd,
+        # so don't override runAsUser here.
         runAsNonRoot: true
-        runAsUser: 10000
-        fsGroup: 10000
         seccompProfile:
           type: RuntimeDefault
       containers:
