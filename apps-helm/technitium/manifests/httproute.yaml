@@ -13,7 +13,7 @@ spec:
   - balmy-cactus.desertbluffs.com
   rules:
   - backendRefs:
-    - name: technitium
+    - name: technitium-technitium-dnsserver
       port: 5380
       group: ''
       kind: Service
