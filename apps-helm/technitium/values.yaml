@@ -4,8 +4,14 @@
 #
 # Authoritative resolver for nulogorsk.com, radoncanyon.com, and desertbluffs.com
 # (private side), updated dynamically via RFC2136 by the external-dns-technitium app.
-# Exposed directly on its own LoadBalancer IP; deliberately NOT routed through
-# envoy-gateway to avoid a circular dependency between DNS and gateway routing.
+# DNS service is exposed directly on its own LoadBalancer IP; the resolver is
+# deliberately NOT routed through envoy-gateway to avoid a circular dependency
+# between DNS and gateway routing.
+#
+# The web console (HTTP :5380) is a separate concern and IS routed through the
+# private envoy-gateway via manifests/httproute.yaml
+# (balmy-cactus.desertbluffs.com) -- serving the admin UI over the gateway does
+# not recreate the DNS resolution loop.
 env:
   TZ: America/New_York
 
