@@ -17,6 +17,12 @@ env:
 
 service:
   main:
+    ports:
+      # Expose the web console on its native container port (5380) rather than
+      # the chart default of 80, so the private envoy-gateway HTTPRoute
+      # (manifests/httproute.yaml) can target port 5380 directly.
+      http:
+        port: 5380
     # Preserve the real client source IP end-to-end. Without this, Cilium
     # SNATs cross-node LoadBalancer-IP traffic to the receiving node's own
     # LAN IP (default externalTrafficPolicy: Cluster), which collapses both

@@ -14,7 +14,7 @@ spec:
   rules:
   - backendRefs:
     - name: technitium
-      port: 80
+      port: 5380
       group: ''
       kind: Service
       weight: 1
