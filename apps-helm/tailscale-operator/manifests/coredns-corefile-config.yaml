@@ -30,9 +30,7 @@ data:
         answer "{{ .Name }} 60 IN TXT \"Hello palworld namespace!\""
         fallthrough
       }
-      forward . tls://1.1.1.1 tls://1.0.0.1 {
-        tls_servername cloudflare-dns.com
-      }
+      forward . 192.168.222.2
       cache 30
     }
 
@@ -50,9 +48,7 @@ data:
         answer "{{ .Name }} 60 IN TXT \"Hello media-toolbox-shell!\""
         fallthrough
       }
-      forward . tls://1.1.1.1 tls://1.0.0.1 {
-        tls_servername cloudflare-dns.com
-      }
+      forward . 192.168.222.2
       cache 30
     }
 
@@ -68,10 +64,7 @@ data:
         ttl 30
       }
       prometheus :9153
-      forward . tls://1.1.1.1 tls://1.0.0.1 {
-        tls_servername cloudflare-dns.com
-        health_check 5s
-      }
+      forward . 192.168.222.2
       cache 30 {
         disable success cluster.local
         disable denial cluster.local
