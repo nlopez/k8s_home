@@ -169,7 +169,7 @@ spec:
       - name: immich
         tier: platform
         repoURL: oci://ghcr.io/immich-app/immich-charts/immich
-        targetRevision: '0.13.1'
+        targetRevision: '0.13.2'
         namespace: immich
       - name: spegel
         tier: platform
