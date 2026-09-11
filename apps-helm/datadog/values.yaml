@@ -21,8 +21,8 @@ datadog:
   kubelet:
     tlsVerify: false
   logs:
-    enabled: true
-    containerCollectAll: true
+    enabled: false
+    containerCollectAll: false
   # https://docs.datadoghq.com/containers/monitoring/kubernetes_explorer/?tab=helm
   processAgent:
     enabled: true
