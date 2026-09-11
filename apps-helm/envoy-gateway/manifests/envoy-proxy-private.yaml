@@ -65,7 +65,3 @@ spec:
                   ]
                 }
               }
-            # Metrics above stay on; this only opts the envoy container out
-            # of the Agent's cluster-wide containerCollectAll log collection
-            # (apps-helm/datadog/values.yaml). https://docs.datadoghq.com/agent/kubernetes/log/?tab=helm#exclude-logs
-            ad.datadoghq.com/envoy.logs_exclude: "true"
