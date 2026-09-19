@@ -87,7 +87,7 @@ spec:
         tier: network-and-secrets
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.21.0
+        targetRevision: v1.21.2
         namespace: cert-manager
       # ---- tier: storage ----
       # CSI drivers + StorageClass/VolumeSnapshotClasses, and the operators
