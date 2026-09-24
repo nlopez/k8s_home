@@ -69,7 +69,7 @@ spec:
         tier: network-and-secrets
         repoURL: https://charts.obeone.cloud
         chart: technitium-dnsserver
-        targetRevision: "1.13.0"
+        targetRevision: "15.5.0"
         namespace: technitium
       - name: external-dns-technitium
         tier: network-and-secrets
