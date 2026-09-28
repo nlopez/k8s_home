@@ -48,7 +48,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: worker
-        image: datadog/synthetics-private-location-worker:1.72.0
+        image: datadog/synthetics-private-location-worker:1.73.0
         # No args: the worker reads /etc/datadog/synthetics-check-runner.json
         # by default. Its entrypoint also needs sudo (cert setup, /etc/passwd),
         # so no allowPrivilegeEscalation:false / no_new_privs here.

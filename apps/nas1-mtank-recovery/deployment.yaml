@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: recovery
-        image: alpine:3.21
+        image: alpine:3.24.2
         command: ["sleep", "infinity"]
         resources: {}
         volumeMounts:

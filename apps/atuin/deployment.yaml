@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: atuin
-        image: ghcr.io/atuinsh/atuin:v18.6.1
+        image: ghcr.io/atuinsh/atuin:v18.12.0
         command: ["/bin/sh", "-c", "export ATUIN_DB_URI=\"postgresql://atuin:${DB_PASSWORD}@atuin-database-rw.atuin.svc.cluster.local/atuin\" && exec atuin server start --host 0.0.0.0 --port 8888"]
         env:
         - name: ATUIN_HOST

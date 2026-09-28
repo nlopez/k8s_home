@@ -45,7 +45,7 @@ spec:
     spec:
       containers:
       - name: editor
-        image: busybox:1.37
+        image: busybox:1.38.0
         command: ["sleep", "infinity"]
         resources:
           requests:

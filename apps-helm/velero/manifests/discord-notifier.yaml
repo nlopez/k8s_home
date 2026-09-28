@@ -119,7 +119,7 @@ spec:
               value: "1"
           containers:
           - name: notifier
-            image: alpine/k8s:1.36.2
+            image: alpine/k8s:1.37.1
             command:
             - /bin/bash
             - -c
