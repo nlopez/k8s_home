@@ -45,37 +45,37 @@ spec:
         tier: network-and-secrets
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.20.0"
+        targetRevision: "1.20.2"
         namespace: kube-system
       - name: envoy-gateway
         tier: network-and-secrets
         repoURL: registry-1.docker.io
         chart: envoyproxy/gateway-helm
-        targetRevision: 1.7.1
+        targetRevision: 1.9.1
         namespace: envoy-gateway-system
       - name: tailscale-operator
         tier: network-and-secrets
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: "1.102.2"
+        targetRevision: "1.102.4"
         namespace: tailscale
       - name: external-dns
         tier: network-and-secrets
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
-        targetRevision: "1.21.1"
+        targetRevision: "1.22.0"
         namespace: external-dns
       - name: technitium
         tier: network-and-secrets
         repoURL: https://charts.obeone.cloud
         chart: technitium-dnsserver
-        targetRevision: "15.5.0"
+        targetRevision: "1.13.2"
         namespace: technitium
       - name: external-dns-technitium
         tier: network-and-secrets
         repoURL: https://kubernetes-sigs.github.io/external-dns
         chart: external-dns
-        targetRevision: "1.21.1"
+        targetRevision: "1.22.0"
         namespace: external-dns-technitium
       - name: onepassword-connect
         tier: network-and-secrets
@@ -120,13 +120,13 @@ spec:
         tier: storage
         repoURL: https://vmware-tanzu.github.io/helm-charts
         chart: velero
-        targetRevision: '12.1.0'
+        targetRevision: '12.2.0'
         namespace: velero
       - name: cloudnative-pg
         tier: storage
         repoURL: https://cloudnative-pg.github.io/charts
         chart: cloudnative-pg
-        targetRevision: "0.29.0"
+        targetRevision: "0.29.1"
         namespace: cnpg-system
       # ---- tier: platform ----
       # Everything else: ArgoCD itself and general workloads/add-ons.
@@ -134,19 +134,19 @@ spec:
         tier: platform
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '10.3.0'
+        targetRevision: '10.9.2'
         namespace: argocd
       - name: metrics-server
         tier: platform
         repoURL: https://kubernetes-sigs.github.io/metrics-server
         chart: metrics-server
-        targetRevision: "3.13.1"
+        targetRevision: "3.14.0"
         namespace: kube-system
       - name: reloader
         tier: platform
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: "2.2.14"
+        targetRevision: "2.2.17"
         namespace: reloader
       - name: node-feature-discovery
         tier: platform
@@ -158,7 +158,7 @@ spec:
         tier: platform
         repoURL: https://intel.github.io/helm-charts
         chart: intel-device-plugins-gpu
-        targetRevision: "0.36.0"
+        targetRevision: "0.37.0"
         namespace: intel-device-plugins-gpu
       - name: jellyfin
         tier: platform
@@ -180,19 +180,19 @@ spec:
         tier: platform
         repoURL: https://bloomberg.github.io/goldpinger
         chart: goldpinger
-        targetRevision: "1.1.2"
+        targetRevision: "1.1.3"
         namespace: goldpinger
       - name: authentik
         tier: platform
         repoURL: https://charts.goauthentik.io
         chart: authentik
-        targetRevision: "2026.8.1"
+        targetRevision: "2026.8.3"
         namespace: authentik
       - name: datadog
         tier: platform
         repoURL: https://helm.datadoghq.com
         chart: datadog
-        targetRevision: "3.240.0"
+        targetRevision: "3.250.2"
         namespace: datadog
   template:
     metadata:
