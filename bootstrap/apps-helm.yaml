@@ -57,7 +57,7 @@ spec:
         tier: network-and-secrets
         repoURL: https://pkgs.tailscale.com/helmcharts
         chart: tailscale-operator
-        targetRevision: "1.102.2"
+        targetRevision: "1.104.1"
         namespace: tailscale
       - name: external-dns
         tier: network-and-secrets
