@@ -14,7 +14,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/immich-app/immich-server
-          tag: v3.2.0
+          tag: v3.3.4
           pullPolicy: IfNotPresent
         env:
           # PostgreSQL configuration - uses external cloudnative-pg instance
@@ -43,7 +43,7 @@ valkey:
         main:
           image:
             repository: docker.io/valkey/valkey
-            tag: 9.1-alpine
+            tag: 9.2-alpine
   persistence:
     data:
       enabled: true
@@ -61,7 +61,7 @@ server:
         main:
           image:
             repository: ghcr.io/immich-app/immich-server
-            tag: v3.2.0
+            tag: v3.3.4
             pullPolicy: IfNotPresent
           resources:
             requests:
@@ -105,7 +105,7 @@ machine-learning:
         main:
           image:
             repository: ghcr.io/immich-app/immich-machine-learning
-            tag: v3.2.0-openvino
+            tag: v3.3.4-openvino
             pullPolicy: IfNotPresent
           resources:
             requests:

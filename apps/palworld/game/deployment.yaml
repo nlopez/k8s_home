@@ -73,7 +73,7 @@ spec:
         #   skopeo inspect --override-arch amd64 --override-os linux --format '{{.Digest}}' docker://ghcr.io/nlopez/palworld-server-docker:<tag>
         # Built from nlopez/palworld-server-docker branch mods-wine-support (PR thijsvanloef/palworld-server-docker#914,
         # Windows/Wine target) so Steam Workshop mods (MOD_IDS) can load. Windows/Wine path is amd64-only.
-        image: ghcr.io/nlopez/palworld-server-docker@sha256:5853ba44e69cc71bd05a96eecf55627bff7f8526cf18baf611b42a20ad8afa66
+        image: ghcr.io/nlopez/palworld-server-docker@sha256:c9b9a139d4d83b623a8684083843cc812770cea185e69f311d05acfb6cbdeac0
         envFrom:
         - configMapRef:
             name: palworld-config
@@ -137,7 +137,7 @@ spec:
         # than stdout, so it's invisible to normal container log collection.
         # This tails that file onto stdout so the Datadog Agent picks it up
         # (see the ad.datadoghq.com/ue4ss-log.logs annotation above).
-        image: alpine:3.21
+        image: alpine:3.24.2
         command:
         - sh
         - -c

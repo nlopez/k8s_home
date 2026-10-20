@@ -5,23 +5,27 @@
   ],
   "timezone": "America/New_York",
   "schedule": [
-    "* 8 * * 1"
+    "* 8 * * *"
   ],
-  "minimumReleaseAge": "10 days",
+  "minimumReleaseAge": "3 days",
   "enabledManagers": [
     "custom.regex",
     "helm-values",
-    "github-actions"
+    "github-actions",
+    "pre-commit"
   ],
+  "pre-commit": {
+    "enabled": true
+  },
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update Helm chart versions in bootstrap ApplicationSet list entries (HTTPS)",
       "managerFilePatterns": [
-        "/bootstrap/apps-helm.yaml/"
+        "/^bootstrap/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
-        "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\"]?(?<registryUrl>https?://[^\\s'\"]+)['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
+        "- name:\\s*(?<appName>[^\\n]+)\\n(?:\\s*tier:[^\\n]+\\n)?\\s*repoURL:\\s*['\"]?(?<registryUrl>https?://[^\\s'\"]+)['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
       ],
       "datasourceTemplate": "helm",
       "registryUrlTemplate": "{{{registryUrl}}}",
@@ -31,26 +35,49 @@
       "customType": "regex",
       "description": "Update OCI-hosted Helm chart versions in bootstrap ApplicationSet list entries",
       "managerFilePatterns": [
-        "/bootstrap/apps-helm.yaml/"
+        "/^bootstrap/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
-        "- name:\\s*(?<appName>[^\\n]+)\\s*\\n\\s*repoURL:\\s*['\"]?oci://(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
+        "- name:\\s*(?<appName>[^\\n]+)\\n(?:\\s*tier:[^\\n]+\\n)?\\s*repoURL:\\s*['\"]?oci://(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver-coerced"
     },
     {
       "customType": "regex",
-      "description": "Update container images in Kubernetes manifests",
+      "description": "Update Docker Hub OCI Helm chart versions (repoURL registry-1.docker.io + chart) in bootstrap ApplicationSet list entries",
       "managerFilePatterns": [
-        "/apps/.+\\.ya?ml$/"
+        "/^bootstrap/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
-        "(?m)^\\s*image:\\s*(?<depName>[^:@\\s]+(?:/[^:@\\s]+)*)(?::(?<currentValue>[^@\\s]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\\s*$"
+        "- name:\\s*(?<appName>[^\\n]+)\\n(?:\\s*tier:[^\\n]+\\n)?\\s*repoURL:\\s*['\"]?registry-1\\.docker\\.io['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
       ],
       "datasourceTemplate": "docker",
-      "versioningTemplate": "regex:(?P<major>\\d+)(?:\\.(?P<minor>\\d+))?(?:\\.(?P<patch>\\d+))?([-.].*)?$",
-      "extractVersionTemplate": "^(?:version-v?|v)?(.*)$"
+      "versioningTemplate": "semver-coerced"
+    },
+    {
+      "customType": "regex",
+      "description": "Update container images (image: / CNPG imageName:) in raw Kubernetes manifests",
+      "managerFilePatterns": [
+        "/^apps/.+\\.ya?ml$/",
+        "/^apps-helm/[^/]+/manifests/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?:^|\\n)[ \\t]*(?:-[ \\t]+)?(?:image|imageName):[ \\t]*['\"]?(?<depName>[^:@\\s'\"]+)(?::(?<currentValue>[^@\\s'\"]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?['\"]?"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "regex:^v?(?<major>\\d+)(?:\\.(?<minor>\\d+))?(?:\\.(?<patch>\\d+))?(?:\\.(?<build>\\d+))?(?<prerelease>[-.].*)?$"
+    },
+    {
+      "customType": "regex",
+      "description": "Update Go tools installed via `go install` in GitHub workflows (pre-commit hooks are handled by the pre-commit manager)",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?<depName>github\\.com/[^/\\s'\"@]+/[^/\\s'\"@]+)(?:/[^\\s'\"@]+)?@(?<currentValue>v[0-9][^\\s'\"\\]]*)"
+      ],
+      "datasourceTemplate": "go"
     }
   ],
   "packageRules": [
@@ -79,7 +106,6 @@
     {
       "description": "Use loose versioning for app images with non-semver tags",
       "matchPackageNames": [
-        "boredazfcuk/icloudpd",
         "caomingjun/warp",
         "docker.io/brainicism/bgutil-ytdlp-pot-provider",
         "docker.io/nlopez/media-toolbox",
@@ -90,11 +116,61 @@
       "versioning": "loose"
     },
     {
+      "description": "icloudpd tags look like 1.0.1380_06-09-2026 (build number + date suffix)",
+      "matchPackageNames": [
+        "boredazfcuk/icloudpd",
+        "docker.io/boredazfcuk/icloudpd"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)_\\d{2}-\\d{2}-\\d{4}$"
+    },
+    {
+      "description": "cloudnative-vectorchord tags look like <pg-major>.<pg-minor>-<vchord x.y.z>; never cross a Postgres major version automatically",
+      "matchPackageNames": [
+        "ghcr.io/tensorchord/cloudnative-vectorchord"
+      ],
+      "versioning": "regex:^(?<compatibility>\\d+)\\.(?<major>\\d+)-(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+    },
+    {
+      "description": "The bgutil server major version must match the bgutil yt-dlp plugin baked into the media-toolbox image; require approval on the dependency dashboard for majors",
+      "matchPackageNames": [
+        "docker.io/brainicism/bgutil-ytdlp-pot-provider"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "seadexarr v1.0 migrated its mapping source to AniBridge (config-breaking); require approval on the dependency dashboard for majors",
+      "matchPackageNames": [
+        "ghcr.io/bbtufty/seadexarr"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
       "description": "Ignore untagged or latest-pinned images that cannot meaningfully be updated",
       "matchPackageNames": [
         "bitnami/kubectl"
       ],
       "enabled": false
+    },
+    {
+      "description": "Group dev tooling updates (pre-commit hooks, go install tools)",
+      "matchManagers": [
+        "pre-commit"
+      ],
+      "groupName": "dev tooling updates"
+    },
+    {
+      "description": "Keep the yamlfmt pre-commit hook and CI go install in lockstep",
+      "matchPackageNames": [
+        "github.com/google/yamlfmt",
+        "google/yamlfmt"
+      ],
+      "groupName": "yamlfmt"
     },
     {
       "description": "Group GitHub Actions updates",

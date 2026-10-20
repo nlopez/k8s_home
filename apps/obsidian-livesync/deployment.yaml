@@ -26,7 +26,7 @@ spec:
     spec:
       initContainers:
       - name: init-config
-        image: busybox:1.37
+        image: busybox:1.38.0
         command:
         - /bin/sh
         - -c
@@ -42,7 +42,7 @@ spec:
           mountPath: /data
       containers:
       - name: couchdb
-        image: couchdb:3.5.2.1
+        image: couchdb:3.5.3
         env:
         - name: COUCHDB_USER
           valueFrom:

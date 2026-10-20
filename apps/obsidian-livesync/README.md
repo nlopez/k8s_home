@@ -103,7 +103,7 @@ Envoy Gateway — sunny-glacier.desertbluffs.com:443
     ↕ HTTP
 CouchDB Service (ClusterIP:5984)
     ↕
-CouchDB Pod (couchdb:3.5.2.1)
+CouchDB Pod (couchdb:3.5.3)
     ↕
 PVC (nas1-mtank-iscsi) → TrueNAS ZFS
 ```

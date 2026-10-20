@@ -28,7 +28,7 @@ spec:
       - name: palworld-live-map
         # Get the SHA256 digest for a given tag:
         #   skopeo inspect --override-arch amd64 --override-os linux --format '{{.Digest}}' docker://ghcr.io/lukehollanddev/palworld-live-map:<tag>
-        image: ghcr.io/lukehollanddev/palworld-live-map@sha256:f0b2175cf6b0721a5e578d89ad1708373b5679710a9c38773d3371e43b53ab28
+        image: ghcr.io/lukehollanddev/palworld-live-map@sha256:225085d439210915f409d12c196a15ffb5f69eca35321da9eb3efc15e4461f65
         env:
         - name: PALWORLD_REST_URL
           value: http://palworld.palworld.svc.cluster.local:8212

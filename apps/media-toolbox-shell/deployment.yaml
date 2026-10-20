@@ -40,7 +40,7 @@ spec:
         emptyDir: {}
       containers:
       - name: toolbox
-        image: ghcr.io/nlopez/media-toolbox:7857b1c302ddd69a1ee42291a2e9dcdedc21594f
+        image: ghcr.io/nlopez/media-toolbox:2026.08.19
         imagePullPolicy: IfNotPresent
         resources:
           requests: {}
