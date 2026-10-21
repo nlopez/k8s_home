@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shaarli
+  annotations:
+    configmap.reloader.stakater.com/reload: "shaarli-php-fpm"
 spec:
   replicas: 1
   strategy:
@@ -19,6 +21,9 @@ spec:
         tags.datadoghq.com/version: v1
     spec:
       volumes:
+      - name: php-fpm-conf
+        configMap:
+          name: shaarli-php-fpm
       - name: shaarli
         iscsi:
           iqn: iqn.2014-09.com.radoncanyon:nas1:shaarli
@@ -30,6 +35,10 @@ spec:
         # IMAGE=ghcr.io/shaarli/shaarli; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
         image: ghcr.io/shaarli/shaarli:v0.16.9
         volumeMounts:
+        - mountPath: /etc/php84/php-fpm.conf
+          name: php-fpm-conf
+          subPath: php-fpm.conf
+          readOnly: true
         - mountPath: /var/www/shaarli/data
           name: shaarli
           subPath: data

@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+# Temporary mitigations for CVE-2026-109618 / CVE-2026-109619 (CERT-EU 2026-018).
+# Remove once the image ships PHP >= 8.4.27, and restore the stock config.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shaarli-php-fpm
+data:
+  php-fpm.conf: |
+    [global]
+    daemonize = no
+    [www]
+    user = nginx
+    group = nginx
+    listen.owner = nginx
+    listen.group = nginx
+    catch_workers_output = yes
+    listen = /var/run/php-fpm.sock
+    pm = dynamic
+    pm.max_children = 20
+    pm.start_servers = 1
+    pm.min_spare_servers = 1
+    pm.max_spare_servers = 3
+    pm.max_requests = 2048
+    php_admin_value[memory_limit] = -1
+    php_admin_value[post_max_size] = 8M
+    php_admin_value[upload_max_filesize] = 7M
+    php_admin_value[session.upload_progress.enabled] = 0
