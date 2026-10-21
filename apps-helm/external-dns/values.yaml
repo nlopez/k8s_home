@@ -39,10 +39,6 @@ extraArgs:
 # (RFC2136/Technitium); keep this Cloudflare instance scoped to the one
 # zone it's actually authoritative for.
 - --domain-filter=desertbluffs.com
-# Proxy records through Cloudflare (orange cloud).
-# The internet gateway enforces zone-level Authenticated Origin Pull
-# (envoy-gateway/manifests/cloudflare-aop-policy.yaml).
-- --cloudflare-proxied
 # Causes extraneous record updates
 # - --cloudflare-record-comment=managed by external-dns
 logLevel: debug
