@@ -56,4 +56,4 @@ spec:
     lateResponseHeaders:
       set:
       - name: strict-transport-security
-        value: max-age=31536000; includeSubDomains
+        value: max-age=63072000; includeSubDomains; preload
