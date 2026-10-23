@@ -65,6 +65,12 @@ spec:
         chart: external-dns
         targetRevision: "1.23.0"
         namespace: external-dns
+      - name: external-dns-private
+        tier: network-and-secrets
+        repoURL: https://kubernetes-sigs.github.io/external-dns
+        chart: external-dns
+        targetRevision: "1.23.0"
+        namespace: external-dns-private
       - name: technitium
         tier: network-and-secrets
         repoURL: https://charts.obeone.cloud

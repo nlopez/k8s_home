@@ -31,13 +31,11 @@ sources:
 - gateway-udproute
 extraArgs:
 # Only the internet gateway should drive desertbluffs.com DNS records.
-# The private gateway's routes (including its desertbluffs.com mirror
-# hostnames, needed for split-horizon routing) are managed by the
-# external-dns-technitium app via RFC2136 instead.
+# The private gateway's radoncanyon.com routes are published to Cloudflare by
+# the external-dns-private app.
 - --gateway-name=internet
-# nulogorsk.com and radoncanyon.com are owned by external-dns-technitium
-# (RFC2136/Technitium); keep this Cloudflare instance scoped to the one
-# zone it's actually authoritative for.
+# radoncanyon.com is owned by external-dns-private; keep this instance scoped
+# to desertbluffs.com.
 - --domain-filter=desertbluffs.com
 # Causes extraneous record updates
 # - --cloudflare-record-comment=managed by external-dns

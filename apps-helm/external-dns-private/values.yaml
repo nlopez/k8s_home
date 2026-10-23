@@ -1,0 +1,36 @@
+# Cloudflare-backed external-dns for radoncanyon.com, driven by the private
+# gateway's routes. Records resolve publicly to the private gateway's LAN IP
+# (no split DNS). The sibling external-dns app handles desertbluffs.com from
+# the internet gateway; --gateway-name only accepts one value, hence two apps.
+image:
+  repository: registry.k8s.io/external-dns/external-dns
+  tag: v0.23.0
+# Required by chart >= 1.22; upsert-only was the previous chart default.
+policy: upsert-only
+provider:
+  name: cloudflare
+env:
+- name: CF_API_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: cloudflare-api-token
+      key: api-token
+- name: EXTERNAL_DNS_TXT_ENCRYPT_AES_KEY
+  valueFrom:
+    secretKeyRef:
+      name: txt-encrypt-aes-key
+      key: aes_key
+- name: EXTERNAL_DNS_TXT_ENCRYPT_ENABLED
+  value: "true"
+sources:
+- gateway-httproute
+- gateway-grpcroute
+extraArgs:
+- --gateway-name=private
+- --domain-filter=radoncanyon.com
+- --txt-owner-id=private
+logLevel: debug
+podLabels:
+  tags.datadoghq.com/env: homelab
+  tags.datadoghq.com/service: external-dns-private
+  tags.datadoghq.com/version: v1
