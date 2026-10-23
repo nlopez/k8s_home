@@ -1,5 +1,6 @@
 # The bare apex (desertbluffs.com) and www subdomain aren't a real app -
-# redirect anyone who hits them directly to Welcome to Night Vale.
+# redirect anyone who hits them directly to Welcome to Night Vale. The HSTS
+# header here is what hstspreload.org checks on the apex.
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -28,6 +29,11 @@ spec:
           type: ReplaceFullPath
           replaceFullPath: /wiki/Welcome_to_Night_Vale
         statusCode: 302
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        set:
+        - name: Strict-Transport-Security
+          value: max-age=63072000; includeSubDomains; preload
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -57,3 +63,8 @@ spec:
           type: ReplaceFullPath
           replaceFullPath: /wiki/Welcome_to_Night_Vale
         statusCode: 302
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        set:
+        - name: Strict-Transport-Security
+          value: max-age=63072000; includeSubDomains; preload
