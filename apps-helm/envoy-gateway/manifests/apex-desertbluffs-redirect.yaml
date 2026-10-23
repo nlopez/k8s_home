@@ -1,15 +1,5 @@
 # The bare apex (desertbluffs.com) and www subdomain aren't a real app -
-# return an empty 204 instead of a backend error/redirect for anyone who
-# hits them directly.
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/httproutefilter_v1alpha1.json
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: HTTPRouteFilter
-metadata:
-  name: no-content
-spec:
-  directResponse:
-    statusCode: 204
----
+# redirect anyone who hits them directly to Welcome to Night Vale.
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -30,11 +20,14 @@ spec:
         type: PathPrefix
         value: /
     filters:
-    - type: ExtensionRef
-      extensionRef:
-        group: gateway.envoyproxy.io
-        kind: HTTPRouteFilter
-        name: no-content
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        hostname: en.wikipedia.org
+        path:
+          type: ReplaceFullPath
+          replaceFullPath: /wiki/Welcome_to_Night_Vale
+        statusCode: 302
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -56,8 +49,11 @@ spec:
         type: PathPrefix
         value: /
     filters:
-    - type: ExtensionRef
-      extensionRef:
-        group: gateway.envoyproxy.io
-        kind: HTTPRouteFilter
-        name: no-content
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        hostname: en.wikipedia.org
+        path:
+          type: ReplaceFullPath
+          replaceFullPath: /wiki/Welcome_to_Night_Vale
+        statusCode: 302
