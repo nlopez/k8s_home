@@ -11,6 +11,7 @@ spec:
     kind: Gateway
   hostnames:
   - majestic-fear.radoncanyon.com
+  - majestic-fear.desertbluffs.com
   rules:
   - backendRefs:
     - name: sonarr

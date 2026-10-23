@@ -11,7 +11,9 @@ spec:
     kind: Gateway
   hostnames:
   - shaarli.radoncanyon.com
+  - shaarli.desertbluffs.com
   - small-cow.radoncanyon.com
+  - small-cow.desertbluffs.com
   rules:
   - backendRefs:
     - name: shaarli

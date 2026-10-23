@@ -11,6 +11,7 @@ spec:
     kind: Gateway
   hostnames:
   - balmy-cactus.radoncanyon.com
+  - balmy-cactus.desertbluffs.com
   rules:
   - backendRefs:
     - name: technitium-technitium-dnsserver

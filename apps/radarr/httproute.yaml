@@ -11,6 +11,7 @@ spec:
     kind: Gateway
   hostnames:
   - contagious-blues.radoncanyon.com
+  - contagious-blues.desertbluffs.com
   rules:
   - backendRefs:
     - name: radarr
