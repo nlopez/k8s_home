@@ -1,0 +1,72 @@
+# Catch-all for hostnames we don't serve. Exact hostnames on app routes win
+# over these wildcards (Gateway API precedence), so only unknown names under
+# the gateway listeners' wildcard domains land here.
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/httproutefilter_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: HTTPRouteFilter
+metadata:
+  name: teapot
+spec:
+  directResponse:
+    statusCode: 418
+    contentType: text/plain
+    body:
+      type: Inline
+      inline: "I'm a teapot\n"
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: unmatched-internet
+  annotations:
+    # Don't publish wildcard DNS records for the catch-all.
+    external-dns.alpha.kubernetes.io/controller: ignore
+spec:
+  parentRefs:
+  - name: internet
+    namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
+  hostnames:
+  - "*.desertbluffs.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: gateway.envoyproxy.io
+        kind: HTTPRouteFilter
+        name: teapot
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: unmatched-private
+  annotations:
+    # Don't publish wildcard DNS records for the catch-all.
+    external-dns.alpha.kubernetes.io/controller: ignore
+spec:
+  parentRefs:
+  - name: private
+    namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
+  hostnames:
+  - "*.desertbluffs.com"
+  - "*.radoncanyon.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: gateway.envoyproxy.io
+        kind: HTTPRouteFilter
+        name: teapot
