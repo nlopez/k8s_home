@@ -41,11 +41,6 @@ spec:
         group: gateway.envoyproxy.io
         kind: HTTPRouteFilter
         name: teapot
-    - type: ResponseHeaderModifier
-      responseHeaderModifier:
-        set:
-        - name: Strict-Transport-Security
-          value: max-age=63072000; includeSubDomains; preload
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
 apiVersion: gateway.networking.k8s.io/v1
@@ -75,8 +70,3 @@ spec:
         group: gateway.envoyproxy.io
         kind: HTTPRouteFilter
         name: teapot
-    - type: ResponseHeaderModifier
-      responseHeaderModifier:
-        set:
-        - name: Strict-Transport-Security
-          value: max-age=63072000; includeSubDomains; preload
