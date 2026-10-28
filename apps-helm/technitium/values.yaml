@@ -14,7 +14,6 @@
 # not recreate the DNS resolution loop.
 env:
   TZ: America/New_York
-
 service:
   main:
     ports:
@@ -38,7 +37,6 @@ service:
       tailscale.com/expose: "true"
       tailscale.com/hostname: technitium
       tailscale.com/proxy-group: heimdall
-
 persistence:
   config:
     enabled: true

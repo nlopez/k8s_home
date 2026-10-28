@@ -10,7 +10,7 @@ data:
   # one mod ID per line, combined with MOD_IDS at boot.
   # Format follows thijsvanloef/palworld-server-docker's
   # examples/mods/workshop-mods.txt: https://steamcommunity.com/workshop/browse/?appid=1623730
-  workshop-mods.txt: |
+  workshop-mods.txt: |-
     3780425019  # Guild Feed Box Sync (https://steamcommunity.com/sharedfiles/filedetails/?id=3780425019)
     3782653857  # Auto-Close Base Doors (https://steamcommunity.com/sharedfiles/filedetails/?id=3782653857)
     3773035536  # True Mercy (https://steamcommunity.com/sharedfiles/filedetails/?id=3773035536)

@@ -11,7 +11,6 @@
 # same 1Password item as the Agent keys, field `synthetics-check-runner-json`,
 # so the existing `datadog-keys` Secret already exposes it as that key
 # (see manifests/datadog-keys.yaml).
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
 apiVersion: apps/v1
 kind: Deployment

@@ -6,7 +6,7 @@ kind: ConfigMap
 metadata:
   name: shaarli-php-fpm
 data:
-  php-fpm.conf: |
+  php-fpm.conf: |-
     [global]
     daemonize = no
     [www]
