@@ -7,7 +7,7 @@
   "schedule": [
     "* 8 * * *"
   ],
-  "minimumReleaseAge": "3 days",
+  "minimumReleaseAge": "7 days",
   "enabledManagers": [
     "custom.regex",
     "helm-values",
@@ -114,6 +114,14 @@
         "registry.k8s.io/sig-storage/snapshot-controller"
       ],
       "versioning": "loose"
+    },
+    {
+      "description": "We build media-toolbox ourselves, so there is no supply-chain reason to wait before picking up new tags",
+      "matchPackageNames": [
+        "docker.io/nlopez/media-toolbox",
+        "ghcr.io/nlopez/media-toolbox"
+      ],
+      "minimumReleaseAge": null
     },
     {
       "description": "icloudpd tags look like 1.0.1380_06-09-2026 (build number + date suffix)",
