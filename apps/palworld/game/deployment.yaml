@@ -137,7 +137,7 @@ spec:
         # than stdout, so it's invisible to normal container log collection.
         # This tails that file onto stdout so the Datadog Agent picks it up
         # (see the ad.datadoghq.com/ue4ss-log.logs annotation above).
-        image: alpine:3.24.2
+        image: alpine:3.24.3
         command:
         - sh
         - -c

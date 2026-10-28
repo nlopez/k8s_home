@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: warp
-        image: caomingjun/warp:2026.8.2110.0-2.12.0-bf774bae06b31fe50e7b8542558dc0ea20db679f
+        image: caomingjun/warp:2026.8.2115.0-2.12.0-bf774bae06b31fe50e7b8542558dc0ea20db679f
         imagePullPolicy: IfNotPresent
         resources:
           requests: {}
