@@ -192,13 +192,13 @@ spec:
         tier: platform
         repoURL: https://charts.goauthentik.io
         chart: authentik
-        targetRevision: "2026.8.4"
+        targetRevision: "2026.8.5"
         namespace: authentik
       - name: datadog
         tier: platform
         repoURL: https://helm.datadoghq.com
         chart: datadog
-        targetRevision: "3.257.1"
+        targetRevision: "3.259.1"
         namespace: datadog
   template:
     metadata:
