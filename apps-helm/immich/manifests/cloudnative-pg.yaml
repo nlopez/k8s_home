@@ -28,6 +28,11 @@ metadata:
   name: immich-database
 spec:
   instances: 1
+  inheritedMetadata:
+    annotations:
+      # Velero FSB opt-in: back up only the database volume (the pod also
+      # mounts scratch/shm emptyDirs); see apps-helm/velero/values.yaml.
+      backup.velero.io/backup-volumes: pgdata
   postgresql:
     shared_preload_libraries:
     - 'vchord.so'
