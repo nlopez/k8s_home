@@ -4,7 +4,10 @@ kind: Gateway
 metadata:
   name: internet
   annotations:
-    external-dns.alpha.kubernetes.io/target: 'lga1.nulogorsk.com'
+    # Public hostnames CNAME to lga1; without this external-dns publishes the
+    # gateway's private LB address. external-dns only reads the
+    # external-dns.kubernetes.io/ prefix (legacy .alpha. prefix is disabled).
+    external-dns.kubernetes.io/target: 'lga1.desertbluffs.com'
 spec:
   gatewayClassName: internet
   addresses:
