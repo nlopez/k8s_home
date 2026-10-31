@@ -29,6 +29,14 @@ jobs:
       uses: actions/checkout@v7
       with:
         path: target-branch
+    - name: 'Point the Helm ApplicationSet at the PR'
+      # argocd-diff-preview only redirects targetRevision in template.spec.sources.
+      # bootstrap/apps-helm.yaml keeps its repo sources inside a templatePatch
+      # string, so without this the apps-helm values/manifests are always read
+      # from main and changes to them never show up in the diff.
+      run: |-
+        sed -i 's|^\( *targetRevision:\) main$|\1 refs/pull/${{ github.event.pull_request.number }}/merge|' target-branch/bootstrap/apps-helm.yaml
+        grep -c 'refs/pull/' target-branch/bootstrap/apps-helm.yaml
     - name: 'Render manifests and diff'
       run: |-
         mkdir -p output
