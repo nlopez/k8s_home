@@ -1,0 +1,6 @@
+# Extra Helm values for the throwaway Argo CD that argocd-diff-preview installs.
+# The chart's default redis image lives on public ECR, which rate-limits
+# GitHub runner IPs ("toomanyrequests: Data limit exceeded").
+redis:
+  image:
+    repository: mirror.gcr.io/library/redis
