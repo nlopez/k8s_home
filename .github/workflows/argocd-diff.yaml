@@ -40,7 +40,7 @@ jobs:
           -v "$(pwd)/output:/output" \
           -e TARGET_BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge \
           -e REPO=${{ github.repository }} \
-          ghcr.io/dag-andersen/argocd-diff-preview:v0.2.17
+          dagandersen/argocd-diff-preview:v0.2.17
     - name: 'Add diff to job summary'
       if: always()
       run: |-
