@@ -2,7 +2,7 @@
 ## https://github.com/spegel-org/spegel
 image:
   repository: ghcr.io/spegel-org/spegel
-  tag: v0.8.0
+  tag: v0.8.1
 commonLabels:
   tags.datadoghq.com/env: homelab
   tags.datadoghq.com/service: spegel

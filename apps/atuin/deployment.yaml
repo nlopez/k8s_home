@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: atuin
-        image: ghcr.io/atuinsh/atuin:18.24.2
+        image: ghcr.io/atuinsh/atuin:18.24.4
         args: ["start"]
         env:
         - name: ATUIN_HOST

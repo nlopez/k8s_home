@@ -4,7 +4,7 @@
 # the internet gateway; --gateway-name only accepts one value, hence two apps.
 image:
   repository: registry.k8s.io/external-dns/external-dns
-  tag: v0.23.0
+  tag: v0.24.0
 # Required by chart >= 1.22; upsert-only was the previous chart default.
 policy: upsert-only
 provider:
