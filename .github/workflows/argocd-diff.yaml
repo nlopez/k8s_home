@@ -15,7 +15,7 @@ concurrency:
 jobs:
   diff:
     name: 'Manifest Diff'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Fork PRs get a read-only token and can't comment.
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
