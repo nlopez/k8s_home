@@ -78,6 +78,18 @@
         "(?<depName>github\\.com/[^/\\s'\"@]+/[^/\\s'\"@]+)(?:/[^\\s'\"@]+)?@(?<currentValue>v[0-9][^\\s'\"\\]]*)"
       ],
       "datasourceTemplate": "go"
+    },
+    {
+      "customType": "regex",
+      "description": "Update the argocd-diff-preview image used by the manifest diff workflow",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/argocd-diff\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?<depName>dagandersen/argocd-diff-preview):(?<currentValue>v[^\\s'\"]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver-coerced"
     }
   ],
   "packageRules": [
@@ -169,6 +181,13 @@
       "description": "Group dev tooling updates (pre-commit hooks, go install tools)",
       "matchManagers": [
         "pre-commit"
+      ],
+      "groupName": "dev tooling updates"
+    },
+    {
+      "description": "Group the argocd-diff-preview CI image with dev tooling",
+      "matchPackageNames": [
+        "dagandersen/argocd-diff-preview"
       ],
       "groupName": "dev tooling updates"
     },
