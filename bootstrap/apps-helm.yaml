@@ -51,7 +51,7 @@ spec:
         tier: network-and-secrets
         repoURL: registry-1.docker.io
         chart: envoyproxy/gateway-helm
-        targetRevision: 1.9.2
+        targetRevision: 1.9.3
         namespace: envoy-gateway-system
       - name: tailscale-operator
         tier: network-and-secrets
@@ -126,7 +126,7 @@ spec:
         tier: storage
         repoURL: https://vmware-tanzu.github.io/helm-charts
         chart: velero
-        targetRevision: '12.2.1'
+        targetRevision: '12.2.2'
         namespace: velero
       - name: cloudnative-pg
         tier: storage
@@ -140,7 +140,7 @@ spec:
         tier: platform
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '10.11.1'
+        targetRevision: '10.11.6'
         namespace: argocd
       - name: metrics-server
         tier: platform
@@ -152,7 +152,7 @@ spec:
         tier: platform
         repoURL: https://stakater.github.io/stakater-charts
         chart: reloader
-        targetRevision: "2.2.18"
+        targetRevision: "2.2.19"
         namespace: reloader
       - name: node-feature-discovery
         tier: platform
@@ -170,7 +170,7 @@ spec:
         tier: platform
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
-        targetRevision: "3.6.0"
+        targetRevision: "3.7.0"
         namespace: jellyfin
       - name: immich
         tier: platform
@@ -180,7 +180,7 @@ spec:
       - name: spegel
         tier: platform
         repoURL: oci://ghcr.io/spegel-org/helm-charts/spegel
-        targetRevision: "0.8.0"
+        targetRevision: "0.8.1"
         namespace: spegel
       - name: goldpinger
         tier: platform
@@ -198,7 +198,7 @@ spec:
         tier: platform
         repoURL: https://helm.datadoghq.com
         chart: datadog
-        targetRevision: "3.261.0"
+        targetRevision: "3.264.0"
         namespace: datadog
   template:
     metadata:
