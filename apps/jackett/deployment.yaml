@@ -17,10 +17,17 @@ spec:
         tags.datadoghq.com/service: jackett
         tags.datadoghq.com/version: v1
     spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: jackett
         # IMAGE=ghcr.io/linuxserver/jackett; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n1
         image: ghcr.io/linuxserver/jackett:version-v0.24.2977
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
         # image: alpine
         # command: [ "sleep" ]
         # args: [ "infinity" ]
