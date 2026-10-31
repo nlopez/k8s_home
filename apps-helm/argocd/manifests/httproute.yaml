@@ -14,10 +14,12 @@ spec:
   - argocd.desertbluffs.com
   - gentle-tornado.desertbluffs.com
   rules:
+  # Internet-facing: only GitHub's push webhook. The UI, API and CLI (gRPC)
+  # are reachable only via the private gateway. Other paths get a 404.
   - matches:
     - path:
-        type: PathPrefix
-        value: /
+        type: Exact
+        value: /api/webhook
     backendRefs:
     - group: ""
       kind: Service
