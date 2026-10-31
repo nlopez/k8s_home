@@ -1,8 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "abandonments:recommended"
   ],
+  "major": {
+    "dependencyDashboardApproval": true
+  },
   "timezone": "America/New_York",
   "schedule": [
     "* 8 * * *"
@@ -149,26 +153,6 @@
         "ghcr.io/tensorchord/cloudnative-vectorchord"
       ],
       "versioning": "regex:^(?<compatibility>\\d+)\\.(?<major>\\d+)-(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
-    },
-    {
-      "description": "The bgutil server major version must match the bgutil yt-dlp plugin baked into the media-toolbox image; require approval on the dependency dashboard for majors",
-      "matchPackageNames": [
-        "docker.io/brainicism/bgutil-ytdlp-pot-provider"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "dependencyDashboardApproval": true
-    },
-    {
-      "description": "seadexarr v1.0 migrated its mapping source to AniBridge (config-breaking); require approval on the dependency dashboard for majors",
-      "matchPackageNames": [
-        "ghcr.io/bbtufty/seadexarr"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "dependencyDashboardApproval": true
     },
     {
       "description": "Ignore untagged or latest-pinned images that cannot meaningfully be updated",
