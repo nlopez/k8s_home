@@ -24,9 +24,16 @@ spec:
         tags.datadoghq.com/service: httpbin
         tags.datadoghq.com/version: v1
     spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: httpbin
         image: ghcr.io/mccutchen/go-httpbin:2.26.0
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
         ports:
         - name: http
           containerPort: 8080
