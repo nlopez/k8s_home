@@ -22,7 +22,7 @@ spec:
           initContainers:
           - name: config-init
             # IMAGE=ghcr.io/bbtufty/seadexarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -E '^v[0-9]' | sort -V | tail -n1
-            image: ghcr.io/bbtufty/seadexarr:v0.9.0
+            image: ghcr.io/bbtufty/seadexarr:v1.1.0
             imagePullPolicy: Always
             command:
             - sh
@@ -63,7 +63,7 @@ spec:
               mountPath: /config
           containers:
           - name: seadexarr
-            image: ghcr.io/bbtufty/seadexarr:v0.9.0
+            image: ghcr.io/bbtufty/seadexarr:v1.1.0
             imagePullPolicy: Always
             env:
             - name: CONFIG_DIR
