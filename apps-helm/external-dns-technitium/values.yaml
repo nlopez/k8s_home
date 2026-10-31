@@ -1,8 +1,10 @@
 image:
   repository: registry.k8s.io/external-dns/external-dns
   tag: v0.24.0
-# Required by chart >= 1.22; upsert-only was the previous chart default.
-policy: upsert-only
+# sync deletes records (and their TXT ownership records) whose source is gone,
+# so removing a route or annotation removes its DNS record. Only records with
+# a matching TXT ownership record (same owner ID) are ever deleted.
+policy: sync
 provider:
   name: rfc2136
 env:
