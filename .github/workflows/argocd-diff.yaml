@@ -41,7 +41,16 @@ jobs:
           -e TARGET_BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge \
           -e REPO=${{ github.repository }} \
           -e DEBUG=true \
+          -e KEEP_CLUSTER_ALIVE=true \
           dagandersen/argocd-diff-preview:v0.2.17
+    - name: 'TEMP debug cluster'
+      if: failure()
+      run: |-
+        docker ps -a
+        K="docker exec argocd-diff-preview-control-plane kubectl --kubeconfig /etc/kubernetes/admin.conf -n argocd"
+        $K get pods -o wide
+        $K describe pods -l app.kubernetes.io/component=redis
+        $K get events --sort-by=.lastTimestamp | tail -30
     - name: 'Add diff to job summary'
       if: always()
       run: |-
