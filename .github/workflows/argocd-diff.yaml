@@ -1,0 +1,56 @@
+name: 'Manifest Diff'
+on:
+  pull_request:
+    paths:
+    - 'apps/**'
+    - 'apps-helm/**'
+    - 'bootstrap/**'
+    - '.github/workflows/argocd-diff.yaml'
+permissions:
+  contents: read
+  pull-requests: write
+concurrency:
+  group: manifest-diff-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  diff:
+    name: 'Manifest Diff'
+    runs-on: ubuntu-latest
+    # Fork PRs get a read-only token and can't comment.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+    - name: 'Checkout base branch'
+      uses: actions/checkout@v7
+      with:
+        ref: ${{ github.event.pull_request.base.ref }}
+        path: base-branch
+    - name: 'Checkout PR branch'
+      uses: actions/checkout@v7
+      with:
+        path: target-branch
+    - name: 'Render manifests and diff'
+      run: |-
+        mkdir -p output
+        # Renders every Application/ApplicationSet (including Helm charts) on
+        # both branches in a throwaway kind cluster running Argo CD.
+        docker run --network host \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          -v "$(pwd)/base-branch:/base-branch" \
+          -v "$(pwd)/target-branch:/target-branch" \
+          -v "$(pwd)/output:/output" \
+          -e TARGET_BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge \
+          -e REPO=${{ github.repository }} \
+          ghcr.io/dag-andersen/argocd-diff-preview:v0.2.17
+    - name: 'Add diff to job summary'
+      if: always()
+      run: |-
+        if [ -f output/diff.md ]; then
+          cat output/diff.md >> "$GITHUB_STEP_SUMMARY"
+        fi
+    - name: 'Comment on PR'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR: ${{ github.event.pull_request.number }}
+      run: |-
+        gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" \
+          --body-file output/diff.md --edit-last --create-if-none
