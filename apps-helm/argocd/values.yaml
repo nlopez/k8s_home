@@ -5,6 +5,10 @@ global:
     tags.datadoghq.com/service: argocd
     tags.datadoghq.com/version: v1
 configs:
+  secret:
+    # GitHub webhook secret, read from the argocd-webhook-github Secret
+    # (1Password operator, apps-helm/argocd/manifests/webhook-secret.yaml).
+    githubSecret: $argocd-webhook-github:password
   cm:
     # ---- resource.exclusions ----
     # Resources ArgoCD should completely ignore (not discovered at all)
