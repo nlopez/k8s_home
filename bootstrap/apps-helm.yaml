@@ -45,7 +45,7 @@ spec:
         tier: network-and-secrets
         repoURL: https://helm.cilium.io
         chart: cilium
-        targetRevision: "1.20.3"
+        targetRevision: "1.20.4"
         namespace: kube-system
       - name: envoy-gateway
         tier: network-and-secrets
@@ -87,13 +87,13 @@ spec:
         tier: network-and-secrets
         repoURL: https://1password.github.io/connect-helm-charts
         chart: connect
-        targetRevision: "2.4.2"
+        targetRevision: "2.4.3"
         namespace: 1password
       - name: cert-manager
         tier: network-and-secrets
         repoURL: https://charts.jetstack.io
         chart: cert-manager
-        targetRevision: v1.21.2
+        targetRevision: v1.21.3
         namespace: cert-manager
       # ---- tier: storage ----
       # CSI drivers + StorageClass/VolumeSnapshotClasses, and the operators
@@ -140,7 +140,7 @@ spec:
         tier: platform
         repoURL: "https://argoproj.github.io/argo-helm"
         chart: argo-cd
-        targetRevision: '10.10.5'
+        targetRevision: '10.11.1'
         namespace: argocd
       - name: metrics-server
         tier: platform
@@ -158,7 +158,7 @@ spec:
         tier: platform
         repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
         chart: node-feature-discovery
-        targetRevision: "0.20.0"
+        targetRevision: "0.20.1"
         namespace: node-feature-discovery
       - name: intel-device-plugins-gpu
         tier: platform
@@ -170,7 +170,7 @@ spec:
         tier: platform
         repoURL: https://jellyfin.github.io/jellyfin-helm
         chart: jellyfin
-        targetRevision: "3.4.0"
+        targetRevision: "3.6.0"
         namespace: jellyfin
       - name: immich
         tier: platform
@@ -198,7 +198,7 @@ spec:
         tier: platform
         repoURL: https://helm.datadoghq.com
         chart: datadog
-        targetRevision: "3.259.1"
+        targetRevision: "3.261.0"
         namespace: datadog
   template:
     metadata:
