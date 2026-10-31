@@ -5,6 +5,7 @@ on:
     - 'apps/**'
     - 'apps-helm/**'
     - 'bootstrap/**'
+    - '.github/argocd-diff/**'
     - '.github/workflows/argocd-diff.yaml'
 permissions:
   contents: read
@@ -15,7 +16,7 @@ concurrency:
 jobs:
   diff:
     name: 'Manifest Diff'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     # Fork PRs get a read-only token and can't comment.
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
@@ -38,19 +39,10 @@ jobs:
           -v "$(pwd)/base-branch:/base-branch" \
           -v "$(pwd)/target-branch:/target-branch" \
           -v "$(pwd)/output:/output" \
+          -v "$(pwd)/target-branch/.github/argocd-diff/values-override.yaml:/argocd-config/values-override.yaml" \
           -e TARGET_BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge \
           -e REPO=${{ github.repository }} \
-          -e DEBUG=true \
-          -e KEEP_CLUSTER_ALIVE=true \
           dagandersen/argocd-diff-preview:v0.2.17
-    - name: 'TEMP debug cluster'
-      if: failure()
-      run: |-
-        docker ps -a
-        K="docker exec argocd-diff-preview-control-plane kubectl --kubeconfig /etc/kubernetes/admin.conf -n argocd"
-        $K get pods -o wide
-        $K describe pods -l app.kubernetes.io/component=redis
-        $K get events --sort-by=.lastTimestamp | tail -30
     - name: 'Add diff to job summary'
       if: always()
       run: |-
