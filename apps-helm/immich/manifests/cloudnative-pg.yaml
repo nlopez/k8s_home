@@ -40,7 +40,7 @@ spec:
       resources:
         requests:
           storage: 20Gi
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.5.2
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.15-1.1.1
   bootstrap:
     initdb:
       database: immich
