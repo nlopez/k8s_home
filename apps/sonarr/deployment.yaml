@@ -26,6 +26,9 @@ spec:
         tags.datadoghq.com/version: v1
     spec:
       securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
         seccompProfile:
           type: RuntimeDefault
       containers:
@@ -63,6 +66,9 @@ spec:
         - name: scratch
           mountPath: /downloads
           subPath: downloads
+        # s6-overlay needs a writable /run; the image's own is root-owned
+        - name: run
+          mountPath: /run
       volumes:
       - name: config
         persistentVolumeClaim:
@@ -73,3 +79,7 @@ spec:
       - name: media
         persistentVolumeClaim:
           claimName: media
+      - name: run
+        emptyDir:
+          medium: Memory
+          sizeLimit: 64Mi
