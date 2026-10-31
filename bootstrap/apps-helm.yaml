@@ -71,18 +71,6 @@ spec:
         chart: external-dns
         targetRevision: "1.23.0"
         namespace: external-dns-private
-      - name: technitium
-        tier: network-and-secrets
-        repoURL: https://charts.obeone.cloud
-        chart: technitium-dnsserver
-        targetRevision: "1.13.5" # chart version; appVersion 15.6.2
-        namespace: technitium
-      - name: external-dns-technitium
-        tier: network-and-secrets
-        repoURL: https://kubernetes-sigs.github.io/external-dns
-        chart: external-dns
-        targetRevision: "1.23.0"
-        namespace: external-dns-technitium
       - name: onepassword-connect
         tier: network-and-secrets
         repoURL: https://1password.github.io/connect-helm-charts
