@@ -256,3 +256,22 @@ schedules:
       includeClusterResources: false
       snapshotVolumes: true
       snapshotMoveData: false
+  # Daily file-system backup of the immich database volume.
+  # The CNPG data volume is a static iSCSI PV (not CSI), so it can't be
+  # CSI-snapshotted. Only the pgdata volume is backed up: the immich-database
+  # pod opts in via the backup.velero.io/backup-volumes annotation (see
+  # apps-helm/immich/manifests/cloudnative-pg.yaml), so the 1Pi NFS photo
+  # library is NOT copied. snapshotVolumes is false so the CSI valkey PVC is
+  # skipped too. The copy is crash-consistent, which Postgres recovers from.
+  # Retains the last 14 daily backups (336h TTL).
+  immich-daily:
+    schedule: "45 11 * * *"
+    paused: false
+    template:
+      includedNamespaces:
+      - immich
+      storageLocation: do-spaces-sfo3
+      ttl: 336h
+      includeClusterResources: false
+      snapshotVolumes: false
+      snapshotMoveData: false
