@@ -100,6 +100,11 @@ server:
     # grpc-web traffic stays on the plain http port/HTTPRoute.
     # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
     servicePortHttpsAppProtocol: kubernetes.io/h2c
+  # argocd-server resolves the $argocd-webhook-github:password reference in
+  # argocd-secret only when it reads argocd-secret. Restart it when the
+  # referenced Secret changes (rotation, or first creation after argocd-secret).
+  deploymentAnnotations:
+    secret.reloader.stakater.com/reload: argocd-webhook-github
   podAnnotations:
     ad.datadoghq.com/server.checks: |
       {
