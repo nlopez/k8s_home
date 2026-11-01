@@ -176,12 +176,6 @@ spec:
         chart: goldpinger
         targetRevision: "1.2.0"
         namespace: goldpinger
-      - name: authentik
-        tier: platform
-        repoURL: https://charts.goauthentik.io
-        chart: authentik
-        targetRevision: "2026.8.5"
-        namespace: authentik
       - name: datadog
         tier: platform
         repoURL: https://helm.datadoghq.com
