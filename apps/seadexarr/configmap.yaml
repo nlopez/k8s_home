@@ -22,9 +22,9 @@ data:
       password: __QBIT_PASSWORD__
 
     # Categories for added torrents
-    sonarr_torrent_category:
+    sonarr_torrent_category: sonarr-anime
     radarr_torrent_category:
-    torrent_tags:
+    torrent_tags: seadexarr
 
     # Ignore SeaDex update times?
     ignore_seadex_update_times: false
