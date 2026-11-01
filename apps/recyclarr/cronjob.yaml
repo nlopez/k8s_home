@@ -19,6 +19,12 @@ spec:
             tags.datadoghq.com/version: v1
         spec:
           restartPolicy: Never
+          # The pod's search domains break name resolution in the .NET/musl resolver for
+          # in-cluster FQDNs ("Name does not resolve"); ndots:1 tries the name as-is first.
+          dnsConfig:
+            options:
+            - name: ndots
+              value: "1"
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
