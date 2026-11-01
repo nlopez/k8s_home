@@ -19,8 +19,8 @@ Profiles synced:
 
 `reset_unmatched_scores` is enabled, so Recyclarr owns the custom format scores of these profiles.
 
-Radarr movie naming is synced from the TRaSH `plex-tmdb` formats. Plex and Jellyfin both read the
-`{tmdb-123}` tag in curly braces, so one format serves both servers. Existing files are only renamed
+Radarr movie naming is synced from the TRaSH `plex-imdb` formats. Plex and Jellyfin both read the
+`{imdb-tt…}` tag in curly braces, so one format serves both servers. Existing files are only renamed
 when you run Rename in Radarr; the setting alone affects new imports.
 
 ## Running a one-off sync

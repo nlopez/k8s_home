@@ -38,9 +38,9 @@ data:
         - trash_id: 9ca12ea80aa55ef916e3751f4b874151
           reset_unmatched_scores:
             enabled: true
-        # {tmdb-id} in curly braces is read by both Plex and Jellyfin
+        # {imdb-id} in curly braces is read by both Plex and Jellyfin
         media_naming:
-          folder: plex-tmdb
+          folder: plex-imdb
           movie:
             rename: true
-            standard: plex-tmdb
+            standard: plex-imdb
