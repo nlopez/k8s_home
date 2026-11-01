@@ -34,3 +34,13 @@ data:
         - trash_id: d1d67249d3890e49bc12e275d989a7e9
           reset_unmatched_scores:
             enabled: true
+        # Remux + WEB 1080p
+        - trash_id: 9ca12ea80aa55ef916e3751f4b874151
+          reset_unmatched_scores:
+            enabled: true
+        # {tmdb-id} in curly braces is read by both Plex and Jellyfin
+        media_naming:
+          folder: plex-tmdb
+          movie:
+            rename: true
+            standard: plex-tmdb
