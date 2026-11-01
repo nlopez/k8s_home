@@ -17,5 +17,12 @@ spec:
     - ports:
       - port: "8989"
         protocol: TCP
+  - fromEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: seadexarr
+    toPorts:
+    - ports:
+      - port: "8989"
+        protocol: TCP
   - fromEntities:
     - host
