@@ -30,10 +30,10 @@ data:
     ignore_seadex_update_times: false
 
     # Do you want to filter purely by torrent hash?
-    use_torrent_hash_to_filter: false
+    use_torrent_hash_to_filter: true
 
     # Maximum number of torrents to add in one run
-    max_torrents_to_add:
+    max_torrents_to_add: 10
 
     # Discord webhook URL
     discord_url: __DISCORD_URL__
@@ -53,3 +53,36 @@ data:
     anidb_mappings:
     anibridge_mappings:
     log_level: "INFO"
+  unmonitor-anime.py: |-
+    # Seadexarr owns upgrades for anime files. Unmonitor every anime episode that already has a file so
+    # Sonarr (TRaSH profile scoring) never replaces a SeaDex release. Series stay monitored, so new
+    # episodes are still grabbed by Sonarr and get unmonitored on the next run once they have a file.
+    import json
+    import os
+    import urllib.request
+
+    BASE = os.environ["SONARR_URL"].rstrip("/") + "/api/v3"
+    HEADERS = {"X-Api-Key": os.environ["SONARR_API_KEY"], "Content-Type": "application/json"}
+
+
+    def call(method, path, body=None):
+        data = json.dumps(body).encode() if body is not None else None
+        req = urllib.request.Request(BASE + path, data=data, headers=HEADERS, method=method)
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return json.load(resp)
+
+
+    total = 0
+    for series in call("GET", "/series"):
+        if series["seriesType"] != "anime" or not series["statistics"]["episodeFileCount"]:
+            continue
+        ids = [
+            ep["id"]
+            for ep in call("GET", f"/episode?seriesId={series['id']}")
+            if ep["hasFile"] and ep["monitored"]
+        ]
+        if ids:
+            call("PUT", "/episode/monitor", {"episodeIds": ids, "monitored": False})
+            print(f"unmonitored {len(ids)} episodes: {series['title']}", flush=True)
+            total += len(ids)
+    print(f"done, unmonitored {total} episodes", flush=True)
