@@ -38,6 +38,15 @@ data:
         - trash_id: 9ca12ea80aa55ef916e3751f4b874151
           reset_unmatched_scores:
             enabled: true
+        # Keep release-version tags (Hybrid, Criterion, 4K Remaster) in renamed files
+        custom_format_groups:
+          add:
+          # [Optional] Movie Versions
+          - trash_id: f4f1474b963b24cf983455743aa9906c
+            select:
+            - eca37840c13c6ef2dd0262b141a5482f  # 4K Remaster
+            - e0c07d59beb37348e975a930d5e50319  # Criterion Collection
+            - 0f12c086e289cf966fa5948eac571f44  # Hybrid
         # {imdb-id} in curly braces is read by both Plex and Jellyfin
         media_naming:
           folder: plex-imdb
