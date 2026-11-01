@@ -61,6 +61,23 @@ spec:
               mountPath: /config-template
             - name: config
               mountPath: /config
+          - name: unmonitor-anime
+            image: ghcr.io/bbtufty/seadexarr:v1.1.0
+            imagePullPolicy: Always
+            command:
+            - python
+            - /config-template/unmonitor-anime.py
+            env:
+            - name: SONARR_URL
+              value: http://sonarr.sonarr.svc.cluster.local
+            - name: SONARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-api-key
+                  key: SONARR_API_KEY
+            volumeMounts:
+            - name: config-template
+              mountPath: /config-template
           containers:
           - name: seadexarr
             image: ghcr.io/bbtufty/seadexarr:v1.1.0
