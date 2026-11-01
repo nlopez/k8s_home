@@ -17,5 +17,12 @@ spec:
     - ports:
       - port: "7878"
         protocol: TCP
+  - fromEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: recyclarr
+    toPorts:
+    - ports:
+      - port: "7878"
+        protocol: TCP
   - fromEntities:
     - host
