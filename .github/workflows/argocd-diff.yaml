@@ -42,6 +42,13 @@ jobs:
         mkdir -p output
         # Renders every Application/ApplicationSet (including Helm charts) on
         # both branches in a throwaway kind cluster running Argo CD.
+        #
+        # DIFF_IGNORE hides the datadog chart's kpi-telemetry ConfigMap
+        # (datadog/datadog-kpi-telemetry-configmap), whose install_id and
+        # install_time are regenerated on every render. It matches whole lines
+        # and can't be scoped to a resource, so it's anchored to the exact
+        # two-space indent of those keys under `data:`. install_type is left
+        # visible.
         docker run --network host \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v "$(pwd)/base-branch:/base-branch" \
@@ -50,6 +57,7 @@ jobs:
           -v "$(pwd)/target-branch/.github/argocd-diff/values-override.yaml:/argocd-config/values-override.yaml" \
           -e TARGET_BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge \
           -e REPO=${{ github.repository }} \
+          -e 'DIFF_IGNORE=^  install_(id|time): ' \
           dagandersen/argocd-diff-preview:v0.2.17
     - name: 'Add diff to job summary'
       if: always()
