@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/cronjob-batch-v1.json
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: recyclarr
+spec:
+  concurrencyPolicy: Forbid
+  timeZone: America/New_York
+  schedule: '0 4 * * *'
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 900
+      template:
+        metadata:
+          labels:
+            tags.datadoghq.com/env: homelab
+            tags.datadoghq.com/service: recyclarr
+            tags.datadoghq.com/version: v1
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+          - name: recyclarr
+            # IMAGE=ghcr.io/recyclarr/recyclarr; skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1
+            image: ghcr.io/recyclarr/recyclarr:8.8.1
+            args:
+            - sync
+            env:
+            - name: TZ
+              value: America/New_York
+            - name: RECYCLARR_CONFIG_DIR
+              value: /config
+            - name: SONARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-api-key
+                  key: SONARR_API_KEY
+            - name: RADARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: radarr-api-key
+                  key: RADARR_API_KEY
+            volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: config-template
+              mountPath: /config/configs
+              readOnly: true
+            resources:
+              requests:
+                memory: 128Mi
+                cpu: 50m
+              limits:
+                memory: 512Mi
+                cpu: 500m
+          volumes:
+          - name: config-template
+            configMap:
+              name: recyclarr-config
+          - name: config
+            persistentVolumeClaim:
+              claimName: config

@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: recyclarr-config
+data:
+  sonarr.yml: |-
+    # yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
+    sonarr:
+      web-1080p:
+        base_url: http://sonarr.sonarr.svc.cluster.local
+        api_key: !env_var SONARR_API_KEY
+        quality_definition:
+          type: series
+        quality_profiles:
+        # WEB-1080p
+        - trash_id: 72dae194fc92bf828f32cde7744e51a1
+          reset_unmatched_scores:
+            enabled: true
+        # [Anime] Remux-1080p
+        - trash_id: 20e0fc959f1f1704bed501f23bdae76f
+          reset_unmatched_scores:
+            enabled: true
+  radarr.yml: |-
+    # yaml-language-server: $schema=https://schemas.recyclarr.dev/v8/config-schema.json
+    radarr:
+      hd-bluray-web:
+        base_url: http://radarr.radarr.svc.cluster.local
+        api_key: !env_var RADARR_API_KEY
+        quality_definition:
+          type: movie
+        quality_profiles:
+        # HD Bluray + WEB
+        - trash_id: d1d67249d3890e49bc12e275d989a7e9
+          reset_unmatched_scores:
+            enabled: true
