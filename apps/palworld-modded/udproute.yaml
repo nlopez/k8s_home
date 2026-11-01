@@ -2,26 +2,6 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: UDPRoute
 metadata:
-  name: palworld-modded-game
-  namespace: palworld-modded
-spec:
-  parentRefs:
-  - group: gateway.networking.k8s.io
-    kind: Gateway
-    name: internet
-    namespace: envoy-gateway-system
-    sectionName: palworld-modded-game-udp
-  rules:
-  - backendRefs:
-    - name: palworld-modded
-      port: 8311
-      group: ""
-      kind: Service
-      weight: 1
----
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: UDPRoute
-metadata:
   name: palworld-modded-game-private
   namespace: palworld-modded
 spec:
