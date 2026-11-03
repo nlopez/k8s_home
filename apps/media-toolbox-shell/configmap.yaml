@@ -14,7 +14,7 @@ data:
     --remux-video mkv
     --proxy "socks5://warp.warp.svc.cluster.local:1080"
     --extractor-args "youtubepot-bgutilhttp:base_url=http://ytpot.ytpot.svc.cluster.local"
-    --extractor-args "youtube:player_client=default;max_comments=20,20,0"
+    --extractor-args "youtube:player_client=default"
 
     --output "%(channel,uploader)s_[%(channel_id)s]/%(release_timestamp>%Y,timestamp>%Y)s/%(release_timestamp>%m,timestamp>%m)s/%(release_timestamp>%Y-%m-%d--%H-%M,timestamp>%Y-%m-%d--%H-%M)s_%(title)s_[%(id)s].%(ext)s"
     --paths "temp:/yt-dlp-temp"
@@ -39,10 +39,9 @@ data:
     --alias autosubs   "--write-subs --write-auto-subs --sub-lang en --no-download --download-archive /media/youtube/cfg/download-archive/autosubs.txt"
     --alias livechat   "--write-subs --sub-lang live_chat --no-download --ignore-no-formats-error --download-archive /media/youtube/cfg/download-archive/livechat.txt"
 
-    --alias comments   "--write-comments --write-info-json --no-download"
     --alias thumbnail  "--write-thumbnail --convert-thumbnails 'webp>png' --no-download"
 
     --alias metadata   "--write-thumbnail --convert-thumbnails 'webp>png' --write-info-json --embed-chapters --embed-metadata --embed-info-json --embed-thumbnail"
-    --alias video      "--metadata --write-subs --write-auto-subs --write-comments --download-archive /media/youtube/cfg/download-archive/default.txt"
+    --alias video      "--metadata --write-subs --write-auto-subs --download-archive /media/youtube/cfg/download-archive/default.txt"
 
     --alias force      "--force-overwrites --no-download-archive"
