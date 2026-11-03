@@ -36,12 +36,12 @@ data:
     --alias opus       "--format 'ba[acodec=opus][format_id!*=-drc]' --extract-audio --download-archive /media/youtube/cfg/download-archive/opus.txt"
     --alias aac        "--format 'ba[acodec^=mp4a][format_id!*=-drc]' --extract-audio --download-archive /media/youtube/cfg/download-archive/aac.txt"
 
-    --alias autosubs   "--write-subs --write-auto-subs --sub-lang en --no-download --download-archive /media/youtube/cfg/download-archive/autosubs.txt"
+    --alias autosubs   "--proxy '' --write-subs --write-auto-subs --sub-lang en --no-download --download-archive /media/youtube/cfg/download-archive/autosubs.txt"
     --alias livechat   "--write-subs --sub-lang live_chat --no-download --ignore-no-formats-error --download-archive /media/youtube/cfg/download-archive/livechat.txt"
 
     --alias thumbnail  "--write-thumbnail --convert-thumbnails 'webp>png' --no-download"
 
     --alias metadata   "--write-thumbnail --convert-thumbnails 'webp>png' --write-info-json --embed-chapters --embed-metadata --embed-info-json --embed-thumbnail"
-    --alias video      "--metadata --write-subs --write-auto-subs --download-archive /media/youtube/cfg/download-archive/default.txt"
+    --alias video      "--metadata --download-archive /media/youtube/cfg/download-archive/default.txt"
 
     --alias force      "--force-overwrites --no-download-archive"
