@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: toolbox
+  annotations:
+    configmap.reloader.stakater.com/reload: "toolbox-config"
 spec:
   replicas: 1
   strategy:
