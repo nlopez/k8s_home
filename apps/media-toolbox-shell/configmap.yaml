@@ -5,6 +5,7 @@ metadata:
   name: toolbox-config
 data:
   yt-dlp.conf: |-
+    # reloader test: harmless comment to confirm toolbox restarts on config change
     --audio-multistreams
     --video-multistreams
     --format-sort "fps,res,vcodec:vp9"
