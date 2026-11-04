@@ -63,6 +63,8 @@ spec:
         env:
         - name: HISTFILE
           value: /media/youtube/cfg/bash_history
+        - name: ATUIN_HOME
+          value: /media/youtube/cfg/atuin
         - name: HISTFILESIZE
           value: "1000000000"
         - name: HISTSIZE
