@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: engram
+spec:
+  selector:
+    matchLabels:
+      app: engram
+  template:
+    metadata:
+      labels:
+        app: engram
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: engram
+        tags.datadoghq.com/version: v1
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: engram
+        image: ghcr.io/gentleman-programming/engram:3.6.1
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+        env:
+        - name: ENGRAM_CLOUD_HOST
+          value: "0.0.0.0"
+        - name: ENGRAM_PORT
+          value: "8080"
+        # Single-user; narrow to real project names before inviting anyone else.
+        - name: ENGRAM_CLOUD_ALLOWED_PROJECTS
+          value: "*"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-engram
+              key: password
+        - name: ENGRAM_DATABASE_URL
+          value: "postgres://engram:$(DB_PASSWORD)@engram-database-rw.engram.svc.cluster.local:5432/engram?sslmode=require"
+        - name: ENGRAM_CLOUD_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-engram
+              key: token
+        - name: ENGRAM_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-engram
+              key: jwt_secret
+        - name: ENGRAM_CLOUD_ADMIN
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-engram
+              key: admin
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
