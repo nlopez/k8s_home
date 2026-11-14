@@ -61,16 +61,16 @@ hubble:
   relay:
     enabled: true
   eventQueueSize: 32768
-  # The in-memory ring buffer only holds ~100s of flows. Persist new-connection
-  # flows (TCP SYN and non-reply UDP) to a rotated file on each node so egress
-  # policies can be derived from days of history:
+  # The in-memory ring buffer only holds ~100s of flows. Persist pod egress
+  # new-connection flows (TCP SYN and non-reply UDP) to a rotated file on each
+  # node so egress policies can be derived from days of history:
   #   kubectl -n kube-system exec ds/cilium -c cilium-agent -- cat /var/run/cilium/hubble/events.log
   export:
     static:
       enabled: true
       filePath: /var/run/cilium/hubble/events.log
-      fileMaxSizeMb: 50
-      fileMaxBackups: 5
+      fileMaxSizeMb: 200
+      fileMaxBackups: 10
       fileCompress: true
       fieldMask:
       - time
@@ -86,8 +86,10 @@ hubble:
       - IP
       - l4
       allowList:
-      - '{"reply":[false],"protocol":["TCP"],"tcp_flags":[{"SYN":true}]}'
-      - '{"reply":[false],"protocol":["UDP"]}'
+      - '{"reply":[false],"traffic_direction":["EGRESS"],"protocol":["TCP"],"tcp_flags":[{"SYN":true}]}'
+      - '{"reply":[false],"traffic_direction":["EGRESS"],"protocol":["UDP"]}'
+      denyList:
+      - '{"source_label":["reserved:host","reserved:world","reserved:remote-node"]}'
 MTU: 1500
 endpointRoutes:
   enabled: true
