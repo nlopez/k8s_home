@@ -9,9 +9,9 @@
 # --grpc-web). See https://github.com/envoyproxy/gateway/issues/2875.
 #
 # internet: Cloudflare Authenticated Origin Pull (client cert validation),
-# optional so connections without a client cert (e.g. direct LAN access)
-# still complete the handshake; connections that do present one must chain to
-# Cloudflare's origin-pull CA. HTTP/3 is deliberately absent: Envoy rejects
+# required: connections must present a client cert chaining to Cloudflare's
+# origin-pull CA, so only Cloudflare can reach this gateway. HTTP/3 is
+# deliberately absent: Envoy rejects
 # any listener with both `tls.clientValidation` and `http3`
 # ("TLS Client Authentication is not supported over QUIC", see
 # https://github.com/envoyproxy/gateway/issues/8581). Cloudflare terminates
@@ -82,7 +82,6 @@ spec:
     - h2
     - http/1.1
     clientValidation:
-      optional: true
       caCertificateRefs:
       - kind: ConfigMap
         name: cloudflare-origin-pull-ca
