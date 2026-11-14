@@ -1,36 +1,32 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
-# Unified ClientTrafficPolicy covering all gateways (internet + private).
-# Merges: session resumption, HTTP/3, post-quantum TLS curves, and HSTS.
-# Replaces: tls-session-resumption, enable-http3, quantum-ciphers,
-#           cloudflare-authenticated-origin-pull-policy
+# One ClientTrafficPolicy per Gateway (two policies can't target the same
+# Gateway). Both share session resumption, post-quantum TLS curves, pinned
+# ALPN and HSTS; they differ in HTTP/3 vs. Cloudflare Authenticated Origin Pull.
 #
-# NOTE: tls.alpnProtocols is pinned explicitly below. Enabling `http3`
-# without it collapses the TCP listener's ALPN down to ["http/1.1"] only,
-# silently dropping h2 -- which breaks native gRPC (e.g. `argocd login`
-# without --grpc-web) since there's no HTTP/2 to carry the stream over.
-# (see https://github.com/envoyproxy/gateway/issues/2875). Pin it back to
-# the Gateway API default so HTTP/3 (QUIC/Alt-Svc) and h2 both keep working.
+# private: HTTP/3 enabled. Pinning tls.alpnProtocols matters here: enabling
+# `http3` without it collapses the TCP listener's ALPN to ["http/1.1"] only,
+# silently dropping h2 and breaking native gRPC (e.g. `argocd login` without
+# --grpc-web). See https://github.com/envoyproxy/gateway/issues/2875.
 #
-# NOTE: Cloudflare Authenticated-Origin-Pull (client cert validation) was
-# removed from here on purpose. Envoy cannot serve TLS client-cert
-# validation over QUIC — any listener with both `tls.clientValidation` and
-# `http3` enabled has its QUIC listener permanently rejected with
-# "TLS Client Authentication is not supported over QUIC"
-# (see https://github.com/envoyproxy/gateway/issues/8581, unresolved as of
-# 2026-08). Since our *.desertbluffs.com records aren't Cloudflare-proxied
-# (they resolve straight to the origin IP), AOP wasn't protecting anything
-# here anyway. If a host under this wildcard is ever put behind Cloudflare's
-# proxy, re-add clientValidation on a policy scoped to that listener only
-# (not this shared one) so it doesn't take HTTP/3 down for everything else.
+# internet: Cloudflare Authenticated Origin Pull (client cert validation),
+# optional so connections without a client cert (e.g. direct LAN access)
+# still complete the handshake; connections that do present one must chain to
+# Cloudflare's origin-pull CA. HTTP/3 is deliberately absent: Envoy rejects
+# any listener with both `tls.clientValidation` and `http3`
+# ("TLS Client Authentication is not supported over QUIC", see
+# https://github.com/envoyproxy/gateway/issues/8581). Cloudflare terminates
+# HTTP/3 for visitors at its edge and pulls from the origin over TCP, so
+# nothing is lost.
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
-  name: tls-settings
+  name: tls-settings-private
   namespace: envoy-gateway-system
 spec:
-  targetSelectors:
+  targetRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
+    name: private
   tls:
     # TLS session resumption (stateless + stateful)
     session:
@@ -43,15 +39,57 @@ spec:
     - X25519
     - P-256
     # Explicit ALPN: the Gateway API default, restated because enabling
-    # `http3` below overrides that default down to ["http/1.1"] otherwise.
+    # `http3` overrides that default down to ["http/1.1"] otherwise.
     alpnProtocols:
     - h2
     - http/1.1
-  # HTTP/3 (UDP QUIC) — only applies where listeners support it
+  # HTTP/3 (UDP QUIC)
   http3: {}
   headers:
     # lateResponseHeaders run after per-route filters and the backend
-    # response, immediately before bytes leave Envoy — so this also lands on
+    # response, immediately before bytes leave Envoy, so this also lands on
+    # Envoy-generated 503/504/400 responses, not just successful backend ones.
+    lateResponseHeaders:
+      set:
+      - name: strict-transport-security
+        value: max-age=63072000; includeSubDomains; preload
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: tls-settings-internet
+  namespace: envoy-gateway-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: internet
+  tls:
+    # TLS session resumption (stateless + stateful)
+    session:
+      resumption:
+        stateless: {}
+        stateful: {}
+    # Hybrid post-quantum ECDH: traditional + X25519MLKEM768
+    ecdhCurves:
+    - X25519MLKEM768
+    - X25519
+    - P-256
+    # Explicit ALPN: the Gateway API default, restated because enabling
+    # `http3` overrides that default down to ["http/1.1"] otherwise.
+    alpnProtocols:
+    - h2
+    - http/1.1
+    clientValidation:
+      optional: true
+      caCertificateRefs:
+      - kind: ConfigMap
+        name: cloudflare-origin-pull-ca
+        group: ""
+  headers:
+    # lateResponseHeaders run after per-route filters and the backend
+    # response, immediately before bytes leave Envoy, so this also lands on
     # Envoy-generated 503/504/400 responses, not just successful backend ones.
     lateResponseHeaders:
       set:
