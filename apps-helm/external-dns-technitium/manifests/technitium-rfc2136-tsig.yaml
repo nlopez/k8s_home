@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: technitium-rfc2136-tsig
+spec:
+  # Secret value was generated with `openssl rand -base64 32` and stored here
+  # first; use the same value as the "externaldns." TSIG key's secret when
+  # creating it in Technitium (see plan step "Manual one-time bootstrap").
+  itemPath: "vaults/evjh25ux2mnoufaut6qhvm2pdi/items/egvwhhpqjjtf4ksmzpn2te5cnu"
