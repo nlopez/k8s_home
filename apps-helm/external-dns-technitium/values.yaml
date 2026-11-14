@@ -44,6 +44,9 @@ extraArgs:
 # Avoids known cross-zone update issues when multiple --rfc2136-zone values
 # are set: https://github.com/kubernetes-sigs/external-dns/issues/4106
 - --rfc2136-batch-change-size=1
+# Default TTL for every record written to Technitium, and a floor for any
+# per-record TTL annotation.
+- --rfc2136-min-ttl=60s
 - --txt-owner-id=technitium
 logLevel: debug
 podLabels:
