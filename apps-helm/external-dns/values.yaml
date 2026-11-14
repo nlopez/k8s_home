@@ -31,11 +31,10 @@ sources:
 - gateway-udproute
 extraArgs:
 # Only the internet gateway should drive desertbluffs.com DNS records.
-# The private gateway's radoncanyon.com routes are published to Cloudflare by
-# the external-dns-private app.
 - --gateway-name=internet
-# radoncanyon.com is owned by external-dns-private; keep this instance scoped
-# to desertbluffs.com.
+# The public radoncanyon.com zone is not managed from Kubernetes; its records
+# are only what certificate renewal needs. Keep this instance scoped to
+# desertbluffs.com.
 - --domain-filter=desertbluffs.com
 # Causes extraneous record updates
 # - --cloudflare-record-comment=managed by external-dns
