@@ -51,6 +51,15 @@ spec:
         ports:
         - name: http
           containerPort: 8989
+        # emptyDir contents survive container restarts, so stale s6 state in
+        # /run accumulates until the 64Mi tmpfs is full. Clear it on every start.
+        command: ["sh", "-c", "rm -rf /run/* /run/.[!.]*; exec /init"]
+        readinessProbe:
+          httpGet:
+            port: http
+            path: /ping
+          periodSeconds: 10
+          failureThreshold: 2
         livenessProbe:
           httpGet:
             port: http
