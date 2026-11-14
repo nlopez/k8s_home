@@ -61,6 +61,33 @@ hubble:
   relay:
     enabled: true
   eventQueueSize: 32768
+  # The in-memory ring buffer only holds ~100s of flows. Persist new-connection
+  # flows (TCP SYN and non-reply UDP) to a rotated file on each node so egress
+  # policies can be derived from days of history:
+  #   kubectl -n kube-system exec ds/cilium -c cilium-agent -- cat /var/run/cilium/hubble/events.log
+  export:
+    static:
+      enabled: true
+      filePath: /var/run/cilium/hubble/events.log
+      fileMaxSizeMb: 50
+      fileMaxBackups: 5
+      fileCompress: true
+      fieldMask:
+      - time
+      - verdict
+      - traffic_direction
+      - source.namespace
+      - source.pod_name
+      - source.labels
+      - destination.namespace
+      - destination.pod_name
+      - destination.labels
+      - destination_names
+      - IP
+      - l4
+      allowList:
+      - '{"reply":[false],"protocol":["TCP"],"tcp_flags":[{"SYN":true}]}'
+      - '{"reply":[false],"protocol":["UDP"]}'
 MTU: 1500
 endpointRoutes:
   enabled: true
