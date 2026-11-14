@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+# Physical (non-Kubernetes) hosts in the radoncanyon.com zone.
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: radoncanyon-hosts
+spec:
+  endpoints:
+  - dnsName: gw.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.1"]
+  - dnsName: gw.lga2.radoncanyon.com
+    recordType: A
+    targets: ["192.168.239.254"]
+  - dnsName: knode1.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.143"]
+  - dnsName: knode2.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.144"]
+  - dnsName: nas1.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.149"]
+  - dnsName: nas2.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.114"]
+  - dnsName: odroid.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.2"]
+  - dnsName: odroid.lga2.radoncanyon.com
+    recordType: A
+    targets: ["192.168.239.2"]
