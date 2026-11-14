@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/application_v1alpha1.json
+# Standalone (not in the apps-helm ApplicationSet): that set uses RollingSync,
+# which forces auto-sync off, and the DNSEndpoint and values here must apply on
+# every push to main.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns-technitium
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+  destination:
+    namespace: external-dns-technitium
+    server: https://kubernetes.default.svc
+  sources:
+  - repoURL: https://kubernetes-sigs.github.io/external-dns
+    chart: external-dns
+    targetRevision: "1.23.0"
+    helm:
+      valueFiles:
+      - $values/apps-helm/external-dns-technitium/values.yaml
+      ignoreMissingValueFiles: true
+  - repoURL: https://github.com/nlopez/k8s_home.git
+    targetRevision: main
+    ref: values
+  - repoURL: https://github.com/nlopez/k8s_home.git
+    targetRevision: main
+    path: apps-helm/external-dns-technitium/manifests
