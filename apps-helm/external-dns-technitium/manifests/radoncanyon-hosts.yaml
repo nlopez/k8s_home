@@ -6,6 +6,12 @@ metadata:
   name: radoncanyon-hosts
 spec:
   endpoints:
+  - dnsName: dns.lga1.radoncanyon.com
+    recordType: A
+    targets: ["192.168.222.2"]
+  - dnsName: dns.lga2.radoncanyon.com
+    recordType: A
+    targets: ["192.168.239.2"]
   - dnsName: gw.lga1.radoncanyon.com
     recordType: A
     targets: ["192.168.222.1"]
