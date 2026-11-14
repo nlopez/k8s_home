@@ -54,6 +54,11 @@ data:
 
     .:53 {
       errors
+      # Queried names with the client pod IP, for deriving per-namespace egress
+      # allowlists. NXDOMAIN (search-path expansion) is excluded to cut noise.
+      log . "{remote} {type} {name} {rcode}" {
+        class success
+      }
       health {
         lameduck 5s
       }
