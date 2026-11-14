@@ -55,3 +55,16 @@ spec:
         ports:
         - containerPort: 80
           name: shaarli
+        # Shaarli serves its install page when data/ is unreadable, so HTTP
+        # probes would pass. Check the iSCSI-backed config file directly.
+        readinessProbe:
+          exec:
+            command: ["test", "-s", "/var/www/shaarli/data/config.json.php"]
+          periodSeconds: 10
+          failureThreshold: 2
+        livenessProbe:
+          exec:
+            command: ["test", "-s", "/var/www/shaarli/data/config.json.php"]
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          failureThreshold: 3
