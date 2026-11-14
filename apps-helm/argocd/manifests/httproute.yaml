@@ -14,8 +14,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - argocd.desertbluffs.com
-  - gentle-tornado.desertbluffs.com
+  - flopie.desertbluffs.com
   rules:
   # Internet-facing: only GitHub's push webhook. The UI, API and CLI (gRPC)
   # are reachable only via the private gateway. Other paths get a 404.
@@ -43,8 +42,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - argocd.desertbluffs.com
-  - gentle-tornado.desertbluffs.com
+  - flopie.desertbluffs.com
   rules:
   - matches:
     - path:

@@ -10,8 +10,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - majestic-fear.radoncanyon.com
-  - majestic-fear.desertbluffs.com
+  - jolthog.desertbluffs.com
   rules:
   - backendRefs:
     - name: sonarr

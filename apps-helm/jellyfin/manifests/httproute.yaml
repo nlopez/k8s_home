@@ -10,7 +10,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - jellyfin.desertbluffs.com
+  - wixen.desertbluffs.com
   rules:
   - backendRefs:
     - name: jellyfin

@@ -6,7 +6,7 @@ CouchDB instance for [Obsidian LiveSync](https://github.com/vrtmrz/obsidian-live
 
 | Setting | Value |
 |---------|-------|
-| **Public URL** | `https://sunny-glacier.desertbluffs.com` |
+| **Public URL** | `https://lifmunk.desertbluffs.com` |
 | **Username** | `admin` |
 | **Password** | See 1Password: `Automation > obsidian-livesync-couchdb > COUCHDB_PASSWORD` |
 | **Database** | `obsidiannotes` (created on first sync) |
@@ -25,7 +25,7 @@ CouchDB instance for [Obsidian LiveSync](https://github.com/vrtmrz/obsidian-live
 2. Click **Set up LiveSync**
 3. Select **CouchDB** as the synchronization method
 4. Enter the connection details:
-   - **Server URL**: `https://sunny-glacier.desertbluffs.com`
+   - **Server URL**: `https://lifmunk.desertbluffs.com`
    - **Username**: `admin`
    - **Password**: (from 1Password)
    - **Database**: `obsidiannotes`
@@ -54,7 +54,7 @@ CouchDB instance for [Obsidian LiveSync](https://github.com/vrtmrz/obsidian-live
 The server is pre-configured with CORS for:
 - `app://obsidian.md` (desktop)
 - `capacitor://localhost` (mobile)
-- `https://sunny-glacier.desertbluffs.com` (public web)
+- `https://lifmunk.desertbluffs.com` (public web)
 
 ### Connection Refused
 
@@ -64,7 +64,7 @@ The server is pre-configured with CORS for:
 ### Authentication Failed
 
 - Verify credentials in 1Password
-- Test manually: `curl -u admin:PASSWORD https://sunny-glacier.desertbluffs.com/_up`
+- Test manually: `curl -u admin:PASSWORD https://lifmunk.desertbluffs.com/_up`
 
 ## Administration
 
@@ -99,7 +99,7 @@ kubectl get schedules -n velero
 ```
 Obsidian Client (multiple devices)
     ↕ HTTPS (TLS at Envoy Gateway)
-Envoy Gateway — sunny-glacier.desertbluffs.com:443
+Envoy Gateway — lifmunk.desertbluffs.com:443
     ↕ HTTP
 CouchDB Service (ClusterIP:5984)
     ↕

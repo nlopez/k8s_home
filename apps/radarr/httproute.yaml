@@ -10,8 +10,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - contagious-blues.radoncanyon.com
-  - contagious-blues.desertbluffs.com
+  - dumud.desertbluffs.com
   rules:
   - backendRefs:
     - name: radarr

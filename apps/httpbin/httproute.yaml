@@ -10,8 +10,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - httpbin.radoncanyon.com
-  - httpbin.desertbluffs.com
+  - swee.desertbluffs.com
   rules:
   - backendRefs:
     - name: httpbin

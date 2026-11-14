@@ -27,7 +27,7 @@ data:
     enable_cors = true
 
     [cors]
-    origins = app://obsidian.md,capacitor://localhost,https://sunny-glacier.desertbluffs.com
+    origins = app://obsidian.md,capacitor://localhost,https://lifmunk.desertbluffs.com
     credentials = true
     headers = accept, authorization, content-type, origin, referer, x-couchdb-weight, x-couchdb-client-count, x-couchdb-failover-target, x-couch-cluster-config
     methods = GET, POST, PUT, DELETE, OPTIONS

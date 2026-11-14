@@ -10,7 +10,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - goldpinger.radoncanyon.com
+  - fuack.desertbluffs.com
   rules:
   - backendRefs:
     - name: goldpinger

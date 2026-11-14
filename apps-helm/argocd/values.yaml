@@ -1,5 +1,5 @@
 global:
-  domain: argocd.desertbluffs.com
+  domain: flopie.desertbluffs.com
   podLabels:
     tags.datadoghq.com/env: homelab
     tags.datadoghq.com/service: argocd

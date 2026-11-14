@@ -10,8 +10,35 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - immich.desertbluffs.com
-  - burning-cloud.desertbluffs.com
+  - nox.desertbluffs.com
+  rules:
+  - backendRefs:
+    - name: immich-server
+      port: 2283
+      group: ''
+      kind: Service
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: immich
+  annotations:
+    # Served through Cloudflare's proxy. external-dns reads this from the route, not the Gateway.
+    external-dns.kubernetes.io/cloudflare-proxied: "true"
+spec:
+  parentRefs:
+  - name: internet
+    namespace: envoy-gateway-system
+    group: gateway.networking.k8s.io
+    kind: Gateway
+  hostnames:
+  - nox.desertbluffs.com
   rules:
   - backendRefs:
     - name: immich-server

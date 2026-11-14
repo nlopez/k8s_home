@@ -13,7 +13,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - quizzical-queen.desertbluffs.com
+  - vixy.desertbluffs.com
   rules:
   - backendRefs:
     - name: pms
@@ -38,8 +38,7 @@ spec:
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - quizzical-queen.radoncanyon.com
-  - quizzical-queen.desertbluffs.com
+  - vixy.desertbluffs.com
   rules:
   - backendRefs:
     - name: pms
