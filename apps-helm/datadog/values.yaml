@@ -54,14 +54,17 @@ datadog:
       enabled: true
   kubernetesEvents:
     unbundleEvents: true
-  # Cloud Security Management: misconfigurations (CSPM) and vulnerability
-  # management (SBOM), for both hosts and container images.
+  # Cloud Security Management: misconfigurations (CSPM), vulnerability
+  # management (SBOM) for both hosts and container images, and Workload
+  # Protection (runtime threat detection via system-probe eBPF).
   # https://docs.datadoghq.com/security/cloud_security_management/setup/agent/kubernetes/?tab=helm
   securityAgent:
     compliance:
       enabled: true
       host_benchmarks:
         enabled: true
+    runtime:
+      enabled: true
   sbom:
     containerImage:
       enabled: true
@@ -136,8 +139,25 @@ datadog:
               self.gauge("uptime", payload.get("uptime"), tags=tags)
               self.gauge("basecamps", payload.get("basecampnum"), tags=tags)
               self.gauge("days", payload.get("days"), tags=tags)
+# Agents resolve dotted external names (*.datadoghq.com, NTP pools); ndots:1
+# resolves them as absolute instead of walking the search list through
+# Technitium first.
+agents:
+  dnsConfig:
+    options:
+    - name: ndots
+      value: "1"
+operator:
+  dnsConfig:
+    options:
+    - name: ndots
+      value: "1"
 clusterAgent:
   enabled: true
+  dnsConfig:
+    options:
+    - name: ndots
+      value: "1"
   tokenExistingSecret: datadog-keys
   metricsProvider:
     enabled: false
