@@ -18,6 +18,13 @@ spec:
         protocol: UDP
       - port: "53"
         protocol: TCP
+      rules:
+        dns:
+        - matchName: api.nzbgeek.info
+        - matchName: api.radarr.video
+        - matchName: image.tmdb.org
+        - matchName: sentry.servarr.com
+        - matchName: nas2.lga1.radoncanyon.com
   # Plex library-refresh notifications.
   - toEndpoints:
     - matchLabels:
@@ -36,15 +43,14 @@ spec:
         protocol: TCP
       - port: "30055"
         protocol: TCP
-  # Indexers, metadata and update checks: public HTTPS only. The except list
-  # keeps this rule from reaching the LAN or cluster ranges.
-  - toCIDRSet:
-    - cidr: 0.0.0.0/0
-      except:
-      - 10.0.0.0/8
-      - 172.16.0.0/12
-      - 192.168.0.0/16
-      - 100.64.0.0/10
+  # Indexers, metadata and update checks: HTTPS to the names allowed in the
+  # DNS rule above. Cilium's DNS proxy maps the resolved IPs back to these
+  # names, so the rule follows CDN address changes.
+  - toFQDNs:
+    - matchName: api.nzbgeek.info
+    - matchName: api.radarr.video
+    - matchName: image.tmdb.org
+    - matchName: sentry.servarr.com
     toPorts:
     - ports:
       - port: "443"
