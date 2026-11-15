@@ -70,7 +70,7 @@ spec:
               }
 
               start() {
-                api -X PUT "${IMMICH_URL}/api/queues/$1" -d "{\"command\":\"start\",\"force\":$2}" >/dev/null
+                api -X PUT "${IMMICH_URL}/api/jobs/$1" -d "{\"command\":\"start\",\"force\":$2}" >/dev/null
               }
 
               # A previous run's extraction may still be working through the library.
