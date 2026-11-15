@@ -25,7 +25,10 @@ data:
       prometheus :9153
       # Technitium (pinned LoadBalancer IP) serves the private radoncanyon.com
       # zone, including the external NAS hosts, and recurses for everything else.
-      forward . 10.43.64.53
+      # The router is only used when Technitium is unreachable.
+      forward . 10.43.64.53 192.168.222.1 {
+        policy sequential
+      }
       cache 30 {
         disable success cluster.local
         disable denial cluster.local
