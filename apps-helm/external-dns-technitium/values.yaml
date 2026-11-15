@@ -49,6 +49,12 @@ extraArgs:
 - --rfc2136-min-ttl=60s
 - --txt-owner-id=technitium
 logLevel: debug
+# The in-cluster FQDN above has 4 dots, so the default ndots:5 walks the
+# search list first and sends junk suffixes upstream to Technitium.
+dnsConfig:
+  options:
+  - name: ndots
+    value: "1"
 podLabels:
   tags.datadoghq.com/env: homelab
   tags.datadoghq.com/service: external-dns-technitium
