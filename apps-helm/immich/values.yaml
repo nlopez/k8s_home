@@ -71,23 +71,15 @@ server:
           env:
             # GPU settings for thumbnail generation
             IMMICH_FFMPEG_HWACCEL: qsv
-  persistence: {}
-  # icloud:
-  #   enabled: true
-  #   existingClaim: immich-icloud-nfs
-  #   advancedMounts:
-  #     main:
-  #       main:
-  #       - path: /icloud
-  #         readOnly: false
-  photosync:
-    enabled: true
-    existingClaim: immich-photosync-nfs
-    advancedMounts:
-      main:
+  persistence:
+    icloud:
+      enabled: true
+      existingClaim: immich-icloud-nfs
+      advancedMounts:
         main:
-        - path: /PhotoSync
-          readOnly: false
+          main:
+          - path: /icloud
+            readOnly: true
 # Machine learning component
 machine-learning:
   enabled: true
