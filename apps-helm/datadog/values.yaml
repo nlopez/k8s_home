@@ -33,6 +33,12 @@ datadog:
   # Requires system-probe (privileged, eBPF); compatible with Cilium 1.6+.
   networkMonitoring:
     enabled: true
+  # Universal Service Monitoring: eBPF-based HTTP/gRPC request rate, latency
+  # and errors per service, no proxy or instrumentation needed. Shares the
+  # system-probe already enabled for network monitoring.
+  # https://docs.datadoghq.com/universal_service_monitoring/setup/?tab=helm
+  serviceMonitoring:
+    enabled: true
   # https://docs.datadoghq.com/containers/autoscaling/?tab=helm#setup
   # Only enables the capability; nothing scales until a DatadogPodAutoscaler
   # resource targets a workload (see e.g.
