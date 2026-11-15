@@ -98,6 +98,7 @@ metadata:
     app: velero
     component: discord-notifier
 spec:
+  suspend: true
   schedule: "*/5 * * * *"
   timeZone: UTC
   concurrencyPolicy: Forbid
