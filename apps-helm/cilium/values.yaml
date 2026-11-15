@@ -90,6 +90,9 @@ hubble:
       - '{"reply":[false],"traffic_direction":["EGRESS"],"protocol":["UDP"]}'
       denyList:
       - '{"source_label":["reserved:host","reserved:world","reserved:remote-node"]}'
+# Network policies are evaluated and logged (verdict AUDIT) but never enforced
+# anywhere. Remove to start enforcing.
+policyAuditMode: true
 MTU: 1500
 endpointRoutes:
   enabled: true
