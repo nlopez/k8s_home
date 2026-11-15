@@ -85,17 +85,23 @@ spec:
                 exit 0
               fi
 
+              # Waits up to $2 polls of 15s for a queue to drain; returns non-zero if it doesn't.
+              wait_drained() {
+                for _ in $(seq 1 "$2"); do
+                  [ "$(pending "$1")" -eq 0 ] && return 0
+                  sleep 15
+                done
+                return 1
+              }
+
               echo "linking sidecars"
               start sidecar false
               sleep 15
-              for _ in $(seq 1 120); do
-                [ "$(pending sidecar)" -eq 0 ] && break
-                sleep 15
-              done
-              if [ "$(pending sidecar)" -gt 0 ]; then
-                echo "sidecar queue did not drain within 30m" >&2
-                exit 1
-              fi
+              wait_drained sidecar 60 || { echo "sidecar queue did not drain within 15m" >&2; exit 1; }
+
+              # Linking a sidecar queues its own metadata extraction, and Immich
+              # rejects starting a queue that has active jobs.
+              wait_drained metadataExtraction 120 || { echo "metadataExtraction still busy after 30m, retrying tomorrow"; exit 0; }
 
               echo "re-extracting metadata"
               start metadataExtraction true
