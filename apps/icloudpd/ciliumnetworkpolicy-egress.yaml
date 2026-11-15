@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: icloudpd-egress
+spec:
+  endpointSelector:
+    matchLabels:
+      tags.datadoghq.com/service: icloudpd
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: kube-system
+        k8s:k8s-app: kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: UDP
+      - port: "53"
+        protocol: TCP
+      rules:
+        dns:
+        - matchName: idmsa.apple.com
+        - matchName: setup.icloud.com
+        - matchName: icloud.com
+        - matchName: api.telegram.org
+        - matchName: raw.githubusercontent.com
+        - matchPattern: "*.icloud.com"
+        - matchPattern: "*.icloud-content.com"
+        - matchPattern: "*.apple.com"
+  - toFQDNs:
+    - matchName: idmsa.apple.com
+    - matchName: setup.icloud.com
+    - matchName: icloud.com
+    - matchName: api.telegram.org
+    - matchName: raw.githubusercontent.com
+    - matchPattern: "*.icloud.com"
+    - matchPattern: "*.icloud-content.com"
+    - matchPattern: "*.apple.com"
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP

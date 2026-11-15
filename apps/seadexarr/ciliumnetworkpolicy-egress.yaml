@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: seadexarr-egress
+spec:
+  endpointSelector:
+    matchLabels:
+      tags.datadoghq.com/service: seadexarr
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: kube-system
+        k8s:k8s-app: kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: UDP
+      - port: "53"
+        protocol: TCP
+      rules:
+        dns:
+        - matchName: seadex.moe
+        - matchName: nyaa.si
+        - matchName: graphql.anilist.co
+        - matchName: release-assets.githubusercontent.com
+        - matchName: github.com
+        - matchName: discord.com
+        - matchName: sonarr.sonarr.svc.cluster.local
+        - matchName: radarr.radarr.svc.cluster.local
+        - matchName: nas1.lga1.radoncanyon.com
+        - matchName: nas2.lga1.radoncanyon.com
+  # Library lookups and unmonitoring.
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: sonarr
+        app: sonarr
+    toPorts:
+    - ports:
+      - port: "8989"
+        protocol: TCP
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: radarr
+        app: radarr
+    toPorts:
+    - ports:
+      - port: "7878"
+        protocol: TCP
+  # qBittorrent on the NAS hosts.
+  - toCIDR:
+    - 192.168.222.149/32 # nas1
+    - 192.168.222.114/32 # nas2
+    toPorts:
+    - ports:
+      - port: "30024"
+        protocol: TCP
+  - toFQDNs:
+    - matchName: seadex.moe
+    - matchName: nyaa.si
+    - matchName: graphql.anilist.co
+    - matchName: release-assets.githubusercontent.com
+    - matchName: github.com
+    - matchName: discord.com
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP
