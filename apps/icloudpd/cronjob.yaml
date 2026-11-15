@@ -4,14 +4,14 @@ kind: CronJob
 metadata:
   name: icloudpd
 spec:
-  suspend: true
+  suspend: false
   concurrencyPolicy: Forbid
   timeZone: America/New_York
-  schedule: '0 * * * *'
+  schedule: '0 */6 * * *'
   jobTemplate:
     spec:
       backoffLimit: 1
-      activeDeadlineSeconds: 3300 # 55m - leaves a buffer before the next hourly trigger
+      activeDeadlineSeconds: 3300 # 55m
       template:
         metadata:
           labels:
