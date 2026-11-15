@@ -7,11 +7,15 @@ spec:
   suspend: false
   concurrencyPolicy: Forbid
   timeZone: America/New_York
-  schedule: '0 */6 * * *'
+  # Hourly incremental pass, plus a full pass at 03:00 (see the container command).
+  schedule: '0 * * * *'
   jobTemplate:
     spec:
       backoffLimit: 1
-      activeDeadlineSeconds: 14400 # 4h, leaves room for a large catch-up run before the next 6h trigger
+      # A full pass takes about 35-45 minutes and the start can be delayed by
+      # up to 15 minutes of jitter. concurrencyPolicy Forbid skips a trigger
+      # that would overlap a run that is still going.
+      activeDeadlineSeconds: 7200
       template:
         metadata:
           labels:
@@ -41,6 +45,23 @@ spec:
             #   skopeo inspect --override-os linux --override-arch amd64 --format '{{.Digest}}' docker://ghcr.io/nlopez/docker-icloudpd:<tag>
             image: ghcr.io/nlopez/docker-icloudpd@sha256:b602cfd437f4a69b6e1611b1bb122829fc6aba76837d662faf77f3215295b3df
             imagePullPolicy: Always
+            # The image only reads until_found from /config/icloudpd.conf, so each run
+            # sets it before starting the launcher: hourly runs stop after 100
+            # consecutive already-downloaded assets (new photos only), and the run that
+            # starts in the 03:00 hour clears it for a full pass that lists every asset
+            # and refreshes every XMP sidecar. The mode is chosen before the random
+            # 0-15 minute delay so a delayed full pass is still a full pass; the delay
+            # keeps runs from hitting Apple at the same minute every hour.
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              if [ "$(date +%H)" = "03" ]; then mode=full; until_found=""; else mode=incremental; until_found=100; fi
+              jitter=$(( $(od -An -N2 -tu2 /dev/urandom) % 900 ))
+              echo "icloudpd run: mode=${mode} until_found=${until_found:-unset} jitter=${jitter}s"
+              sleep "${jitter}"
+              sed -i "s/^until_found=.*/until_found=${until_found}/" /config/icloudpd.conf
+              exec /usr/local/bin/launcher.sh
             env:
             - name: TZ
               value: "America/New_York"
