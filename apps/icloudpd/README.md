@@ -68,7 +68,7 @@ sync-icloud.sh --Initialise
 ```
 
 This interactive process will:
-1. Prompt for your iCloud password (stored in system keyring)
+1. Prompt for your Apple ID account password (not an app-specific password; stored in system keyring)
 2. Send an approval request to your trusted device
 3. Ask you to choose how to receive the MFA code (SMS recommended)
 4. Ask you to enter the 6-digit MFA code
@@ -79,18 +79,22 @@ Once complete, edit `/config/icloudpd.conf` and set `single_pass=true` so each r
 
 ## Updating the Container Image
 
-The icloudpd CronJob uses a specific version mirrored from Docker Hub's `boredazfcuk/icloudpd`.
+The CronJob runs `ghcr.io/nlopez/docker-icloudpd`, a fork of `boredazfcuk/docker-icloudpd` (branch `icloudpd-1.33.0`) that bundles icloudpd 1.33.0. The upstream image still bundles 1.32.3, where `--xmp-sidecar` aborts the whole run on assets with malformed adjustment data. The image is pinned by digest in `cronjob.yaml`.
 
-To update to a newer version:
+Switch back to `docker.io/boredazfcuk/icloudpd` once its Dockerfile has `icloudpd_version` >= 1.33.0:
 
 ```bash
-# Check available versions
-IMAGE=boredazfcuk/icloudpd
-skopeo --override-os linux list-tags "docker://${IMAGE}" | jq -r '.Tags[]' | sort -V | tail -n10
+# Check the bundled icloudpd version on upstream master
+gh api repos/boredazfcuk/docker-icloudpd/contents/icloudpd.dockerfile --jq .content | base64 -d | grep icloudpd_version
 
-# Update the image tag in cronjob.yaml
-# Then reapply:
-kubectl apply -f cronjob.yaml
+# Latest upstream image tag
+skopeo --override-os linux list-tags docker://boredazfcuk/icloudpd | jq -r '.Tags[]' | grep '^[0-9]' | sort -V | tail -n1
+```
+
+To rebuild the fork image, run the `Build and push to GHCR` workflow in `nlopez/docker-icloudpd` (`workflow_dispatch`), then pin the new digest:
+
+```bash
+skopeo inspect --override-os linux --override-arch amd64 --format '{{.Digest}}' docker://ghcr.io/nlopez/docker-icloudpd:<tag>
 ```
 
 ## Configuration
@@ -164,9 +168,19 @@ icloudpd requires a `.mounted` file in the download destination (`/home/user/iCl
 
 ### Two-Factor Authentication Issues
 
-- **Won't authenticate**: Ensure you used an [iCloud app-specific password](https://support.apple.com/en-us/102654), not your main password
+- **Won't authenticate / "invalid password"**: Use the real Apple ID account password. App-specific passwords are rejected with a 401. If the password changed, run `sync-icloud.sh --Remove-Keyring` then `--Initialise`
 - **Cookie expired**: Run `reauth.sh` or re-initialize with --Initialise
+- **Security keys**: Accounts with registered security keys can't authenticate (the bundled icloudpd can't do the key touch headlessly); remove all security keys from the Apple ID first
+- **"Allow" prompt but no 6-digit code**: On an iPhone or iPad, turn on Airplane Mode and turn Wi-Fi off, then Settings → your name → Sign-In & Security → Get Verification Code
 - **Advanced Data Protection**: Disable Apple's Advanced Data Protection in iOS 16.2+ as it blocks icloud.com access
+
+### XMP Sidecars
+
+`xmp_sidecar=true` writes a `<file>.xmp` next to each asset (dates, GPS, keywords, title, rating). Every run regenerates sidecars it wrote itself and leaves ones from other tools alone, so existing photos are backfilled by a normal pass. Successful writes are not logged; only `Not overwriting XMP file` and `Could not write XMP sidecar` messages appear. Album membership is not included.
+
+### DNS
+
+Do not apply Cilium egress policies with `rules.dns` or `toFQDNs` to this namespace: the Cilium DNS proxy does not answer on this cluster's netkit datapath, so all lookups time out.
 
 ### Large Libraries
 
