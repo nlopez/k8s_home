@@ -6,63 +6,6 @@ metadata:
   namespace: kube-system
 data:
   Corefile: |-
-    # Per-namespace split answers for example.org, via the `view` + `metadata`
-    # plugins. The `kubernetes` plugin is the metadata provider: with `pods
-    # verified` it reconciles the client packet's source IP to a pod and
-    # publishes `kubernetes/client-namespace`, which each view's `expr` matches.
-    # Non-matching clients fall through the label hierarchy to the `.:53` block.
-    #
-    # Pods reach this server directly (node-local-dns was dropped 2026-08-31),
-    # so Cilium socketLB preserves the client pod IP and `pods verified` can
-    # resolve it to a namespace. Test:
-    #   kubectl -n palworld exec deploy/<x> -- dig +short TXT example.org
-    example.org:53 {
-      errors
-      view palworld {
-        expr metadata('kubernetes/client-namespace') == 'palworld'
-      }
-      metadata
-      kubernetes cluster.local {
-        pods verified
-      }
-      template IN TXT example.org {
-        match ^example[.]org[.]$
-        answer "{{ .Name }} 60 IN TXT \"Hello palworld namespace!\""
-        fallthrough
-      }
-      forward . 192.168.222.1
-      cache 30
-    }
-
-    example.org:53 {
-      errors
-      view media-toolbox-shell {
-        expr metadata('kubernetes/client-namespace') == 'media-toolbox-shell'
-      }
-      metadata
-      kubernetes cluster.local {
-        pods verified
-      }
-      template IN TXT example.org {
-        match ^example[.]org[.]$
-        answer "{{ .Name }} 60 IN TXT \"Hello media-toolbox-shell!\""
-        fallthrough
-      }
-      forward . 192.168.222.1
-      cache 30
-    }
-
-    # Technitium is authoritative for the private radoncanyon.com zone (including
-    # the external NAS hosts). 10.43.64.53 is its pinned LoadBalancer IP.
-    radoncanyon.com:53 {
-      errors
-      log . "{remote} {type} {name} {rcode}" {
-        class success
-      }
-      forward . 10.43.64.53
-      cache 30
-    }
-
     .:53 {
       errors
       # Queried names with the client pod IP, for deriving per-namespace egress
@@ -80,7 +23,9 @@ data:
         ttl 30
       }
       prometheus :9153
-      forward . 192.168.222.1
+      # Technitium (pinned LoadBalancer IP) serves the private radoncanyon.com
+      # zone, including the external NAS hosts, and recurses for everything else.
+      forward . 10.43.64.53
       cache 30 {
         disable success cluster.local
         disable denial cluster.local
