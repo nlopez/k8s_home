@@ -20,9 +20,15 @@ datadog:
   # Agent trusts by default.
   kubelet:
     tlsVerify: false
+  # Collect-all with an exclude-everything filter, then opt namespaces in via
+  # containerIncludeLogs (include takes precedence over exclude). Extend the
+  # space-separated include list to ship another namespace's logs.
+  # https://docs.datadoghq.com/containers/guide/container-discovery-management/
   logs:
-    enabled: false
-    containerCollectAll: false
+    enabled: true
+    containerCollectAll: true
+  containerExcludeLogs: "kube_namespace:.*"
+  containerIncludeLogs: "kube_namespace:cert-manager"
   # https://docs.datadoghq.com/containers/monitoring/kubernetes_explorer/?tab=helm
   processAgent:
     enabled: true
