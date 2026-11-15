@@ -1,6 +1,6 @@
 # icloudpd - iCloud Photos Downloader
 
-icloudpd downloads photos and videos from iCloud to your media NFS share at `/home/user/iCloud`. It runs as an hourly `CronJob` (`cronjob.yaml`) that performs a single pass and exits, rather than a long-lived process managing its own internal schedule.
+icloudpd downloads photos and videos from iCloud to your media NFS share at `/home/user/iCloud`. It runs as a `CronJob` (`cronjob.yaml`) that performs a single pass and exits, rather than a long-lived process managing its own internal schedule.
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ icloudpd downloads photos and videos from iCloud to your media NFS share at `/ho
 - **Existing Files**: If you have previously downloaded files with `1000:1000` ownership, fix them: `chown -R 1001:1001 /mnt/etank/media/icloud`
 - **Interactive Setup**: You must run the interactive initialization process to set up authentication and generate the MFA cookie
 - **Configuration File**: icloudpd.conf is created during initialization using `sync-icloud.sh --Initialise`
-- **Scheduled Sync**: A Kubernetes `CronJob` triggers a single pass every hour (`schedule: '0 * * * *'`); `single_pass` must be `true` in `icloudpd.conf` so each run exits after one pass instead of looping. `download_interval` is ignored once `single_pass=true`.
+- **Scheduled Sync**: A Kubernetes `CronJob` triggers a single pass every 6 hours (`schedule: '0 */6 * * *'`); `single_pass` must be `true` in `icloudpd.conf` so each run exits after one pass instead of looping. `download_interval` is ignored once `single_pass=true`.
 - **Failsafe Mount Check**: A `.mounted` file is required in `/home/user/iCloud/.mounted` to prevent accidental syncs
 
 ## Setup Instructions
@@ -75,7 +75,7 @@ This interactive process will:
 5. Create `/config/icloudpd.conf` with default settings
 6. Generate and store the MFA cookie in `/config/your-email@icloud.com`
 
-Once complete, edit `/config/icloudpd.conf` and set `single_pass=true` so each hourly run exits after one pass instead of looping.
+Once complete, edit `/config/icloudpd.conf` and set `single_pass=true` so each run exits after one pass instead of looping.
 
 ## Updating the Container Image
 
@@ -102,7 +102,7 @@ The icloudpd configuration file `/config/icloudpd.conf` is created during the in
 **To modify configuration after initialization:**
 
 ```bash
-# Trigger a one-off Job so you have a pod to connect to (or wait for the next hourly run)
+# Trigger a one-off Job so you have a pod to connect to (or wait for the next scheduled run)
 kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-manual
 kubectl exec -it -n icloudpd <pod-name> -- sh
 
@@ -117,7 +117,7 @@ Changes to `/config/icloudpd.conf` take effect on the next Job run automatically
 - **apple_id**: Your iCloud email (set during initialization)
 - **user**: Container user name (default: user)
 - **download_path**: Where to save photos (default: `/home/user/iCloud`)
-- **download_interval**: Ignored — the CronJob schedule (`cronjob.yaml`, hourly by default) controls sync frequency instead
+- **download_interval**: Ignored — the CronJob schedule (`cronjob.yaml`, every 6 hours by default) controls sync frequency instead
 - **single_pass**: Must be `true` so each CronJob run exits after one pass
 - **folder_structure**: Date-based organization `{:%Y/%m/%d}` (default) or `none` for flat structure
 - **photo_size**: Image sizes to download - `original`, `medium`, `thumb`, `adjusted`, `alternative` or any combination
