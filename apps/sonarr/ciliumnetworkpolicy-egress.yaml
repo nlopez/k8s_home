@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: sonarr-egress
+spec:
+  endpointSelector:
+    matchLabels:
+      app: sonarr
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: kube-system
+        k8s:k8s-app: kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: UDP
+      - port: "53"
+        protocol: TCP
+  # Plex library-refresh notifications.
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: pms
+        app: pms
+    toPorts:
+    - ports:
+      - port: "32400"
+        protocol: TCP
+  # Download clients on the NAS hosts.
+  - toCIDR:
+    - 192.168.222.149/32 # nas1
+    - 192.168.222.114/32 # nas2
+    toPorts:
+    - ports:
+      - port: "30024"
+        protocol: TCP
+  - toCIDR:
+    - 192.168.222.114/32 # nas2
+    toPorts:
+    - ports:
+      - port: "30055"
+        protocol: TCP
+  # Indexers, metadata and update checks: public HTTPS only. The except list
+  # keeps this rule from reaching the LAN or cluster ranges.
+  - toCIDRSet:
+    - cidr: 0.0.0.0/0
+      except:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 100.64.0.0/10
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP
