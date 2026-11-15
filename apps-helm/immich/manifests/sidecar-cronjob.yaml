@@ -28,6 +28,12 @@ spec:
             tags.datadoghq.com/service: immich-sidecar-sync
             tags.datadoghq.com/version: v1
         spec:
+          # IMMICH_URL is a 4-dot FQDN; ndots:1 resolves it as absolute
+          # instead of walking the search list through Technitium first.
+          dnsConfig:
+            options:
+            - name: ndots
+              value: "1"
           restartPolicy: Never
           securityContext:
             runAsNonRoot: true
