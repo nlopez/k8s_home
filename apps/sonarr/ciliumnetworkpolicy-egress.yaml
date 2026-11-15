@@ -18,17 +18,6 @@ spec:
         protocol: UDP
       - port: "53"
         protocol: TCP
-      rules:
-        dns:
-        - matchName: feed.animetosho.net
-        - matchName: feed.animetosho.xyz
-        - matchName: api.nzbgeek.info
-        - matchName: thexem.info
-        - matchName: skyhook.sonarr.tv
-        - matchName: services.sonarr.tv
-        - matchName: artworks.thetvdb.com
-        - matchName: sentry.servarr.com
-        - matchName: nas2.lga1.radoncanyon.com
   # Plex library-refresh notifications.
   - toEndpoints:
     - matchLabels:
@@ -52,18 +41,15 @@ spec:
     - ports:
       - port: "30055"
         protocol: TCP
-  # Indexers, metadata and update checks: HTTPS to the names allowed in the
-  # DNS rule above. Cilium's DNS proxy maps the resolved IPs back to these
-  # names, so the rule follows CDN address changes.
-  - toFQDNs:
-    - matchName: feed.animetosho.net
-    - matchName: feed.animetosho.xyz
-    - matchName: api.nzbgeek.info
-    - matchName: thexem.info
-    - matchName: skyhook.sonarr.tv
-    - matchName: services.sonarr.tv
-    - matchName: artworks.thetvdb.com
-    - matchName: sentry.servarr.com
+  # Indexers, metadata and update checks: public HTTPS only. The except list
+  # keeps this rule from reaching the LAN or cluster ranges.
+  - toCIDRSet:
+    - cidr: 0.0.0.0/0
+      except:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 100.64.0.0/10
     toPorts:
     - ports:
       - port: "443"
