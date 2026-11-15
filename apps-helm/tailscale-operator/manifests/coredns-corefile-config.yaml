@@ -52,6 +52,17 @@ data:
       cache 30
     }
 
+    # Technitium is authoritative for the private radoncanyon.com zone (including
+    # the external NAS hosts). 10.43.64.53 is its pinned LoadBalancer IP.
+    radoncanyon.com:53 {
+      errors
+      log . "{remote} {type} {name} {rcode}" {
+        class success
+      }
+      forward . 10.43.64.53
+      cache 30
+    }
+
     .:53 {
       errors
       # Queried names with the client pod IP, for deriving per-namespace egress
