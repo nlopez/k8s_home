@@ -5,6 +5,8 @@ config:
   apiVersion: controller.config.cert-manager.io/v1alpha1
   kind: ControllerConfiguration
   enableGatewayAPI: true
+  featureGates:
+    ACMEUseARI: true
 # Since switching cluster DNS to Technitium (k8s dns to technitium), it
 # authoritatively hosts private split-horizon zones for our public domains
 # (desertbluffs.com, etc. -- see private-gateway-desertbluffs-dns). ACME
