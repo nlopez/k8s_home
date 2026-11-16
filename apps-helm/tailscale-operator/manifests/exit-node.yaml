@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/tailscale.com/connector_v1alpha1.json
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: exit-lga1
+spec:
+  hostname: exit-lga1
+  tags:
+  - "tag:k8s"
+  - "tag:exit"
+  - "tag:home"
+  - "tag:lga1"
+  exitNode: true
