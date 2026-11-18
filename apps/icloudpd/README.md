@@ -13,6 +13,7 @@ icloudpd downloads photos and videos from iCloud to your media NFS share at `/ho
 - **Interactive Setup**: You must run the interactive initialization process to set up authentication and generate the MFA cookie
 - **Configuration File**: icloudpd.conf is created during initialization using `sync-icloud.sh --Initialise`
 - **Scheduled Sync**: A Kubernetes `CronJob` triggers a single pass every 6 hours (`schedule: '0 */6 * * *'`); `single_pass` must be `true` in `icloudpd.conf` so each run exits after one pass instead of looping. `download_interval` is ignored once `single_pass=true`.
+- **Immich Tag Sync**: icloudpd runs as an init container. When a pass exits successfully, the `sync-trigger` container starts an `immich-sidecar-sync` Job in the `immich` namespace (`kubectl create job --from=cronjob/immich-sidecar-sync`), so XMP tags and metadata reach Immich right after each pass. Because of that, `kubectl exec` into a running pass needs `-c icloudpd`. The `icloudpd` ServiceAccount is bound to the `immich-sidecar-sync-trigger` Role (`apps-helm/immich/manifests/sidecar-sync-trigger-rbac.yaml`), and only the trigger container mounts its token.
 - **Failsafe Mount Check**: A `.mounted` file is required in `/home/user/iCloud/.mounted` to prevent accidental syncs
 
 ## Setup Instructions
@@ -36,7 +37,7 @@ kubectl run icloudpd-init \
   -- touch /home/user/iCloud/.mounted
 ```
 
-Or manually: `kubectl exec -it <pod> -- touch /home/user/iCloud/.mounted`
+Or manually: `kubectl exec -it -c icloudpd <pod> -- touch /home/user/iCloud/.mounted`
 
 ### 2. Deploy the CronJob
 
@@ -58,7 +59,7 @@ kubectl get pods -n icloudpd -l job-name=icloudpd-init -w
 Once the pod is running, attach to it interactively:
 
 ```bash
-kubectl exec -it -n icloudpd <icloudpd-init-pod-name> -- /bin/sh
+kubectl exec -it -n icloudpd -c icloudpd <icloudpd-init-pod-name> -- /bin/sh
 ```
 
 Inside the pod, run the initialization script:
@@ -108,7 +109,7 @@ The icloudpd configuration file `/config/icloudpd.conf` is created during the in
 ```bash
 # Trigger a one-off Job so you have a pod to connect to (or wait for the next scheduled run)
 kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-manual
-kubectl exec -it -n icloudpd <pod-name> -- sh
+kubectl exec -it -n icloudpd -c icloudpd <pod-name> -- sh
 
 # Edit the configuration
 vi /config/icloudpd.conf
@@ -144,7 +145,7 @@ The MFA cookie expires every **30 days**. Re-authenticate when needed:
 
 ```bash
 kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-reauth
-kubectl exec -it -n icloudpd <icloudpd-reauth-pod-name> -- reauth.sh
+kubectl exec -it -n icloudpd -c icloudpd <icloudpd-reauth-pod-name> -- reauth.sh
 ```
 
 This prompts for a new MFA code on your device and generates a fresh cookie.
@@ -155,7 +156,7 @@ If you change your iCloud password, remove the keyring:
 
 ```bash
 kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-remove-keyring
-kubectl exec -it -n icloudpd <icloudpd-remove-keyring-pod-name> -- sync-icloud.sh --Remove-Keyring
+kubectl exec -it -n icloudpd -c icloudpd <icloudpd-remove-keyring-pod-name> -- sync-icloud.sh --Remove-Keyring
 ```
 
 Then re-run initialization: `sync-icloud.sh --Initialise`

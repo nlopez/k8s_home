@@ -23,7 +23,10 @@ spec:
             tags.datadoghq.com/service: icloudpd
             tags.datadoghq.com/version: v1
         spec:
-          serviceAccountName: default
+          serviceAccountName: icloudpd
+          # Only the sync-trigger container gets an API token (the projected
+          # kube-api-access volume below), not the icloudpd container.
+          automountServiceAccountToken: false
           restartPolicy: Never
           # Alpine/musl's resolver aborts the whole ndots search-domain list on
           # the first SERVFAIL instead of falling through (unlike glibc, which
@@ -37,7 +40,9 @@ spec:
             options:
             - name: ndots
               value: "1"
-          containers:
+          # icloudpd runs as an init container so the sync-trigger container
+          # below starts only after a pass has finished successfully.
+          initContainers:
           - name: icloudpd
             # Fork of boredazfcuk/docker-icloudpd that bundles icloudpd 1.33.0, which fixes
             # --xmp-sidecar crashing the whole run on assets with malformed adjustment data.
@@ -78,7 +83,48 @@ spec:
               limits:
                 memory: "512Mi"
                 cpu: "500m"
+          containers:
+          # Starts an immich-sidecar-sync Job right after every pass, so tags,
+          # titles and other XMP metadata reach Immich as soon as the photos do.
+          # The job name is derived from this pod's name, so a retried pod
+          # never collides with an earlier trigger.
+          - name: sync-trigger
+            image: bitnami/kubectl
+            env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            command: ["kubectl"]
+            args: ["create", "job", "--namespace=immich", "--from=cronjob/immich-sidecar-sync", "immich-sidecar-sync-$(POD_NAME)"]
+            volumeMounts:
+            - name: kube-api-access
+              mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              readOnly: true
+            resources:
+              requests:
+                memory: "32Mi"
+                cpu: "10m"
+              limits:
+                memory: "128Mi"
           volumes:
+          - name: kube-api-access
+            projected:
+              defaultMode: 292 # 0444: bitnami/kubectl runs as a non-root user
+              sources:
+              - serviceAccountToken:
+                  path: token
+                  expirationSeconds: 3600
+              - configMap:
+                  name: kube-root-ca.crt
+                  items:
+                  - key: ca.crt
+                    path: ca.crt
+              - downwardAPI:
+                  items:
+                  - path: namespace
+                    fieldRef:
+                      fieldPath: metadata.namespace
           - name: config
             persistentVolumeClaim:
               claimName: config

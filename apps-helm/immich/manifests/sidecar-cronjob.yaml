@@ -6,12 +6,17 @@
 #   1. links any .xmp files the scan missed (sidecar queue, force=false)
 #   2. re-extracts metadata for every asset so changed .xmp contents are read
 #      (metadataExtraction queue, force=true)
-# Runs after the 00:00 icloudpd pass (activeDeadlineSeconds 4h) has finished.
+#
+# The icloudpd job (apps/icloudpd/cronjob.yaml) starts a Job from this template
+# as soon as each icloudpd pass finishes (kubectl create job --from=...), so the
+# schedule itself is suspended. To run it by hand:
+#   kubectl create job -n immich --from=cronjob/immich-sidecar-sync immich-sidecar-sync-manual
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: immich-sidecar-sync
 spec:
+  suspend: true
   schedule: '0 5 * * *'
   timeZone: America/New_York
   concurrencyPolicy: Forbid
@@ -20,6 +25,9 @@ spec:
   jobTemplate:
     spec:
       backoffLimit: 1
+      # One Job per icloudpd pass (hourly); remove each a day after it finishes
+      # so they don't pile up.
+      ttlSecondsAfterFinished: 86400
       activeDeadlineSeconds: 3600
       template:
         metadata:
