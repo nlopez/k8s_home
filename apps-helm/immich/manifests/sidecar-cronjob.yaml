@@ -3,8 +3,9 @@
 # The external library scan only re-imports an asset when the media file's mtime
 # changes, and nothing in Immich schedules sidecar or metadata jobs. icloudpd
 # writes .xmp files next to each photo, so this job:
-#   1. links any .xmp files the scan missed (sidecar queue, force=false)
-#   2. re-extracts metadata for every asset so changed .xmp contents are read
+#   1. scans every external library so new photos are imported (library queue)
+#   2. links any .xmp files the scan missed (sidecar queue, force=false)
+#   3. re-extracts metadata for every asset so changed .xmp contents are read
 #      (metadataExtraction queue, force=true)
 #
 # The icloudpd job (apps/icloudpd/cronjob.yaml) starts a Job from this template
@@ -28,7 +29,8 @@ spec:
       # One Job per icloudpd pass (hourly); remove each a day after it finishes
       # so they don't pile up.
       ttlSecondsAfterFinished: 86400
-      activeDeadlineSeconds: 3600
+      # Worst case: 20m scan + 15m sidecar + 30m extraction wait.
+      activeDeadlineSeconds: 5400
       template:
         metadata:
           labels:
@@ -101,6 +103,16 @@ spec:
                 done
                 return 1
               }
+
+              # Scan every external library (GET /api/libraries returns only
+              # libraries, so every "id" key is a library ID).
+              libraries=$(api "${IMMICH_URL}/api/libraries" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
+              for id in ${libraries}; do
+                echo "scanning library ${id}"
+                api -X POST "${IMMICH_URL}/api/libraries/${id}/scan" -d '{}' >/dev/null
+              done
+              sleep 15
+              wait_drained library 80 || { echo "library queue did not drain within 20m" >&2; exit 1; }
 
               echo "linking sidecars"
               start sidecar false
