@@ -77,7 +77,7 @@ spec:
             command:
             - /bin/sh
             - -ec
-            - |
+            - |-
               api() { curl -fsS --max-time 30 -H "x-api-key: ${IMMICH_API_KEY}" -H 'content-type: application/json' "$@"; }
 
               # Prints the number of active + waiting + delayed jobs in a queue.
