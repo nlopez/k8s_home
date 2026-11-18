@@ -4,9 +4,10 @@
 # changes, and nothing in Immich schedules sidecar or metadata jobs. icloudpd
 # writes .xmp files next to each photo, so this job:
 #   1. scans every external library so new photos are imported (library queue)
-#   2. links any .xmp files the scan missed (sidecar queue, force=false)
-#   3. re-extracts metadata for every asset so changed .xmp contents are read
-#      (metadataExtraction queue, force=true)
+#   2. links .xmp files to assets that have none linked yet (sidecar queue,
+#      force=false); this only records the path, it doesn't read the file
+#   3. re-extracts metadata for every asset, reading each linked .xmp, so new
+#      and changed sidecar contents land (metadataExtraction queue, force=true)
 #
 # The icloudpd job (apps/icloudpd/cronjob.yaml) starts a Job from this template
 # as soon as each icloudpd pass finishes (kubectl create job --from=...), so the
@@ -119,9 +120,10 @@ spec:
               sleep 15
               wait_drained sidecar 60 || { echo "sidecar queue did not drain within 15m" >&2; exit 1; }
 
-              # Linking a sidecar queues its own metadata extraction, and Immich
+              # Linking a sidecar doesn't queue extraction (Immich v3.4.1), but the
+              # library scan queues it for newly imported assets, and Immich
               # rejects starting a queue that has active jobs.
-              wait_drained metadataExtraction 120 || { echo "metadataExtraction still busy after 30m, retrying tomorrow"; exit 0; }
+              wait_drained metadataExtraction 120 || { echo "metadataExtraction still busy after 30m, skipping until the next icloudpd pass"; exit 0; }
 
               echo "re-extracting metadata"
               start metadataExtraction true
