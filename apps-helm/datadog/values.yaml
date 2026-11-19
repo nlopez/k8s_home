@@ -16,6 +16,7 @@ datadog:
   # https://docs.datadoghq.com/getting_started/tagging/unified_service_tagging/
   tags:
   - env:homelab
+  - site:lga1
   # kubeadm bare-metal kubelet serving certs aren't signed by a CA the
   # Agent trusts by default.
   kubelet:
