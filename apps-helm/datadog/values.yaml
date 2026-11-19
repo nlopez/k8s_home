@@ -102,6 +102,51 @@ datadog:
       secretKeyRef:
         name: palworld-secrets
         key: adminPassword
+  # The default auto_conf templates for these images can't authenticate
+  # (redis/couch need passwords, etcd needs client certs) and etcd's is
+  # incompatible with the current check, so they are replaced by the
+  # explicit templates in confd below.
+  ignoreAutoconfig:
+  - etcd
+  - redisdb
+  - couch
+  # Lets confd templates read credentials straight from the owning
+  # namespace's Secret via ENC[k8s_secret@<namespace>/<secret>/<key>].
+  secretBackend:
+    command: /readsecret_multiple_providers.sh
+    roles:
+    - namespace: argocd
+      secrets: [argocd-redis]
+    - namespace: obsidian-livesync
+      secrets: [obsidian-livesync-couchdb]
+  confd:
+    redisdb.yaml: |-
+      ad_identifiers:
+      - redis
+      init_config:
+      instances:
+      - host: "%%host%%"
+        port: 6379
+        password: ENC[k8s_secret@argocd/argocd-redis/auth]
+    couch.yaml: |-
+      ad_identifiers:
+      - couchdb
+      init_config:
+      instances:
+      - server: http://%%host%%:5984
+        user: ENC[k8s_secret@obsidian-livesync/obsidian-livesync-couchdb/COUCHDB_USER]
+        password: ENC[k8s_secret@obsidian-livesync/obsidian-livesync-couchdb/COUCHDB_PASSWORD]
+    # kubeadm etcd static pods serve metrics over TLS with client-cert auth;
+    # certs come from the hostPath mount in agents.volumes below.
+    etcd.yaml: |-
+      ad_identifiers:
+      - etcd
+      init_config:
+      instances:
+      - openmetrics_endpoint: https://%%host%%:2379/metrics
+        tls_ca_cert: /host/etcd-pki/ca.crt
+        tls_cert: /host/etcd-pki/healthcheck-client.crt
+        tls_private_key: /host/etcd-pki/healthcheck-client.key
   checksd:
     palworld.py: |-
       from datadog_checks.base import AgentCheck, ConfigurationError
@@ -144,6 +189,14 @@ datadog:
 # resolves them as absolute instead of walking the search list through
 # Technitium first.
 agents:
+  volumes:
+  - name: etcd-pki
+    hostPath:
+      path: /etc/kubernetes/pki/etcd
+  volumeMounts:
+  - name: etcd-pki
+    mountPath: /host/etcd-pki
+    readOnly: true
   dnsConfig:
     options:
     - name: ndots
