@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/argoproj.io/applicationset_v1alpha1.json
+#
+# Bootstrap ApplicationSet for the DOKS cluster. Applied to the DOKS cluster's
+# *own* Argo CD (not the home one), so the cloud cluster keeps reconciling even
+# if home is down. Mirrors bootstrap/apps-helm.yaml; values live under
+# clusters/do/apps-helm/<name>/.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bootstrap-do
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+      - matchExpressions:
+        - key: tier
+          operator: In
+          values:
+          - network-and-secrets
+      - matchExpressions:
+        - key: tier
+          operator: In
+          values:
+          - platform
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      # ---- tier: network-and-secrets ----
+      # Cilium is managed by DOKS; do not install it here.
+      - name: tailscale-operator
+        tier: network-and-secrets
+        repoURL: https://pkgs.tailscale.com/helmcharts
+        chart: tailscale-operator
+        targetRevision: "1.104.7"
+        namespace: tailscale
+      - name: onepassword-connect
+        tier: network-and-secrets
+        repoURL: https://1password.github.io/connect-helm-charts
+        chart: connect
+        targetRevision: "2.4.3"
+        namespace: 1password
+      - name: cert-manager
+        tier: network-and-secrets
+        repoURL: https://charts.jetstack.io
+        chart: cert-manager
+        targetRevision: v1.21.3
+        namespace: cert-manager
+      # ---- tier: platform ----
+      - name: argocd
+        tier: platform
+        repoURL: "https://argoproj.github.io/argo-helm"
+        chart: argo-cd
+        targetRevision: '10.11.6'
+        namespace: argocd
+      # Candidates to add (see docs/do-cluster-and-repo-consolidation.md):
+      # external-dns, a secondary DNS server, Alertmanager/healthchecks,
+      # OpenBao/Vault, Authentik, Velero (backup target already in DO Spaces).
+  template:
+    metadata:
+      name: "do-{{.name}}"
+      labels:
+        tier: "{{.tier}}"
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          enabled: true
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+      destination:
+        namespace: "{{.namespace}}"
+        server: https://kubernetes.default.svc
+  templatePatch: |-
+    spec:
+      sources:
+      - repoURL: '{{.repoURL}}'
+        chart: '{{.chart}}'
+        targetRevision: '{{.targetRevision}}'
+        helm:
+          valueFiles:
+          - $values/clusters/do/apps-helm/{{.name}}/values.yaml
+          ignoreMissingValueFiles: true
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: main
+        ref: values
+      - repoURL: 'https://github.com/nlopez/k8s_home.git'
+        targetRevision: main
+        path: clusters/do/apps-helm/{{.name}}/manifests

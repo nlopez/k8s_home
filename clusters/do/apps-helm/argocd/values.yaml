@@ -1,0 +1,13 @@
+# Minimal Argo CD for the DOKS cluster. Reached over the tailnet
+# (tailscale.com/expose or a Tailscale Ingress), not a DO LoadBalancer.
+configs:
+  params:
+    server.insecure: true
+applicationSet:
+  extraArgs:
+  - --enable-progressive-syncs
+repoServer:
+  livenessProbe:
+    timeoutSeconds: 5
+  readinessProbe:
+    timeoutSeconds: 5
