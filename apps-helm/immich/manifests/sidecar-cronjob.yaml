@@ -6,8 +6,15 @@
 #   1. scans every external library so new photos are imported (library queue)
 #   2. links .xmp files to assets that have none linked yet (sidecar queue,
 #      force=false); this only records the path, it doesn't read the file
-#   3. re-extracts metadata for every asset, reading each linked .xmp, so new
-#      and changed sidecar contents land (metadataExtraction queue, force=true)
+#   3. re-reads the .xmp of every asset whose sidecar changed since the last
+#      pass (refresh-metadata asset job). icloudpd rewrites every sidecar it
+#      touches with identical content, so mtimes can't tell which changed; the
+#      xmp-changes step of the icloudpd job (apps/icloudpd/cronjob.yaml) hashes
+#      them and queues the changed paths in /icloud/.xmp-changes/pending.list
+#
+# The API key needs the library.read, library.update, asset.read, job.create and
+# queue.read permissions. To re-extract the whole library by hand, start the
+# metadataExtraction job with force=true.
 #
 # The icloudpd job (apps/icloudpd/cronjob.yaml) starts a Job from this template
 # as soon as each icloudpd pass finishes (kubectl create job --from=...), so the
@@ -30,7 +37,7 @@ spec:
       # One Job per icloudpd pass (hourly); remove each a day after it finishes
       # so they don't pile up.
       ttlSecondsAfterFinished: 86400
-      # Worst case: 20m scan + 15m sidecar + 30m extraction wait.
+      # Worst case: 20m scan + 15m sidecar + a long asset lookup after a full pass.
       activeDeadlineSeconds: 5400
       template:
         metadata:
@@ -73,7 +80,13 @@ spec:
                 cpu: 10m
                 memory: 16Mi
               limits:
-                memory: 64Mi
+                memory: 128Mi
+            volumeMounts:
+            # icloudpd's download directory, where xmp-changes queues pending.list.
+            - name: icloud
+              mountPath: /icloud
+            - name: tmp
+              mountPath: /tmp
             command:
             - /bin/sh
             - -ec
@@ -117,13 +130,54 @@ spec:
               sleep 15
               wait_drained sidecar 60 || { echo "sidecar queue did not drain within 15m" >&2; exit 1; }
 
-              # Linking a sidecar doesn't queue extraction (Immich v3.4.1), but the
-              # library scan queues it for newly imported assets, and a previous
-              # run's forced extraction may still be going. Immich rejects
-              # starting a queue that has active jobs, so if it stays busy only
-              # the re-extract is skipped; the scan and linking above still ran.
-              wait_drained metadataExtraction 120 || { echo "metadataExtraction still busy after 30m, skipping until the next icloudpd pass"; exit 0; }
+              # Re-read the sidecars the icloudpd xmp-changes step found changed.
+              # A line is a path relative to /icloud, plus "<TAB><attempts>" when
+              # the asset wasn't in Immich yet. Lines stay in processing.list
+              # until the refresh has been queued, so a failed run retries them.
+              changes=/icloud/.xmp-changes
+              if [ -f "${changes}/pending.list" ]; then
+                mv "${changes}/pending.list" "${changes}/pending.$$"
+                cat "${changes}/pending.$$" >> "${changes}/processing.list"
+                rm -f "${changes}/pending.$$"
+              fi
+              if [ ! -s "${changes}/processing.list" ]; then
+                echo "no changed sidecars"
+                exit 0
+              fi
 
-              echo "re-extracting metadata"
-              start metadataExtraction true
-              echo "queued"
+              tab=$(printf '\t')
+              : > /tmp/ids
+              : > /tmp/retry
+              sort -u "${changes}/processing.list" > /tmp/work
+              while IFS="${tab}" read -r path attempts; do
+                [ -n "${path}" ] || continue
+                attempts=${attempts:-0}
+                quoted=$(printf '%s' "/icloud/${path%.xmp}" | sed 's/\\/\\\\/g; s/"/\\"/g')
+                # The response lists albums before assets and both have an
+                # "items" array; the greedy sed keeps the assets one, whose first
+                # "id" is the asset's.
+                response=$(api -X POST "${IMMICH_URL}/api/search/metadata" -d "{\"originalPath\":\"${quoted}\"}")
+                id=$(echo "${response}" | sed 's/.*"items":\[//' | grep -o '"id":"[0-9a-f-]\{36\}"' | head -n 1 | cut -d'"' -f4)
+                if [ -n "${id}" ]; then
+                  echo "${id}" >> /tmp/ids
+                elif [ "${attempts}" -lt 2 ]; then
+                  printf '%s\t%s\n' "${path}" $((attempts + 1)) >> /tmp/retry
+                else
+                  echo "giving up on ${path}: no matching asset after 3 runs"
+                fi
+              done < /tmp/work
+
+              if [ -s /tmp/ids ]; then
+                awk '{ ids = ids (n++ ? "," : "") "\"" $0 "\""; if (n == 100) { print "{\"name\":\"refresh-metadata\",\"assetIds\":[" ids "]}"; ids = ""; n = 0 } } END { if (n) print "{\"name\":\"refresh-metadata\",\"assetIds\":[" ids "]}" }' /tmp/ids > /tmp/bodies
+                while read -r body; do
+                  api -X POST "${IMMICH_URL}/api/assets/jobs" -d "${body}" >/dev/null
+                done < /tmp/bodies
+              fi
+              cat /tmp/retry > "${changes}/processing.list"
+              echo "queued metadata refresh for $(wc -l < /tmp/ids) changed sidecars; $(wc -l < /tmp/retry) waiting for their asset"
+          volumes:
+          - name: icloud
+            persistentVolumeClaim:
+              claimName: immich-icloud-nfs
+          - name: tmp
+            emptyDir: {}
