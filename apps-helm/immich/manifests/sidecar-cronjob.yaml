@@ -100,8 +100,11 @@ spec:
               }
 
               # Scan every external library (GET /api/libraries returns only
-              # libraries, so every "id" key is a library ID).
-              libraries=$(api "${IMMICH_URL}/api/libraries" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
+              # libraries, so every "id" key is a library ID). The response is
+              # captured on its own so a failed request (e.g. an API key without
+              # library.read) fails the job instead of scanning nothing.
+              response=$(api "${IMMICH_URL}/api/libraries")
+              libraries=$(echo "${response}" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
               for id in ${libraries}; do
                 echo "scanning library ${id}"
                 api -X POST "${IMMICH_URL}/api/libraries/${id}/scan" -d '{}' >/dev/null
