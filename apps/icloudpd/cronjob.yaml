@@ -28,6 +28,15 @@ spec:
           # kube-api-access volume below), not the icloudpd container.
           automountServiceAccountToken: false
           restartPolicy: Never
+          # The config PVC is ReadWriteOnce, so the pod has to run on the node
+          # where icloudpd-auth already has it attached.
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app: icloudpd-auth
           # Alpine/musl's resolver aborts the whole ndots search-domain list on
           # the first SERVFAIL instead of falling through (unlike glibc, which
           # continues to the next suffix). Tailscale's injected search domains
@@ -45,18 +54,19 @@ spec:
           initContainers:
           - name: icloudpd
             # Fork of boredazfcuk/docker-icloudpd that bundles icloudpd 1.33.0, which fixes
-            # --xmp-sidecar crashing the whole run on assets with malformed adjustment data.
+            # --xmp-sidecar crashing the whole run on assets with malformed adjustment data,
+            # and lets environment variables override icloudpd.conf.
             # Switch back to docker.io/boredazfcuk/icloudpd once upstream ships icloudpd >= 1.33.0.
             #   skopeo inspect --override-os linux --override-arch amd64 --format '{{.Digest}}' docker://ghcr.io/nlopez/docker-icloudpd:<tag>
-            image: ghcr.io/nlopez/docker-icloudpd@sha256:b602cfd437f4a69b6e1611b1bb122829fc6aba76837d662faf77f3215295b3df
+            image: ghcr.io/nlopez/docker-icloudpd@sha256:e8615e507de6e9ead79ab62e4c9a0314e312fd5795783e3572a17daa239d4de7
             imagePullPolicy: Always
-            # The image only reads until_found from /config/icloudpd.conf, so each run
-            # sets it before starting the launcher: hourly runs stop after 100
-            # consecutive already-downloaded assets (new photos only), and the run that
-            # starts in the 03:00 hour clears it for a full pass that lists every asset
-            # and refreshes every XMP sidecar. The mode is chosen before the random
-            # 0-15 minute delay so a delayed full pass is still a full pass; the delay
-            # keeps runs from hitting Apple at the same minute every hour.
+            # Each run sets until_found through the environment before starting the
+            # launcher: hourly runs stop after 100 consecutive already-downloaded
+            # assets (new photos only), and the run that starts in the 03:00 hour
+            # sets it empty for a full pass that lists every asset and refreshes
+            # every XMP sidecar. The mode is chosen before the random 0-15 minute
+            # delay so a delayed full pass is still a full pass; the delay keeps
+            # runs from hitting Apple at the same minute every hour.
             command: ["/bin/sh", "-c"]
             args:
             - |
@@ -65,11 +75,17 @@ spec:
               jitter=$(( $(od -An -N2 -tu2 /dev/urandom) % 900 ))
               echo "icloudpd run: mode=${mode} until_found=${until_found:-unset} jitter=${jitter}s"
               sleep "${jitter}"
-              sed -i "s/^until_found=.*/until_found=${until_found}/" /config/icloudpd.conf
+              export until_found
               exec /usr/local/bin/launcher.sh
             env:
             - name: TZ
               value: "America/New_York"
+            # This job owns icloudpd.conf; the always-on icloudpd-auth Deployment
+            # uses icloudpd-auth.conf on the same volume.
+            - name: single_pass
+              value: "true"
+            - name: skip_download
+              value: "false"
             volumeMounts:
             - name: config
               mountPath: /config
