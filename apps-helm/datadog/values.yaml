@@ -106,7 +106,7 @@ datadog:
   # (redis/couch need passwords, etcd needs client certs) and etcd's is
   # incompatible with the current check, so they are replaced by the
   # explicit templates in confd below.
-  ignoreAutoconfig:
+  ignoreAutoConfig:
   - etcd
   - redisdb
   - couch
