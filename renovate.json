@@ -124,12 +124,18 @@
       "matchPackageNames": [
         "caomingjun/warp",
         "docker.io/brainicism/bgutil-ytdlp-pot-provider",
-        "docker.io/nlopez/media-toolbox",
-        "ghcr.io/nlopez/media-toolbox",
         "ghcr.io/shaarli/shaarli",
         "registry.k8s.io/sig-storage/snapshot-controller"
       ],
       "versioning": "loose"
+    },
+    {
+      "description": "media-toolbox CI publishes <yt-dlp version>-<CI run number> tags (e.g. 2026.10.26-42); the run number orders rebuilds of the same yt-dlp version (bgutil plugin bumps, flake changes). Other tags (bare version, commit SHAs) are ignored.",
+      "matchPackageNames": [
+        "docker.io/nlopez/media-toolbox",
+        "ghcr.io/nlopez/media-toolbox"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)$"
     },
     {
       "description": "We build media-toolbox ourselves, so there is no supply-chain reason to wait before picking up new tags",
