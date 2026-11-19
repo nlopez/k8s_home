@@ -10,7 +10,8 @@
 #      pass (refresh-metadata asset job). icloudpd rewrites every sidecar it
 #      touches with identical content, so mtimes can't tell which changed; the
 #      xmp-changes step of the icloudpd job (apps/icloudpd/cronjob.yaml) hashes
-#      them and queues the changed paths in /icloud/.xmp-changes/pending.list
+#      them and queues the changed paths in .xmp-changes/pending.list on the
+#      iCloud share (mounted writable at /xmp-changes)
 #
 # The API key needs the library.read, library.update, asset.read, job.create and
 # queue.read permissions. To re-extract the whole library by hand, start the
@@ -82,9 +83,9 @@ spec:
               limits:
                 memory: 128Mi
             volumeMounts:
-            # icloudpd's download directory, where xmp-changes queues pending.list.
-            - name: icloud
-              mountPath: /icloud
+            # Where icloudpd's xmp-changes step queues pending.list.
+            - name: xmp-changes
+              mountPath: /xmp-changes
             - name: tmp
               mountPath: /tmp
             command:
@@ -131,10 +132,11 @@ spec:
               wait_drained sidecar 60 || { echo "sidecar queue did not drain within 15m" >&2; exit 1; }
 
               # Re-read the sidecars the icloudpd xmp-changes step found changed.
-              # A line is a path relative to /icloud, plus "<TAB><attempts>" when
-              # the asset wasn't in Immich yet. Lines stay in processing.list
-              # until the refresh has been queued, so a failed run retries them.
-              changes=/icloud/.xmp-changes
+              # A line is a path relative to the library root (/icloud in Immich),
+              # plus "<TAB><attempts>" when the asset wasn't in Immich yet.
+              # Lines stay in processing.list until the refresh has been queued,
+              # so a failed run retries them.
+              changes=/xmp-changes
               if [ -f "${changes}/pending.list" ]; then
                 mv "${changes}/pending.list" "${changes}/pending.$$"
                 cat "${changes}/pending.$$" >> "${changes}/processing.list"
@@ -176,8 +178,8 @@ spec:
               cat /tmp/retry > "${changes}/processing.list"
               echo "queued metadata refresh for $(wc -l < /tmp/ids) changed sidecars; $(wc -l < /tmp/retry) waiting for their asset"
           volumes:
-          - name: icloud
+          - name: xmp-changes
             persistentVolumeClaim:
-              claimName: immich-icloud-nfs
+              claimName: immich-xmp-changes-nfs
           - name: tmp
             emptyDir: {}
