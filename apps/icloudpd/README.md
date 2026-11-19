@@ -14,6 +14,7 @@ icloudpd downloads photos and videos from iCloud to your media NFS share at `/ho
 - **Configuration File**: icloudpd.conf is created during initialization using `sync-icloud.sh --Initialise`
 - **Scheduled Sync**: A Kubernetes `CronJob` triggers a single pass every 6 hours (`schedule: '0 */6 * * *'`); `single_pass` must be `true` in `icloudpd.conf` so each run exits after one pass instead of looping. `download_interval` is ignored once `single_pass=true`.
 - **Immich Tag Sync**: icloudpd runs as an init container. When a pass exits successfully, the `sync-trigger` container starts an `immich-sidecar-sync` Job in the `immich` namespace (`kubectl create job --from=cronjob/immich-sidecar-sync`), so XMP tags and metadata reach Immich right after each pass. Because of that, `kubectl exec` into a running pass needs `-c icloudpd`. The `icloudpd` ServiceAccount is bound to the `immich-sidecar-sync-trigger` Role (`apps-helm/immich/manifests/sidecar-sync-trigger-rbac.yaml`), and only the trigger container mounts its token.
+- **Telegram Re-auth**: The `icloudpd-auth` Deployment (`auth-deployment.yaml`) is an always-on pod that never downloads; it only polls the Telegram bot. When a CronJob pass finds the cookie expired, it sends a Telegram message; reply `<user> auth`, then `<user> <6-digit code>` (or the device letter it asks for first, where `<user>` is the `user=` value in the config). The new cookie is written to the shared `config` volume and the next CronJob run uses it. The Deployment uses its own config file, `/config/icloudpd-auth.conf` (seeded from `icloudpd.conf` on first start), selected with the `config_file` env var; the CronJob keeps `icloudpd.conf`. Settings that differ between the two (`single_pass`, `skip_download`, ...) are set as env vars in each manifest, which the fork image applies over the config file on every start. Because `config` is `ReadWriteOnce`, the CronJob pod has a `podAffinity` to `icloudpd-auth` and stays `Pending` while that Deployment has no running pod.
 - **Failsafe Mount Check**: A `.mounted` file is required in `/home/user/iCloud/.mounted` to prevent accidental syncs
 
 ## Setup Instructions
@@ -141,7 +142,13 @@ See [CONFIGURATION.md](https://github.com/boredazfcuk/docker-icloudpd/blob/maste
 
 ### MFA Cookie Expiration
 
-The MFA cookie expires every **30 days**. Re-authenticate when needed:
+The MFA cookie expires every **30 days**. The usual way to re-authenticate is to reply to the Telegram bot (see **Telegram Re-auth** above). To do it by hand instead, run `reauth.sh` in the auth pod (or in a one-off Job as below):
+
+```bash
+kubectl exec -it -n icloudpd deploy/icloudpd-auth -- reauth.sh
+```
+
+Or from a one-off Job:
 
 ```bash
 kubectl create job -n icloudpd --from=cronjob/icloudpd icloudpd-reauth

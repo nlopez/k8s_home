@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+# Always-on Telegram listener for re-authentication. It never downloads: the
+# CronJob does that. When the CronJob reports that auth is needed, reply to the
+# bot with "<user> auth", then "<user> <6-digit code>"; the new cookie lands on
+# the shared config volume and the next CronJob run picks it up.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: icloudpd-auth
+spec:
+  replicas: 1
+  # The config PVC is ReadWriteOnce.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: icloudpd-auth
+  template:
+    metadata:
+      labels:
+        app: icloudpd-auth
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: icloudpd-auth
+        tags.datadoghq.com/version: v1
+    spec:
+      automountServiceAccountToken: false
+      # See the CronJob for why ndots is 1.
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      containers:
+      - name: icloudpd-auth
+        image: ghcr.io/nlopez/docker-icloudpd@sha256:e8615e507de6e9ead79ab62e4c9a0314e312fd5795783e3572a17daa239d4de7
+        imagePullPolicy: Always
+        # Seeds icloudpd-auth.conf from icloudpd.conf on first start so it
+        # inherits the Apple ID and Telegram settings; the env vars below then
+        # override it on every start.
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          set -eu
+          [ -f /config/icloudpd-auth.conf ] || cp /config/icloudpd.conf /config/icloudpd-auth.conf
+          exec /usr/local/bin/launcher.sh
+        env:
+        - name: TZ
+          value: "America/New_York"
+        - name: config_file
+          value: /config/icloudpd-auth.conf
+        - name: single_pass
+          value: "false"
+        - name: skip_download
+          value: "true"
+        - name: skip_check
+          value: "true"
+        - name: download_notifications
+          value: "false"
+        - name: telegram_polling
+          value: "true"
+        # Stay up and keep listening while auth is missing instead of exiting.
+        - name: wait_for_reauthentication
+          value: "true"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        # The image refuses to run without the .mounted failsafe file.
+        - name: media
+          mountPath: /home/user/iCloud
+          subPath: icloud
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "10m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: config
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
