@@ -107,6 +107,45 @@ spec:
   accessModes:
   - ReadWriteMany
 ---
+# iCloud sidecar change queue (read-write)
+# Only the .xmp-changes directory of the iCloud share, which icloudpd's
+# xmp-changes step fills and the immich-sidecar-sync job drains. The library
+# volume above stays read-only. The directory has to exist for the mount to
+# work; xmp-changes creates it the first time a sidecar changes.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-xmp-changes-nfs
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    server: 192.168.222.114
+    path: "/mnt/etank/media/icloud/.xmp-changes"
+  mountOptions:
+  - nfsvers=4.1
+  - hard
+  - timeo=600
+  - retrans=2
+  - noresvport
+  - _netdev
+  - nofail
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-xmp-changes-nfs
+spec:
+  volumeName: immich-xmp-changes-nfs
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+---
 # PhotoSync media volume (read-write)
 # Points to /mnt/etank/media/PhotoSync on the NFS share
 apiVersion: v1
