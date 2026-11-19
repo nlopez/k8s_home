@@ -49,8 +49,9 @@ spec:
             options:
             - name: ndots
               value: "1"
-          # icloudpd runs as an init container so the sync-trigger container
-          # below starts only after a pass has finished successfully.
+          # icloudpd and xmp-changes run as init containers, in order, so the
+          # sync-trigger container below starts only after a pass has finished
+          # successfully.
           initContainers:
           - name: icloudpd
             # Fork of boredazfcuk/docker-icloudpd that bundles icloudpd 1.33.0, which fixes
@@ -58,7 +59,7 @@ spec:
             # and lets environment variables override icloudpd.conf.
             # Switch back to docker.io/boredazfcuk/icloudpd once upstream ships icloudpd >= 1.33.0.
             #   skopeo inspect --override-os linux --override-arch amd64 --format '{{.Digest}}' docker://ghcr.io/nlopez/docker-icloudpd:<tag>
-            image: ghcr.io/nlopez/docker-icloudpd@sha256:e8615e507de6e9ead79ab62e4c9a0314e312fd5795783e3572a17daa239d4de7
+            image: ghcr.io/nlopez/docker-icloudpd@sha256:74aa2c7fa2dd6c433d59532014190c2af96aae3f5f75437f45a877fe4d335a22
             imagePullPolicy: Always
             # Each run sets until_found through the environment before starting the
             # launcher: hourly runs stop after 100 consecutive already-downloaded
@@ -98,6 +99,27 @@ spec:
                 cpu: "100m"
               limits:
                 memory: "512Mi"
+                cpu: "500m"
+          # icloudpd rewrites every sidecar it processes with identical content,
+          # so mtimes can't show which ones changed. This hashes every .xmp and
+          # queues the ones whose content differs from the previous pass in
+          # <download_path>/.xmp-changes/pending.list.
+          - name: xmp-changes
+            image: ghcr.io/nlopez/docker-icloudpd@sha256:74aa2c7fa2dd6c433d59532014190c2af96aae3f5f75437f45a877fe4d335a22
+            imagePullPolicy: Always
+            command: ["/usr/local/bin/xmp-changes.sh"]
+            volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /home/user/iCloud
+              subPath: icloud
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "256Mi"
                 cpu: "500m"
           containers:
           # Starts an immich-sidecar-sync Job right after every pass, so tags,

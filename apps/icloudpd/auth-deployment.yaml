@@ -31,7 +31,7 @@ spec:
           value: "1"
       containers:
       - name: icloudpd-auth
-        image: ghcr.io/nlopez/docker-icloudpd@sha256:e8615e507de6e9ead79ab62e4c9a0314e312fd5795783e3572a17daa239d4de7
+        image: ghcr.io/nlopez/docker-icloudpd@sha256:74aa2c7fa2dd6c433d59532014190c2af96aae3f5f75437f45a877fe4d335a22
         imagePullPolicy: Always
         # Seeds icloudpd-auth.conf from icloudpd.conf on first start so it
         # inherits the Apple ID and Telegram settings; the env vars below then
