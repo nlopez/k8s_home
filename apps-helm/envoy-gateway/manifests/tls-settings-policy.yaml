@@ -86,6 +86,11 @@ spec:
       - kind: ConfigMap
         name: cloudflare-origin-pull-ca
         group: ""
+      # Cloudflare presents these per-hostname client certificates for the Timekeeper
+      # hostnames (Authenticated Origin Pulls with a custom certificate).
+      - kind: ConfigMap
+        name: timekeeper-aop-ca
+        group: ""
   # Authenticated Origin Pull guarantees the peer is Cloudflare, so its
   # CF-Connecting-IP header is trustworthy. failClosed rejects requests
   # lacking it rather than falling back to the Cloudflare edge address.

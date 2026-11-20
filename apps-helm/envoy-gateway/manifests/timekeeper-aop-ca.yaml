@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: timekeeper-aop-ca
+data:
+  # Public halves of the self-signed Authenticated Origin Pull client certificates that Cloudflare
+  # presents for ash.kamotimestamps.com and oak.kamotimestamps.com (created by
+  # KamoTimestamps/timekeeper infra/modules/droplet, valid until 2036-10-31). Each one is its own
+  # trust anchor. Update this when either is rotated with `tofu apply -replace=...tls_private_key.aop`.
+  ca.crt: |-
+    -----BEGIN CERTIFICATE-----
+    MIIDNTCCAh2gAwIBAgIQRSEYHVlB7u8pSSM/tt+H0DANBgkqhkiG9w0BAQsFADA7
+    MTkwNwYDVQQDEzBhc2gua2Ftb3RpbWVzdGFtcHMuY29tIGF1dGhlbnRpY2F0ZWQg
+    b3JpZ2luIHB1bGwwHhcNMjYxMTAzMDMwNDA0WhcNMzYxMDMxMDMwNDA0WjA7MTkw
+    NwYDVQQDEzBhc2gua2Ftb3RpbWVzdGFtcHMuY29tIGF1dGhlbnRpY2F0ZWQgb3Jp
+    Z2luIHB1bGwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDtaFBwWH/E
+    rFpC6M2XPBGqp6JsblHvx3VzHqShFBjQYhGfwTeChgbCkl4zVi4T1fJ9wkE0p76V
+    LTch9veZoTAMHVTBqjeLT1z0vBUT01cpjjDoI5qM23bcy/mL3X02VqTOAiQ8c7l1
+    erkD3e/0oQUIYjvwflR7ixmP1YrgAiGXdIJRYiKDmTMcv0rbw9wVRnXi1z/S9EmQ
+    /ZjCl/SHzTsqxqD/Fr12ytM+zfiwZ1XLqbgOwooohJGYer0j4GHjIWQw9827LRc+
+    CinlNQSjbAN7PRv6dMgI5Gq7SXjzEUZ3FHcQ6Ejb0VubMuNuOevV2ScOCIq3MBx9
+    rf/9LasmUMJDAgMBAAGjNTAzMA4GA1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggr
+    BgEFBQcDAjAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQC2Xe48LQbo
+    Z4QuUWD05fnTD8nLq4xm0DkteySASvmzKjHWiwz+UxSwxWqJYHJXoKcD/cDfzLzB
+    HPaC39CklhYd4Xrw7khDGAnZHFj5Vqdpmr+37ooWKy4PImCiymjHQX0jL1GkxaTZ
+    G4WckwweNV3i77KJrWGJ7LBkuVIdp9yS8LCQv9LgSqyXqrDTdh0gzkloNrKmgGkE
+    dDY66orU75iJacRj51q6SD/fUc0g+t33N8O0XhwVHb+Atq6nvyiRgr3yEvPQrNrO
+    VOUz5cjpTC3YT2AF3SVvpvfUDkeJLy+moAQRu1BgyCTikpTt6y6bIqvC6+xN1Cx/
+    A9qJciBPajaA
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIDNjCCAh6gAwIBAgIRALP7gBns5yb2JfIlArF9ZKkwDQYJKoZIhvcNAQELBQAw
+    OzE5MDcGA1UEAxMwb2FrLmthbW90aW1lc3RhbXBzLmNvbSBhdXRoZW50aWNhdGVk
+    IG9yaWdpbiBwdWxsMB4XDTI2MTEwMzAzMDcwMloXDTM2MTAzMTAzMDcwMlowOzE5
+    MDcGA1UEAxMwb2FrLmthbW90aW1lc3RhbXBzLmNvbSBhdXRoZW50aWNhdGVkIG9y
+    aWdpbiBwdWxsMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzg8y8eRF
+    zYBld/JLCsUYopBmL16t3W6xPFx0G1gQyk3aJFEHjIygrFdsCJMASUHg1CaPsnSw
+    afvrftjrT/sCzMpVHEvtr8SqTa3TlXmGaCCgebUv+XeSnmt34EDle+txOil+XQ1V
+    J6zTJcYV1R6yx08hrSsnQaY6SlgjGfTYExlNiq0I1JeTVZ3KZyYGN+REDvxcK06R
+    jQGrpLLPOUfA3UtzkoXRahcnZi1OtwBqqgByhRWMGuV0YBVaIgZmYJohKAhYF52j
+    iCFNcWMMkuEFzrrxrLToNEbIQg/ceq3fxl5+dJVCLNZ4PlRkwCbM/ZmGl4QYAt5K
+    IO97bZsK5BsjbQIDAQABozUwMzAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0lBAwwCgYI
+    KwYBBQUHAwIwDAYDVR0TAQH/BAIwADANBgkqhkiG9w0BAQsFAAOCAQEAD0hQKeRP
+    si08L4IvJE1HJqlgzjkzip1I/OB+gdmlaj2nrc2ex7aenWZXX4kkyCLboYP/JxCv
+    GBT5wODIdoZNT9dCs1rsOgIWZ80WM8x5xGfmeJcMJF7F3TfJiIUi/w5eNj8EVFQj
+    Ah7PI03foD6hFrRBkp4GdRxR3OEYaife4utZcDGQ6zf2YacjnadhHBKOWtL4dyY9
+    t4eD8jplhhdQcgkTNklTcZAEZrUNFY9qCOGw62u/hYv1dCvPhfIuIKGXcW+gTDUd
+    O3jULhOFcLuHAkkd+LodsUSoleR/kiqiJzZa0954BFpKkClq1z5twoU2LjEQElu7
+    uy/KF2jZ/IMRew==
+    -----END CERTIFICATE-----
