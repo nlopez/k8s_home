@@ -36,6 +36,8 @@ extraArgs:
 # are only what certificate renewal needs. Keep this instance scoped to
 # desertbluffs.com.
 - --domain-filter=desertbluffs.com
+# Timekeeper sync servers (ash/oak). The Cloudflare token must also cover this zone.
+- --domain-filter=kamotimestamps.com
 # Causes extraneous record updates
 # - --cloudflare-record-comment=managed by external-dns
 logLevel: debug

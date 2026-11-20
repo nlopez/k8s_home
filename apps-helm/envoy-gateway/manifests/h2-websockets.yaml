@@ -1,3 +1,6 @@
+# HTTP/2 extended CONNECT (RFC 8441) for websockets. EnvoyPatchPolicy can only address listeners by
+# name, so every HTTPS listener of a Gateway is listed here: add a patch entry whenever a Gateway
+# gains an HTTPS listener, whatever its domain.
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/gateway.envoyproxy.io/envoypatchpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
@@ -13,6 +16,20 @@ spec:
   jsonPatches:
   - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
     name: "envoy-gateway-system/internet/wildcard-desertbluffs-com-https"
+    operation:
+      op: add
+      path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
+      value:
+        allow_connect: true
+  - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
+    name: "envoy-gateway-system/internet/apex-desertbluffs-com-https"
+    operation:
+      op: add
+      path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
+      value:
+        allow_connect: true
+  - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
+    name: "envoy-gateway-system/internet/kamotimestamps-com-https"
     operation:
       op: add
       path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
@@ -40,6 +57,13 @@ spec:
         allow_connect: true
   - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
     name: "envoy-gateway-system/private/wildcard-desertbluffs-com-https"
+    operation:
+      op: add
+      path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
+      value:
+        allow_connect: true
+  - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
+    name: "envoy-gateway-system/private/apex-desertbluffs-com-https"
     operation:
       op: add
       path: "/filter_chains/0/filters/0/typed_config/http2_protocol_options"
