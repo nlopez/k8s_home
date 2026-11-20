@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/deployment-apps-v1.json
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timekeeper-server
+spec:
+  selector:
+    matchLabels:
+      app: timekeeper-server
+  # Single SQLite writer on a ReadWriteOnce volume.
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: timekeeper-server
+        tags.datadoghq.com/env: homelab
+        tags.datadoghq.com/service: timekeeper-server-ash
+        tags.datadoghq.com/version: v1
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        # The image's "node" user is non-numeric.
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: timekeeper-server
+        image: ghcr.io/kamotimestamps/timekeeper-server:2026.11.20-2
+        resources:
+          requests:
+            cpu: 10m
+            memory: 96Mi
+        env:
+        - name: HOST
+          value: "0.0.0.0"
+        - name: PORT
+          value: "8787"
+        - name: GOOGLE_CLIENT_ID
+          value: "308989572223-cdnvpn65mc51oqneu7po3og51uf5ahsb.apps.googleusercontent.com"
+        - name: ALLOWED_ORIGINS
+          value: "https://www.youtube.com"
+        - name: PUBLIC_ORIGIN
+          value: "https://ash.kamotimestamps.com"
+        # The route's Lua filter sets X-Client-* from Cloudflare's headers and drops client-supplied copies.
+        - name: TRUST_PROXY_HEADERS
+          value: "true"
+        # Feature switches: on in ash first, then oak.
+        - name: FEATURE_MINI_PLAYER
+          value: "true"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-timekeeper-server
+              key: jwt_secret
+        - name: YOUTUBE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-timekeeper-server
+              key: youtube_api_key
+        ports:
+        - name: http
+          containerPort: 8787
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: data

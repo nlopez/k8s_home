@@ -30,6 +30,22 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+  - name: kamotimestamps-com-https
+    protocol: HTTPS
+    hostname: "*.kamotimestamps.com"
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: kamotimestamps-certificate-rsa
+        group: ""
+      - kind: Secret
+        name: kamotimestamps-certificate-ecdsa
+        group: ""
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: apex-desertbluffs-com-https
     protocol: HTTPS
     hostname: "desertbluffs.com"

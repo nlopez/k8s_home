@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/gateway.envoyproxy.io/envoyextensionpolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyExtensionPolicy
+metadata:
+  name: timekeeper-client-info
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: timekeeper-server
+  lua:
+  - type: Inline
+    inline: |-
+      -- The app trusts X-Client-* (TRUST_PROXY_HEADERS). Only this filter may set them: drop whatever
+      -- the client sent, then copy from the headers Cloudflare added (the gateway requires
+      -- Authenticated Origin Pulls, so only Cloudflare reaches this route).
+      local map = {
+        ["x-client-ip"] = "cf-connecting-ip",
+        ["x-client-country"] = "cf-ipcountry",
+        ["x-client-city"] = "cf-ipcity",
+        ["x-client-region"] = "cf-region-code",
+      }
+      function envoy_on_request(handle)
+        local headers = handle:headers()
+        for out, src in pairs(map) do
+          local value = headers:get(src)
+          headers:remove(out)
+          if value ~= nil then
+            headers:add(out, value)
+          end
+        end
+      end

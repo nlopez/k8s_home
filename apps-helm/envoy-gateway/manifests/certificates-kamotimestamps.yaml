@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kamotimestamps-certificate-rsa
+spec:
+  secretName: kamotimestamps-certificate-rsa
+  isCA: false
+  renewBeforePercentage: 30
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  dnsNames:
+  - 'ash.kamotimestamps.com'
+  - 'oak.kamotimestamps.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kamotimestamps-certificate-ecdsa
+spec:
+  secretName: kamotimestamps-certificate-ecdsa
+  isCA: false
+  renewBeforePercentage: 30
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+  - 'ash.kamotimestamps.com'
+  - 'oak.kamotimestamps.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
