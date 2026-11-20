@@ -1,0 +1,13 @@
+# DOKS Tailscale operator. The OAuth client is bootstrapped as a plain Secret
+# named `operator-oauth` (see clusters/do/README.md); the chart reads it by
+# default. Home uses the 1Password operator for this; DO can't until
+# 1Password Connect is up, which itself needs the tailnet.
+operatorConfig:
+  hostname: ts-operator-do
+  logging: info
+proxyConfig:
+  # tag:do is new: add it to tagOwners in the tailnet repo first.
+  defaultTags: "tag:k8s,tag:do"
+apiServerProxyConfig:
+  mode: "true"
+  allowImpersonation: "true"

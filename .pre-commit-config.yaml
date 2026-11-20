@@ -6,7 +6,7 @@ repos:
   - id: end-of-file-fixer
   - id: check-yaml
     args: ["--allow-multiple-documents"]
-    exclude: ^bootstrap/apps\.yaml$|^bootstrap/apps-helm\.yaml$
+    exclude: ^bootstrap/apps\.yaml$|^bootstrap/apps-helm\.yaml$|^clusters/do/bootstrap/apps-helm\.yaml$
   - id: check-added-large-files
 - repo: https://github.com/google/yamlfmt
   rev: v0.21.0
@@ -16,7 +16,7 @@ repos:
   rev: v0.0.7-fix
   hooks:
   - id: check-yamlschema
-    exclude: ^bootstrap/apps\.yaml$|^bootstrap/apps-helm\.yaml$
+    exclude: ^bootstrap/apps\.yaml$|^bootstrap/apps-helm\.yaml$|^clusters/do/bootstrap/apps-helm\.yaml$
 - repo: local
   hooks:
   - id: kubeconform

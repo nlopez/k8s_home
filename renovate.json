@@ -26,7 +26,7 @@
       "customType": "regex",
       "description": "Update Helm chart versions in bootstrap ApplicationSet list entries (HTTPS)",
       "managerFilePatterns": [
-        "/^bootstrap/apps-helm\\.yaml$/"
+        "/^(?:clusters/[^/]+/)?bootstrap/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
         "- name:\\s*(?<appName>[^\\n]+)\\n(?:\\s*tier:[^\\n]+\\n)?\\s*repoURL:\\s*['\"]?(?<registryUrl>https?://[^\\s'\"]+)['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
@@ -39,7 +39,7 @@
       "customType": "regex",
       "description": "Update OCI-hosted Helm chart versions in bootstrap ApplicationSet list entries",
       "managerFilePatterns": [
-        "/^bootstrap/apps-helm\\.yaml$/"
+        "/^(?:clusters/[^/]+/)?bootstrap/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
         "- name:\\s*(?<appName>[^\\n]+)\\n(?:\\s*tier:[^\\n]+\\n)?\\s*repoURL:\\s*['\"]?oci://(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
@@ -51,7 +51,7 @@
       "customType": "regex",
       "description": "Update Docker Hub OCI Helm chart versions (repoURL registry-1.docker.io + chart) in bootstrap ApplicationSet list entries",
       "managerFilePatterns": [
-        "/^bootstrap/apps-helm\\.yaml$/"
+        "/^(?:clusters/[^/]+/)?bootstrap/apps-helm\\.yaml$/"
       ],
       "matchStrings": [
         "- name:\\s*(?<appName>[^\\n]+)\\n(?:\\s*tier:[^\\n]+\\n)?\\s*repoURL:\\s*['\"]?registry-1\\.docker\\.io['\"]?\\s*\\n\\s*chart:\\s*['\"]?(?<depName>[^\\s'\"]+)['\"]?\\s*\\n\\s*targetRevision:\\s*['\"]?(?<currentValue>[^\\s'\"]+)['\"]?"
@@ -64,7 +64,8 @@
       "description": "Update container images (image: / CNPG imageName:) in raw Kubernetes manifests",
       "managerFilePatterns": [
         "/^apps/.+\\.ya?ml$/",
-        "/^apps-helm/[^/]+/manifests/.+\\.ya?ml$/"
+        "/^apps-helm/[^/]+/manifests/.+\\.ya?ml$/",
+        "/^clusters/[^/]+/apps-helm/[^/]+/manifests/.+\\.ya?ml$/"
       ],
       "matchStrings": [
         "(?:^|\\n)[ \\t]*(?:-[ \\t]+)?(?:image|imageName):[ \\t]*['\"]?(?<depName>[^:@\\s'\"]+)(?::(?<currentValue>[^@\\s'\"]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?['\"]?"
@@ -108,7 +109,8 @@
     {
       "description": "Group Helm chart updates from bootstrap/apps-helm.yaml",
       "matchFileNames": [
-        "bootstrap/apps-helm.yaml"
+        "bootstrap/apps-helm.yaml",
+        "clusters/*/bootstrap/apps-helm.yaml"
       ],
       "groupName": "helm chart updates"
     },

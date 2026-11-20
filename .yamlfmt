@@ -9,3 +9,4 @@ formatter:
 exclude:
 - bootstrap/apps.yaml
 - bootstrap/apps-helm.yaml
+- clusters/do/bootstrap/apps-helm.yaml
