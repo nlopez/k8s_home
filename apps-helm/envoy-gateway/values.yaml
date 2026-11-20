@@ -1,6 +1,13 @@
 # Envoy Gateway control plane Helm chart values.
 # Data-plane Envoy proxy pods (internet/private) are configured separately
 # via the EnvoyProxy CRs in manifests/envoy-proxy-*.yaml.
+config:
+  envoyGateway:
+    extensionApis:
+      # Lua EnvoyExtensionPolicies are rejected unless enabled. Anyone who can create one can run Lua
+      # in the proxy, so only manifests applied from this repo should carry them (the Timekeeper
+      # routes use one to copy Cloudflare's client headers).
+      enableLua: true
 deployment:
   pod:
     labels:
