@@ -146,6 +146,20 @@
       "minimumReleaseAge": null
     },
     {
+      "description": "The Timekeeper server image is published by KamoTimestamps/timekeeper CI as <yyyy.mm.dd>-<CI run number> tags (e.g. 2026.11.20-2); the run number orders builds from the same day.",
+      "matchPackageNames": [
+        "ghcr.io/kamotimestamps/timekeeper-server"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)$"
+    },
+    {
+      "description": "We build the Timekeeper server image ourselves, so there is no supply-chain reason to wait before picking up new tags",
+      "matchPackageNames": [
+        "ghcr.io/kamotimestamps/timekeeper-server"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
       "description": "icloudpd tags look like 1.0.1380_06-09-2026 (build number + date suffix)",
       "matchPackageNames": [
         "boredazfcuk/icloudpd",
