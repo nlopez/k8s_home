@@ -160,6 +160,13 @@
       "minimumReleaseAge": null
     },
     {
+      "description": "Timekeeper oak (production) is promoted by hand after the same build has run on ash, so Renovate only bumps ash.",
+      "matchFileNames": [
+        "apps/timekeeper-oak/**"
+      ],
+      "enabled": false
+    },
+    {
       "description": "icloudpd tags look like 1.0.1380_06-09-2026 (build number + date suffix)",
       "matchPackageNames": [
         "boredazfcuk/icloudpd",
