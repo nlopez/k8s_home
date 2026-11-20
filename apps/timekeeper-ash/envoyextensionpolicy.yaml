@@ -10,7 +10,7 @@ spec:
     name: timekeeper-server
   lua:
   - type: Inline
-    inline: |
+    inline: |-
       -- The app trusts X-Client-* (TRUST_PROXY_HEADERS). Only this filter may set them: drop whatever
       -- the client sent, then copy from the headers Cloudflare added (the gateway requires
       -- Authenticated Origin Pulls, so only Cloudflare reaches this route).
