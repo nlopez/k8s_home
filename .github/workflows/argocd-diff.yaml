@@ -66,9 +66,17 @@ jobs:
           cat output/diff.md >> "$GITHUB_STEP_SUMMARY"
         fi
     - name: 'Comment on PR'
-      env:
-        GH_TOKEN: ${{ github.token }}
-        PR: ${{ github.event.pull_request.number }}
-      run: |-
-        gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" \
-          --body-file output/diff.md --edit-last --create-if-none
+      # The home runner image has no gh CLI.
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      with:
+        script: |-
+          const body = '<!-- manifest-diff -->\n' + require('fs').readFileSync('output/diff.md', 'utf8');
+          const { owner, repo } = context.repo;
+          const issue_number = context.issue.number;
+          const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number });
+          const prev = comments.filter(c => c.body.startsWith('<!-- manifest-diff -->')).pop();
+          if (prev) {
+            await github.rest.issues.updateComment({ owner, repo, comment_id: prev.id, body });
+          } else {
+            await github.rest.issues.createComment({ owner, repo, issue_number, body });
+          }
