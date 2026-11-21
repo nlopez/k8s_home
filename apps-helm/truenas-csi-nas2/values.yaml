@@ -1,0 +1,37 @@
+# Official TrueNAS CSI driver (iXsystems) for nas2. It talks to the TrueNAS
+# WebSocket API, which exists on 25.10 and replaces the REST API removed in
+# TrueNAS 27. One install serves NFS and iSCSI; the driver name is per NAS so
+# another NAS can run its own install side by side.
+driverName: org.truenas-csi.nas2
+truenas:
+  url: wss://nas2.lga1.radoncanyon.com
+  defaultPool: etank
+  # Secret created by the OnePasswordItem in manifests/api-key.yaml; the API key
+  # is that item's "credential" field.
+  existingSecret: truenas-csi-nas2-api-key
+  existingSecretKey: credential
+controller:
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: truenas-csi-nas2
+    tags.datadoghq.com/version: v1
+node:
+  podLabels:
+    tags.datadoghq.com/env: homelab
+    tags.datadoghq.com/service: truenas-csi-nas2
+    tags.datadoghq.com/version: v1
+# The VolumeSnapshotClass is a standalone manifest (manifests/) so it can carry the
+# Velero label, which the chart's volumeSnapshotClass does not support.
+storageClasses:
+- name: nas2-etank-nfs
+  reclaimPolicy: Delete
+  parameters:
+    protocol: nfs
+    datasetPath: k8s/nfs
+- name: nas2-etank-iscsi
+  reclaimPolicy: Delete
+  parameters:
+    protocol: iscsi
+    datasetPath: k8s/iscsi
+    # 16K matches the driver default; ext4 on the zvol.
+    volblocksize: 16K
