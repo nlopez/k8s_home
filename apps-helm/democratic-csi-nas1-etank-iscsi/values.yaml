@@ -5,6 +5,12 @@ driver:
   config:
     driver: freenas-api-iscsi
 controller:
+  # Pinned: the driver image's :latest tag will move to the TrueNAS 26+ WebSocket rewrite, which
+  # cannot talk to TrueNAS 25.x. This digest is the :latest build (commit 3974268, Jan 2026) that
+  # predates it. Bump together with the TrueNAS upgrade.
+  driver:
+    image:
+      tag: latest@sha256:944d0e65077efbd9c1fdf23997eec8fac4b4bfb7c3de400f63e33a0a849c5ced
   externalSnapshotter:
     enabled: true
   podLabels:
@@ -12,6 +18,9 @@ controller:
     tags.datadoghq.com/service: democratic-csi-nas1-etank-iscsi
     tags.datadoghq.com/version: v1
 node:
+  driver:
+    image:
+      tag: latest@sha256:944d0e65077efbd9c1fdf23997eec8fac4b4bfb7c3de400f63e33a0a849c5ced
   podLabels:
     tags.datadoghq.com/env: homelab
     tags.datadoghq.com/service: democratic-csi-nas1-etank-iscsi
