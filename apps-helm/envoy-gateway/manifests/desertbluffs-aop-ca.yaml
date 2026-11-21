@@ -4,18 +4,20 @@ kind: ConfigMap
 metadata:
   name: desertbluffs-aop-ca
 data:
-  # Public half of the self-signed Authenticated Origin Pull client certificate uploaded to the
-  # desertbluffs.com zone (valid 10 years). It is its own trust anchor; the private key lives in 1Password.
+  # Private CA that signed the Authenticated Origin Pull client certificate uploaded to the
+  # desertbluffs.com zone (Cloudflare rejects self-signed zone-level certs). The CA key was discarded;
+  # the leaf key is in 1Password ("desertbluffs.com AOP client cert"). Rotate by issuing a new CA and
+  # leaf, uploading the leaf, and replacing this certificate. Valid until 2036-11-18.
   ca.crt: |-
     -----BEGIN CERTIFICATE-----
-    MIIBvzCCAWagAwIBAgIUBvJcgqrJanLVv1pSoh9R+ZGd1qwwCgYIKoZIzj0EAwIw
-    NTEzMDEGA1UEAwwqZGVzZXJ0Ymx1ZmZzLmNvbSBhdXRoZW50aWNhdGVkIG9yaWdp
-    biBwdWxsMB4XDTI2MTEyMTA1MTYyM1oXDTM2MTExODA1MTYyM1owNTEzMDEGA1UE
-    AwwqZGVzZXJ0Ymx1ZmZzLmNvbSBhdXRoZW50aWNhdGVkIG9yaWdpbiBwdWxsMFkw
-    EwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoqr/4BkGMz/Mm2HTNQM9GR0g36ZLHb5o
-    Qm3Yd5ccEMh6NtXjP+JmV0TVZe+2R80dOnjwApMIdfVtvSvqzC5M4aNUMFIwHQYD
-    VR0OBBYEFGkYiaOPCD4FiK/CTNjYUGeprp2kMA8GA1UdEwEB/wQFMAMBAf8wEwYD
-    VR0lBAwwCgYIKwYBBQUHAwIwCwYDVR0PBAQDAgeAMAoGCCqGSM49BAMCA0cAMEQC
-    IDEeVpdX5uOI56hMAqvD6zNPKTEAYSJoWtygpq3vKPUaAiAOiXYyNiVOMSVaO3aj
-    pbEle3o0S8M4ufHwFVlIGsfAng==
+    MIIBuDCCAV2gAwIBAgIUEzRTe68XC67z9tqCBd7clwdDeIswCgYIKoZIzj0EAwIw
+    ODE2MDQGA1UEAwwtZGVzZXJ0Ymx1ZmZzLmNvbSBhdXRoZW50aWNhdGVkIG9yaWdp
+    biBwdWxsIENBMB4XDTI2MTEyMTA1MjAxOFoXDTM2MTExODA1MjAxOFowODE2MDQG
+    A1UEAwwtZGVzZXJ0Ymx1ZmZzLmNvbSBhdXRoZW50aWNhdGVkIG9yaWdpbiBwdWxs
+    IENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEpycDEV+QgJEp9mldcReQ33W2
+    dU1vs9FVg5iSkv2rGG9mfkr9l8fsJv2EMZGiywiliE9pXoqczUvb9AD5Ac2fSaNF
+    MEMwHQYDVR0OBBYEFA5F6gDgB8LLPAeEhQDD+K5KDoFoMBIGA1UdEwEB/wQIMAYB
+    Af8CAQAwDgYDVR0PAQH/BAQDAgEGMAoGCCqGSM49BAMCA0kAMEYCIQDtWdw0jNSZ
+    vMJcNr6BuFiQ8x5vYSGj0waeT4kxD4nWOAIhAIQ2b3a/RcXdRhsrhbL04WJyZF+x
+    SPNSCAaX7s/xAlvw
     -----END CERTIFICATE-----
