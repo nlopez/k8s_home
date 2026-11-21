@@ -23,15 +23,30 @@ node:
 # The VolumeSnapshotClass is a standalone manifest (manifests/) so it can carry the
 # Velero label, which the chart's volumeSnapshotClass does not support.
 storageClasses:
+# Default classes keep the volume (and its snapshots) on nas2 when the claim is
+# deleted; remove the leftover PV and dataset by hand.
 - name: nas2-etank-nfs
-  reclaimPolicy: Delete
+  reclaimPolicy: Retain
   parameters:
     protocol: nfs
     datasetPath: k8s/nfs
 - name: nas2-etank-iscsi
-  reclaimPolicy: Delete
+  reclaimPolicy: Retain
   parameters:
     protocol: iscsi
     datasetPath: k8s/iscsi
     # 16K matches the driver default; ext4 on the zvol.
+    volblocksize: 16K
+# Scratch classes delete the volume with its claim, so use them only for data
+# that can be lost. They sit under their own dataset paths.
+- name: nas2-etank-nfs-scratch
+  reclaimPolicy: Delete
+  parameters:
+    protocol: nfs
+    datasetPath: k8s/nfs-scratch
+- name: nas2-etank-iscsi-scratch
+  reclaimPolicy: Delete
+  parameters:
+    protocol: iscsi
+    datasetPath: k8s/iscsi-scratch
     volblocksize: 16K
