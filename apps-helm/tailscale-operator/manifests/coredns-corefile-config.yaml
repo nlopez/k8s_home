@@ -23,13 +23,10 @@ data:
         ttl 30
       }
       prometheus :9153
-      # Technitium (pinned LoadBalancer IP) serves the private radoncanyon.com
-      # zone, including the external NAS hosts, and recurses for everything else.
-      # Fallback, tried only when Technitium is unreachable: the lga1 gateway,
-      # whose Unbound serves the same zones from its own BIND secondary.
-      forward . 10.43.64.53 192.168.222.1 {
-        policy sequential
-      }
+      # The lga1 gateway's Unbound serves the private zones (from its BIND
+      # secondary) and recurses for everything else. Technitium is not in this
+      # path.
+      forward . 192.168.222.1
       cache 30 {
         disable success cluster.local
         disable denial cluster.local
