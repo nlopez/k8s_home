@@ -130,6 +130,12 @@ spec:
         chart: argo-cd
         targetRevision: '10.11.6'
         namespace: argocd
+      - name: argocd-diff-preview
+        tier: platform
+        repoURL: "https://argoproj.github.io/argo-helm"
+        chart: argo-cd
+        targetRevision: '10.11.6'
+        namespace: argocd-diff-preview
       - name: metrics-server
         tier: platform
         repoURL: https://kubernetes-sigs.github.io/metrics-server

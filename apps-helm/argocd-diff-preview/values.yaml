@@ -1,0 +1,36 @@
+# Dedicated Argo CD for argocd-diff-preview (.github/workflows/argocd-diff.yaml).
+# It only renders manifests for diffs and never syncs: namespace-scoped, no
+# cluster roles, so it cannot read or change anything outside its namespace.
+# https://github.com/dag-andersen/argocd-diff-preview/blob/main/docs/reusing-clusters/lockdown-mode.md
+namespaceOverride: argocd-diff-preview
+createClusterRoles: false
+crds:
+  # The CRDs come from the main argocd app.
+  install: false
+notifications:
+  enabled: false
+dex:
+  enabled: false
+applicationSet:
+  replicas: 0
+controller:
+  roleRules:
+  - apiGroups:
+    - "*"
+    resources:
+    - "*"
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - argoproj.io
+    resources:
+    - applications
+    - applications/status
+    verbs:
+    - get
+    - list
+    - watch
+    - update
+    - patch

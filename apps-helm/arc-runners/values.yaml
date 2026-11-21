@@ -11,7 +11,8 @@ containerMode:
   type: dind
 template:
   spec:
-    automountServiceAccountToken: false
+    serviceAccountName: diff-runner
+    automountServiceAccountToken: true
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname

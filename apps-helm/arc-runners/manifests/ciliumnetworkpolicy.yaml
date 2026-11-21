@@ -1,0 +1,17 @@
+# kubectl port-forward to the diff-preview Argo CD goes through the API server.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: runners-kube-apiserver
+  namespace: arc-runners
+spec:
+  endpointSelector:
+    matchLabels:
+      actions.github.com/scale-set-name: home-runners
+  egress:
+  - toEntities:
+    - kube-apiserver
+    toPorts:
+    - ports:
+      - port: "6443"
+        protocol: TCP
