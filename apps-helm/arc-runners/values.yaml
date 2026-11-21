@@ -7,12 +7,15 @@ maxRunners: 4
 controllerServiceAccount:
   namespace: arc-systems
   name: arc-controller-gha-rs-controller
-containerMode:
-  type: dind
 template:
   spec:
     serviceAccountName: diff-runner
     automountServiceAccountToken: true
+    containers:
+    - name: runner
+      image: ghcr.io/actions/actions-runner:2.338.2
+      command:
+      - /home/runner/run.sh
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname
