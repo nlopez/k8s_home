@@ -91,6 +91,10 @@ spec:
       - kind: ConfigMap
         name: timekeeper-aop-ca
         group: ""
+      # Custom zone-level Authenticated Origin Pull certificate for desertbluffs.com.
+      - kind: ConfigMap
+        name: desertbluffs-aop-ca
+        group: ""
   # Authenticated Origin Pull guarantees the peer is Cloudflare, so its
   # CF-Connecting-IP header is trustworthy. failClosed rejects requests
   # lacking it rather than falling back to the Cloudflare edge address.
