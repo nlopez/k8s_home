@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/configmap-v1.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: desertbluffs-aop-ca
+data:
+  # Public half of the self-signed Authenticated Origin Pull client certificate uploaded to the
+  # desertbluffs.com zone (valid 10 years). It is its own trust anchor; the private key lives in 1Password.
+  ca.crt: |-
+    -----BEGIN CERTIFICATE-----
+    MIIBvzCCAWagAwIBAgIUBvJcgqrJanLVv1pSoh9R+ZGd1qwwCgYIKoZIzj0EAwIw
+    NTEzMDEGA1UEAwwqZGVzZXJ0Ymx1ZmZzLmNvbSBhdXRoZW50aWNhdGVkIG9yaWdp
+    biBwdWxsMB4XDTI2MTEyMTA1MTYyM1oXDTM2MTExODA1MTYyM1owNTEzMDEGA1UE
+    AwwqZGVzZXJ0Ymx1ZmZzLmNvbSBhdXRoZW50aWNhdGVkIG9yaWdpbiBwdWxsMFkw
+    EwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoqr/4BkGMz/Mm2HTNQM9GR0g36ZLHb5o
+    Qm3Yd5ccEMh6NtXjP+JmV0TVZe+2R80dOnjwApMIdfVtvSvqzC5M4aNUMFIwHQYD
+    VR0OBBYEFGkYiaOPCD4FiK/CTNjYUGeprp2kMA8GA1UdEwEB/wQFMAMBAf8wEwYD
+    VR0lBAwwCgYIKwYBBQUHAwIwCwYDVR0PBAQDAgeAMAoGCCqGSM49BAMCA0cAMEQC
+    IDEeVpdX5uOI56hMAqvD6zNPKTEAYSJoWtygpq3vKPUaAiAOiXYyNiVOMSVaO3aj
+    pbEle3o0S8M4ufHwFVlIGsfAng==
+    -----END CERTIFICATE-----
