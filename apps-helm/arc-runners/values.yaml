@@ -1,8 +1,9 @@
 githubConfigUrl: https://github.com/nlopez/k8s_home
 githubConfigSecret: arc-github-app
 runnerScaleSetName: home-runners
-minRunners: 0
-maxRunners: 2
+# One warm runner per node (see topologySpreadConstraints) so jobs skip pod startup.
+minRunners: 2
+maxRunners: 4
 controllerServiceAccount:
   namespace: arc-systems
   name: arc-controller-gha-rs-controller
@@ -11,3 +12,10 @@ containerMode:
 template:
   spec:
     automountServiceAccountToken: false
+    topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          actions.github.com/scale-set-name: home-runners
