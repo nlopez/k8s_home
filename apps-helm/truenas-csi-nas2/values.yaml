@@ -24,12 +24,12 @@ node:
 # Velero label, which the chart's volumeSnapshotClass does not support.
 storageClasses:
 - name: nas2-etank-nfs
-  reclaimPolicy: Retain
+  reclaimPolicy: Delete
   parameters:
     protocol: nfs
     datasetPath: k8s/nfs
 - name: nas2-etank-iscsi
-  reclaimPolicy: Retain
+  reclaimPolicy: Delete
   parameters:
     protocol: iscsi
     datasetPath: k8s/iscsi
