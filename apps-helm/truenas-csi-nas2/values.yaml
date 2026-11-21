@@ -37,6 +37,9 @@ storageClasses:
     datasetPath: k8s/iscsi
     # 16K matches the driver default; ext4 on the zvol.
     volblocksize: 16K
+    # Only the cluster nodes may log in to the targets (the driver's default is
+    # any initiator). Add a node's IQN here when the cluster grows.
+    iscsi.initiators: iqn.2014-09.com.radoncanyon:knode1,iqn.2014-09.com.radoncanyon:knode2
 # Scratch classes delete the volume with its claim, so use them only for data
 # that can be lost. They sit under their own dataset paths.
 - name: nas2-etank-nfs-scratch
@@ -50,3 +53,4 @@ storageClasses:
     protocol: iscsi
     datasetPath: k8s/iscsi-scratch
     volblocksize: 16K
+    iscsi.initiators: iqn.2014-09.com.radoncanyon:knode1,iqn.2014-09.com.radoncanyon:knode2
