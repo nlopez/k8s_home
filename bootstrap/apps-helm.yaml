@@ -110,6 +110,12 @@ spec:
         chart: democratic-csi
         targetRevision: "0.15.1"
         namespace: democratic-csi-nas1-etank-nfs
+      - name: truenas-csi-nas2
+        tier: storage
+        repoURL: https://raw.githubusercontent.com/truenas/truenas-csi/master/charts
+        chart: truenas-csi
+        targetRevision: "1.4.0"
+        namespace: truenas-csi-nas2
       - name: velero
         tier: storage
         repoURL: https://vmware-tanzu.github.io/helm-charts

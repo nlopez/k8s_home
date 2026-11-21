@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/onepassword.com/onepassworditem_v1.json
+# Item "truenas-csi-nas2" (Automation vault): API key for the ladmin user on nas2.
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: truenas-csi-nas2-api-key
+spec:
+  itemPath: "vaults/evjh25ux2mnoufaut6qhvm2pdi/items/6fp7ckxeengkgkkzjavionpy4i"
