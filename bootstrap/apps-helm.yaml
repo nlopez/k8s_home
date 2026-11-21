@@ -182,6 +182,16 @@ spec:
         chart: datadog
         targetRevision: "3.264.0"
         namespace: datadog
+      - name: arc-controller
+        tier: platform
+        repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+        targetRevision: "0.15.1"
+        namespace: arc-systems
+      - name: arc-runners
+        tier: platform
+        repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+        targetRevision: "0.15.1"
+        namespace: arc-runners
   template:
     metadata:
       name: "{{.name}}"

@@ -1,0 +1,36 @@
+# Runners execute workflow code from a public repo: allow the internet and
+# cluster DNS only, never the LAN, tailnet, nodes or other pods.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: runners-internet-only
+  namespace: arc-runners
+spec:
+  podSelector:
+    matchLabels:
+      actions.github.com/scale-set-name: home-runners
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+        except:
+        - 10.0.0.0/8
+        - 100.64.0.0/10
+        - 169.254.0.0/16
+        - 172.16.0.0/12
+        - 192.168.0.0/16

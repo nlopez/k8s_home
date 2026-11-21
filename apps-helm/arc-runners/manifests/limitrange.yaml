@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: runner-defaults
+  namespace: arc-runners
+spec:
+  limits:
+  - type: Container
+    # The runner nodes are the control plane; keep a runaway job from OOMing them.
+    default:
+      memory: 12Gi
+    defaultRequest:
+      cpu: 250m
+      memory: 512Mi

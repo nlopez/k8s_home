@@ -1,0 +1,13 @@
+githubConfigUrl: https://github.com/nlopez/k8s_home
+githubConfigSecret: arc-github-app
+runnerScaleSetName: home-runners
+minRunners: 0
+maxRunners: 2
+controllerServiceAccount:
+  namespace: arc-systems
+  name: arc-controller-gha-rs-controller
+containerMode:
+  type: dind
+template:
+  spec:
+    automountServiceAccountToken: false
