@@ -5,7 +5,6 @@ on:
     - 'apps/**'
     - 'apps-helm/**'
     - 'bootstrap/**'
-    - '.github/argocd-diff/**'
     - '.github/workflows/argocd-diff.yaml'
 permissions:
   contents: read
@@ -23,42 +22,51 @@ jobs:
     - name: 'Checkout base branch'
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        ref: ${{ github.event.pull_request.base.ref }}
+        ref: ${{ github.event.pull_request.base.sha }}
         path: base-branch
     - name: 'Checkout PR branch'
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         path: target-branch
+        fetch-depth: 0
     - name: 'Point the Helm ApplicationSet at the PR'
       # argocd-diff-preview only redirects targetRevision in template.spec.sources.
       # bootstrap/apps-helm.yaml keeps its repo sources inside a templatePatch
       # string, so without this the apps-helm values/manifests are always read
       # from main and changes to them never show up in the diff.
       run: |-
-        sed -i 's|^\( *targetRevision:\) main$|\1 refs/pull/${{ github.event.pull_request.number }}/merge|' target-branch/bootstrap/apps-helm.yaml
-        grep -c 'refs/pull/' target-branch/bootstrap/apps-helm.yaml
-    - name: 'Render manifests and diff'
+        sed -i 's|^\( *targetRevision:\) main$|\1 ${{ github.sha }}|' target-branch/bootstrap/apps-helm.yaml
+        grep -c '${{ github.sha }}' target-branch/bootstrap/apps-helm.yaml
+    - name: 'Install kubectl and argocd-diff-preview'
+      # shortcut: pinned by hand, bump with the cluster / a new release.
       run: |-
-        mkdir -p output
-        # Renders every Application/ApplicationSet (including Helm charts) on
-        # both branches in a throwaway kind cluster running Argo CD.
-        #
-        # DIFF_IGNORE hides the datadog chart's kpi-telemetry ConfigMap
-        # (datadog/datadog-kpi-telemetry-configmap), whose install_id and
-        # install_time are regenerated on every render. It matches whole lines
-        # and can't be scoped to a resource, so it's anchored to the exact
-        # two-space indent of those keys under `data:`. install_type is left
-        # visible.
-        docker run --network host \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          -v "$(pwd)/base-branch:/base-branch" \
-          -v "$(pwd)/target-branch:/target-branch" \
-          -v "$(pwd)/output:/output" \
-          -v "$(pwd)/target-branch/.github/argocd-diff/values-override.yaml:/argocd-config/values-override.yaml" \
-          -e TARGET_BRANCH=refs/pull/${{ github.event.pull_request.number }}/merge \
-          -e REPO=${{ github.repository }} \
-          -e 'DIFF_IGNORE=^  install_(id|time): ' \
-          dagandersen/argocd-diff-preview:v0.2.17
+        mkdir -p "$RUNNER_TEMP/bin"
+        curl -fsSL -o "$RUNNER_TEMP/bin/kubectl" https://dl.k8s.io/release/v1.36.3/bin/linux/amd64/kubectl
+        echo "ebbd080e7c2e275093b55915722043257eb24004363e20acb3c4d71919f88336  $RUNNER_TEMP/bin/kubectl" | sha256sum -c -
+        curl -fsSL -o "$RUNNER_TEMP/diff.tgz" https://github.com/dag-andersen/argocd-diff-preview/releases/download/v0.2.17/argocd-diff-preview-Linux-x86_64.tar.gz
+        echo "3913c5ded0c4bb748ab8cabc47d9ea1060462fb797b4b61e1a12a805fc35a319  $RUNNER_TEMP/diff.tgz" | sha256sum -c -
+        tar -xzf "$RUNNER_TEMP/diff.tgz" -C "$RUNNER_TEMP/bin"
+        chmod +x "$RUNNER_TEMP/bin/kubectl"
+        echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+    - name: 'Render manifests and diff'
+      # Renders every Application/ApplicationSet (including Helm charts) on
+      # both commits through the long-lived Argo CD in the argocd-diff-preview
+      # namespace (apps-helm/argocd-diff-preview).
+      #
+      # DIFF_IGNORE hides the datadog chart's kpi-telemetry ConfigMap
+      # (datadog/datadog-kpi-telemetry-configmap), whose install_id and
+      # install_time are regenerated on every render. It matches whole lines
+      # and can't be scoped to a resource, so it's anchored to the exact
+      # two-space indent of those keys under `data:`. install_type is left
+      # visible.
+      run: |-
+        argocd-diff-preview \
+          --repo "$GITHUB_REPOSITORY" \
+          --base-branch '${{ github.event.pull_request.base.sha }}' \
+          --target-branch '${{ github.sha }}' \
+          --argocd-namespace argocd-diff-preview \
+          --create-cluster=false \
+          --diff-ignore '^  install_(id|time): '
     - name: 'Add diff to job summary'
       if: always()
       run: |-
