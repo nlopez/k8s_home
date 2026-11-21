@@ -8,9 +8,11 @@
 # silently dropping h2 and breaking native gRPC (e.g. `argocd login` without
 # --grpc-web). See https://github.com/envoyproxy/gateway/issues/2875.
 #
-# internet: Cloudflare Authenticated Origin Pull (client cert validation),
-# required: connections must present a client cert chaining to Cloudflare's
-# origin-pull CA, so only Cloudflare can reach this gateway. HTTP/3 is
+# internet: Cloudflare Authenticated Origin Pull with custom per-zone and
+# per-hostname certificates (client cert validation), required: connections
+# must present a client cert chaining to one of our own CAs, so only our
+# Cloudflare zones can reach this gateway. Cloudflare's shared origin-pull
+# CA is deliberately not trusted: any Cloudflare account can present it. HTTP/3 is
 # deliberately absent: Envoy rejects
 # any listener with both `tls.clientValidation` and `http3`
 # ("TLS Client Authentication is not supported over QUIC", see
@@ -83,9 +85,6 @@ spec:
     - http/1.1
     clientValidation:
       caCertificateRefs:
-      - kind: ConfigMap
-        name: cloudflare-origin-pull-ca
-        group: ""
       # Cloudflare presents these per-hostname client certificates for the Timekeeper
       # hostnames (Authenticated Origin Pulls with a custom certificate).
       - kind: ConfigMap
